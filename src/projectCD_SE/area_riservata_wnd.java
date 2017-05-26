@@ -2,8 +2,9 @@ package projectCD_SE;
 
 import javax.swing.JFrame;
 
+import java.security.*;
 import sun.awt.WindowClosingListener;
-
+import sun.security.jca.GetInstance;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.event.WindowEvent;
@@ -12,8 +13,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 
+import listeners.area_riservata_btn_login;
 import listeners.area_riservata_wnd_closer;
-
 import java.awt.Insets;
 import javax.swing.JPasswordField;
 import java.sql.*;
@@ -57,6 +58,7 @@ public class area_riservata_wnd extends JFrame {
 		getContentPane().add(txt_psswd, gbc_txt_psswd);
 		JButton btn_login = new JButton("Login");
 		btn_login.setBounds(149, 135, 117, 25);
+		btn_login.addActionListener(new area_riservata_btn_login(this));
 		GridBagConstraints gbc_btn_login = new GridBagConstraints();
 		gbc_btn_login.insets = new Insets(0, 0, 0, 5);
 		gbc_btn_login.anchor = GridBagConstraints.NORTHWEST;
@@ -64,6 +66,16 @@ public class area_riservata_wnd extends JFrame {
 		gbc_btn_login.gridy = 8;
 		getContentPane().add(btn_login, gbc_btn_login);
 		this.setVisible(true);
+	}
+	
+	public String getUsername()
+	{
+		return txt_usr.getText();
+	}
+	
+	public String getPassword()
+	{
+		return String.valueOf(txt_psswd.getPassword());
 	}
 	
 	
