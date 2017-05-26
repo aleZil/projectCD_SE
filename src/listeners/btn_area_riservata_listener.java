@@ -1,10 +1,12 @@
-package projectCD_SE;
+package listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import projectCD_SE.area_riservata_wnd;
 
 public class btn_area_riservata_listener implements ActionListener {
 	

@@ -11,6 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
+
+import listeners.area_riservata_wnd_closer;
+
 import java.awt.Insets;
 import javax.swing.JPasswordField;
 import java.sql.*;
