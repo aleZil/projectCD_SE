@@ -42,7 +42,7 @@ public class main_wnd extends JFrame {
 		contentPane.setLayout(null);
 		JButton btn_area_riservata = new JButton("Area Riservata");
 		btn_area_riservata.setBounds(229, 12, 207, 25);
-		btn_area_riservata.addActionListener(new btn_area_riservata_listener());
+		btn_area_riservata.addActionListener(new btn_area_riservata_listener(this));
 		contentPane.add(btn_area_riservata);
 	}
 
