@@ -13,6 +13,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.JPasswordField;
+import java.sql.*;
 
 public class area_riservata_wnd extends JFrame {
 	
