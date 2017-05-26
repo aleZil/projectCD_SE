@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_qKxB4EHvEeejApLliqOCJg" name="RootElement" URI="" viewpoint="">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_zUQ9AEHvEeejApLliqOCJg" name="Activity1">
+    <nestedClassifier xmi:type="uml:PrimitiveType" xmi:id="_7ddxYEHyEeeQtdOeXipfcA"/>
+    <nestedClassifier xmi:type="uml:PrimitiveType" xmi:id="_NNKtUEHzEeeQtdOeXipfcA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_eTTZwEHxEeeQtdOeXipfcA" name="CD" visibility="public">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_sl_cQEHxEeeQtdOeXipfcA" name="id">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EInt"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_1CNL4EH3EeeQtdOeXipfcA" name="titolo">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EString"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_8wOAcEH3EeeQtdOeXipfcA" name="brano" visibility="public">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EString"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nk2ZcEH4EeeQtdOeXipfcA" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nk6q4EH4EeeQtdOeXipfcA" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_2rQ-8EH4EeeQtdOeXipfcA" name="copertina">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EString"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_E1XGIEH5EeeQtdOeXipfcA" name="prezzo">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EInt"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_MCgCQEH5EeeQtdOeXipfcA" name="data_di_aggiunta">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EString"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_QXE10EH5EeeQtdOeXipfcA" name="titolare"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_aKw9cEH5EeeQtdOeXipfcA" name="descrizione">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EString"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_cQc3kEH5EeeQtdOeXipfcA" name="genere">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EString"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_itqyoEH5EeeQtdOeXipfcA" name="musicisti"/>
+  </packagedElement>
+</uml:Model>
