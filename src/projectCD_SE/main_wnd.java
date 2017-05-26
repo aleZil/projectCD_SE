@@ -44,6 +44,10 @@ public class main_wnd extends JFrame {
 		btn_area_riservata.setBounds(229, 12, 207, 25);
 		btn_area_riservata.addActionListener(new btn_area_riservata_listener(this));
 		contentPane.add(btn_area_riservata);
+		
+		JButton btnZilButton = new JButton("Zil button");
+		btnZilButton.setBounds(28, 101, 117, 25);
+		contentPane.add(btnZilButton);
 	}
 
 }
