@@ -28,7 +28,7 @@ public class area_riservata_btn_login implements ActionListener {
 		String user=login_wnd.getUsername();
 		String pssw=login_wnd.getPassword();
 		
-		String query="SELECT * FROM personale WHERE username=? AND password=MD5('?')";
+		String query="SELECT * FROM personale WHERE username=? AND password=MD5(?)";
 		try {
 
 			Class.forName("org.postgresql.Driver");
@@ -43,35 +43,30 @@ public class area_riservata_btn_login implements ActionListener {
 
 		try
 		{
-
-			JOptionPane.showMessageDialog(null, "Mett gay!");
-			Connection con=DriverManager.getConnection("db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com","hanzo","neversurrender");
+			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
 			PreparedStatement pst=con.prepareStatement(query);
 			pst.clearParameters();
 			pst.setString(1, user);
 			pst.setString(2, pssw);
-			ResultSet rs=pst.executeQuery(query);
-			if(rs.first())
+			ResultSet rs=pst.executeQuery();
+			if(rs.next())
 			{
 				JOptionPane.showMessageDialog(null, "Benvenuto "+user+"!");
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "Mett gay!");
+				JOptionPane.showMessageDialog(null, "Username o password non corretti!");
 			}
 			pst.close();
 			rs.close();
 			con.close();
 			
 		}
-		catch (ParseException exc)
+		catch (Exception exc)
 		{
 			JOptionPane.showMessageDialog(null,exc.getMessage());
 		}
-		catch(SQLException exc)
-		{
-			JOptionPane.showMessageDialog(null,exc.getMessage());
-		}
+		
 	}
 
 }
