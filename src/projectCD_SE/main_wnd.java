@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import listeners.btn_area_riservata_listener;
+import listeners.main_wnd_btn_area_riservata;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -43,7 +43,7 @@ public class main_wnd extends JFrame {
 		contentPane.setLayout(null);
 		JButton btn_area_riservata = new JButton("Area Riservata");
 		btn_area_riservata.setBounds(229, 12, 207, 25);
-		btn_area_riservata.addActionListener(new btn_area_riservata_listener(this));
+		btn_area_riservata.addActionListener(new main_wnd_btn_area_riservata(this));
 		contentPane.add(btn_area_riservata);
 		JButton btnZilButton = new JButton("Zil button");
 		btnZilButton.setBounds(28, 101, 117, 25);

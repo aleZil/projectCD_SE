@@ -14,11 +14,11 @@ import java.security.MessageDigest;
 import java.sql.*;
 
 
-public class area_riservata_btn_login implements ActionListener {
+public class area_riservata_login implements ActionListener {
 	
 	area_riservata_wnd login_wnd;
 	
-	public area_riservata_btn_login(JFrame caller)
+	public area_riservata_login(JFrame caller)
 	{
 		login_wnd=(area_riservata_wnd) caller;
 	}
@@ -37,7 +37,7 @@ public class area_riservata_btn_login implements ActionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 
-			JOptionPane.showMessageDialog(null, e1.getMessage());
+			JOptionPane.showMessageDialog(login_wnd, e1.getMessage());
 			return;
 		}
 
@@ -51,11 +51,11 @@ public class area_riservata_btn_login implements ActionListener {
 			ResultSet rs=pst.executeQuery();
 			if(rs.next())
 			{
-				JOptionPane.showMessageDialog(null, "Benvenuto "+user+"!");
+				login_wnd.seeOption(user);
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "Username o password non corretti!");
+				JOptionPane.showMessageDialog(login_wnd, "Username o password non corretti!");
 			}
 			pst.close();
 			rs.close();
@@ -64,7 +64,7 @@ public class area_riservata_btn_login implements ActionListener {
 		}
 		catch (Exception exc)
 		{
-			JOptionPane.showMessageDialog(null,exc.getMessage());
+			JOptionPane.showMessageDialog(login_wnd,exc.getMessage());
 		}
 		
 	}
