@@ -34,6 +34,7 @@ public class main_wnd extends JFrame {
 	/**b
 	 * Create the frame.
 	 */
+	
 	public main_wnd() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

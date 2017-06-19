@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import listeners.area_riservata_btn_insert_cd;
+import listeners.area_riservata_option_insert_cd;
 import listeners.area_riservata_goback;
 import listeners.area_riservata_login;
 import listeners.area_riservata_goback;
@@ -85,12 +85,13 @@ public class area_riservata_wnd extends JFrame {
 	private JButton btn_goback_warehouse;
 	private JTextArea txt_desc;
 	private JTextArea txt_tracklist;
-
+	private JTable tb_product;
+	
 	//Utility
 	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
-	private JTable tb_product;
-
+	
+	
 	public area_riservata_wnd(JFrame caller) throws ParseException {
 		setResizable(false);
 		setTitle("Login");
@@ -112,6 +113,7 @@ public class area_riservata_wnd extends JFrame {
 		getContentPane().add(panel_container);
 		area_riservata_layout.show(panel_container, "login");
 		this.setVisible(true);
+
 	}
 
 	public void showOption(String user)
@@ -129,16 +131,18 @@ public class area_riservata_wnd extends JFrame {
 			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
 			Statement stm=con.createStatement();
 			ResultSet res=stm.executeQuery(queryCd);
+
+			//Variabili supporto 
 			String codeCd;
 			String titleCd;
 			String trackList;
-			String priceCd;
-			String insertDate;
+			BigDecimal priceCd;
+			Date insertDate;
 			String descCd;
-			String soldCd;
-			String amountCd;
-			String genId;
-			String musId;
+			int soldCd;
+			int amountCd;
+			int genId;
+			int musId;
 			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id","Musicista Id"};
 			DefaultTableModel model=new DefaultTableModel(colNames, 0);
 
@@ -147,14 +151,14 @@ public class area_riservata_wnd extends JFrame {
 				codeCd=res.getString("codice");
 				titleCd=res.getString("titolo");
 				trackList=res.getString("titoli_pezzi");
-				priceCd=res.getString("prezzo");
-				insertDate=res.getString("data_inserimento");
+				priceCd=res.getBigDecimal("prezzo");
+				insertDate=res.getDate("data_inserimento");
 				descCd=res.getString("descrizione");
-				soldCd=res.getString("pezzi_venduti");
-				amountCd=res.getString("pezzi_magazzino");
-				genId=res.getString("genere_id");
-				musId=res.getString("musicista_id");
-				model.addRow(new String[]{codeCd,titleCd,trackList,priceCd,insertDate,descCd,soldCd,amountCd,genId,musId});
+				soldCd=res.getInt("pezzi_venduti");
+				amountCd=res.getInt("pezzi_magazzino");
+				genId=res.getInt("genere_id");
+				musId=res.getInt("musicista_id");
+				model.addRow(new Object[]{codeCd,titleCd,trackList,priceCd,insertDate,descCd,soldCd,amountCd,genId,musId});
 			}
 
 			tb_product.setModel(model);
@@ -232,19 +236,19 @@ public class area_riservata_wnd extends JFrame {
 		product_detal_panel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout gl_insert_area_riservata_panel = new GroupLayout(insert_area_riservata_panel);
 		gl_insert_area_riservata_panel.setHorizontalGroup(
-			gl_insert_area_riservata_panel.createParallelGroup(Alignment.LEADING)
+				gl_insert_area_riservata_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_insert_area_riservata_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(product_detal_panel, GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
-					.addContainerGap())
-		);
+						.addContainerGap()
+						.addComponent(product_detal_panel, GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
+						.addContainerGap())
+				);
 		gl_insert_area_riservata_panel.setVerticalGroup(
-			gl_insert_area_riservata_panel.createParallelGroup(Alignment.LEADING)
+				gl_insert_area_riservata_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_insert_area_riservata_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(product_detal_panel, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
-					.addContainerGap())
-		);
+						.addContainerGap()
+						.addComponent(product_detal_panel, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+						.addContainerGap())
+				);
 		//Mask per input date
 		MaskFormatter dataMask=new MaskFormatter("##/##/##");
 
@@ -274,7 +278,7 @@ public class area_riservata_wnd extends JFrame {
 
 		JScrollPane scroll_tracklist = new JScrollPane();
 		product_detal_panel.add(scroll_tracklist, "cell 1 2,grow");
-		
+
 		txt_tracklist= new JTextArea();
 		scroll_tracklist.setViewportView(txt_tracklist);
 		product_detal_panel.add(lbl_price, "cell 0 3,alignx right,aligny center");
@@ -288,7 +292,7 @@ public class area_riservata_wnd extends JFrame {
 
 		JScrollPane scroll_descr = new JScrollPane();
 		product_detal_panel.add(scroll_descr, "cell 1 4,grow");
-		
+
 		txt_desc = new JTextArea();
 		scroll_descr.setViewportView(txt_desc);
 
@@ -313,12 +317,13 @@ public class area_riservata_wnd extends JFrame {
 
 		btn_insert_product = new JButton("Inserisci prodotto");
 		btn_insert_product.addActionListener(new area_riservata_newcd_insert(this));
+		btn_insert_product.addKeyListener(new area_riservata_newcd_insert(this));
 		product_detal_panel.add(btn_insert_product, "cell 1 8,alignx center,growy");
 
 		chb_leader = new JCheckBox("Capoband");
 		product_detal_panel.add(chb_leader, "cell 1 6,alignx left");
+		product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 		insert_area_riservata_panel.setLayout(gl_insert_area_riservata_panel);
-		insert_area_riservata_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title}));
 	}
 
 	private void createWarehousePanel()
@@ -347,28 +352,29 @@ public class area_riservata_wnd extends JFrame {
 	{
 		panel_container.add(login_area_riservata_panel, "login");
 		login_area_riservata_panel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
-		
-				JLabel lbl_username = new JLabel("Username:");
-				login_area_riservata_panel.add(lbl_username, "flowx,cell 0 3,alignx center,aligny center");
+
+		JLabel lbl_username = new JLabel("Username:");
+		login_area_riservata_panel.add(lbl_username, "flowx,cell 0 3,alignx center,aligny center");
 
 		txt_usr = new JTextField();
 		login_area_riservata_panel.add(txt_usr, "cell 0 3,alignx center,aligny center");
 		txt_usr.setColumns(10);
-		
+
 		JLabel lbl_passwd = new JLabel("Password:");
 		login_area_riservata_panel.add(lbl_passwd, "flowx,cell 0 5,alignx center,aligny center");
 
 		txt_psswd = new JPasswordField();
 		txt_psswd.setColumns(10);
 		login_area_riservata_panel.add(txt_psswd, "cell 0 5,alignx center,growy");
-		
-				JButton btn_login = new JButton("Login");
-				
-						login_area_riservata_panel.add(btn_login, "cell 0 6,alignx center,aligny center");
+
+		JButton btn_login = new JButton("Login");
+
+		login_area_riservata_panel.add(btn_login, "cell 0 6,alignx center,aligny center");
 
 
 		//Aggiungo gli eventi
 		btn_login.addActionListener(new area_riservata_login(this));
+		btn_login.addKeyListener(new area_riservata_login(this));
 		txt_psswd.addActionListener(new area_riservata_login(this));
 
 	}
@@ -384,7 +390,7 @@ public class area_riservata_wnd extends JFrame {
 		JButton btn_insert_cd = new JButton("Inserisci un nuovo cd");
 		JButton btn_view_warehouse = new JButton("Visualizza magazzino");
 
-		btn_insert_cd.addActionListener(new area_riservata_btn_insert_cd(this));
+		btn_insert_cd.addActionListener(new area_riservata_option_insert_cd(this));
 		btn_view_warehouse.addActionListener(new area_riservata_see_warehouse(this));
 		option_area_riservata_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 
@@ -392,6 +398,43 @@ public class area_riservata_wnd extends JFrame {
 		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][]"));
 		buttons_container.add(btn_insert_cd, "cell 0 0,growx,aligny top");
 		buttons_container.add(btn_view_warehouse, "cell 0 1,growx,aligny top");
+	}
+
+	//Metodo notifica
+	public void checkAmount()
+	{
+		String query="SELECT * FROM CD";
+
+		try
+		{
+			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
+			
+			 Statement stm=con.createStatement();
+			 
+			 ResultSet res=stm.executeQuery(query);
+			 
+			 boolean showmessage=false;
+			 int amount=0;
+			 String list="";
+			 while(res.next())
+			 {
+				 amount=res.getInt("pezzi_magazzino");
+				 if(amount==1)
+				 {
+					 showmessage=true;
+					 list+=res.getString("titolo")+"\n";
+				 }
+			 }
+			 
+			 if(showmessage)
+			 {
+				 JOptionPane.showMessageDialog(this, "Attenzione i seguenti titoli sono in esaurimento:"+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
+			 }
+		}
+		catch (Exception exception)
+		{
+			JOptionPane.showMessageDialog(this, exception.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 
@@ -495,5 +538,7 @@ public class area_riservata_wnd extends JFrame {
 		txt_desc.setText("");
 		txt_amount.setText("");
 		txt_tracklist.setText("");
+		cb_gen.removeAllItems();
+		cb_musician.removeAllItems();
 	}
 }

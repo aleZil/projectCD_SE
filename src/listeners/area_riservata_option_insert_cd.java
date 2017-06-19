@@ -5,10 +5,10 @@ import java.awt.event.ActionListener;
 import projectCD_SE.area_riservata_wnd;
 
 
-public class area_riservata_btn_insert_cd implements ActionListener{
+public class area_riservata_option_insert_cd implements ActionListener{
 	
 	area_riservata_wnd option_wnd;
-	public area_riservata_btn_insert_cd(area_riservata_wnd caller)
+	public area_riservata_option_insert_cd(area_riservata_wnd caller)
 	{
 		option_wnd=caller;
 	}

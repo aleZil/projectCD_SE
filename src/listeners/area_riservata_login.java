@@ -10,11 +10,13 @@ import sun.swing.SwingLazyValue;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.security.MessageDigest;
 import java.sql.*;
 
 
-public class area_riservata_login implements ActionListener {
+public class area_riservata_login implements ActionListener,KeyListener {
 	
 	area_riservata_wnd login_wnd;
 	
@@ -24,6 +26,11 @@ public class area_riservata_login implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e)
+	{
+		Login();
+	}
+
+	private void Login()
 	{
 		String user=login_wnd.getUsername();
 		String pssw=login_wnd.getPassword();
@@ -52,6 +59,8 @@ public class area_riservata_login implements ActionListener {
 			if(rs.next())
 			{
 				login_wnd.showOption(user);
+				//Controllo quantità
+				login_wnd.checkAmount();
 			}
 			else
 			{
@@ -66,7 +75,25 @@ public class area_riservata_login implements ActionListener {
 		{
 			JOptionPane.showMessageDialog(login_wnd,exc.getMessage());
 		}
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		Login();
+	}
+	
+	
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+	
 }

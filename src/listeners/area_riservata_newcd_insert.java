@@ -2,6 +2,8 @@ package listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,7 +16,7 @@ import javax.swing.JOptionPane;
 
 import projectCD_SE.area_riservata_wnd;
 
-public class area_riservata_newcd_insert implements ActionListener{
+public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 
 	area_riservata_wnd ar_ref;
 
@@ -26,7 +28,17 @@ public class area_riservata_newcd_insert implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		AddNewCd();
+	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		AddNewCd();
+	}
+	
+	private void AddNewCd()
+	{
 		if(ar_ref.validValues())
 		{
 			String insertCdQuery="INSERT INTO Cd (codice,titolo,titoli_pezzi,prezzo,data_inserimento,descrizione,pezzi_magazzino,genere_id,musicista_id) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -76,4 +88,17 @@ public class area_riservata_newcd_insert implements ActionListener{
 			}
 		}
 	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
