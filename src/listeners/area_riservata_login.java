@@ -60,7 +60,7 @@ public class area_riservata_login implements ActionListener,KeyListener {
 			{
 				login_wnd.showOption(user);
 				//Controllo quantità
-				login_wnd.checkAmount();
+				checkAmount();
 			}
 			else
 			{
@@ -77,11 +77,46 @@ public class area_riservata_login implements ActionListener,KeyListener {
 		}
 	}
 	
+	public void checkAmount()
+	{
+		String query="SELECT * FROM CD";
+
+		try
+		{
+			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
+			
+			 Statement stm=con.createStatement();
+			 
+			 ResultSet res=stm.executeQuery(query);
+			 
+			 boolean showmessage=false;
+			 int amount=0;
+			 String list="";
+			 while(res.next())
+			 {
+				 amount=res.getInt("pezzi_magazzino");
+				 if(amount==1)
+				 {
+					 showmessage=true;
+					 list+=res.getString("titolo")+"\n";
+				 }
+			 }
+			 
+			 if(showmessage)
+			 {
+				 JOptionPane.showMessageDialog(login_wnd, "Attenzione i seguenti titoli sono in esaurimento:"+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
+			 }
+		}
+		catch (Exception exception)
+		{
+			JOptionPane.showMessageDialog(login_wnd, exception.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		Login();
 	}
-	
 	
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -92,8 +127,5 @@ public class area_riservata_login implements ActionListener,KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	
 	
 }

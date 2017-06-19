@@ -1,10 +1,12 @@
 package projectCD_SE;
 
+import utility.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import listeners.area_riservata_option_insert_cd;
+import listeners.area_riservata_get_change_table;
 import listeners.area_riservata_goback;
 import listeners.area_riservata_login;
 import listeners.area_riservata_goback;
@@ -27,17 +29,25 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JSeparator;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.text.MaskFormatter;
 
+import com.sun.corba.se.spi.orbutil.fsm.Action;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
 import com.sun.xml.internal.ws.addressing.model.MissingAddressingHeaderException;
 
+import jdk.nashorn.internal.scripts.JO;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.AbstractAction;
 import javax.swing.DropMode;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -122,6 +132,62 @@ public class area_riservata_wnd extends JFrame {
 		area_riservata_layout.show(panel_container, "options");
 
 	}
+	
+	AbstractAction SaveUpdate=new AbstractAction() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			TableCellListener tcl=(TableCellListener)e.getSource();
+			int row=tcl.getRow();
+			
+			//Se non viene modificato il valore,non si fa l'update
+			if(tcl.getOldValue().equals(tcl.getNewValue()))
+				return;
+			
+			//Altrimenti prendo l'id e tutti i parametri su cui fare update
+			String codeCd=(String)tb_product.getValueAt(row, 0);
+			String titleCd=(String)tb_product.getValueAt(row, 1);
+			String trackList=(String)tb_product.getValueAt(row, 2);
+			BigDecimal priceCd=(BigDecimal)tb_product.getValueAt(row, 3);
+			Date dateIns=(Date)tb_product.getValueAt(row,4);
+			String descCd=(String)tb_product.getValueAt(row,5);
+			int soldAmount=(int)tb_product.getValueAt(row,6);
+			int amount=(int)tb_product.getValueAt(row,7);
+			
+
+			JOptionPane.showMessageDialog(null,codeCd);
+			String updateQuery="UPDATE Cd SET titolo=?,titoli_pezzi=?,prezzo=?,data_inserimento=?,descrizione=?,pezzi_venduti=?,pezzi_magazzino=? WHERE codice=?";
+			
+			try
+			{
+				Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
+				PreparedStatement pst=con.prepareStatement(updateQuery);
+				pst.setString(1, titleCd);
+				pst.setString(2, trackList);
+				pst.setBigDecimal(3, priceCd);
+				pst.setDate(4, dateIns);
+				pst.setString(5, descCd);
+				pst.setInt(6,soldAmount);
+				pst.setInt(7, amount);
+				pst.setString(8, codeCd);
+				
+				if(pst.executeUpdate()==1)
+					JOptionPane.showMessageDialog(tb_product.getParent(), "Elemento modificato!","Info",JOptionPane.INFORMATION_MESSAGE);
+				else
+
+					JOptionPane.showMessageDialog(tb_product.getParent(), "Elemento non modificato!","Errore",JOptionPane.ERROR_MESSAGE);
+					
+				pst.close();
+				con.close();
+				
+			}
+			catch (Exception exception)
+			{
+				JOptionPane.showMessageDialog(tb_product.getParent(), exception.getMessage());
+			}
+			
+		}
+	};
 
 	public void showWarehouse()
 	{
@@ -144,8 +210,9 @@ public class area_riservata_wnd extends JFrame {
 			int genId;
 			int musId;
 			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id","Musicista Id"};
-			DefaultTableModel model=new DefaultTableModel(colNames, 0);
-
+			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
+			cd_table_model model=new cd_table_model(0, 10);
+			model.setColumnIdentifiers(colNames);
 			while(res.next())
 			{
 				codeCd=res.getString("codice");
@@ -162,6 +229,9 @@ public class area_riservata_wnd extends JFrame {
 			}
 
 			tb_product.setModel(model);
+			
+			TableCellListener tcl=new TableCellListener(tb_product,SaveUpdate);
+			
 			this.setTitle("Magazzino");
 			area_riservata_layout.show(panel_container, "warehouse");
 			res.close();
@@ -174,6 +244,8 @@ public class area_riservata_wnd extends JFrame {
 		}
 
 	}
+	
+	
 
 	public void showInsertCd()
 	{
@@ -398,43 +470,6 @@ public class area_riservata_wnd extends JFrame {
 		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][]"));
 		buttons_container.add(btn_insert_cd, "cell 0 0,growx,aligny top");
 		buttons_container.add(btn_view_warehouse, "cell 0 1,growx,aligny top");
-	}
-
-	//Metodo notifica
-	public void checkAmount()
-	{
-		String query="SELECT * FROM CD";
-
-		try
-		{
-			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
-			
-			 Statement stm=con.createStatement();
-			 
-			 ResultSet res=stm.executeQuery(query);
-			 
-			 boolean showmessage=false;
-			 int amount=0;
-			 String list="";
-			 while(res.next())
-			 {
-				 amount=res.getInt("pezzi_magazzino");
-				 if(amount==1)
-				 {
-					 showmessage=true;
-					 list+=res.getString("titolo")+"\n";
-				 }
-			 }
-			 
-			 if(showmessage)
-			 {
-				 JOptionPane.showMessageDialog(this, "Attenzione i seguenti titoli sono in esaurimento:"+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
-			 }
-		}
-		catch (Exception exception)
-		{
-			JOptionPane.showMessageDialog(this, exception.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
-		}
 	}
 
 
