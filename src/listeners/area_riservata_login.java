@@ -51,7 +51,7 @@ public class area_riservata_login implements ActionListener {
 			ResultSet rs=pst.executeQuery();
 			if(rs.next())
 			{
-				login_wnd.seeOption(user);
+				login_wnd.showOption(user);
 			}
 			else
 			{
