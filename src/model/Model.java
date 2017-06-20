@@ -6,22 +6,19 @@ import utility.*;
 
 
 public class Model {
-
 	
-	Connection con = null;
-	
-	
-	
-	
-	
-	
-	
-	/*
-	try {
-		Connection con = Db.getConnection();
-	
-	} catch (SQLException e) {
-		System.out.println("Errore durante la connessione");
+	public Model() {
+		
+		Connection con = null;
+		
+		try {
+			con = Db.getConnection();
+		
+		} catch (SQLException e) {
+			System.out.println("Errore durante la connessione");
+		}
+		
 	}
-    */
+	
+
 }
