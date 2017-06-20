@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Db {
 
-	static Connection getConnection() throws Exception {
+	public static Connection getConnection() throws SQLException {
 		
         String dbName = "progetto_cd";
         String userName = "hanzo";

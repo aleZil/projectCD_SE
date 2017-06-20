@@ -31,7 +31,7 @@ public class main_wnd extends JFrame {
 		});
 	}
 
-	/**b
+	/**
 	 * Create the frame.
 	 */
 	
