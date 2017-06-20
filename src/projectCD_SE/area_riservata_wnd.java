@@ -140,20 +140,8 @@ public class area_riservata_wnd extends JFrame {
 	
 	public void SaveUpdates()
 	{
-		
-	}
-	
-	AbstractAction GetUpdate=new AbstractAction() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			TableCellListener tcl=(TableCellListener)e.getSource();
-			int row=tcl.getRow();
-			
-			//Se non viene modificato il valore,non si fa l'update
-			if(tcl.getOldValue().equals(tcl.getNewValue()))
-				return;
-			
+		/*for(int i=0;i<rowEdited.size();i++)
+		{
 			//Altrimenti prendo l'id e tutti i parametri su cui fare update
 			String codeCd=(String)tb_product.getValueAt(row, 0);
 			String titleCd=(String)tb_product.getValueAt(row, 1);
@@ -182,10 +170,10 @@ public class area_riservata_wnd extends JFrame {
 				pst.setString(8, codeCd);
 				
 				if(pst.executeUpdate()==1)
-					JOptionPane.showMessageDialog(tb_product.getParent(), "Elemento modificato!","Info",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(tb_product.getParent(), "Modifica eseguita con successo!","Info",JOptionPane.INFORMATION_MESSAGE);
 				else
 
-					JOptionPane.showMessageDialog(tb_product.getParent(), "Elemento non modificato!","Errore",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(tb_product.getParent(), "Modifica non eseguita!","Errore",JOptionPane.ERROR_MESSAGE);
 					
 				pst.close();
 				con.close();
@@ -196,6 +184,27 @@ public class area_riservata_wnd extends JFrame {
 				JOptionPane.showMessageDialog(tb_product.getParent(), exception.getMessage());
 			}
 			
+		}
+		
+		rowEdited.clear();
+		area_riservata_layout.show(panel_container, "warehouse");*/
+	}
+	
+	
+	//Prende il riferimento alla riga modificata
+	AbstractAction GetUpdate=new AbstractAction() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			TableCellListener tcl=(TableCellListener)e.getSource();
+			int row=tcl.getRow();
+			
+			//Se non viene modificato il valore,non si fa l'update
+			if(tcl.getOldValue().equals(tcl.getNewValue()))
+				return;
+			
+			//Se modificata,salvo l'indice con riga da modificare
+			rowEdited.add(tcl.getRow());
 		}
 	};
 
@@ -240,7 +249,7 @@ public class area_riservata_wnd extends JFrame {
 
 			tb_product.setModel(model);
 			
-			TableCellListener tcl=new TableCellListener(tb_product,SaveUpdate);
+			TableCellListener tcl=new TableCellListener(tb_product,GetUpdate);
 			
 			this.setTitle("Magazzino");
 			area_riservata_layout.show(panel_container, "warehouse");
