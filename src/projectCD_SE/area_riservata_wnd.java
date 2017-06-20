@@ -77,7 +77,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 public class area_riservata_wnd extends JFrame {
-
+	
 	JFrame main_wnd;
 	private static CardLayout area_riservata_layout=new CardLayout();
 	private JPanel panel_container=new JPanel();
@@ -159,7 +159,10 @@ public class area_riservata_wnd extends JFrame {
 			
 			try
 			{
-				Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
+				//Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
+				
+				Connection con = Db.getConnection();
+				
 				PreparedStatement pst=con.prepareStatement(updateQuery);
 				pst.setString(1, titleCd);
 				pst.setString(2, trackList);
@@ -214,7 +217,9 @@ public class area_riservata_wnd extends JFrame {
 		String queryCd="SELECT * FROM Cd";
 		try
 		{
-			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
+			// Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
+			Connection con = Db.getConnection();
+			
 			Statement stm=con.createStatement();
 			ResultSet res=stm.executeQuery(queryCd);
 
