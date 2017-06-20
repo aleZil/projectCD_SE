@@ -56,7 +56,10 @@ import javax.swing.JTextPane;
 import net.miginfocom.swing.MigLayout;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
 import javax.swing.JCheckBox;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -100,11 +103,13 @@ public class area_riservata_wnd extends JFrame {
 	//Utility
 	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
+	Set<Integer> rowEdited;
 	
 	
 	public area_riservata_wnd(JFrame caller) throws ParseException {
 		setResizable(false);
 		setTitle("Login");
+		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		main_wnd=caller;
 		panel_container.setLayout(area_riservata_layout);
@@ -133,7 +138,12 @@ public class area_riservata_wnd extends JFrame {
 
 	}
 	
-	AbstractAction SaveUpdate=new AbstractAction() {
+	public void SaveUpdates()
+	{
+		
+	}
+	
+	AbstractAction GetUpdate=new AbstractAction() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -244,8 +254,6 @@ public class area_riservata_wnd extends JFrame {
 		}
 
 	}
-	
-	
 
 	public void showInsertCd()
 	{
@@ -471,8 +479,7 @@ public class area_riservata_wnd extends JFrame {
 		buttons_container.add(btn_insert_cd, "cell 0 0,growx,aligny top");
 		buttons_container.add(btn_view_warehouse, "cell 0 1,growx,aligny top");
 	}
-
-
+	
 	//Metodi pubblici
 	public String getUsername()
 	{
