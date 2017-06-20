@@ -5,18 +5,20 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import projectCD_SE.area_riservata_wnd;
+
 public class area_riservata_save_updates implements ActionListener{
 	
-	JFrame updatePanel;
+	area_riservata_wnd updatePanel;
 	
 	public area_riservata_save_updates(JFrame caller)
 	{
-		updatePanel=caller;
+		updatePanel=(area_riservata_wnd)caller;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//updatePanel.SaveUpdates();
+		updatePanel.SaveUpdates();
 	}
 
 }

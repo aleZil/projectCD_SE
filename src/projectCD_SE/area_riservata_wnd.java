@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import listeners.area_riservata_option_insert_cd;
+import listeners.area_riservata_save_updates;
 import listeners.area_riservata_get_change_table;
 import listeners.area_riservata_goback;
 import listeners.area_riservata_login;
@@ -96,6 +97,7 @@ public class area_riservata_wnd extends JFrame {
 	private JButton btn_insert_product;
 	private JButton btn_goback_insert;
 	private JButton btn_goback_warehouse;
+	private JButton btn_save_updates;
 	private JTextArea txt_desc;
 	private JTextArea txt_tracklist;
 	private JTable tb_product;
@@ -140,20 +142,19 @@ public class area_riservata_wnd extends JFrame {
 	
 	public void SaveUpdates()
 	{
-		/*for(int i=0;i<rowEdited.size();i++)
+		JOptionPane.showMessageDialog(this, rowEdited.size());
+		for(int row:rowEdited)
 		{
-			//Altrimenti prendo l'id e tutti i parametri su cui fare update
+			//Faccio l'update sulle righe modificate
 			String codeCd=(String)tb_product.getValueAt(row, 0);
 			String titleCd=(String)tb_product.getValueAt(row, 1);
 			String trackList=(String)tb_product.getValueAt(row, 2);
 			BigDecimal priceCd=(BigDecimal)tb_product.getValueAt(row, 3);
 			Date dateIns=(Date)tb_product.getValueAt(row,4);
 			String descCd=(String)tb_product.getValueAt(row,5);
-			int soldAmount=(int)tb_product.getValueAt(row,6);
-			int amount=(int)tb_product.getValueAt(row,7);
+			int soldAmount=Integer.parseInt(tb_product.getValueAt(row,6).toString());
+			int amount=Integer.parseInt(tb_product.getValueAt(row,7).toString());
 			
-
-			JOptionPane.showMessageDialog(null,codeCd);
 			String updateQuery="UPDATE Cd SET titolo=?,titoli_pezzi=?,prezzo=?,data_inserimento=?,descrizione=?,pezzi_venduti=?,pezzi_magazzino=? WHERE codice=?";
 			
 			try
@@ -184,10 +185,11 @@ public class area_riservata_wnd extends JFrame {
 				JOptionPane.showMessageDialog(tb_product.getParent(), exception.getMessage());
 			}
 			
+			
 		}
 		
 		rowEdited.clear();
-		area_riservata_layout.show(panel_container, "warehouse");*/
+		area_riservata_layout.show(panel_container, "warehouse");
 	}
 	
 	
@@ -202,7 +204,6 @@ public class area_riservata_wnd extends JFrame {
 			//Se non viene modificato il valore,non si fa l'update
 			if(tcl.getOldValue().equals(tcl.getNewValue()))
 				return;
-			
 			//Se modificata,salvo l'indice con riga da modificare
 			rowEdited.add(tcl.getRow());
 		}
@@ -427,14 +428,17 @@ public class area_riservata_wnd extends JFrame {
 		JPanel warehouse_tb_panel = new JPanel();
 		warehouse_tb_panel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Tabella prodotti", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		warehouse_area_riservata_panel.add(warehouse_tb_panel, "cell 0 1 1 2,grow");
-		warehouse_tb_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
+		warehouse_tb_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill][]"));
 		JScrollPane header_panel = new JScrollPane();
-		warehouse_tb_panel.add(header_panel, "cell 0 0,growx");
+		warehouse_tb_panel.add(header_panel, "cell 0 0,grow");
 		tb_product = new JTable();
 		tb_product.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		header_panel.setViewportView(tb_product);
 		tb_product.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-
+		
+		btn_save_updates = new JButton("Salva Modifiche!");
+		btn_save_updates.addActionListener(new area_riservata_save_updates(this));
+		warehouse_tb_panel.add(btn_save_updates, "cell 0 1,alignx center,aligny center");
 	}
 
 	private void createLoginPanel()
