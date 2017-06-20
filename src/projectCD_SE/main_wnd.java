@@ -42,13 +42,19 @@ public class main_wnd extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
 		JButton btn_area_riservata = new JButton("Area Riservata");
 		btn_area_riservata.setBounds(229, 12, 207, 25);
 		btn_area_riservata.addActionListener(new main_wnd_btn_area_riservata(this));
 		contentPane.add(btn_area_riservata);
+		
 		JButton btnZilButton = new JButton("Zil button");
 		btnZilButton.setBounds(28, 101, 117, 25);
 		contentPane.add(btnZilButton);
+		
+		JButton btnHomePage = new JButton("Home Page");
+		btnHomePage.setBounds(229,50,207,25);
+		contentPane.add(btnHomePage);
 	}
 
 }
