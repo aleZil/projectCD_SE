@@ -1,23 +1,15 @@
 package model;
 
-import java.sql.Statement;
+import java.sql.*;
 
 public class CdModel extends Model {
 
 	
-	public CdModel() {
+	public CdModel()  throws ClassNotFoundException {
 		
 		String table = "cd";
 		
 		
-		
-		
-		
-		
-		
-		
 	}
-	
-	
 	
 }

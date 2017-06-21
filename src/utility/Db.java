@@ -6,8 +6,7 @@ public class Db {
 
 	private static Connection con = null;
 	
-	
-	public static Connection getConnection() throws SQLException {
+	public static Connection getConnection() throws SQLException, ClassNotFoundException {
 		
         String dbName = "progetto_cd";
         String userName = "hanzo";
@@ -19,9 +18,10 @@ public class Db {
         	
             try{
             	
+            	Class.forName("org.postgresql.Driver");
             	con = DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/" + dbName, userName, password);
                 
-            } catch (SQLException e) {
+            } catch (Exception e) {
             	
             	e.printStackTrace();
             	

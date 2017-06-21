@@ -155,7 +155,7 @@ public class area_riservata_wnd extends JFrame {
 			int soldAmount=Integer.parseInt(tb_product.getValueAt(row,6).toString());
 			int amount=Integer.parseInt(tb_product.getValueAt(row,7).toString());
 			
-			String updateQuery="UPDATE Cd SET titolo=?,titoli_pezzi=?,prezzo=?,data_inserimento=?,descrizione=?,pezzi_venduti=?,pezzi_magazzino=? WHERE codice=?";
+			String updateQuery="UPDATE Cd SET titolo=?,titoloBrani=?,prezzo=?,data_inserimento=?,descrizione=?,pezzi_venduti=?,pezzi_magazzino=? WHERE codice=?";
 			
 			try
 			{
@@ -242,7 +242,7 @@ public class area_riservata_wnd extends JFrame {
 			{
 				codeCd=res.getString("codice");
 				titleCd=res.getString("titolo");
-				trackList=res.getString("titoli_pezzi");
+				trackList=res.getString("titoloBrani");
 				priceCd=res.getBigDecimal("prezzo");
 				insertDate=res.getDate("data_inserimento");
 				descCd=res.getString("descrizione");
