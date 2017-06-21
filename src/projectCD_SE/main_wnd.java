@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import listeners.main_wnd_btn_area_riservata;
+import listeners.main_wnd_btn_carrello;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -52,9 +53,10 @@ public class main_wnd extends JFrame {
 		btnZilButton.setBounds(28, 101, 117, 25);
 		contentPane.add(btnZilButton);
 		
-		JButton btnHomePage = new JButton("Home Page");
-		btnHomePage.setBounds(229,50,207,25);
-		contentPane.add(btnHomePage);
+		JButton btn_carrello = new JButton("Carrello");
+		btn_carrello.setBounds(229,50,207,25);
+		btn_carrello.addActionListener(new main_wnd_btn_carrello(this));
+		contentPane.add(btn_carrello);
 	}
 
 }

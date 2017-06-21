@@ -10,10 +10,11 @@ import listeners.area_riservata_save_updates;
 import listeners.area_riservata_get_change_table;
 import listeners.area_riservata_goback;
 import listeners.area_riservata_login;
-import listeners.area_riservata_goback;
 import listeners.area_riservata_newcd_insert;
 import listeners.area_riservata_see_warehouse;
 import listeners.area_riservata_wnd_closer;
+//import listeners.carrello_intro;
+//import listeners.main_wnd_btn_carrello;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -126,9 +127,10 @@ public class area_riservata_wnd extends JFrame {
 		createInsertPanel();
 		//Creo pannello di gestione magazzino
 		createWarehousePanel();
+		
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panel_container);
-		area_riservata_layout.show(panel_container, "login");
+		area_riservata_layout.show(panel_container, "login");	
 		this.setVisible(true);
 
 	}
@@ -140,6 +142,7 @@ public class area_riservata_wnd extends JFrame {
 
 	}
 	
+
 	public void SaveUpdates()
 	{
 		JOptionPane.showMessageDialog(this, rowEdited.size());
@@ -426,6 +429,7 @@ public class area_riservata_wnd extends JFrame {
 		JPanel warehouse_area_riservata_panel = new JPanel();
 		panel_container.add(warehouse_area_riservata_panel, "warehouse");
 		warehouse_area_riservata_panel.setLayout(new MigLayout("", "[grow]", "[][grow,fill][]"));
+		
 		btn_goback_warehouse=new JButton("X");
 		btn_goback_warehouse.addActionListener(new area_riservata_goback(this));
 		warehouse_area_riservata_panel.add(btn_goback_warehouse, "cell 0 0,alignx right");
@@ -468,7 +472,6 @@ public class area_riservata_wnd extends JFrame {
 		JButton btn_login = new JButton("Login");
 
 		login_area_riservata_panel.add(btn_login, "cell 0 6,alignx center,aligny center");
-
 
 		//Aggiungo gli eventi
 		btn_login.addActionListener(new area_riservata_login(this));

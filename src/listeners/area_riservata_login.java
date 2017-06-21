@@ -32,6 +32,7 @@ public class area_riservata_login implements ActionListener,KeyListener {
 
 	private void Login()
 	{
+
 		String user=login_wnd.getUsername();
 		String pssw=login_wnd.getPassword();
 		

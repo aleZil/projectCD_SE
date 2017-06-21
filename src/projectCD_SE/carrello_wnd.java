@@ -5,15 +5,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+/*
 import listeners.area_riservata_option_insert_cd;
 import listeners.area_riservata_save_updates;
 import listeners.area_riservata_get_change_table;
 import listeners.area_riservata_goback;
-import listeners.home_page_visualizza_carrello;
-import listeners.area_riservata_goback;
+import listeners.area_riservata_login;
 import listeners.area_riservata_newcd_insert;
 import listeners.area_riservata_see_warehouse;
 import listeners.area_riservata_wnd_closer;
+*/
+import listeners.carrello_intro;
+import listeners.main_wnd_btn_carrello;		
 import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -76,13 +79,15 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-public class home_page extends JFrame {
-
+public class carrello_wnd extends JFrame {
+	
 	JFrame main_wnd;
-	private static CardLayout home_page_layout=new CardLayout();
+	private static CardLayout carrello_layout=new CardLayout();
 	private JPanel panel_container=new JPanel();
-	private JPanel carrello_home_page_panel=new JPanel();
+	//private JPanel login_area_riservata_panel=new JPanel();
 	//private JPanel option_area_riservata_panel=new JPanel();
+	private JPanel carrello_panel=new JPanel();		// andrea
+
 
 	//Componenti rilevanti del pannello insert
 	private JTextField txt_cd_code;
@@ -108,70 +113,80 @@ public class home_page extends JFrame {
 	Set<Integer> rowEdited;
 	
 	
-	public home_page(JFrame caller) throws ParseException {
+	public carrello_wnd(JFrame caller) throws ParseException {
 		setResizable(false);
-		setTitle("Login");
+		setTitle("Carrello");
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		main_wnd=caller;
-		panel_container.setLayout(home_page_layout);
-		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));
+		panel_container.setLayout(carrello_layout);
+		//this.addWindowListener(new area_riservata_wnd_closer(main_wnd));	//occhio
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
 		
+		//Creo pannello per visualizzare il carrello (andrea)
+		createCarrelloPanel();
 		
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panel_container);
-		home_page_layout.show(panel_container, "login");
+		carrello_layout.show(panel_container, "carrello");
 		this.setVisible(true);
 
 	}
 
-	public void showOption(String user)
+	
+//___________
+	
+	public void showCarrello(String user)
 	{
-		this.setTitle("Pannello area riservata");
-		home_page_layout.show(panel_container, "options");
+		this.setTitle("Pannello del Carrello?!?");
+		carrello_layout.show(panel_container, "carrello");
 
 	}
 	
 	
-	private void createLoginPanel()
+	private void createCarrelloPanel()
 	{
-		panel_container.add(carrello_home_page_panel, "carrello");
-		carrello_home_page_panel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
-
-		JLabel lbl_username = new JLabel("Username (da canc):");
-		carrello_home_page_panel.add(lbl_username, "flowx,cell 0 3,alignx center,aligny center");
-
-		txt_usr = new JTextField();
-		carrello_home_page_panel.add(txt_usr, "cell 0 3,alignx center,aligny center");
-		txt_usr.setColumns(10);
-
-		JLabel lbl_passwd = new JLabel("Password (da canc):");
-		carrello_home_page_panel.add(lbl_passwd, "flowx,cell 0 5,alignx center,aligny center");
-
-		txt_psswd = new JPasswordField();
-		txt_psswd.setColumns(10);
-		carrello_home_page_panel.add(txt_psswd, "cell 0 5,alignx center,growy");
-
-		JButton btn_visualizza_carrello = new JButton("Visualizza Carrello");
-
-		carrello_home_page_panel.add(btn_visualizza_carrello, "cell 0 6,alignx center,aligny center");
-
-
+		panel_container.add(carrello_panel, "carrello");
+		//carrello_panel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
+		
+		JButton btn_carrello = new JButton("btn_carrello?!");
+		carrello_panel.add(btn_carrello, "cell 0 6,alignx center,aligny center");
+		
+		JButton btn_carrello_goback = new JButton("X");
+		carrello_panel.add(btn_carrello_goback, "cell 0 0,alignx right");
+		
 		//Aggiungo gli eventi
-		btn_visualizza_carrello.addActionListener(new home_page_visualizza_carrello(this));
-		btn_visualizza_carrello.addKeyListener(new home_page_visualizza_carrello(this));
-		txt_psswd.addActionListener(new home_page_visualizza_carrello(this));
+		btn_carrello.addActionListener(new carrello_intro(this));
+		btn_carrello.addKeyListener(new carrello_intro(this));
+//btn_carrello_goback.addActionListener(new area_riservata_goback(this));
+		//carrello_layout.show(panel_container, "carrello");
+		
+/*
+JPanel warehouse_area_riservata_panel = new JPanel();
+		panel_container.add(warehouse_area_riservata_panel, "warehouse");
+		warehouse_area_riservata_panel.setLayout(new MigLayout("", "[grow]", "[][grow,fill][]"));
+		
+		btn_goback_warehouse=new JButton("X");
+		btn_goback_warehouse.addActionListener(new area_riservata_goback(this));
+		warehouse_area_riservata_panel.add(btn_goback_warehouse, "cell 0 0,alignx right");
 
+		JPanel warehouse_tb_panel = new JPanel();
+		warehouse_tb_panel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Tabella prodotti", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		warehouse_area_riservata_panel.add(warehouse_tb_panel, "cell 0 1 1 2,grow");
+		warehouse_tb_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill][]"));
+		
+*/
+
+		
 	}
 	
-	
-	
-	
-	
-//--------------------------------------------------------------------------
 
+	
+	
+	
+	
+	
 	//Metodi pubblici
 	public String getUsername()
 	{
