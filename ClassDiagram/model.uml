@@ -123,7 +123,7 @@
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_67XjYEISEee0OqqWj5cVHw" name="prodotto_in_carrello">
-    <generalization xmi:type="uml:Generalization" xmi:id="_ISDQoEITEee0OqqWj5cVHw" general="_eTTZwEHxEeeQtdOeXipfcA"/>
+    <generalization xmi:type="uml:Generalization" xmi:id="_s9y4YFZiEeeWtYywsujkRg" general="_eTTZwEHxEeeQtdOeXipfcA"/>
   </packagedElement>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_TwveUEIPEee0OqqWj5cVHw">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Twx6kEIPEee0OqqWj5cVHw" source="http://www.eclipse.org/uml2/2.0.0/UML">
