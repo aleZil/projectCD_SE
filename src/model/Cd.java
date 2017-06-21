@@ -1,26 +1,26 @@
 package model;
 
+import java.math.BigDecimal;
 import java.sql.*;
+import java.util.List;
+
 
 public class Cd {
 
-	String codice;
+	private String codice;
+	private String titolo;
+	private String titoloBrani;
+	private BigDecimal prezzo;
+	private Date dataInserimento;
+	private Integer pezziVenduti;
+	private Integer pezziMagazzino;
+	private String genere;
+	private List<String> musicisti;
 	
 	
-	public Cd()  throws ClassNotFoundException {
+	public Cd() {
 		
-	/*
-		 codice           | character varying(255) | not null
-		 titolo           | character varying(255) | not null
-		 titolobrani      | text                   | 
-		 prezzo           | numeric(10,2)          | not null
-		 data_inserimento | date                   | not null
-		 descrizione      | text                   | 
-		 pezzi_venduti    | integer                | default 0
-		 pezzi_magazzino  | integer                | default 0
-		 genere_id        | integer 
-		
-	*/
+
 	}
 	
 }
