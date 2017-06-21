@@ -16,6 +16,8 @@ import listeners.area_riservata_see_warehouse;
 import listeners.area_riservata_wnd_closer;
 */
 import listeners.carrello_intro;
+import listeners.area_riservata_goback;
+import listeners.carrello_goback;
 import listeners.main_wnd_btn_carrello;		
 import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
@@ -101,7 +103,7 @@ public class carrello_wnd extends JFrame {
 	private JCheckBox chb_leader;
 	private JButton btn_insert_product;
 	private JButton btn_goback_insert;
-	private JButton btn_goback_warehouse;
+	private JButton btn_indietro;
 	private JButton btn_save_updates;
 	private JTextArea txt_desc;
 	private JTextArea txt_tracklist;
@@ -139,7 +141,7 @@ public class carrello_wnd extends JFrame {
 	
 	public void showCarrello(String user)
 	{
-		this.setTitle("Pannello del Carrello?!?");
+		this.setTitle("Pannello del Carrello?");
 		carrello_layout.show(panel_container, "carrello");
 
 	}
@@ -148,36 +150,29 @@ public class carrello_wnd extends JFrame {
 	private void createCarrelloPanel()
 	{
 		panel_container.add(carrello_panel, "carrello");
-		//carrello_panel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
 		
-		JButton btn_carrello = new JButton("btn_carrello?!");
+		JButton btn_carrello = new JButton("Prova");
 		carrello_panel.add(btn_carrello, "cell 0 6,alignx center,aligny center");
 		
-		JButton btn_carrello_goback = new JButton("X");
-		carrello_panel.add(btn_carrello_goback, "cell 0 0,alignx right");
+		JButton btn_carrello_goback = new JButton("Indietro");
+		carrello_panel.add(btn_carrello_goback, "cell 2 0,alignx left, aligny left");
 		
 		//Aggiungo gli eventi
 		btn_carrello.addActionListener(new carrello_intro(this));
 		btn_carrello.addKeyListener(new carrello_intro(this));
-//btn_carrello_goback.addActionListener(new area_riservata_goback(this));
-		//carrello_layout.show(panel_container, "carrello");
 		
-/*
-JPanel warehouse_area_riservata_panel = new JPanel();
-		panel_container.add(warehouse_area_riservata_panel, "warehouse");
-		warehouse_area_riservata_panel.setLayout(new MigLayout("", "[grow]", "[][grow,fill][]"));
+		//btn_carrello_goback.addActionListener(new carrello_goback(this));
 		
-		btn_goback_warehouse=new JButton("X");
-		btn_goback_warehouse.addActionListener(new area_riservata_goback(this));
-		warehouse_area_riservata_panel.add(btn_goback_warehouse, "cell 0 0,alignx right");
-
-		JPanel warehouse_tb_panel = new JPanel();
-		warehouse_tb_panel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Tabella prodotti", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		warehouse_area_riservata_panel.add(warehouse_tb_panel, "cell 0 1 1 2,grow");
-		warehouse_tb_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill][]"));
+/*	
+		JPanel panel_prova = new JPanel();
+		panel_container.add(panel_prova, "panel_prova");
+		panel_prova.setLayout(new MigLayout("", "[grow]", "[][grow,fill][]"));
 		
+		btn_indietro=new JButton("X");
+		btn_indietro.addActionListener(new carrello_goback(this));
+		panel_prova.add(btn_indietro, "cell 0 0,alignx right");
 */
-
+		
 		
 	}
 	
@@ -187,6 +182,8 @@ JPanel warehouse_area_riservata_panel = new JPanel();
 	
 	
 	
+	
+//________________________DA CANCELLARE?___________________
 	//Metodi pubblici
 	public String getUsername()
 	{

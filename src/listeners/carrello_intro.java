@@ -19,11 +19,11 @@ import java.sql.*;
 
 public class carrello_intro implements ActionListener,KeyListener {
 	
-	carrello_wnd login_wnd;
+	carrello_wnd carrello_wnd;
 	
 	public carrello_intro(JFrame caller)
 	{
-		login_wnd=(carrello_wnd) caller;
+		carrello_wnd=(carrello_wnd) caller;
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -34,7 +34,7 @@ public class carrello_intro implements ActionListener,KeyListener {
 	private void Carrello()
 	{
 		
-		JOptionPane.showMessageDialog(login_wnd, "Ciaoneeeee!");
+		JOptionPane.showMessageDialog(carrello_wnd, "Ciaoneeeee!");
 		
 	}
 	
