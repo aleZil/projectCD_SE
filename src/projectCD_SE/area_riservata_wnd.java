@@ -237,7 +237,9 @@ public class area_riservata_wnd extends JFrame {
 			int amountCd;
 			int genId;
 			int musId;
-			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id","Musicista Id"};
+			//String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id","Musicista Id"};
+			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id"};
+			
 			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
 			cd_table_model model=new cd_table_model(0, 10);
 			model.setColumnIdentifiers(colNames);
@@ -252,8 +254,8 @@ public class area_riservata_wnd extends JFrame {
 				soldCd=res.getInt("pezzi_venduti");
 				amountCd=res.getInt("pezzi_magazzino");
 				genId=res.getInt("genere_id");
-				musId=res.getInt("musicista_id");
-				model.addRow(new Object[]{codeCd,titleCd,trackList,priceCd,insertDate,descCd,soldCd,amountCd,genId,musId});
+				//musId=res.getInt("musicista_id");
+				model.addRow(new Object[]{codeCd,titleCd,trackList,priceCd,insertDate,descCd,soldCd,amountCd,genId});
 			}
 
 			tb_product.setModel(model);
