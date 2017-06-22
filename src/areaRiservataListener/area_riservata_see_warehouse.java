@@ -3,7 +3,7 @@ package areaRiservataListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import frame.areaRiservataWnd;
+import view.areaRiservataWnd;
 
 public class area_riservata_see_warehouse implements ActionListener{
 	

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import frame.areaRiservataWnd;
+import view.areaRiservataWnd;
 
 public class main_wnd_btn_area_riservata implements ActionListener {
 

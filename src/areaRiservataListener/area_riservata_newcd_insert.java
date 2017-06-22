@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
-import frame.areaRiservataWnd;
+import view.areaRiservataWnd;
 
 public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 
