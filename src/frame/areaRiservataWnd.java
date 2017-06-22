@@ -22,6 +22,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 import java.awt.Color;
+//<<<<<<< HEAD:src/projectCD_SE/area_riservata_wnd.java
+import java.awt.FlowLayout;
+import java.awt.Frame;
+//=======
+//>>>>>>> 03c59dba1181ae0b72d8248dfb48f38f6f0b13a0:src/frame/areaRiservataWnd.java
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import javax.swing.AbstractAction;
@@ -54,7 +59,7 @@ import javax.swing.JTextArea;
 public class areaRiservataWnd extends JFrame {
 	
 	JFrame main_wnd;
-	private static CardLayout area_riservata_layout=new CardLayout();
+	private static CardLayout area_riservata_layout=new CardLayout();	//contenitore di pannelli/layout
 	private JPanel panel_container=new JPanel();
 	private JPanel login_area_riservata_panel=new JPanel();
 	private JPanel option_area_riservata_panel=new JPanel();
@@ -93,10 +98,16 @@ public class areaRiservataWnd extends JFrame {
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		main_wnd=caller;
-		panel_container.setLayout(area_riservata_layout);
+		panel_container.setLayout(area_riservata_layout);	
+		//card_layout (contenitore di tutti i panel, ogni panel è un Mig layout)
+		
 		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		//Dimensioni finestra
 		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
+		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		
 		//Creo panel di login
 		createLoginPanel();
 		//Creo panel delle opzioni
