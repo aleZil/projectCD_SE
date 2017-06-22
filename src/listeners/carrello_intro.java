@@ -33,9 +33,7 @@ public class carrello_intro implements ActionListener,KeyListener {
 
 	private void Carrello()
 	{
-		
-		JOptionPane.showMessageDialog(carrello_wnd, "Ciaoneeeee!");
-		
+		JOptionPane.showMessageDialog(carrello_wnd, "Hai premuto su 'Visualizza'");
 	}
 	
 	

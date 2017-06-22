@@ -15,8 +15,11 @@ import listeners.area_riservata_newcd_insert;
 import listeners.area_riservata_see_warehouse;
 import listeners.area_riservata_wnd_closer;
 */
+import listeners.area_riservata_wnd_closer;
 import listeners.carrello_intro;
 import listeners.area_riservata_goback;
+import listeners.area_riservata_option_insert_cd;
+import listeners.area_riservata_see_warehouse;
 import listeners.carrello_goback;
 import listeners.main_wnd_btn_carrello;		
 import javax.swing.JPasswordField;
@@ -86,9 +89,9 @@ public class carrello_wnd extends JFrame {
 	JFrame main_wnd;
 	private static CardLayout carrello_layout=new CardLayout();
 	private JPanel panel_container=new JPanel();
-	//private JPanel login_area_riservata_panel=new JPanel();
-	//private JPanel option_area_riservata_panel=new JPanel();
-	private JPanel carrello_panel=new JPanel();		// andrea
+	
+	private JPanel prova_panel=new JPanel();
+	private JPanel carrello_panel=new JPanel();		
 
 
 	//Componenti rilevanti del pannello insert
@@ -122,12 +125,15 @@ public class carrello_wnd extends JFrame {
 		//Tengo il riferimento al main form
 		main_wnd=caller;
 		panel_container.setLayout(carrello_layout);
-		//this.addWindowListener(new area_riservata_wnd_closer(main_wnd));	//occhio
+		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));	//cambiare nome a questo file?
+		//premendo la x rossa torno al pannello precedente
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
 		
 		//Creo pannello per visualizzare il carrello (andrea)
 		createCarrelloPanel();
+		createProvaPanel();
 		
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panel_container);
@@ -141,39 +147,61 @@ public class carrello_wnd extends JFrame {
 	
 	public void showCarrello(String user)
 	{
-		this.setTitle("Pannello del Carrello?");
-		carrello_layout.show(panel_container, "carrello");
+		//this.setTitle("Pannello del Carrello?");
+		//carrello_layout.show(panel_container, "prova");
+		main_wnd.setVisible(true);
+		this.setVisible(false);
+	}
+	
+	
+	private void createProvaPanel()
+	{
+		panel_container.add(prova_panel, "prova");
+
+		JPanel buttons_container = new JPanel();
+		buttons_container.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Frocio!", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		buttons_container.setToolTipText("");
+
+		JButton btn_insert_cd = new JButton("Eh...");
+		JButton btn_view_warehouse = new JButton("Volevi");
+
+		//btn_insert_cd.addActionListener(new area_riservata_option_insert_cd(this));
+		//btn_view_warehouse.addActionListener(new carrello_intro(this));
+		prova_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
+
+		prova_panel.add(buttons_container, "cell 0 0,alignx left,aligny top");
+		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][]"));
+		buttons_container.add(btn_insert_cd, "cell 0 0,growx,aligny top");
+		buttons_container.add(btn_view_warehouse, "cell 0 1,growx,aligny top");
 
 	}
+	
+	
 	
 	
 	private void createCarrelloPanel()
 	{
 		panel_container.add(carrello_panel, "carrello");
+
+		JButton btn_carrello_visualizza = new JButton("Visualizza Carrello");
+		carrello_panel.add(btn_carrello_visualizza, "cell 0 6,alignx center,aligny center");
 		
-		JButton btn_carrello = new JButton("Prova");
-		carrello_panel.add(btn_carrello, "cell 0 6,alignx center,aligny center");
+		JButton btn_carrello_modifica = new JButton("Modifica Carrello");
+		carrello_panel.add(btn_carrello_modifica, "cell 2 2,alignx left, aligny left");
 		
 		JButton btn_carrello_goback = new JButton("Indietro");
 		carrello_panel.add(btn_carrello_goback, "cell 2 0,alignx left, aligny left");
+//voglio farlo tornare alla main_wnd con questo pulsante, non premendo la x rossa.
 		
 		//Aggiungo gli eventi
-		btn_carrello.addActionListener(new carrello_intro(this));
-		btn_carrello.addKeyListener(new carrello_intro(this));
+		btn_carrello_visualizza.addActionListener(new carrello_intro(this));
+		btn_carrello_visualizza.addKeyListener(new carrello_intro(this));
 		
-		//btn_carrello_goback.addActionListener(new carrello_goback(this));
-		
-/*	
-		JPanel panel_prova = new JPanel();
-		panel_container.add(panel_prova, "panel_prova");
-		panel_prova.setLayout(new MigLayout("", "[grow]", "[][grow,fill][]"));
-		
-		btn_indietro=new JButton("X");
-		btn_indietro.addActionListener(new carrello_goback(this));
-		panel_prova.add(btn_indietro, "cell 0 0,alignx right");
-*/
-		
-		
+		btn_carrello_modifica.addActionListener(new carrello_intro(this));
+
+		btn_carrello_goback.addActionListener(new carrello_goback(this));
+		//btn_carrello_goback.addKeyListener(new carrello_goback(this));
+			
 	}
 	
 
