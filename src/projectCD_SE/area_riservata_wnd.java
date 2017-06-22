@@ -7,74 +7,39 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import listeners.area_riservata_option_insert_cd;
 import listeners.area_riservata_save_updates;
-import listeners.area_riservata_get_change_table;
 import listeners.area_riservata_goback;
 import listeners.area_riservata_login;
-import listeners.area_riservata_goback;
 import listeners.area_riservata_newcd_insert;
 import listeners.area_riservata_see_warehouse;
 import listeners.area_riservata_wnd_closer;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import java.sql.*;
-import java.text.Format;
 import java.text.ParseException;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JSeparator;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.text.MaskFormatter;
-
-import com.sun.corba.se.spi.orbutil.fsm.Action;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
-import com.sun.xml.internal.ws.addressing.model.MissingAddressingHeaderException;
-
-import jdk.nashorn.internal.scripts.JO;
-
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import javax.swing.JFormattedTextField;
 import javax.swing.AbstractAction;
-import javax.swing.DropMode;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
-import javax.swing.JTextPane;
 import net.miginfocom.swing.MigLayout;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import javax.swing.JCheckBox;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
-import java.awt.BorderLayout;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
 public class area_riservata_wnd extends JFrame {
 	
@@ -524,9 +489,9 @@ public class area_riservata_wnd extends JFrame {
 		return txt_tracklist.getText();
 	}
 
-	public BigDecimal getCdPrice()
+	public String getCdPrice()
 	{
-		return new BigDecimal(txt_price.getText());
+		return txt_price.getText();
 	}
 
 	public String getCdDesc()
@@ -544,9 +509,9 @@ public class area_riservata_wnd extends JFrame {
 		return kGen.get(cb_gen.getSelectedItem());
 	}
 
-	public int getAmount()
+	public String getAmount()
 	{
-		return Integer.parseInt(txt_amount.getText());
+		return txt_amount.getText();
 	}
 
 	public boolean isLeader()
@@ -556,33 +521,28 @@ public class area_riservata_wnd extends JFrame {
 
 	public boolean validValues()
 	{
-		if(getCdCode().isEmpty())
+		if(!dataValidator.checkCdCode(getCdCode()))
 		{
 			JOptionPane.showMessageDialog(this,"Inserire codice Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		if(getTrackList()=="")
+		if(!dataValidator.checkTitle(getCdTitle()))
+		{
+			JOptionPane.showMessageDialog(this,"Inserire titolo Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		if(!dataValidator.checkTrackList(getTrackList()))
 		{
 			JOptionPane.showMessageDialog(this,"Inserire elenco brani!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		try
-		{
-			getCdPrice();
-		}
-		catch(Exception e)
+		if(!dataValidator.checkCdPrice(getCdPrice()))
 		{
 			JOptionPane.showMessageDialog(this, "Prezzo non valido!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
-		if(getCdPrice().signum()==-1)
-		{
-			JOptionPane.showMessageDialog(this, "Prezzo negativo?","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-
-		if(getAmount()<=0)
+		if(!dataValidator.checkInteger(getAmount()))
 		{
 			JOptionPane.showMessageDialog(this, "Quantità non valida!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
