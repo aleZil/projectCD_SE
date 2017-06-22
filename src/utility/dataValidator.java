@@ -17,7 +17,7 @@ public class dataValidator {
 		return !cdTitle.isEmpty();
 	}
 
-	public static boolean checkTrackList(String cdTrackList)
+	public static boolean emptyTrackList(String cdTrackList)
 	{
 		return cdTrackList.isEmpty();
 	}

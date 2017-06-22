@@ -40,6 +40,9 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
@@ -50,7 +53,6 @@ public class area_riservata_wnd extends JFrame {
 	private JPanel panel_container=new JPanel();
 	private JPanel login_area_riservata_panel=new JPanel();
 	private JPanel option_area_riservata_panel=new JPanel();
-
 	//Componenti rilevanti del pannello insert
 	private JTextField txt_cd_code;
 	private JTextField txt_cd_title;
@@ -77,7 +79,7 @@ public class area_riservata_wnd extends JFrame {
 	
 	public area_riservata_wnd(JFrame caller) throws ParseException {
 		setResizable(false);
-		setTitle("Login");
+		
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		main_wnd=caller;
@@ -537,7 +539,7 @@ public class area_riservata_wnd extends JFrame {
 			JOptionPane.showMessageDialog(this,"Inserire titolo Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		if(!dataValidator.checkTrackList(getTrackList()))
+		if(dataValidator.emptyTrackList(getTrackList()))
 		{
 			JOptionPane.showMessageDialog(this,"Inserire elenco brani!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
