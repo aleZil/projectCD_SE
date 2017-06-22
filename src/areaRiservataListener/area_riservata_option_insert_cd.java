@@ -1,14 +1,15 @@
-package listeners;
+package areaRiservataListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import projectCD_SE.area_riservata_wnd;
+
+import frame.areaRiservataWnd;
 
 
 public class area_riservata_option_insert_cd implements ActionListener{
 	
-	area_riservata_wnd option_wnd;
-	public area_riservata_option_insert_cd(area_riservata_wnd caller)
+	areaRiservataWnd option_wnd;
+	public area_riservata_option_insert_cd(areaRiservataWnd caller)
 	{
 		option_wnd=caller;
 	}

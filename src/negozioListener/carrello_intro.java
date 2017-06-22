@@ -1,4 +1,4 @@
-package listeners;
+package negozioListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
-import projectCD_SE.carrello_wnd;
+import frame.carrelloWnd;
 import sun.swing.SwingLazyValue;
 
 import java.awt.event.ActionEvent;
@@ -19,11 +19,11 @@ import java.sql.*;
 
 public class carrello_intro implements ActionListener,KeyListener {
 	
-	carrello_wnd carrello_wnd;
+	carrelloWnd carrello_wnd;
 	
 	public carrello_intro(JFrame caller)
 	{
-		carrello_wnd=(carrello_wnd) caller;
+		carrello_wnd=(carrelloWnd) caller;
 	}
 	
 	public void actionPerformed(ActionEvent e)

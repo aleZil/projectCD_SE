@@ -1,13 +1,14 @@
-package listeners;
+package areaRiservataListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import projectCD_SE.area_riservata_wnd;
+
+import frame.areaRiservataWnd;
 
 public class area_riservata_see_warehouse implements ActionListener{
 	
-	area_riservata_wnd option_wnd;
-	public area_riservata_see_warehouse(area_riservata_wnd caller)
+	areaRiservataWnd option_wnd;
+	public area_riservata_see_warehouse(areaRiservataWnd caller)
 	{
 		option_wnd=caller;
 	}

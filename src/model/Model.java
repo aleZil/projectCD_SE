@@ -14,7 +14,7 @@ public class Model {
 		try {
 			con = Db.getConnection();
 		
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println("Errore durante la connessione");
 		}
 		

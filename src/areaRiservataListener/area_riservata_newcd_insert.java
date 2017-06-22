@@ -1,4 +1,4 @@
-package listeners;
+package areaRiservataListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,18 +9,15 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.text.SimpleDateFormat;
-
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import projectCD_SE.area_riservata_wnd;
+import frame.areaRiservataWnd;
 
 public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 
-	area_riservata_wnd ar_ref;
+	areaRiservataWnd ar_ref;
 
-	public area_riservata_newcd_insert(area_riservata_wnd caller)
+	public area_riservata_newcd_insert(areaRiservataWnd caller)
 	{
 		ar_ref=caller;
 	}
@@ -50,15 +47,26 @@ public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 				//Inserisco il record in cd
 				PreparedStatement pst=con.prepareStatement(insertCdQuery);
 				pst.clearParameters();
-				pst.setString(1,ar_ref.getCdCode());
-				pst.setString(2, ar_ref.getCdTitle());
-				pst.setString(3, ar_ref.getTrackList());
-				pst.setBigDecimal(4,ar_ref.getCdPrice());
-				pst.setDate(5,new java.sql.Date(System.currentTimeMillis()));
-				pst.setString(6,ar_ref.getCdDesc());
-				pst.setInt(7, ar_ref.getAmount());
-				pst.setInt(8, ar_ref.getGenderId());
-				pst.setInt(9, ar_ref.getMusicianId());
+				
+				String cdCode=ar_ref.getCdCode();
+				String cdTitle=ar_ref.getCdTitle();
+				String trackList=ar_ref.getTrackList();
+				BigDecimal cdPrice=new BigDecimal(ar_ref.getCdPrice());
+				Date insertDate=new java.sql.Date(System.currentTimeMillis());
+				String cdDesc=ar_ref.getCdDesc();
+				int amount=Integer.parseInt(ar_ref.getAmount());
+				int genderId=ar_ref.getGenderId();
+				int musicianId=ar_ref.getMusicianId();
+				
+				pst.setString(1,cdCode);
+				pst.setString(2, cdTitle);
+				pst.setString(3,trackList);
+				pst.setBigDecimal(4,cdPrice);
+				pst.setDate(5,insertDate);
+				pst.setString(6,cdDesc);
+				pst.setInt(7,amount);
+				pst.setInt(8,genderId);
+				pst.setInt(9,musicianId);
 
 				if(0<pst.executeUpdate())
 				{

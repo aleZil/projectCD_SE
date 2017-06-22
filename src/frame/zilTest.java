@@ -1,4 +1,4 @@
-package projectCD_SE;
+package frame;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

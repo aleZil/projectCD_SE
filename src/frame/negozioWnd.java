@@ -1,4 +1,4 @@
-package projectCD_SE;
+package frame;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -7,15 +7,16 @@ import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import listeners.main_wnd_btn_area_riservata;
-import listeners.main_wnd_btn_carrello;
+
+import negozioListener.main_wnd_btn_area_riservata;
+import negozioListener.main_wnd_btn_carrello;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 
-public class main_wnd extends JFrame {
+public class negozioWnd extends JFrame {
 
 	private JPanel contentPane;
 	/**
@@ -25,7 +26,7 @@ public class main_wnd extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					main_wnd frame = new main_wnd();
+					negozioWnd frame = new negozioWnd();
 					frame.setVisible(true);
 					frame.setExtendedState(Frame.MAXIMIZED_BOTH);	//fullscreen
 				} catch (Exception e) {
@@ -39,7 +40,7 @@ public class main_wnd extends JFrame {
 	 * Create the frame.
 	 */
 	
-	public main_wnd() {
+	public negozioWnd() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

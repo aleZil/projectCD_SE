@@ -1,91 +1,68 @@
-package projectCD_SE;
+package frame;
 
 import utility.*;
+import model.*;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import listeners.area_riservata_option_insert_cd;
-import listeners.area_riservata_save_updates;
-import listeners.area_riservata_get_change_table;
-import listeners.area_riservata_goback;
-import listeners.area_riservata_login;
-import listeners.area_riservata_newcd_insert;
-import listeners.area_riservata_see_warehouse;
-import listeners.area_riservata_wnd_closer;
 //import listeners.carrello_intro;
 //import listeners.main_wnd_btn_carrello;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import java.sql.*;
-import java.text.Format;
 import java.text.ParseException;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JSeparator;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.text.MaskFormatter;
-
-import com.sun.corba.se.spi.orbutil.fsm.Action;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
-import com.sun.xml.internal.ws.addressing.model.MissingAddressingHeaderException;
-
-import jdk.nashorn.internal.scripts.JO;
-
 import java.awt.Color;
+<<<<<<< HEAD:src/projectCD_SE/area_riservata_wnd.java
 import java.awt.FlowLayout;
 import java.awt.Frame;
+=======
+>>>>>>> 03c59dba1181ae0b72d8248dfb48f38f6f0b13a0:src/frame/areaRiservataWnd.java
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import javax.swing.JFormattedTextField;
 import javax.swing.AbstractAction;
-import javax.swing.DropMode;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
-import javax.swing.JTextPane;
 import net.miginfocom.swing.MigLayout;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import javax.swing.JCheckBox;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import areaRiservataListener.area_riservata_goback;
+import areaRiservataListener.area_riservata_insert_musician;
+import areaRiservataListener.area_riservata_login;
+import areaRiservataListener.area_riservata_newcd_insert;
+import areaRiservataListener.area_riservata_option_insert_cd;
+import areaRiservataListener.area_riservata_save_updates;
+import areaRiservataListener.area_riservata_see_warehouse;
+import areaRiservataListener.area_riservata_wnd_closer;
+
 import java.awt.Component;
-import java.awt.BorderLayout;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
-public class area_riservata_wnd extends JFrame {
+public class areaRiservataWnd extends JFrame {
 	
 	JFrame main_wnd;
 	private static CardLayout area_riservata_layout=new CardLayout();	//contenitore di pannelli/layout
 	private JPanel panel_container=new JPanel();
 	private JPanel login_area_riservata_panel=new JPanel();
 	private JPanel option_area_riservata_panel=new JPanel();
-
 	//Componenti rilevanti del pannello insert
 	private JTextField txt_cd_code;
 	private JTextField txt_cd_title;
@@ -103,16 +80,24 @@ public class area_riservata_wnd extends JFrame {
 	private JTextArea txt_desc;
 	private JTextArea txt_tracklist;
 	private JTable tb_product;
+	private JButton btn_add_mus;
+	private JButton btn_add_cd_mus;
 	
 	//Utility
 	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
 	Set<Integer> rowEdited;
 	
+	// Model per il recupero dei dati
+	private Cd modelCd = new Cd();
 	
-	public area_riservata_wnd(JFrame caller) throws ParseException {
+	
+	
+	
+	
+	public areaRiservataWnd(JFrame caller) throws ParseException {
 		setResizable(false);
-		setTitle("Login");
+		
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		main_wnd=caller;
@@ -123,8 +108,8 @@ public class area_riservata_wnd extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//Dimensioni finestra
-		//setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
-		this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
+		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		
 		//Creo panel di login
 		createLoginPanel();
@@ -224,14 +209,15 @@ public class area_riservata_wnd extends JFrame {
 
 	public void showWarehouse()
 	{
-		String queryCd="SELECT * FROM Cd";
+		
+		// String queryCd="SELECT * FROM Cd";
 		try
 		{
 			// Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
-			Connection con = Db.getConnection();
+			//Connection con = Db.getConnection();
 			
-			Statement stm=con.createStatement();
-			ResultSet res=stm.executeQuery(queryCd);
+			//Statement stm=con.createStatement();
+			ResultSet res = modelCd.getAll();
 
 			//Variabili supporto 
 			String codeCd;
@@ -248,7 +234,7 @@ public class area_riservata_wnd extends JFrame {
 			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id"};
 			
 			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
-			cd_table_model model=new cd_table_model(0, 10);
+			tableModel model=new tableModel(0, 10);
 			model.setColumnIdentifiers(colNames);
 			while(res.next())
 			{
@@ -272,8 +258,6 @@ public class area_riservata_wnd extends JFrame {
 			this.setTitle("Magazzino");
 			area_riservata_layout.show(panel_container, "warehouse");
 			res.close();
-			stm.close();
-			con.close();
 		}
 		catch(Exception exception)
 		{
@@ -505,9 +489,16 @@ public class area_riservata_wnd extends JFrame {
 		option_area_riservata_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 
 		option_area_riservata_panel.add(buttons_container, "cell 0 0,alignx left,aligny top");
-		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][]"));
+		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][][][]"));
 		buttons_container.add(btn_insert_cd, "cell 0 0,growx,aligny top");
 		buttons_container.add(btn_view_warehouse, "cell 0 1,growx,aligny top");
+		
+		btn_add_mus = new JButton("Aggiungi musicista");
+		buttons_container.add(btn_add_mus, "cell 0 2");
+		//btn_add_mus.addActionListener(new area_riservata_insert_musician(this));
+		
+		btn_add_cd_mus = new JButton("Aggiungi partecipazione");
+		buttons_container.add(btn_add_cd_mus, "cell 0 3");
 	}
 	
 	//Metodi pubblici
@@ -536,9 +527,9 @@ public class area_riservata_wnd extends JFrame {
 		return txt_tracklist.getText();
 	}
 
-	public BigDecimal getCdPrice()
+	public String getCdPrice()
 	{
-		return new BigDecimal(txt_price.getText());
+		return txt_price.getText();
 	}
 
 	public String getCdDesc()
@@ -556,9 +547,9 @@ public class area_riservata_wnd extends JFrame {
 		return kGen.get(cb_gen.getSelectedItem());
 	}
 
-	public int getAmount()
+	public String getAmount()
 	{
-		return Integer.parseInt(txt_amount.getText());
+		return txt_amount.getText();
 	}
 
 	public boolean isLeader()
@@ -568,33 +559,28 @@ public class area_riservata_wnd extends JFrame {
 
 	public boolean validValues()
 	{
-		if(getCdCode().isEmpty())
+		if(!dataValidator.checkCdCode(getCdCode()))
 		{
 			JOptionPane.showMessageDialog(this,"Inserire codice Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		if(getTrackList()=="")
+		if(!dataValidator.checkTitle(getCdTitle()))
+		{
+			JOptionPane.showMessageDialog(this,"Inserire titolo Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		if(dataValidator.emptyTrackList(getTrackList()))
 		{
 			JOptionPane.showMessageDialog(this,"Inserire elenco brani!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		try
-		{
-			getCdPrice();
-		}
-		catch(Exception e)
+		if(!dataValidator.checkCdPrice(getCdPrice()))
 		{
 			JOptionPane.showMessageDialog(this, "Prezzo non valido!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
-		if(getCdPrice().signum()==-1)
-		{
-			JOptionPane.showMessageDialog(this, "Prezzo negativo?","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-
-		if(getAmount()<=0)
+		if(!dataValidator.checkInteger(getAmount()))
 		{
 			JOptionPane.showMessageDialog(this, "Quantità non valida!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;

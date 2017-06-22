@@ -1,27 +1,10 @@
-package projectCD_SE;
+package frame;
 
 import utility.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-/*
-import listeners.area_riservata_option_insert_cd;
-import listeners.area_riservata_save_updates;
-import listeners.area_riservata_get_change_table;
-import listeners.area_riservata_goback;
-import listeners.area_riservata_login;
-import listeners.area_riservata_newcd_insert;
-import listeners.area_riservata_see_warehouse;
-import listeners.area_riservata_wnd_closer;
-*/
-import listeners.area_riservata_wnd_closer;
-import listeners.carrello_intro;
-import listeners.area_riservata_goback;
-import listeners.area_riservata_option_insert_cd;
-import listeners.area_riservata_see_warehouse;
-import listeners.carrello_goback;
-import listeners.main_wnd_btn_carrello;		
 import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -46,7 +29,14 @@ import com.sun.corba.se.spi.orbutil.fsm.Action;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
 import com.sun.xml.internal.ws.addressing.model.MissingAddressingHeaderException;
 
+import areaRiservataListener.area_riservata_goback;
+import areaRiservataListener.area_riservata_option_insert_cd;
+import areaRiservataListener.area_riservata_see_warehouse;
+import areaRiservataListener.area_riservata_wnd_closer;
 import jdk.nashorn.internal.scripts.JO;
+import negozioListener.carrello_goback;
+import negozioListener.carrello_intro;
+import negozioListener.main_wnd_btn_carrello;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -84,7 +74,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-public class carrello_wnd extends JFrame {
+public class carrelloWnd extends JFrame {
 	
 	JFrame main_wnd;
 	private static CardLayout carrello_layout=new CardLayout();
@@ -118,7 +108,7 @@ public class carrello_wnd extends JFrame {
 	Set<Integer> rowEdited;
 	
 	
-	public carrello_wnd(JFrame caller) throws ParseException {
+	public carrelloWnd(JFrame caller) throws ParseException {
 		setResizable(false);
 		setTitle("Carrello");
 		rowEdited=new HashSet<>();
