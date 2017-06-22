@@ -116,11 +116,13 @@ public class areaRiservataWnd extends JFrame {
 		createInsertPanel();
 		//Creo pannello di gestione magazzino
 		createWarehousePanel();
-		
+		//Creo pannello di aggiunta musicista
+		createOptionAddMusPanel();
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panel_container);
 		area_riservata_layout.show(panel_container, "login");	
-		this.setVisible(true);
+		
+
 
 	}
 
@@ -132,6 +134,12 @@ public class areaRiservataWnd extends JFrame {
 	}
 	
 
+	public void showAddMusPanel()
+	{
+		
+		this.setTitle("Aggiungi musicista");
+		area_riservata_layout.show(panel_container,"optionAddMus");
+	}
 	public void SaveUpdates()
 	{
 		JOptionPane.showMessageDialog(this, rowEdited.size());
@@ -201,6 +209,7 @@ public class areaRiservataWnd extends JFrame {
 			rowEdited.add(tcl.getRow());
 		}
 	};
+	private JTextField textField;
 
 	public void showWarehouse()
 	{
@@ -313,6 +322,33 @@ public class areaRiservataWnd extends JFrame {
 		area_riservata_layout.show(panel_container, "insert");
 	}
 
+	private void createOptionAddMusPanel()
+	{
+		JPanel optionAddMus = new JPanel();
+		panel_container.add(optionAddMus, "optionAddMus");
+		optionAddMus.setLayout(new MigLayout("", "[][grow][]", "[][][][]"));
+		
+		JLabel lblNomeArte = new JLabel("Nome arte:");
+		optionAddMus.add(lblNomeArte, "flowx,cell 1 1,alignx center,aligny center");
+		
+		textField = new JTextField();
+		optionAddMus.add(textField, "cell 1 1,alignx center,aligny center");
+		textField.setColumns(10);
+		
+		JLabel lblGen = new JLabel("Genere:");
+		optionAddMus.add(lblGen, "flowx,cell 1 2,alignx center,aligny center");
+		
+		JComboBox comboBox = new JComboBox();
+		optionAddMus.add(comboBox, "cell 1 2,alignx center,aligny center");
+		
+		JLabel lblInstru = new JLabel("Strumento:");
+		optionAddMus.add(lblInstru, "flowx,cell 1 3,alignx center,aligny center");
+		
+		JComboBox cbInstru = new JComboBox();
+		optionAddMus.add(cbInstru, "cell 1 3,alignx center,aligny center");
+		this.setVisible(true);
+	}
+	
 	private void createInsertPanel() throws ParseException
 	{
 		JPanel insert_area_riservata_panel = new JPanel();
