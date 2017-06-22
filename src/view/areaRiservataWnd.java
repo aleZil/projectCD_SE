@@ -1,4 +1,4 @@
-package frame;
+package view;
 
 import utility.*;
 import model.*;
@@ -389,10 +389,6 @@ public class areaRiservataWnd extends JFrame {
 		txt_cd_code.setColumns(10);
 		product_detal_panel.add(txt_cd_code, "cell 1 0,alignx center,aligny center");
 
-		btn_goback_insert = new JButton("X");
-		btn_goback_insert.addActionListener(new area_riservata_goback(this));
-		product_detal_panel.add(btn_goback_insert, "cell 2 0,growx");
-
 		JLabel lbl_title_cd = new JLabel("Titolo Cd:");
 		product_detal_panel.add(lbl_title_cd, "cell 0 1,alignx right,aligny center");
 
@@ -445,12 +441,17 @@ public class areaRiservataWnd extends JFrame {
 		btn_insert_product = new JButton("Inserisci prodotto");
 		btn_insert_product.addActionListener(new area_riservata_newcd_insert(this));
 		btn_insert_product.addKeyListener(new area_riservata_newcd_insert(this));
-		product_detal_panel.add(btn_insert_product, "cell 1 8,alignx center,growy");
+		product_detal_panel.add(btn_insert_product, "flowx,cell 1 8,alignx left,growy");
 
 		chb_leader = new JCheckBox("Capoband");
 		product_detal_panel.add(chb_leader, "cell 1 6,alignx left");
+				
+						btn_goback_insert = new JButton("X");
+						btn_goback_insert.addActionListener(new area_riservata_goback(this));
+						product_detal_panel.add(btn_goback_insert, "cell 1 8,alignx right,growy");
 		product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 		insert_area_riservata_panel.setLayout(gl_insert_area_riservata_panel);
+		insert_area_riservata_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 	}
 
 	private void createWarehousePanel()

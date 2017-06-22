@@ -3,8 +3,7 @@ package areaRiservataListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import frame.areaRiservataWnd;
-import frame.*;
+import view.*;
 
 public class area_riservata_insert_musician implements ActionListener {
 	

@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import frame.areaRiservataWnd;
+import view.areaRiservataWnd;
 
 public class area_riservata_save_updates implements ActionListener{
 	
