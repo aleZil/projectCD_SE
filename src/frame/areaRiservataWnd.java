@@ -87,9 +87,6 @@ public class areaRiservataWnd extends JFrame {
 	private Cd modelCd = new Cd();
 	
 	
-	
-	
-	
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		setResizable(false);
 		
@@ -143,8 +140,6 @@ public class areaRiservataWnd extends JFrame {
 			
 			try
 			{
-				//Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
-				
 				Connection con = Db.getConnection();
 				
 				PreparedStatement pst=con.prepareStatement(updateQuery);

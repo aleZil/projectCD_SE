@@ -13,7 +13,7 @@ public class Cd{
 /*
 	private String codice;
 	private String titolo;
-	private String titoloBrani;
+	private String titoloBrani;W
 	private BigDecimal prezzo;
 	private Date dataInserimento;
 	private Integer pezziVenduti;
@@ -92,8 +92,4 @@ public class Cd{
 		}
 		return rs;
 	}
-	
-	
-	
-	
 }
