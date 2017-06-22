@@ -22,11 +22,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 import java.awt.Color;
-<<<<<<< HEAD:src/projectCD_SE/area_riservata_wnd.java
+//<<<<<<< HEAD:src/projectCD_SE/area_riservata_wnd.java
 import java.awt.FlowLayout;
 import java.awt.Frame;
-=======
->>>>>>> 03c59dba1181ae0b72d8248dfb48f38f6f0b13a0:src/frame/areaRiservataWnd.java
+//=======
+//>>>>>>> 03c59dba1181ae0b72d8248dfb48f38f6f0b13a0:src/frame/areaRiservataWnd.java
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import javax.swing.AbstractAction;
