@@ -1,4 +1,4 @@
-package listeners;
+package areaRiservataListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,13 +11,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
-import projectCD_SE.area_riservata_wnd;
+import frame.areaRiservataWnd;
 
 public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 
-	area_riservata_wnd ar_ref;
+	areaRiservataWnd ar_ref;
 
-	public area_riservata_newcd_insert(area_riservata_wnd caller)
+	public area_riservata_newcd_insert(areaRiservataWnd caller)
 	{
 		ar_ref=caller;
 	}

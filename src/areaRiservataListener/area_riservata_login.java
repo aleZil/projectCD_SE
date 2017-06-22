@@ -1,11 +1,11 @@
-package listeners;
+package areaRiservataListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
-import projectCD_SE.area_riservata_wnd;
+import frame.areaRiservataWnd;
 import sun.swing.SwingLazyValue;
 
 import java.awt.event.ActionEvent;
@@ -18,11 +18,11 @@ import java.sql.*;
 
 public class area_riservata_login implements ActionListener,KeyListener {
 	
-	area_riservata_wnd login_wnd;
+	areaRiservataWnd login_wnd;
 	
 	public area_riservata_login(JFrame caller)
 	{
-		login_wnd=(area_riservata_wnd) caller;
+		login_wnd=(areaRiservataWnd) caller;
 	}
 	
 	public void actionPerformed(ActionEvent e)

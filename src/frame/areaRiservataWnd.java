@@ -1,4 +1,4 @@
-package projectCD_SE;
+package frame;
 
 import utility.*;
 import model.*;
@@ -7,13 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import listeners.area_riservata_option_insert_cd;
-import listeners.area_riservata_save_updates;
-import listeners.area_riservata_goback;
-import listeners.area_riservata_login;
-import listeners.area_riservata_newcd_insert;
-import listeners.area_riservata_see_warehouse;
-import listeners.area_riservata_wnd_closer;
 //import listeners.carrello_intro;
 //import listeners.main_wnd_btn_carrello;
 import javax.swing.JPasswordField;
@@ -41,6 +34,16 @@ import java.util.Map;
 import java.util.Set;
 import javax.swing.JCheckBox;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import areaRiservataListener.area_riservata_goback;
+import areaRiservataListener.area_riservata_insert_musician;
+import areaRiservataListener.area_riservata_login;
+import areaRiservataListener.area_riservata_newcd_insert;
+import areaRiservataListener.area_riservata_option_insert_cd;
+import areaRiservataListener.area_riservata_save_updates;
+import areaRiservataListener.area_riservata_see_warehouse;
+import areaRiservataListener.area_riservata_wnd_closer;
+
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
@@ -48,7 +51,7 @@ import java.awt.Rectangle;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
-public class area_riservata_wnd extends JFrame {
+public class areaRiservataWnd extends JFrame {
 	
 	JFrame main_wnd;
 	private static CardLayout area_riservata_layout=new CardLayout();
@@ -72,6 +75,8 @@ public class area_riservata_wnd extends JFrame {
 	private JTextArea txt_desc;
 	private JTextArea txt_tracklist;
 	private JTable tb_product;
+	private JButton btn_add_mus;
+	private JButton btn_add_cd_mus;
 	
 	//Utility
 	Map<String,Integer> kGen;
@@ -85,7 +90,7 @@ public class area_riservata_wnd extends JFrame {
 	
 	
 	
-	public area_riservata_wnd(JFrame caller) throws ParseException {
+	public areaRiservataWnd(JFrame caller) throws ParseException {
 		setResizable(false);
 		
 		rowEdited=new HashSet<>();
@@ -218,7 +223,7 @@ public class area_riservata_wnd extends JFrame {
 			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id"};
 			
 			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
-			cd_table_model model=new cd_table_model(0, 10);
+			tableModel model=new tableModel(0, 10);
 			model.setColumnIdentifiers(colNames);
 			while(res.next())
 			{
@@ -242,8 +247,6 @@ public class area_riservata_wnd extends JFrame {
 			this.setTitle("Magazzino");
 			area_riservata_layout.show(panel_container, "warehouse");
 			res.close();
-			/*stm.close();
-			con.close();*/
 		}
 		catch(Exception exception)
 		{
@@ -475,9 +478,16 @@ public class area_riservata_wnd extends JFrame {
 		option_area_riservata_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 
 		option_area_riservata_panel.add(buttons_container, "cell 0 0,alignx left,aligny top");
-		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][]"));
+		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][][][]"));
 		buttons_container.add(btn_insert_cd, "cell 0 0,growx,aligny top");
 		buttons_container.add(btn_view_warehouse, "cell 0 1,growx,aligny top");
+		
+		btn_add_mus = new JButton("Aggiungi musicista");
+		buttons_container.add(btn_add_mus, "cell 0 2");
+		//btn_add_mus.addActionListener(new area_riservata_insert_musician(this));
+		
+		btn_add_cd_mus = new JButton("Aggiungi partecipazione");
+		buttons_container.add(btn_add_cd_mus, "cell 0 3");
 	}
 	
 	//Metodi pubblici

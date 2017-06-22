@@ -1,4 +1,4 @@
-package listeners;
+package negozioListener;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -9,14 +9,14 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import projectCD_SE.area_riservata_wnd;
-import projectCD_SE.carrello_wnd;
+import frame.areaRiservataWnd;
+import frame.carrelloWnd;
 
 
 public class carrello_goback implements ActionListener {
 	
-	carrello_wnd prova_wnd;
-	public carrello_goback(carrello_wnd caller)
+	carrelloWnd prova_wnd;
+	public carrello_goback(carrelloWnd caller)
 	{
 		prova_wnd=caller;
 	}	

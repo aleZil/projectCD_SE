@@ -2,11 +2,11 @@ package utility;
 
 import javax.swing.table.DefaultTableModel;
 
-public class cd_table_model extends DefaultTableModel{
+public class tableModel extends DefaultTableModel{
 	
 	private boolean[][] editableCell;
 	
-	public cd_table_model(int rows,int columns)
+	public tableModel(int rows,int columns)
 	{
 		super(rows,columns);
 		editableCell=new boolean[rows][columns];
