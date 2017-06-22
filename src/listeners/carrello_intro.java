@@ -1,11 +1,12 @@
 package listeners;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
-import projectCD_SE.home_page;
+import projectCD_SE.carrello_wnd;
 import sun.swing.SwingLazyValue;
 
 import java.awt.event.ActionEvent;
@@ -16,34 +17,30 @@ import java.security.MessageDigest;
 import java.sql.*;
 
 
-public class home_page_visualizza_carrello implements ActionListener,KeyListener {
+public class carrello_intro implements ActionListener,KeyListener {
 	
-	home_page carrello_wnd; // COSA SUCCEDE QUI???????????
+	carrello_wnd carrello_wnd;
 	
-	public home_page_visualizza_carrello(JFrame caller)
+	public carrello_intro(JFrame caller)
 	{
-		carrello_wnd=(home_page) caller;
+		carrello_wnd=(carrello_wnd) caller;
 	}
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		Login();
+		Carrello();
 	}
 
-	private void Login()
+	private void Carrello()
 	{
-		String user=carrello_wnd.getUsername();
-		String pssw=carrello_wnd.getPassword();
-		
-		
-		
+		JOptionPane.showMessageDialog(carrello_wnd, "Hai premuto su 'Visualizza'");
 	}
 	
 	
 	
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		Login();
+		Carrello();
 	}
 	
 	public void keyReleased(KeyEvent e) {

@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 public class area_riservata_wnd_closer extends WindowAdapter {
 	
 	JFrame main_wnd;
+	
 	public area_riservata_wnd_closer(JFrame main_wnd) {
 		this.main_wnd=main_wnd;
 	}
@@ -16,9 +17,9 @@ public class area_riservata_wnd_closer extends WindowAdapter {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		//Ri-abilito la main_wnd
+		// Ri-abilito la main_wnd
 		main_wnd.setVisible(true);
-		//Chiudo area_riservata_wnd
+		// Chiudo area_riservata_wnd
 		super.windowClosing(e);
 	}
 }

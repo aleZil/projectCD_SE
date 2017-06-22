@@ -7,7 +7,7 @@ import utility.*;
 
 public class Model {
 	
-	public Model() {
+	public Model() throws ClassNotFoundException {
 		
 		Connection con = null;
 		
@@ -19,6 +19,4 @@ public class Model {
 		}
 		
 	}
-	
-
 }

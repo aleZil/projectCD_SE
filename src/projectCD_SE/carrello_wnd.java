@@ -5,15 +5,23 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+/*
 import listeners.area_riservata_option_insert_cd;
 import listeners.area_riservata_save_updates;
 import listeners.area_riservata_get_change_table;
 import listeners.area_riservata_goback;
-import listeners.home_page_visualizza_carrello;
-import listeners.area_riservata_goback;
+import listeners.area_riservata_login;
 import listeners.area_riservata_newcd_insert;
 import listeners.area_riservata_see_warehouse;
 import listeners.area_riservata_wnd_closer;
+*/
+import listeners.area_riservata_wnd_closer;
+import listeners.carrello_intro;
+import listeners.area_riservata_goback;
+import listeners.area_riservata_option_insert_cd;
+import listeners.area_riservata_see_warehouse;
+import listeners.carrello_goback;
+import listeners.main_wnd_btn_carrello;		
 import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -76,13 +84,15 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-public class home_page extends JFrame {
-
+public class carrello_wnd extends JFrame {
+	
 	JFrame main_wnd;
-	private static CardLayout home_page_layout=new CardLayout();
+	private static CardLayout carrello_layout=new CardLayout();
 	private JPanel panel_container=new JPanel();
-	private JPanel carrello_home_page_panel=new JPanel();
-	//private JPanel option_area_riservata_panel=new JPanel();
+	
+	private JPanel prova_panel=new JPanel();
+	private JPanel carrello_panel=new JPanel();		
+
 
 	//Componenti rilevanti del pannello insert
 	private JTextField txt_cd_code;
@@ -96,7 +106,7 @@ public class home_page extends JFrame {
 	private JCheckBox chb_leader;
 	private JButton btn_insert_product;
 	private JButton btn_goback_insert;
-	private JButton btn_goback_warehouse;
+	private JButton btn_indietro;
 	private JButton btn_save_updates;
 	private JTextArea txt_desc;
 	private JTextArea txt_tracklist;
@@ -108,70 +118,100 @@ public class home_page extends JFrame {
 	Set<Integer> rowEdited;
 	
 	
-	public home_page(JFrame caller) throws ParseException {
+	public carrello_wnd(JFrame caller) throws ParseException {
 		setResizable(false);
-		setTitle("Login");
+		setTitle("Carrello");
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		main_wnd=caller;
-		panel_container.setLayout(home_page_layout);
-		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));
+		panel_container.setLayout(carrello_layout);
+		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));	//cambiare nome a questo file?
+		//premendo la x rossa torno al pannello precedente
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
 		
+		//Creo pannello per visualizzare il carrello (andrea)
+		createCarrelloPanel();
+		createProvaPanel();
 		
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panel_container);
-		home_page_layout.show(panel_container, "login");
+		carrello_layout.show(panel_container, "carrello");
 		this.setVisible(true);
 
 	}
 
-	public void showOption(String user)
+	
+//___________
+	
+	public void showCarrello(String user)
 	{
-		this.setTitle("Pannello area riservata");
-		home_page_layout.show(panel_container, "options");
+		//this.setTitle("Pannello del Carrello?");
+		//carrello_layout.show(panel_container, "prova");
+		main_wnd.setVisible(true);
+		this.setVisible(false);
+	}
+	
+	
+	private void createProvaPanel()
+	{
+		panel_container.add(prova_panel, "prova");
+
+		JPanel buttons_container = new JPanel();
+		buttons_container.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Frocio!", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		buttons_container.setToolTipText("");
+
+		JButton btn_insert_cd = new JButton("Eh...");
+		JButton btn_view_warehouse = new JButton("Volevi");
+
+		//btn_insert_cd.addActionListener(new area_riservata_option_insert_cd(this));
+		//btn_view_warehouse.addActionListener(new carrello_intro(this));
+		prova_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
+
+		prova_panel.add(buttons_container, "cell 0 0,alignx left,aligny top");
+		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][]"));
+		buttons_container.add(btn_insert_cd, "cell 0 0,growx,aligny top");
+		buttons_container.add(btn_view_warehouse, "cell 0 1,growx,aligny top");
 
 	}
 	
 	
-	private void createLoginPanel()
+	
+	
+	private void createCarrelloPanel()
 	{
-		panel_container.add(carrello_home_page_panel, "carrello");
-		carrello_home_page_panel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
+		panel_container.add(carrello_panel, "carrello");
 
-		JLabel lbl_username = new JLabel("Username (da canc):");
-		carrello_home_page_panel.add(lbl_username, "flowx,cell 0 3,alignx center,aligny center");
-
-		txt_usr = new JTextField();
-		carrello_home_page_panel.add(txt_usr, "cell 0 3,alignx center,aligny center");
-		txt_usr.setColumns(10);
-
-		JLabel lbl_passwd = new JLabel("Password (da canc):");
-		carrello_home_page_panel.add(lbl_passwd, "flowx,cell 0 5,alignx center,aligny center");
-
-		txt_psswd = new JPasswordField();
-		txt_psswd.setColumns(10);
-		carrello_home_page_panel.add(txt_psswd, "cell 0 5,alignx center,growy");
-
-		JButton btn_visualizza_carrello = new JButton("Visualizza Carrello");
-
-		carrello_home_page_panel.add(btn_visualizza_carrello, "cell 0 6,alignx center,aligny center");
-
-
+		JButton btn_carrello_visualizza = new JButton("Visualizza Carrello");
+		carrello_panel.add(btn_carrello_visualizza, "cell 0 6,alignx center,aligny center");
+		
+		JButton btn_carrello_modifica = new JButton("Modifica Carrello");
+		carrello_panel.add(btn_carrello_modifica, "cell 2 2,alignx left, aligny left");
+		
+		JButton btn_carrello_goback = new JButton("Indietro");
+		carrello_panel.add(btn_carrello_goback, "cell 2 0,alignx left, aligny left");
+//voglio farlo tornare alla main_wnd con questo pulsante, non premendo la x rossa.
+		
 		//Aggiungo gli eventi
-		btn_visualizza_carrello.addActionListener(new home_page_visualizza_carrello(this));
-		btn_visualizza_carrello.addKeyListener(new home_page_visualizza_carrello(this));
-		txt_psswd.addActionListener(new home_page_visualizza_carrello(this));
+		btn_carrello_visualizza.addActionListener(new carrello_intro(this));
+		btn_carrello_visualizza.addKeyListener(new carrello_intro(this));
+		
+		btn_carrello_modifica.addActionListener(new carrello_intro(this));
 
+		btn_carrello_goback.addActionListener(new carrello_goback(this));
+		//btn_carrello_goback.addKeyListener(new carrello_goback(this));
+			
 	}
 	
-	
-	
-	
-	
-//--------------------------------------------------------------------------
 
+	
+	
+	
+	
+	
+	
+//________________________DA CANCELLARE?___________________
 	//Metodi pubblici
 	public String getUsername()
 	{

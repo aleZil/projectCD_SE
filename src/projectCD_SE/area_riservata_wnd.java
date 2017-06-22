@@ -12,6 +12,8 @@ import listeners.area_riservata_login;
 import listeners.area_riservata_newcd_insert;
 import listeners.area_riservata_see_warehouse;
 import listeners.area_riservata_wnd_closer;
+//import listeners.carrello_intro;
+//import listeners.main_wnd_btn_carrello;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 
@@ -91,9 +93,10 @@ public class area_riservata_wnd extends JFrame {
 		createInsertPanel();
 		//Creo pannello di gestione magazzino
 		createWarehousePanel();
+		
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panel_container);
-		area_riservata_layout.show(panel_container, "login");
+		area_riservata_layout.show(panel_container, "login");	
 		this.setVisible(true);
 
 	}
@@ -105,6 +108,7 @@ public class area_riservata_wnd extends JFrame {
 
 	}
 	
+
 	public void SaveUpdates()
 	{
 		JOptionPane.showMessageDialog(this, rowEdited.size());
@@ -120,7 +124,7 @@ public class area_riservata_wnd extends JFrame {
 			int soldAmount=Integer.parseInt(tb_product.getValueAt(row,6).toString());
 			int amount=Integer.parseInt(tb_product.getValueAt(row,7).toString());
 			
-			String updateQuery="UPDATE Cd SET titolo=?,titoli_pezzi=?,prezzo=?,data_inserimento=?,descrizione=?,pezzi_venduti=?,pezzi_magazzino=? WHERE codice=?";
+			String updateQuery="UPDATE Cd SET titolo=?,titoloBrani=?,prezzo=?,data_inserimento=?,descrizione=?,pezzi_venduti=?,pezzi_magazzino=? WHERE codice=?";
 			
 			try
 			{
@@ -199,7 +203,9 @@ public class area_riservata_wnd extends JFrame {
 			int amountCd;
 			int genId;
 			int musId;
-			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id","Musicista Id"};
+			//String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id","Musicista Id"};
+			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id"};
+			
 			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
 			cd_table_model model=new cd_table_model(0, 10);
 			model.setColumnIdentifiers(colNames);
@@ -207,15 +213,15 @@ public class area_riservata_wnd extends JFrame {
 			{
 				codeCd=res.getString("codice");
 				titleCd=res.getString("titolo");
-				trackList=res.getString("titoli_pezzi");
+				trackList=res.getString("titoloBrani");
 				priceCd=res.getBigDecimal("prezzo");
 				insertDate=res.getDate("data_inserimento");
 				descCd=res.getString("descrizione");
 				soldCd=res.getInt("pezzi_venduti");
 				amountCd=res.getInt("pezzi_magazzino");
 				genId=res.getInt("genere_id");
-				musId=res.getInt("musicista_id");
-				model.addRow(new Object[]{codeCd,titleCd,trackList,priceCd,insertDate,descCd,soldCd,amountCd,genId,musId});
+				//musId=res.getInt("musicista_id");
+				model.addRow(new Object[]{codeCd,titleCd,trackList,priceCd,insertDate,descCd,soldCd,amountCd,genId});
 			}
 
 			tb_product.setModel(model);
@@ -391,6 +397,7 @@ public class area_riservata_wnd extends JFrame {
 		JPanel warehouse_area_riservata_panel = new JPanel();
 		panel_container.add(warehouse_area_riservata_panel, "warehouse");
 		warehouse_area_riservata_panel.setLayout(new MigLayout("", "[grow]", "[][grow,fill][]"));
+		
 		btn_goback_warehouse=new JButton("X");
 		btn_goback_warehouse.addActionListener(new area_riservata_goback(this));
 		warehouse_area_riservata_panel.add(btn_goback_warehouse, "cell 0 0,alignx right");
@@ -433,7 +440,6 @@ public class area_riservata_wnd extends JFrame {
 		JButton btn_login = new JButton("Login");
 
 		login_area_riservata_panel.add(btn_login, "cell 0 6,alignx center,aligny center");
-
 
 		//Aggiungo gli eventi
 		btn_login.addActionListener(new area_riservata_login(this));
