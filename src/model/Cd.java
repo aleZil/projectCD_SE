@@ -92,4 +92,30 @@ public class Cd{
 		}
 		return rs;
 	}
+	
+	public Boolean updateByCodice(String codice, 
+				String titolo,
+				String titoloBrani,
+				BigDecimal prezzo,
+				Date dataInserimento,
+				String genere ) {
+	
+		try {
+			String query = "SELECT * FROM cd";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			
+			rs = ps.executeUpdate();
+			
+			if (!rs.next() ) {
+				return null;
+			}
+		} catch (SQLException e) {
+			// print error
+		}
+		
+		return true;
+		
+	}
+	
 }
