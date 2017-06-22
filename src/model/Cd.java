@@ -99,7 +99,7 @@ public class Cd{
 				BigDecimal prezzo,
 				Date dataInserimento,
 				String genere ) {
-	
+	/*
 		try {
 			String query = "SELECT * FROM cd";
 			
@@ -113,7 +113,7 @@ public class Cd{
 		} catch (SQLException e) {
 			// print error
 		}
-		
+		*/
 		return true;
 		
 	}
