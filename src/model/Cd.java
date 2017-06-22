@@ -3,6 +3,9 @@ package model;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import utility.*;
 
 
@@ -78,7 +81,7 @@ public class Cd{
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT * FROM cd";
+			String query = "SELECT * FROM cd ORDER BY titolo";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
 			
@@ -96,26 +99,36 @@ public class Cd{
 	public Boolean updateByCodice(String codice, 
 				String titolo,
 				String titoloBrani,
+				String descrizione,
 				BigDecimal prezzo,
-				Date dataInserimento,
-				String genere ) {
-	/*
+				Date dataInserimento) {
+	
 		try {
-			String query = "SELECT * FROM cd";
+			String query="UPDATE Cd SET titolo=?,"
+					+ "titoloBrani=?,"
+					+ "prezzo=?,"   
+					+ "data_inserimento=?,"
+					+ "descrizione=? "
+					+ "WHERE codice=?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
+			Integer i = 1;
 			
-			rs = ps.executeUpdate();
+			ps.setString(i++, titolo);
+			ps.setString(i++, titoloBrani);
+			ps.setBigDecimal(i++, prezzo); 
+			ps.setDate(i++, dataInserimento);
+			ps.setString(i++, descrizione);
+			ps.setString(i++, codice);
 			
-			if (!rs.next() ) {
-				return null;
-			}
+			if( ps.executeUpdate() != 1 )
+				return false;
+			
 		} catch (SQLException e) {
-			// print error
+			System.out.println(e.getMessage());
 		}
-		*/
+		
 		return true;
 		
 	}
-	
 }

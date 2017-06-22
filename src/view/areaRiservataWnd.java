@@ -101,6 +101,7 @@ public class areaRiservataWnd extends JFrame {
 	
 	
 	public areaRiservataWnd(JFrame caller) throws ParseException {
+		
 		setResizable(false);
 		
 		rowEdited=new HashSet<>();
@@ -161,55 +162,44 @@ public class areaRiservataWnd extends JFrame {
 	}
 	public void SaveUpdates()
 	{
-		JOptionPane.showMessageDialog(this, rowEdited.size());
-		for(int row:rowEdited)
-		{
-			//Faccio l'update sulle righe modificate
-			String codeCd=(String)tb_product.getValueAt(row, 0);
-			String titleCd=(String)tb_product.getValueAt(row, 1);
-			String trackList=(String)tb_product.getValueAt(row, 2);
-			BigDecimal priceCd=(BigDecimal)tb_product.getValueAt(row, 3);
-			Date dateIns=(Date)tb_product.getValueAt(row,4);
-			String descCd=(String)tb_product.getValueAt(row,5);
-			int soldAmount=Integer.parseInt(tb_product.getValueAt(row,6).toString());
-			int amount=Integer.parseInt(tb_product.getValueAt(row,7).toString());
-			
-			String updateQuery="UPDATE Cd SET titolo=?,titoloBrani=?,prezzo=?,data_inserimento=?,descrizione=?,pezzi_venduti=?,pezzi_magazzino=? WHERE codice=?";
-			
-			try
-			{
-				Connection con = Db.getConnection();
-				
-				PreparedStatement pst=con.prepareStatement(updateQuery);
-				pst.setString(1, titleCd);
-				pst.setString(2, trackList);
-				pst.setBigDecimal(3, priceCd);
-				pst.setDate(4, dateIns);
-				pst.setString(5, descCd);
-				pst.setInt(6,soldAmount);
-				pst.setInt(7, amount);
-				pst.setString(8, codeCd);
-				
-				if(pst.executeUpdate()==1)
-					JOptionPane.showMessageDialog(tb_product.getParent(), "Modifica eseguita con successo!","Info",JOptionPane.INFORMATION_MESSAGE);
-				else
-
-					JOptionPane.showMessageDialog(tb_product.getParent(), "Modifica non eseguita!","Errore",JOptionPane.ERROR_MESSAGE);
-					
-				pst.close();
-				con.close();
-				
-			}
-			catch (Exception exception)
-			{
-				JOptionPane.showMessageDialog(tb_product.getParent(), exception.getMessage());
-			}
-			
-			
-		}
 		
-		rowEdited.clear();
-		area_riservata_layout.show(panel_container, "warehouse");
+		if (rowEdited.size() == 0) {
+			
+			JOptionPane.showMessageDialog(this, "Premi invio dopo la modifica");
+			
+		} else {
+		
+			for(int row:rowEdited)
+			{
+				
+				//Faccio l'update sulle righe modificate
+				String codice=(String)tb_product.getValueAt(row, 0);
+				String titolo=(String)tb_product.getValueAt(row, 1);
+				String titoloBrani=(String)tb_product.getValueAt(row, 2);
+				BigDecimal prezzo=(BigDecimal)tb_product.getValueAt(row, 3);
+				Date dataInserimento=(Date)tb_product.getValueAt(row,4);
+				String descrizione=(String)tb_product.getValueAt(row,5);
+				
+				try
+				{
+					// TODO dovrebbe chiamare il controller
+					Boolean status = modelCd.updateByCodice(codice, titolo, titoloBrani, descrizione, prezzo, dataInserimento);
+					
+					if(status == true)
+						JOptionPane.showMessageDialog(tb_product.getParent(), "Modifica eseguita con successo!","Info",JOptionPane.INFORMATION_MESSAGE);
+					else
+						JOptionPane.showMessageDialog(tb_product.getParent(), "Modifica non eseguita!","Errore",JOptionPane.ERROR_MESSAGE);
+					
+				}
+				catch (Exception exception)
+				{
+					JOptionPane.showMessageDialog(tb_product.getParent(), exception.getMessage());
+				}
+			}
+			
+			rowEdited.clear();
+			area_riservata_layout.show(panel_container, "warehouse");
+		}
 	}
 	
 	
@@ -502,14 +492,14 @@ public class areaRiservataWnd extends JFrame {
 		JLabel lbl_username = new JLabel("Username:");
 		login_area_riservata_panel.add(lbl_username, "flowx,cell 0 3,alignx center,aligny center");
 
-		txt_usr = new JTextField();
+		txt_usr = new JTextField("zil");
 		login_area_riservata_panel.add(txt_usr, "cell 0 3,alignx center,aligny center");
 		txt_usr.setColumns(10);
 
 		JLabel lbl_passwd = new JLabel("Password:");
 		login_area_riservata_panel.add(lbl_passwd, "flowx,cell 0 5,alignx center,aligny center");
 
-		txt_psswd = new JPasswordField();
+		txt_psswd = new JPasswordField("nonlatrovi");
 		txt_psswd.setColumns(10);
 		login_area_riservata_panel.add(txt_psswd, "cell 0 5,alignx center,growy");
 
