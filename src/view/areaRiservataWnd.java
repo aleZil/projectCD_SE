@@ -139,7 +139,7 @@ public class areaRiservataWnd extends JFrame {
 		//Creo pannello di aggiunta musicista
 		createOptionAddMusPanel();
 		//Aggiungo il container che contiene tutti i panel
-		getContentPane().add(panel_container);
+		getContentPane().add(panel_container);	//il ContentPane ha di default il BorderLayout
 		area_riservata_layout.show(panel_container, "login");	
 		
 
