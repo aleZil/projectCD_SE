@@ -34,7 +34,7 @@ import areaRiservataListener.area_riservata_option_insert_cd;
 import areaRiservataListener.area_riservata_see_warehouse;
 import areaRiservataListener.area_riservata_wnd_closer;
 import jdk.nashorn.internal.scripts.JO;
-import negozioListener.carrello_goback;
+import negozioListener.carrello_goMain;
 import negozioListener.carrello_intro;
 import negozioListener.main_wnd_btn_carrello;
 
@@ -189,7 +189,7 @@ public class carrelloWnd extends JFrame {
 		
 		btn_carrello_modifica.addActionListener(new carrello_intro(this));
 
-		btn_carrello_goback.addActionListener(new carrello_goback(this));
+		btn_carrello_goback.addActionListener(new carrello_goMain(this));
 		//btn_carrello_goback.addKeyListener(new carrello_goback(this));
 			
 	}

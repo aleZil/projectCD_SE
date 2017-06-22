@@ -13,10 +13,10 @@ import view.areaRiservataWnd;
 import view.carrelloWnd;
 
 
-public class carrello_goback implements ActionListener {
+public class carrello_goMain implements ActionListener {
 	
 	carrelloWnd prova_wnd;
-	public carrello_goback(carrelloWnd caller)
+	public carrello_goMain(carrelloWnd caller)
 	{
 		prova_wnd=caller;
 	}	
