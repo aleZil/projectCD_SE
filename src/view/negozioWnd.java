@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Frame;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,16 +20,24 @@ import java.awt.event.ActionEvent;
 public class negozioWnd extends JFrame {
 
 	private JPanel contentPane;
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					negozioWnd frame = new negozioWnd();
 					frame.setVisible(true);
-					frame.setExtendedState(Frame.MAXIMIZED_BOTH);	//fullscreen
+					//frame.setExtendedState(Frame.MAXIMIZED_BOTH);		//fullscreen
+					//Altro modo per fare fullscreen:
+					int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+					int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+					frame.setSize(ScreenWidth, ScreenHeight);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

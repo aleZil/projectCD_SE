@@ -54,9 +54,11 @@ import areaRiservataListener.area_riservata_wnd_closer;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+
 
 public class areaRiservataWnd extends JFrame {
 	
@@ -84,6 +86,10 @@ public class areaRiservataWnd extends JFrame {
 	private JTable tb_product;
 	private JButton btn_add_mus;
 	private JButton btn_add_cd_mus;
+	//Variabili usate per il fullscreen
+	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+
 	
 	//Utility
 	Map<String,Integer> kGen;
@@ -100,15 +106,26 @@ public class areaRiservataWnd extends JFrame {
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		main_wnd=caller;
-		panel_container.setLayout(area_riservata_layout);	
-		//card_layout (contenitore di tutti i panel, ogni panel è un Mig layout)
+		panel_container.setLayout(area_riservata_layout);	//card_layout (contenitore di tutti i panel, ogni panel è un Mig layout)
 		
 		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		//Dimensioni finestra
-		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
+		//Dimensioni finestra	
+		this.setSize(ScreenWidth, ScreenHeight);
+		/*
+		//setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 900, 900);
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		setLocation(0,0);
+		setSize(tk.getScreenSize());
+		setUndecorated(true);
+		*/
+		
+
+		
+		
 		
 		//Creo panel di login
 		createLoginPanel();
