@@ -43,6 +43,7 @@ import jdk.nashorn.internal.scripts.JO;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
@@ -80,7 +81,7 @@ import javax.swing.table.TableModel;
 public class area_riservata_wnd extends JFrame {
 	
 	JFrame main_wnd;
-	private static CardLayout area_riservata_layout=new CardLayout();
+	private static CardLayout area_riservata_layout=new CardLayout();	//contenitore di pannelli/layout
 	private JPanel panel_container=new JPanel();
 	private JPanel login_area_riservata_panel=new JPanel();
 	private JPanel option_area_riservata_panel=new JPanel();
@@ -115,10 +116,16 @@ public class area_riservata_wnd extends JFrame {
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		main_wnd=caller;
-		panel_container.setLayout(area_riservata_layout);
+		panel_container.setLayout(area_riservata_layout);	
+		//card_layout (contenitore di tutti i panel, ogni panel è un Mig layout)
+		
 		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
+		
+		//Dimensioni finestra
+		//setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
+		this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		
 		//Creo panel di login
 		createLoginPanel();
 		//Creo panel delle opzioni
