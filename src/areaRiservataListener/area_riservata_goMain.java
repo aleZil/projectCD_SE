@@ -1,4 +1,4 @@
-package negozioListener;
+package areaRiservataListener;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -14,14 +14,14 @@ import javax.swing.JOptionPane;
 //import projectCD_SE.carrello_wnd;
 //=======
 import frame.areaRiservataWnd;
-import frame.carrelloWnd;
+import frame.areaRiservataWnd;
 //>>>>>>> 03c59dba1181ae0b72d8248dfb48f38f6f0b13a0:src/negozioListener/carrello_goback.java
 
 
-public class carrello_goback implements ActionListener {
+public class area_riservata_goMain implements ActionListener {
 	
-	carrelloWnd prova_wnd;
-	public carrello_goback(carrelloWnd caller)
+	areaRiservataWnd prova_wnd;
+	public area_riservata_goMain(areaRiservataWnd caller)
 	{
 		prova_wnd=caller;
 	}	

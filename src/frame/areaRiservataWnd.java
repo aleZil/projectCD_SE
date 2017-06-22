@@ -2,6 +2,7 @@ package frame;
 
 import utility.*;
 import model.*;
+import negozioListener.carrello_goMain;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -40,6 +41,7 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import areaRiservataListener.area_riservata_goMain;
 import areaRiservataListener.area_riservata_goback;
 import areaRiservataListener.area_riservata_insert_musician;
 import areaRiservataListener.area_riservata_login;
@@ -59,7 +61,7 @@ import javax.swing.JTextArea;
 public class areaRiservataWnd extends JFrame {
 	
 	JFrame main_wnd;
-	private static CardLayout area_riservata_layout=new CardLayout();	//contenitore di pannelli/layout
+	private static CardLayout area_riservata_layout=new CardLayout();	//contenitore di pannelli-layout
 	private JPanel panel_container=new JPanel();
 	private JPanel login_area_riservata_panel=new JPanel();
 	private JPanel option_area_riservata_panel=new JPanel();
@@ -463,16 +465,26 @@ public class areaRiservataWnd extends JFrame {
 		login_area_riservata_panel.add(txt_psswd, "cell 0 5,alignx center,growy");
 
 		JButton btn_login = new JButton("Login");
-
 		login_area_riservata_panel.add(btn_login, "cell 0 6,alignx center,aligny center");
+		
+		JButton btn_indietro = new JButton("Indietro");
+		login_area_riservata_panel.add(btn_indietro, "cell 0 6,alignx center,aligny center");
 
 		//Aggiungo gli eventi
 		btn_login.addActionListener(new area_riservata_login(this));
 		btn_login.addKeyListener(new area_riservata_login(this));
+		btn_indietro.addActionListener(new area_riservata_goMain(this));
 		txt_psswd.addActionListener(new area_riservata_login(this));
 
 	}
 
+	public void showMain(String user)
+	{
+		main_wnd.setVisible(true);
+		this.setVisible(false);
+	}
+	
+	
 	private void createOptionPanel()
 	{
 		panel_container.add(option_area_riservata_panel, "options");
