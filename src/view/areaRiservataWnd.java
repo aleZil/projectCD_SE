@@ -53,6 +53,7 @@ import areaRiservataListener.area_riservata_wnd_closer;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
@@ -87,8 +88,9 @@ public class areaRiservataWnd extends JFrame {
 	private JButton btn_add_mus;
 	private JButton btn_add_cd_mus;
 	//Variabili usate per il fullscreen
-	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+		
+	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height - 70;
+	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
 
 	
 	//Utility

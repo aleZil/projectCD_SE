@@ -96,6 +96,44 @@ public class Cd{
 		return rs;
 	}
 	
+	
+	public Boolean insert(String codice, 
+			String titolo,
+			String titoloBrani,
+			String descrizione,
+			BigDecimal prezzo,
+			Date dataInserimento) {
+
+		try {
+			String query="UPDATE Cd SET titolo=?,"
+					+ "titoloBrani=?,"
+					+ "prezzo=?,"   
+					+ "data_inserimento=?,"
+					+ "descrizione=? "
+					+ "WHERE codice=?";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			Integer i = 1;
+			
+			ps.setString(i++, titolo);
+			ps.setString(i++, titoloBrani);
+			ps.setBigDecimal(i++, prezzo); 
+			ps.setDate(i++, dataInserimento);
+			ps.setString(i++, descrizione);
+			ps.setString(i++, codice);
+			
+			if( ps.executeUpdate() != 1 )
+				return false;
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return true;
+		
+	}
+	
+	
 	public Boolean updateByCodice(String codice, 
 				String titolo,
 				String titoloBrani,
