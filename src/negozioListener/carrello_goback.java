@@ -9,8 +9,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+//<<<<<<< HEAD:src/listeners/carrello_goback.java
+//import projectCD_SE.area_riservata_wnd;
+//import projectCD_SE.carrello_wnd;
+//=======
 import frame.areaRiservataWnd;
 import frame.carrelloWnd;
+//>>>>>>> 03c59dba1181ae0b72d8248dfb48f38f6f0b13a0:src/negozioListener/carrello_goback.java
 
 
 public class carrello_goback implements ActionListener {
@@ -27,7 +32,7 @@ public class carrello_goback implements ActionListener {
 		//JOptionPane.showMessageDialog(prova_wnd, "SOS");
 		//System.out.println("siamo qui");
 		//JOptionPane.showMessageDialog(prova_wnd, "Volevi tornare indietro, stronzo...invece no!");
-		prova_wnd.showCarrello("");
+		prova_wnd.showMain("");
 		
 	}
 

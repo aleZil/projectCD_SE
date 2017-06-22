@@ -135,7 +135,7 @@ public class carrelloWnd extends JFrame {
 	
 //___________
 	
-	public void showCarrello(String user)
+	public void showMain(String user)
 	{
 		//this.setTitle("Pannello del Carrello?");
 		//carrello_layout.show(panel_container, "prova");
@@ -193,14 +193,14 @@ public class carrelloWnd extends JFrame {
 		//btn_carrello_goback.addKeyListener(new carrello_goback(this));
 			
 	}
-	
+}
 
 	
 	
 	
 	
 	
-	
+/*
 //________________________DA CANCELLARE?___________________
 	//Metodi pubblici
 	public String getUsername()
@@ -306,3 +306,5 @@ public class carrelloWnd extends JFrame {
 		cb_musician.removeAllItems();
 	}
 }
+
+	*/
