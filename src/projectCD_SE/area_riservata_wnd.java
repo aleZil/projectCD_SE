@@ -1,6 +1,8 @@
 package projectCD_SE;
 
 import utility.*;
+import model.*;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -107,6 +109,12 @@ public class area_riservata_wnd extends JFrame {
 	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
 	Set<Integer> rowEdited;
+	
+	// Model per il recupero dei dati
+	private Cd modelCd = new Cd();
+	
+	
+	
 	
 	
 	public area_riservata_wnd(JFrame caller) throws ParseException {
@@ -217,14 +225,15 @@ public class area_riservata_wnd extends JFrame {
 
 	public void showWarehouse()
 	{
-		String queryCd="SELECT * FROM Cd";
+		
+		// String queryCd="SELECT * FROM Cd";
 		try
 		{
 			// Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
-			Connection con = Db.getConnection();
+			//Connection con = Db.getConnection();
 			
-			Statement stm=con.createStatement();
-			ResultSet res=stm.executeQuery(queryCd);
+			//Statement stm=con.createStatement();
+			ResultSet res = modelCd.getAll();
 
 			//Variabili supporto 
 			String codeCd;
@@ -265,8 +274,8 @@ public class area_riservata_wnd extends JFrame {
 			this.setTitle("Magazzino");
 			area_riservata_layout.show(panel_container, "warehouse");
 			res.close();
-			stm.close();
-			con.close();
+			/*stm.close();
+			con.close();*/
 		}
 		catch(Exception exception)
 		{

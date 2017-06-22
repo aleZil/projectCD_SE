@@ -6,7 +6,7 @@ public class Db {
 
 	private static Connection con = null;
 	
-	public static Connection getConnection() throws SQLException, ClassNotFoundException {
+	public static Connection getConnection() {
 		
         String dbName = "progetto_cd";
         String userName = "hanzo";
@@ -30,4 +30,9 @@ public class Db {
         
         return con;
 	}
+	/*
+	public static void closeConnection() {
+		con.close();
+	}
+	*/
 }
