@@ -48,7 +48,6 @@ public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 				PreparedStatement pst=con.prepareStatement(insertCdQuery);
 				pst.clearParameters();
 				
-				String cdCode=ar_ref.getCdCode();
 				String cdTitle=ar_ref.getCdTitle();
 				String trackList=ar_ref.getTrackList();
 				BigDecimal cdPrice=new BigDecimal(ar_ref.getCdPrice());
@@ -58,7 +57,6 @@ public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 				int genderId=ar_ref.getGenderId();
 				int musicianId=ar_ref.getMusicianId();
 				
-				pst.setString(1,cdCode);
 				pst.setString(2, cdTitle);
 				pst.setString(3,trackList);
 				pst.setBigDecimal(4,cdPrice);
@@ -73,7 +71,6 @@ public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 					//Inserisco in partecipa
 					pst=con.prepareStatement(insertParecipa);
 					pst.clearParameters();
-					pst.setString(1, ar_ref.getCdCode());
 					pst.setInt(2, ar_ref.getMusicianId());
 					pst.setBoolean(3, ar_ref.isLeader());
 					//Sicuramente manca questo record,visto che non esiste il corrispondente cd

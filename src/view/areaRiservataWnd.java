@@ -67,8 +67,6 @@ public class areaRiservataWnd extends JFrame {
 	private JPanel panel_container=new JPanel();
 	private JPanel login_area_riservata_panel=new JPanel();
 	private JPanel option_area_riservata_panel=new JPanel();
-	//Componenti rilevanti del pannello insert
-	private JTextField txt_cd_code;
 	private JTextField txt_cd_title;
 	private JTextField txt_usr;
 	private JPasswordField txt_psswd;
@@ -86,6 +84,9 @@ public class areaRiservataWnd extends JFrame {
 	private JTable tb_product;
 	private JButton btn_add_mus;
 	private JButton btn_add_cd_mus;
+	private JComboBox<String> addMusCbGen;
+	private JComboBox<String> addMusCbInstr;
+	
 	//Variabili usate per il fullscreen
 	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -142,11 +143,15 @@ public class areaRiservataWnd extends JFrame {
 		getContentPane().add(panel_container);
 		area_riservata_layout.show(panel_container, "login");	
 		
+		JPanel optionAddGen = new JPanel();
+		panel_container.add(optionAddGen, "name_3407896574522");
+		optionAddGen.setLayout(new MigLayout("", "[]", "[]"));
+		
 
 
 	}
 
-	public void showOption(String user)
+	public void showOption()
 	{
 		this.setTitle("Pannello area riservata");
 		area_riservata_layout.show(panel_container, "options");
@@ -218,7 +223,7 @@ public class areaRiservataWnd extends JFrame {
 			rowEdited.add(tcl.getRow());
 		}
 	};
-	private JTextField textField;
+	private JTextField addMusArtName;
 
 	public void showWarehouse()
 	{
@@ -335,26 +340,35 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel optionAddMus = new JPanel();
 		panel_container.add(optionAddMus, "optionAddMus");
-		optionAddMus.setLayout(new MigLayout("", "[][grow][]", "[][][][]"));
+		optionAddMus.setLayout(new MigLayout("", "[][grow][]", "[][][][][50px]"));
 		
 		JLabel lblNomeArte = new JLabel("Nome arte:");
 		optionAddMus.add(lblNomeArte, "flowx,cell 1 1,alignx center,aligny center");
 		
-		textField = new JTextField();
-		optionAddMus.add(textField, "cell 1 1,alignx center,aligny center");
-		textField.setColumns(10);
+		addMusArtName = new JTextField();
+		optionAddMus.add(addMusArtName, "cell 1 1,alignx center,aligny center");
+		addMusArtName.setColumns(10);
 		
 		JLabel lblGen = new JLabel("Genere:");
 		optionAddMus.add(lblGen, "flowx,cell 1 2,alignx center,aligny center");
 		
-		JComboBox comboBox = new JComboBox();
-		optionAddMus.add(comboBox, "cell 1 2,alignx center,aligny center");
+		addMusCbGen = new JComboBox();
+		optionAddMus.add(addMusCbGen, "cell 1 2,alignx center,aligny center");
 		
 		JLabel lblInstru = new JLabel("Strumento:");
 		optionAddMus.add(lblInstru, "flowx,cell 1 3,alignx center,aligny center");
 		
-		JComboBox cbInstru = new JComboBox();
-		optionAddMus.add(cbInstru, "cell 1 3,alignx center,aligny center");
+		addMusCbInstr = new JComboBox();
+		optionAddMus.add(addMusCbInstr, "cell 1 3,alignx center,aligny center");
+		
+		JButton btnNewMus = new JButton("Aggiungi musicista");
+		optionAddMus.add(btnNewMus, "flowx,cell 1 4,alignx center,growy");
+		
+		
+		JButton btnBack = new JButton("Annulla");
+		btnBack.addActionListener(new area_riservata_goback(this));
+		optionAddMus.add(btnBack, "cell 1 4,alignx center,growy");
+		optionAddMus.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{addMusArtName, addMusCbGen, addMusCbInstr, btnNewMus}));
 		this.setVisible(true);
 	}
 	
@@ -385,13 +399,6 @@ public class areaRiservataWnd extends JFrame {
 
 		JLabel lbl_price = new JLabel("Prezzo:");
 		product_detal_panel.setLayout(new MigLayout("", "[][600px,grow,fill][]", "[][20px][grow][20px][grow][20px][20px][20px][60px]"));
-
-		JLabel lbl_codice_cd = new JLabel("Codice Cd:");
-		product_detal_panel.add(lbl_codice_cd, "cell 0 0,alignx right,aligny center");
-
-		txt_cd_code = new JTextField();
-		txt_cd_code.setColumns(10);
-		product_detal_panel.add(txt_cd_code, "cell 1 0,alignx center,aligny center");
 
 		JLabel lbl_title_cd = new JLabel("Titolo Cd:");
 		product_detal_panel.add(lbl_title_cd, "cell 0 1,alignx right,aligny center");
@@ -433,7 +440,7 @@ public class areaRiservataWnd extends JFrame {
 		product_detal_panel.add(lbl_musician, "cell 0 6,alignx trailing");
 
 		cb_musician = new JComboBox();
-		product_detal_panel.add(cb_musician, "flowx,cell 1 6,alignx center,aligny center");
+		product_detal_panel.add(cb_musician, "flowx,cell 1 6,growx,aligny center");
 
 		JLabel lbl_quant = new JLabel("Quantità:");
 		product_detal_panel.add(lbl_quant, "cell 0 7,alignx right,aligny center");
@@ -448,14 +455,14 @@ public class areaRiservataWnd extends JFrame {
 		product_detal_panel.add(btn_insert_product, "flowx,cell 1 8,alignx left,growy");
 
 		chb_leader = new JCheckBox("Capoband");
-		product_detal_panel.add(chb_leader, "cell 1 6,alignx left");
+		product_detal_panel.add(chb_leader, "cell 1 6,alignx right,aligny center");
 				
 						btn_goback_insert = new JButton("X");
 						btn_goback_insert.addActionListener(new area_riservata_goback(this));
 						product_detal_panel.add(btn_goback_insert, "cell 1 8,alignx right,growy");
-		product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
+						product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 		insert_area_riservata_panel.setLayout(gl_insert_area_riservata_panel);
-		insert_area_riservata_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
+		insert_area_riservata_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 	}
 
 	private void createWarehousePanel()
@@ -546,7 +553,7 @@ public class areaRiservataWnd extends JFrame {
 		
 		btn_add_mus = new JButton("Aggiungi musicista");
 		buttons_container.add(btn_add_mus, "cell 0 2");
-		//btn_add_mus.addActionListener(new area_riservata_insert_musician(this));
+		btn_add_mus.addActionListener(new area_riservata_insert_musician(this));
 		
 		btn_add_cd_mus = new JButton("Aggiungi partecipazione");
 		buttons_container.add(btn_add_cd_mus, "cell 0 3");
@@ -561,11 +568,6 @@ public class areaRiservataWnd extends JFrame {
 	public String getPassword()
 	{
 		return String.valueOf(txt_psswd.getPassword());
-	}
-
-	public String getCdCode()
-	{
-		return txt_cd_code.getText();
 	}
 
 	public String getCdTitle()
@@ -610,11 +612,6 @@ public class areaRiservataWnd extends JFrame {
 
 	public boolean validValues()
 	{
-		if(!dataValidator.checkCdCode(getCdCode()))
-		{
-			JOptionPane.showMessageDialog(this,"Inserire codice Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
 		if(!dataValidator.checkTitle(getCdTitle()))
 		{
 			JOptionPane.showMessageDialog(this,"Inserire titolo Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
@@ -641,7 +638,6 @@ public class areaRiservataWnd extends JFrame {
 
 	public void clearComponents()
 	{
-		txt_cd_code.setText("");
 		txt_cd_title.setText("");
 		txt_price.setText("");
 		txt_desc.setText("");
