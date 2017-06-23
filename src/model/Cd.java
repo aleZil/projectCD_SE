@@ -96,6 +96,56 @@ public class Cd{
 		return rs;
 	}
 	
+	
+	public Boolean insert(String titolo,
+			String titoloBrani,
+			String descrizione,
+			BigDecimal prezzo,
+			Integer pezziMagazzino,
+			Integer genereId) {
+
+		try {
+			String insertCdQuery="INSERT INTO Cd "
+					+ "(titolo, titoli_pezzi, prezzo, descrizione, pezzi_magazzino, genere_id) "
+					+ "VALUES (?,?,?,?, ?)";
+			
+			PreparedStatement psIns = this.db.prepareStatement(insertCdQuery);
+			
+			String insertParecipa="INSERT INTO Partecipazione "
+					+ "(cd_codice,musicista_id,is_titolare) "
+					+ "VALUES (?,?,?)";
+			
+			int i = 1;
+			psIns.setString(i++, titolo);
+			psIns.setString(i++, titoloBrani);
+			psIns.setBigDecimal(i++ ,prezzo);
+			psIns.setString(i++, descrizione);
+			psIns.setInt(i++ , pezziMagazzino);
+			psIns.setInt(i++, genereId);
+			
+			/*
+			PreparedStatement ps = this.db.prepareStatement(query);
+			Integer i = 1;
+			
+			ps.setString(i++, titolo);
+			ps.setString(i++, titoloBrani);
+			ps.setBigDecimal(i++, prezzo); 
+			ps.setDate(i++, dataInserimento);
+			ps.setString(i++, descrizione);
+			ps.setString(i++, codice);
+			*/
+			if( psIns.executeUpdate() != 1 )
+				return false;
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return true;
+		
+	}
+	
+	
 	public Boolean updateByCodice(String codice, 
 				String titolo,
 				String titoloBrani,

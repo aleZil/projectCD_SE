@@ -53,6 +53,7 @@ import areaRiservataListener.area_riservata_wnd_closer;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
@@ -88,8 +89,9 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> addMusCbInstr;
 	
 	//Variabili usate per il fullscreen
-	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+		
+	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height - 70;
+	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
 
 	
 	//Utility
@@ -103,7 +105,7 @@ public class areaRiservataWnd extends JFrame {
 	
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		
-		setResizable(false);
+		setResizable(true);
 		
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
@@ -114,16 +116,16 @@ public class areaRiservataWnd extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//Dimensioni finestra	
-		this.setSize(ScreenWidth, ScreenHeight);
-		/*
-		//setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 900, 900);
-		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		//this.setSize(ScreenWidth, ScreenHeight);
 		
+		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 1200, 900);
+		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
+
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		setLocation(0,0);
-		setSize(tk.getScreenSize());
-		setUndecorated(true);
-		*/
+		//setSize(tk.getScreenSize());
+		setUndecorated(false);
+		
 		
 
 		
@@ -165,6 +167,9 @@ public class areaRiservataWnd extends JFrame {
 		this.setTitle("Aggiungi musicista");
 		area_riservata_layout.show(panel_container,"optionAddMus");
 	}
+	
+	
+	// probabilmente questo sarà un controller
 	public void SaveUpdates()
 	{
 		
@@ -288,8 +293,8 @@ public class areaRiservataWnd extends JFrame {
 	{
 		this.setTitle("Inserisci un nuovo cd");
 		//Recupero lista generi e lista musicisti per le combobox
-		String queryGenere="SELECT * FROM Genere";
-		String queryMusicista="SELECT * FROM Musicista";
+		String queryGenere="SELECT * FROM Genere ORDER BY nome";
+		String queryMusicista="SELECT * FROM Musicista ORDER BY nome_arte";
 		//Se l'utente aveva scritto prima,pulisco
 		clearComponents();
 
@@ -400,6 +405,21 @@ public class areaRiservataWnd extends JFrame {
 		JLabel lbl_price = new JLabel("Prezzo:");
 		product_detal_panel.setLayout(new MigLayout("", "[][600px,grow,fill][]", "[][20px][grow][20px][grow][20px][20px][20px][60px]"));
 
+
+		
+		/*
+		JLabel lbl_codice_cd = new JLabel("Codice Cd:");
+		product_detal_panel.add(lbl_codice_cd, "cell 0 0,alignx right,aligny center");
+
+		
+		// il codice del CD lo facciamo generato in automatico
+		
+		txt_cd_code = new JTextField();
+		txt_cd_code.setColumns(10);
+		product_detal_panel.add(txt_cd_code, "cell 1 0,alignx center,aligny center");
+
+		*/ 
+
 		JLabel lbl_title_cd = new JLabel("Titolo Cd:");
 		product_detal_panel.add(lbl_title_cd, "cell 0 1,alignx right,aligny center");
 
@@ -457,7 +477,7 @@ public class areaRiservataWnd extends JFrame {
 		chb_leader = new JCheckBox("Capoband");
 		product_detal_panel.add(chb_leader, "cell 1 6,alignx right,aligny center");
 				
-						btn_goback_insert = new JButton("X");
+						btn_goback_insert = new JButton("Annulla");
 						btn_goback_insert.addActionListener(new area_riservata_goback(this));
 						product_detal_panel.add(btn_goback_insert, "cell 1 8,alignx right,growy");
 						product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
@@ -511,7 +531,7 @@ public class areaRiservataWnd extends JFrame {
 		login_area_riservata_panel.add(txt_psswd, "cell 0 5,alignx center,growy");
 
 		JButton btn_login = new JButton("Login");
-		login_area_riservata_panel.add(btn_login, "cell 0 6,alignx center,aligny center");
+		login_area_riservata_panel.add(btn_login, "flowx,cell 0 6,alignx center,aligny center");
 		
 		JButton btn_indietro = new JButton("Indietro");
 		login_area_riservata_panel.add(btn_indietro, "cell 0 6,alignx center,aligny center");
@@ -638,6 +658,7 @@ public class areaRiservataWnd extends JFrame {
 
 	public void clearComponents()
 	{
+		//txt_cd_code.setText("");
 		txt_cd_title.setText("");
 		txt_price.setText("");
 		txt_desc.setText("");

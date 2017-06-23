@@ -11,11 +11,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
+import model.Cd;
 import view.areaRiservataWnd;
 
 public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 
 	areaRiservataWnd ar_ref;
+	private Cd modelCd = new Cd();
 
 	public area_riservata_newcd_insert(areaRiservataWnd caller)
 	{
@@ -38,14 +40,12 @@ public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 	{
 		if(ar_ref.validValues())
 		{
-			String insertCdQuery="INSERT INTO Cd (codice,titolo,titoli_pezzi,prezzo,data_inserimento,descrizione,pezzi_magazzino,genere_id,musicista_id) VALUES (?,?,?,?,?,?,?,?,?)";
-			String insertParecipa="INSERT INTO Partecipazione (cd_codice,musicista_id,is_titolare) VALUES (?,?,?)";
 			try
 			{
 				Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
 
 				//Inserisco il record in cd
-				PreparedStatement pst=con.prepareStatement(insertCdQuery);
+				/*PreparedStatement pst=con.prepareStatement(insertCdQuery);
 				pst.clearParameters();
 				
 				String cdTitle=ar_ref.getCdTitle();
@@ -66,8 +66,19 @@ public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 				pst.setInt(8,genderId);
 				pst.setInt(9,musicianId);
 
-				if(0<pst.executeUpdate())
+				String titolo=ar_ref.getCdTitle();
+				String titoloBrani=ar_ref.getTrackList();
+				BigDecimal prezzo=new BigDecimal(ar_ref.getCdPrice());
+				String descrizione=ar_ref.getCdDesc();
+				int pezziMagazzino=Integer.parseInt(ar_ref.getAmount());
+				int genereId=ar_ref.getGenderId();
+				
+				Boolean status = modelCd.insert(titolo, titoloBrani, descrizione, prezzo, pezziMagazzino, genereId);
+
+
+				if(status == true)
 				{
+					
 					//Inserisco in partecipa
 					pst=con.prepareStatement(insertParecipa);
 					pst.clearParameters();
@@ -77,14 +88,14 @@ public class area_riservata_newcd_insert implements ActionListener,KeyListener{
 					pst.executeUpdate();
 					JOptionPane.showMessageDialog(ar_ref,"Cd inserito correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
 					ar_ref.clearComponents();
+					
+					
 				}
 				else
 				{
 					//Il cd che si prova a inserire esiste già
 					JOptionPane.showMessageDialog(ar_ref,"Il cd che stai inserendo esiste già!","Info",JOptionPane.ERROR_MESSAGE);
-				}
-				pst.close();
-				con.close();
+				}*/
 
 			}
 			catch (Exception exception)
