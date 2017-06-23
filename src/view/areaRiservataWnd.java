@@ -104,7 +104,7 @@ public class areaRiservataWnd extends JFrame {
 	
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		
-		setResizable(false);
+		setResizable(true);
 		
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
@@ -115,16 +115,16 @@ public class areaRiservataWnd extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//Dimensioni finestra	
-		this.setSize(ScreenWidth, ScreenHeight);
-		/*
-		//setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 900, 900);
-		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		//this.setSize(ScreenWidth, ScreenHeight);
 		
+		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 1200, 900);
+		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
+
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		setLocation(0,0);
-		setSize(tk.getScreenSize());
-		setUndecorated(true);
-		*/
+		//setSize(tk.getScreenSize());
+		setUndecorated(false);
+		
 		
 
 		
@@ -452,7 +452,7 @@ public class areaRiservataWnd extends JFrame {
 		chb_leader = new JCheckBox("Capoband");
 		product_detal_panel.add(chb_leader, "cell 1 6,alignx left");
 				
-						btn_goback_insert = new JButton("X");
+						btn_goback_insert = new JButton("Annulla");
 						btn_goback_insert.addActionListener(new area_riservata_goback(this));
 						product_detal_panel.add(btn_goback_insert, "cell 1 8,alignx right,growy");
 		product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
