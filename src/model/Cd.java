@@ -9,47 +9,16 @@ import javax.swing.JOptionPane;
 import utility.*;
 
 
-
 public class Cd{
 	
 	private Connection db;
-/*
-	private String codice;
-	private String titolo;
-	private String titoloBrani;W
-	private BigDecimal prezzo;
-	private Date dataInserimento;
-	private Integer pezziVenduti;
-	private Integer pezziMagazzino;
-	private String genere;
-	private List<String> musicisti;
-*/
 	
-	public Cd(	/*String codice, 
-				String titolo,
-				String titoloBrani,
-				BigDecimal prezzo,
-				Date dataInserimento,
-				Integer pezziVenduti,
-				Integer pezziMagazzino,
-				String genere,
-				List<String> musicisti */) {
+	public Cd() {
 		
-		/*
-		this.codice = codice;
-		this.titolo = titolo;
-		this.titoloBrani = titoloBrani;
-		this.prezzo = prezzo;
-		this.dataInserimento = dataInserimento;
-		this.pezziVenduti = pezziVenduti;
-		this.pezziMagazzino = pezziMagazzino;
-		this.genere = genere;
-		this.musicisti = musicisti;
-		*/
 		try {
 			this.db = Db.getConnection();
 		} catch (Exception e) {
-			// print exception
+			System.out.println(e.getMessage());
 		}
 
 	}
@@ -70,13 +39,13 @@ public class Cd{
 				return null;
 			}
 		} catch (SQLException e) {
-			// print error
+			System.out.println(e.getMessage());
 		}
 		return rs;
 	
 	}
 	
-	public ResultSet getAll()  throws SQLException {
+	public ResultSet getAll() {
 		
 		ResultSet rs = null;
 		
@@ -91,7 +60,7 @@ public class Cd{
 				return null;
 			}
 		} catch (SQLException e) {
-			// print error
+			System.out.println(e.getMessage());
 		}
 		return rs;
 	}

@@ -101,7 +101,6 @@ public class areaRiservataWnd extends JFrame {
 	// Model per il recupero dei dati
 	private Cd modelCd = new Cd();
 	
-	
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		
 		setResizable(true);
