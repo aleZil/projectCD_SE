@@ -59,7 +59,7 @@ public class area_riservata_login implements ActionListener,KeyListener {
 			ResultSet rs=pst.executeQuery();
 			if(rs.next())
 			{
-				login_wnd.showOption(user);
+				login_wnd.showOption();
 				//Controllo quantità
 				checkAmount();
 			}
