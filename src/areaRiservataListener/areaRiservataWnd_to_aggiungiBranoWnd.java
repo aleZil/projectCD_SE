@@ -1,16 +1,15 @@
-package negozioListener;
+package areaRiservataListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import view.areaRiservataWnd;
+import view.aggiungiBranoWnd;
 
-public class main_wnd_btn_area_riservata implements ActionListener {
+public class areaRiservataWnd_to_aggiungiBranoWnd implements ActionListener {
 
 	JFrame main_wnd;
-	
-	public main_wnd_btn_area_riservata(JFrame caller_wnd)
+	public areaRiservataWnd_to_aggiungiBranoWnd(JFrame caller_wnd)
 	{
 		main_wnd=caller_wnd;
 	}
@@ -18,12 +17,10 @@ public class main_wnd_btn_area_riservata implements ActionListener {
 
 	public void actionPerformed(ActionEvent e)
 	{	
-		//Disabilito la main_wnd
-		main_wnd.setVisible(false);
-		//Visualizzo la finestra di configurazione
+			//Visualizzo la finestra di configurazione
 		try
 		{
-			areaRiservataWnd wnd=new areaRiservataWnd(main_wnd);
+			aggiungiBranoWnd wnd=new aggiungiBranoWnd(main_wnd);
 		}
 		catch (Exception exception)
 		{

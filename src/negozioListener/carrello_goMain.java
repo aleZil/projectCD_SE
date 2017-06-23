@@ -16,6 +16,7 @@ import view.carrelloWnd;
 public class carrello_goMain implements ActionListener {
 	
 	carrelloWnd prova_wnd;
+	
 	public carrello_goMain(carrelloWnd caller)
 	{
 		prova_wnd=caller;
@@ -24,10 +25,8 @@ public class carrello_goMain implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		//JOptionPane.showMessageDialog(prova_wnd, "SOS");
-		//System.out.println("siamo qui");
-		//JOptionPane.showMessageDialog(prova_wnd, "Volevi tornare indietro, stronzo...invece no!");
-		prova_wnd.showMain("");
+		//JOptionPane.showMessageDialog(prova_wnd, "prova");
+		prova_wnd.showMain();
 		
 	}
 

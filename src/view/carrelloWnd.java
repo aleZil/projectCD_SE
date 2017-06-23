@@ -49,6 +49,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.AbstractAction;
 import javax.swing.DropMode;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
@@ -135,10 +137,9 @@ public class carrelloWnd extends JFrame {
 	
 //___________
 	
-	public void showMain(String user)
+	public void showMain()
 	{
-		//this.setTitle("Pannello del Carrello?");
-		//carrello_layout.show(panel_container, "prova");
+		
 		main_wnd.setVisible(true);
 		this.setVisible(false);
 	}
@@ -182,6 +183,13 @@ public class carrelloWnd extends JFrame {
 		JButton btn_carrello_goback = new JButton("Indietro");
 		carrello_panel.add(btn_carrello_goback, "cell 2 0,alignx left, aligny left");
 //voglio farlo tornare alla main_wnd con questo pulsante, non premendo la x rossa.
+		
+		JMenuBar jb = new JMenuBar();
+		this.setJMenuBar(jb);
+		
+		JMenu jm = new JMenu("Edit");
+		//JMenu jm = new JMenu("Bestemmie");
+		jb.add(jm);
 		
 		//Aggiungo gli eventi
 		btn_carrello_visualizza.addActionListener(new carrello_intro(this));
