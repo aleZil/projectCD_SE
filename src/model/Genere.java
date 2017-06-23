@@ -7,11 +7,11 @@ import java.sql.SQLException;
 
 import utility.Db;
 
-public class Musicista {
+public class Genere {
 	
 	private Connection db;
 	
-	public Musicista() {
+	public Genere() {
 		
 		try {
 			this.db = Db.getConnection();
@@ -26,7 +26,7 @@ public class Musicista {
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT * FROM musicista WHERE id = ?";
+			String query = "SELECT * FROM genere WHERE id = ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
 			ps.setInt(1, id);
@@ -40,16 +40,15 @@ public class Musicista {
 			System.out.println(e.getMessage());
 		}
 		return rs;
-	
 	}
 	
-	public int getIdByNomeArte(String nomeArte) {
+	public int getIdByNome(String nome) {
 		
 		try {
-			String query = "SELECT id FROM musicista WHERE nome_arte ILIKE ?";
+			String query = "SELECT id FROM genere WHERE nome ILIKE ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
-			ps.setString(1, nomeArte);
+			ps.setString(1, nome);
 			
 			ResultSet res = ps.executeQuery();
 			
@@ -59,16 +58,15 @@ public class Musicista {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return -1;
+		return -1; //trovato nulla
 	}
-	
 	
 	public ResultSet getAll() {
 		
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT * FROM musicista ORDER BY nome_arte";
+			String query = "SELECT * FROM genere ORDER BY nome";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
 			
@@ -83,37 +81,16 @@ public class Musicista {
 		return rs;
 	}
 	
-	public Boolean insert(String nomeArte,
-			int genereId,
-			int annoNascita,
-			int[] strumenti) {
+	public Boolean insert(String nome) {
 		
 		try {
-			String insertQuery="INSERT INTO Musicista "
-					+ "(nome_arte, genere_id, anno_nascita) "
-					+ "VALUES (?,?,?)";
+			String insertQuery="INSERT INTO Genere (nome) VALUES (?)";
 			
 			PreparedStatement psIns = this.db.prepareStatement(insertQuery);
 			
 			int i = 1;
-			psIns.setString(i++, nomeArte);
-			psIns.setInt(i++, genereId);
-			psIns.setInt(i++ ,annoNascita);
-			
-			// recupero l'id del musicista appena inserito
-			int id = this.getIdByNomeArte(nomeArte);
-
-			insertQuery = "INSERT INTO utilizzo (musicista_id, strumenti_id) VALUES (?,?)";
-			psIns = this.db.prepareStatement(insertQuery);
-			
-			// aggiungo per ogni strumento una riga su utilizzo
-			for(int j = 0; j < strumenti.length; j++)
-			{
-				i = 1;
-				psIns.setInt(i++, id);
-				psIns.setInt(i++, strumenti[j]);
-				psIns.executeUpdate();
-			}
+			psIns.setString(i++, nome);
+			psIns.executeUpdate();
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

@@ -1,3 +1,10 @@
+/*
+	CLASSE SINGLETON
+	
+	ogni volta restituisce l'oggetto che interagisce con il DB
+
+*/
+
 package utility;
 
 import java.sql.*;
