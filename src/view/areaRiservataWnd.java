@@ -54,6 +54,7 @@ import areaRiservataListener.area_riservata_see_warehouse;
 import areaRiservataListener.area_riservata_wnd_closer;
 import areaRiservataListener.Listener;
 import areaRiservataListener.areaRiservataWnd_to_aggiungiBranoWnd;
+import areaRiservataListener.areaRiservataWnd_to_aggiungiStrumentoWnd;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
@@ -81,7 +82,6 @@ public class areaRiservataWnd extends JFrame {
 	private JTextField txt_amount;
 	private JComboBox<String> cb_gen;
 	private JComboBox<String> cb_musician;
-	private JCheckBox chb_leader;
 	private JButton btn_insert_product;
 	private JButton btnAggiungi;
 	private JButton btn_goback_insert;
@@ -94,7 +94,6 @@ public class areaRiservataWnd extends JFrame {
 	private JButton btn_add_cd_mus;
 	private JButton btnOptionNewGen;
 	private JComboBox<String> addMusCbGen;
-	private JComboBox<String> addMusCbInstr;
 	private JTextField addMusArtName;
 	private JTextField addGenName;
 	
@@ -372,38 +371,39 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel optionAddMus = new JPanel();
 		panel_container.add(optionAddMus, "optionAddMus");
-		optionAddMus.setLayout(new MigLayout("", "[][grow][][][grow][]", "[grow][grow][grow][grow][grow]"));
+		optionAddMus.setLayout(new MigLayout("", "[][154.00,grow,left][][grow][grow][]", "[grow][grow][grow][grow][grow]"));
 		
 		JLabel lblNomeArte = new JLabel("Nome arte:");
-		optionAddMus.add(lblNomeArte, "cell 2 1,alignx right,aligny center");
+		optionAddMus.add(lblNomeArte, "cell 1 0,alignx left,aligny center");
 		
 		addMusArtName = new JTextField();
-		optionAddMus.add(addMusArtName, "cell 3 1,alignx left,aligny center");
+		optionAddMus.add(addMusArtName, "cell 2 0,alignx left,aligny center");
 		addMusArtName.setColumns(10);
 		
 		JLabel lblGen = new JLabel("Genere:");
-		optionAddMus.add(lblGen, "cell 2 2,alignx right,aligny center");
+		optionAddMus.add(lblGen, "cell 1 1,alignx left,aligny center");
 		
 		addMusCbGen = new JComboBox();
-		optionAddMus.add(addMusCbGen, "cell 3 2,alignx left,aligny center");
+		optionAddMus.add(addMusCbGen, "cell 2 1,alignx left,aligny center");
 		
-		JLabel lblInstru = new JLabel("Strumento:");
-		optionAddMus.add(lblInstru, "flowx,cell 2 3,alignx right,aligny center");
+		JLabel lblStrumenti = new JLabel("Strumenti:");
+		optionAddMus.add(lblStrumenti, "cell 1 2,alignx left");
 		
-		addMusCbInstr = new JComboBox();
-		optionAddMus.add(addMusCbInstr, "cell 3 3,alignx left,aligny center");
+		JButton btnAggiungiStrumento = new JButton("Aggiungi strumento");
+		optionAddMus.add(btnAggiungiStrumento, "cell 2 2");
+		btnAggiungiStrumento.addActionListener(new areaRiservataWnd_to_aggiungiStrumentoWnd(this));
 		
-		JButton btnNewMus = new JButton("Aggiungi musicista");
-		optionAddMus.add(btnNewMus, "cell 2 4,growx,aligny top");
-		
-//		JComboBox cbInstru = new JComboBox();
+	//		JComboBox cbInstru = new JComboBox();
 	//	optionAddMus.add(cbInstru, "cell 1 3,alignx center,aligny center");
 		
 		
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new area_riservata_goback(this));
-		optionAddMus.add(btnBack, "cell 3 4,growx,aligny top");
-		optionAddMus.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{addMusArtName, addMusCbGen, addMusCbInstr, btnNewMus}));
+				
+		JButton btnNewMus = new JButton("Aggiungi musicista");
+		optionAddMus.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{addMusArtName, addMusCbGen, btnNewMus}));
+		optionAddMus.add(btnNewMus, "cell 1 4,alignx center,aligny top");
+		optionAddMus.add(btnBack, "cell 2 4,growx,aligny top");
 		this.setVisible(true);
 	}
 	
@@ -465,10 +465,12 @@ public class areaRiservataWnd extends JFrame {
 
 		JLabel lbl_musician = new JLabel("Musicista:");
 		product_detal_panel.add(lbl_musician, "cell 0 7,alignx trailing");
-
-		cb_musician = new JComboBox();
-
-		product_detal_panel.add(cb_musician, "flowx,cell 1 6,growx,aligny center");
+		
+				cb_musician = new JComboBox();
+				
+						product_detal_panel.add(cb_musician, "flowx,cell 1 7,growx,aligny center");
+						product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, txt_amount, btn_insert_product}));
+						insert_area_riservata_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, txt_amount, btn_insert_product}));
 
 		JLabel lbl_quant = new JLabel("Quantità:");
 		product_detal_panel.add(lbl_quant, "cell 0 8,alignx right,aligny center");
@@ -481,18 +483,12 @@ public class areaRiservataWnd extends JFrame {
 		btn_insert_product.addActionListener(new area_riservata_newcd_insert(this));
 		btn_insert_product.addKeyListener(new area_riservata_newcd_insert(this));
 		product_detal_panel.add(btn_insert_product, "flowx,cell 1 9,alignx left,growy");
-
-		chb_leader = new JCheckBox("Capoband");
-
-		product_detal_panel.add(chb_leader, "cell 1 6,alignx right,aligny center");
 				
 						btn_goback_insert = new JButton("Annulla");
 						btn_goback_insert.addActionListener(new area_riservata_goback(this));
 						insert_area_riservata_panel.setLayout(new MigLayout("", "[1174px]", "[851px]"));
 						product_detal_panel.add(btn_goback_insert, "cell 1 8,alignx right,growy");
-						product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 		insert_area_riservata_panel.add(product_detal_panel, "cell 0 0,grow");
-		insert_area_riservata_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 	}
 
 	private void createWarehousePanel()
@@ -658,12 +654,12 @@ public class areaRiservataWnd extends JFrame {
 	{
 		return txt_amount.getText();
 	}
-
+/*
 	public boolean isLeader()
 	{
 		return chb_leader.isSelected();
 	}
-
+*/
 	public boolean validValues()
 	{
 		if(!dataValidator.checkString(getCdTitle()))
