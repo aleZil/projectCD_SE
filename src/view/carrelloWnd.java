@@ -137,10 +137,9 @@ public class carrelloWnd extends JFrame {
 	
 //___________
 	
-	public void showMain(String user)
+	public void showMain()
 	{
-		//this.setTitle("Pannello del Carrello?");
-		//carrello_layout.show(panel_container, "prova");
+		
 		main_wnd.setVisible(true);
 		this.setVisible(false);
 	}

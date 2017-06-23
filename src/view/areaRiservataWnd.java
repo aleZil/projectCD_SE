@@ -50,6 +50,8 @@ import areaRiservataListener.area_riservata_option_insert_cd;
 import areaRiservataListener.area_riservata_save_updates;
 import areaRiservataListener.area_riservata_see_warehouse;
 import areaRiservataListener.area_riservata_wnd_closer;
+import areaRiservataListener.Listener;
+import areaRiservataListener.areaRiservataWnd_to_aggiungiBranoWnd;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
@@ -59,10 +61,12 @@ import java.awt.Toolkit;
 
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 
 public class areaRiservataWnd extends JFrame {
-	
+	Listener ascoltatore = new Listener();
+
 	JFrame main_wnd;
 	private static CardLayout area_riservata_layout=new CardLayout();	//contenitore di pannelli-layout
 	private JPanel panel_container=new JPanel();
@@ -79,6 +83,7 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> cb_musician;
 	private JCheckBox chb_leader;
 	private JButton btn_insert_product;
+	private JButton btnAggiungi;
 	private JButton btn_goback_insert;
 	private JButton btn_goback_warehouse;
 	private JButton btn_save_updates;
@@ -87,8 +92,8 @@ public class areaRiservataWnd extends JFrame {
 	private JTable tb_product;
 	private JButton btn_add_mus;
 	private JButton btn_add_cd_mus;
+	
 	//Variabili usate per il fullscreen
-		
 	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height - 70;
 	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
 
@@ -117,7 +122,7 @@ public class areaRiservataWnd extends JFrame {
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
 		
-		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 1200, 900);
+		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 629, 323);
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -140,6 +145,7 @@ public class areaRiservataWnd extends JFrame {
 		createWarehousePanel();
 		//Creo pannello di aggiunta musicista
 		createOptionAddMusPanel();
+				
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panel_container);	//il ContentPane ha di default il BorderLayout
 		area_riservata_layout.show(panel_container, "login");	
@@ -162,7 +168,7 @@ public class areaRiservataWnd extends JFrame {
 		this.setTitle("Aggiungi musicista");
 		area_riservata_layout.show(panel_container,"optionAddMus");
 	}
-	
+
 	
 	// probabilmente questo sarà un controller
 	public void SaveUpdates()
@@ -224,6 +230,8 @@ public class areaRiservataWnd extends JFrame {
 		}
 	};
 	private JTextField textField;
+	private JTextField txtNumeroBrano;
+	private JTextField txtTitolo;
 
 	public void showWarehouse()
 	{
@@ -335,6 +343,8 @@ public class areaRiservataWnd extends JFrame {
 
 		area_riservata_layout.show(panel_container, "insert");
 	}
+	
+	
 
 	private void createOptionAddMusPanel()
 	{
@@ -360,6 +370,7 @@ public class areaRiservataWnd extends JFrame {
 		
 		JComboBox cbInstru = new JComboBox();
 		optionAddMus.add(cbInstru, "cell 1 3,alignx center,aligny center");
+		
 		this.setVisible(true);
 	}
 	
@@ -389,7 +400,7 @@ public class areaRiservataWnd extends JFrame {
 		MaskFormatter dataMask=new MaskFormatter("##/##/##");
 
 		JLabel lbl_price = new JLabel("Prezzo:");
-		product_detal_panel.setLayout(new MigLayout("", "[][600px,grow,fill][]", "[][20px][grow][20px][grow][20px][20px][20px][60px]"));
+		product_detal_panel.setLayout(new MigLayout("", "[][600px,grow,fill][]", "[][20px][][grow][20px][grow][20px][20px][20px][60px]"));
 
 		
 		/*
@@ -410,60 +421,67 @@ public class areaRiservataWnd extends JFrame {
 		txt_cd_title = new JTextField();
 		txt_cd_title.setColumns(10);
 		product_detal_panel.add(txt_cd_title, "cell 1 1,alignx left,aligny center");
+		
+		JLabel lblAggiungiBrano = new JLabel("Aggiungi brano:");
+		product_detal_panel.add(lblAggiungiBrano, "cell 0 2");
+		
+		JButton btnAggiungi = new JButton("Aggiungi");
+		product_detal_panel.add(btnAggiungi, "cell 1 2,grow");
+		btnAggiungi.addActionListener(new areaRiservataWnd_to_aggiungiBranoWnd(this));
 
 		JLabel lbl_track_list = new JLabel("Lista Brani:");
-		product_detal_panel.add(lbl_track_list, "cell 0 2,alignx right,aligny center");
+		product_detal_panel.add(lbl_track_list, "cell 0 3,alignx right,aligny center");
 
 		JScrollPane scroll_tracklist = new JScrollPane();
-		product_detal_panel.add(scroll_tracklist, "cell 1 2,grow");
+		product_detal_panel.add(scroll_tracklist, "cell 1 3,grow");
 
 		txt_tracklist= new JTextArea();
-		scroll_tracklist.setViewportView(txt_tracklist);
-		product_detal_panel.add(lbl_price, "cell 0 3,alignx right,aligny center");
+		scroll_tracklist.setRowHeaderView(txt_tracklist);
+		product_detal_panel.add(lbl_price, "cell 0 4,alignx right,aligny center");
 
 		txt_price = new JTextField();
-		product_detal_panel.add(txt_price, "cell 1 3,alignx center,aligny center");
+		product_detal_panel.add(txt_price, "cell 1 4,alignx center,aligny center");
 		txt_price.setColumns(10);
 
 		JLabel lbl_decr = new JLabel("Descrizione:");
-		product_detal_panel.add(lbl_decr, "cell 0 4");
+		product_detal_panel.add(lbl_decr, "cell 0 5");
 
 		JScrollPane scroll_descr = new JScrollPane();
-		product_detal_panel.add(scroll_descr, "cell 1 4,grow");
+		product_detal_panel.add(scroll_descr, "cell 1 5,grow");
 
 		txt_desc = new JTextArea();
 		scroll_descr.setViewportView(txt_desc);
 
 		JLabel lbl_type = new JLabel("Genere:");
-		product_detal_panel.add(lbl_type, "cell 0 5,alignx trailing");
+		product_detal_panel.add(lbl_type, "cell 0 6,alignx trailing");
 
 		cb_gen = new JComboBox();
-		product_detal_panel.add(cb_gen, "cell 1 5,alignx center,aligny center");
+		product_detal_panel.add(cb_gen, "cell 1 6,alignx center,aligny center");
 
 		JLabel lbl_musician = new JLabel("Musicista:");
-		product_detal_panel.add(lbl_musician, "cell 0 6,alignx trailing");
+		product_detal_panel.add(lbl_musician, "cell 0 7,alignx trailing");
 
 		cb_musician = new JComboBox();
-		product_detal_panel.add(cb_musician, "flowx,cell 1 6,alignx center,aligny center");
+		product_detal_panel.add(cb_musician, "flowx,cell 1 7,alignx center,aligny center");
 
 		JLabel lbl_quant = new JLabel("Quantità:");
-		product_detal_panel.add(lbl_quant, "cell 0 7,alignx right,aligny center");
+		product_detal_panel.add(lbl_quant, "cell 0 8,alignx right,aligny center");
 
 		txt_amount = new JTextField();
 		txt_amount.setColumns(10);
-		product_detal_panel.add(txt_amount, "cell 1 7,alignx center,aligny center");
+		product_detal_panel.add(txt_amount, "cell 1 8,alignx center,aligny center");
 
 		btn_insert_product = new JButton("Inserisci prodotto");
 		btn_insert_product.addActionListener(new area_riservata_newcd_insert(this));
 		btn_insert_product.addKeyListener(new area_riservata_newcd_insert(this));
-		product_detal_panel.add(btn_insert_product, "flowx,cell 1 8,alignx left,growy");
+		product_detal_panel.add(btn_insert_product, "flowx,cell 1 9,alignx left,growy");
 
 		chb_leader = new JCheckBox("Capoband");
-		product_detal_panel.add(chb_leader, "cell 1 6,alignx left");
+		product_detal_panel.add(chb_leader, "cell 1 7,alignx left");
 				
-						btn_goback_insert = new JButton("Annulla");
-						btn_goback_insert.addActionListener(new area_riservata_goback(this));
-						product_detal_panel.add(btn_goback_insert, "cell 1 8,alignx right,growy");
+		btn_goback_insert = new JButton("Annulla");
+		btn_goback_insert.addActionListener(new area_riservata_goback(this));
+		product_detal_panel.add(btn_goback_insert, "cell 1 9,alignx right,growy");
 		product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 		insert_area_riservata_panel.setLayout(gl_insert_area_riservata_panel);
 		insert_area_riservata_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_code, txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
@@ -519,19 +537,18 @@ public class areaRiservataWnd extends JFrame {
 		
 		JButton btn_indietro = new JButton("Indietro");
 		login_area_riservata_panel.add(btn_indietro, "cell 0 6,alignx center,aligny center");
-
+/*		
+		JButton btn_annulla = new JButton("Annulla");
+		login_area_riservata_panel.add(btn_annulla, "flowx,cell 0 8,alignx center,aligny center");
+		btn_annulla.addActionListener(ascoltatore);
+		btn_annulla.setActionCommand(Listener.ANNULLA);
+*/
 		//Aggiungo gli eventi
 		btn_login.addActionListener(new area_riservata_login(this));
 		btn_login.addKeyListener(new area_riservata_login(this));
 		btn_indietro.addActionListener(new area_riservata_goMain(this));
 		txt_psswd.addActionListener(new area_riservata_login(this));
 
-	}
-
-	public void showMain(String user)
-	{
-		main_wnd.setVisible(true);
-		this.setVisible(false);
 	}
 	
 	
@@ -562,6 +579,18 @@ public class areaRiservataWnd extends JFrame {
 		btn_add_cd_mus = new JButton("Aggiungi partecipazione");
 		buttons_container.add(btn_add_cd_mus, "cell 0 3");
 	}
+	
+	
+	public void showMain()
+	{
+		main_wnd.setVisible(true);
+		this.setVisible(false);
+	}
+	
+	
+
+	
+//_________________________________________	
 	
 	//Metodi pubblici
 	public String getUsername()

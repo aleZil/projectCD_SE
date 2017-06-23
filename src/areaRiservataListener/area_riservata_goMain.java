@@ -5,12 +5,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import view.areaRiservataWnd;
-import view.areaRiservataWnd;
+import view.aggiungiBranoWnd;
 
 
 public class area_riservata_goMain implements ActionListener {
@@ -24,10 +22,7 @@ public class area_riservata_goMain implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		//JOptionPane.showMessageDialog(prova_wnd, "SOS");
-		//System.out.println("siamo qui");
-		//JOptionPane.showMessageDialog(prova_wnd, "Volevi tornare indietro, stronzo...invece no!");
-		prova_wnd.showMain("");
+		prova_wnd.showMain();
 		
 	}
 
