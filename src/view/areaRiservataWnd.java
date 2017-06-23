@@ -41,6 +41,7 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import areaRiservataListener.areaRiservataOptionAddGen;
 import areaRiservataListener.area_riservata_goMain;
 import areaRiservataListener.area_riservata_goback;
 import areaRiservataListener.area_riservata_insert_musician;
@@ -84,7 +85,7 @@ public class areaRiservataWnd extends JFrame {
 	private JTextArea txt_tracklist;
 	private JTable tb_product;
 	private JButton btn_add_mus;
-	private JButton btn_add_cd_mus;
+	private JButton btnOptionNewGen;
 	private JComboBox<String> addMusCbGen;
 	private JComboBox<String> addMusCbInstr;
 	
@@ -120,16 +121,9 @@ public class areaRiservataWnd extends JFrame {
 		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 1200, 900);
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-		Toolkit tk = Toolkit.getDefaultToolkit();
 		setLocation(0,0);
 		//setSize(tk.getScreenSize());
 		setUndecorated(false);
-		
-		
-
-		
-		
-		
 		//Creo panel di login
 		createLoginPanel();
 		//Creo panel delle opzioni
@@ -140,15 +134,11 @@ public class areaRiservataWnd extends JFrame {
 		createWarehousePanel();
 		//Creo pannello di aggiunta musicista
 		createOptionAddMusPanel();
+		//Creo pannello di aggiunta genere
+		createOptionAddGenPanel();
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panel_container);
-		area_riservata_layout.show(panel_container, "login");	
-		
-		JPanel optionAddGen = new JPanel();
-		panel_container.add(optionAddGen, "name_3407896574522");
-		optionAddGen.setLayout(new MigLayout("", "[]", "[]"));
-		
-
+		area_riservata_layout.show(panel_container, "login");
 
 	}
 
@@ -156,7 +146,6 @@ public class areaRiservataWnd extends JFrame {
 	{
 		this.setTitle("Pannello area riservata");
 		area_riservata_layout.show(panel_container, "options");
-
 	}
 	
 
@@ -228,6 +217,7 @@ public class areaRiservataWnd extends JFrame {
 		}
 	};
 	private JTextField addMusArtName;
+	private JTextField addGenName;
 
 	public void showWarehouse()
 	{
@@ -288,6 +278,12 @@ public class areaRiservataWnd extends JFrame {
 
 	}
 
+	public void showAddNewGen()
+	{
+		this.setTitle("Aggiungi nuovo genere");
+		area_riservata_layout.show(panel_container, "optionAddGen");
+	}
+	
 	public void showInsertCd()
 	{
 		this.setTitle("Inserisci un nuovo cd");
@@ -340,38 +336,60 @@ public class areaRiservataWnd extends JFrame {
 		area_riservata_layout.show(panel_container, "insert");
 	}
 
+	private void createOptionAddGenPanel()
+	{
+		JPanel optionAddGen = new JPanel();
+		panel_container.add(optionAddGen, "optionAddGen");
+		optionAddGen.setLayout(new MigLayout("", "[][grow][][grow][]", "[grow][grow][grow][grow]"));
+		
+		JLabel lblNewLabel = new JLabel("Nome nuovo genere:");
+		optionAddGen.add(lblNewLabel, "cell 1 0,alignx right,aligny center");
+		
+		addGenName = new JTextField();
+		optionAddGen.add(addGenName, "flowx,cell 2 0,alignx center,aligny center");
+		addGenName.setColumns(10);
+		
+		JButton btnNewGen = new JButton("Aggiungi Genere");
+		optionAddGen.add(btnNewGen, "cell 1 1,alignx right,aligny top");
+		
+		JButton btnCancel = new JButton("Annulla");
+		btnCancel.addActionListener(new area_riservata_goback(this));
+		optionAddGen.add(btnCancel, "cell 3 1,alignx left,aligny top");
+		optionAddGen.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{addGenName, btnNewGen}));
+	}
+	
 	private void createOptionAddMusPanel()
 	{
 		JPanel optionAddMus = new JPanel();
 		panel_container.add(optionAddMus, "optionAddMus");
-		optionAddMus.setLayout(new MigLayout("", "[][grow][]", "[][][][][50px]"));
+		optionAddMus.setLayout(new MigLayout("", "[][grow][][][grow][]", "[grow][grow][grow][grow][grow]"));
 		
 		JLabel lblNomeArte = new JLabel("Nome arte:");
-		optionAddMus.add(lblNomeArte, "flowx,cell 1 1,alignx center,aligny center");
+		optionAddMus.add(lblNomeArte, "cell 2 1,alignx right,aligny center");
 		
 		addMusArtName = new JTextField();
-		optionAddMus.add(addMusArtName, "cell 1 1,alignx center,aligny center");
+		optionAddMus.add(addMusArtName, "cell 3 1,alignx left,aligny center");
 		addMusArtName.setColumns(10);
 		
 		JLabel lblGen = new JLabel("Genere:");
-		optionAddMus.add(lblGen, "flowx,cell 1 2,alignx center,aligny center");
+		optionAddMus.add(lblGen, "cell 2 2,alignx right,aligny center");
 		
 		addMusCbGen = new JComboBox();
-		optionAddMus.add(addMusCbGen, "cell 1 2,alignx center,aligny center");
+		optionAddMus.add(addMusCbGen, "cell 3 2,alignx left,aligny center");
 		
 		JLabel lblInstru = new JLabel("Strumento:");
-		optionAddMus.add(lblInstru, "flowx,cell 1 3,alignx center,aligny center");
+		optionAddMus.add(lblInstru, "flowx,cell 2 3,alignx right,aligny center");
 		
 		addMusCbInstr = new JComboBox();
-		optionAddMus.add(addMusCbInstr, "cell 1 3,alignx center,aligny center");
+		optionAddMus.add(addMusCbInstr, "cell 3 3,alignx left,aligny center");
 		
 		JButton btnNewMus = new JButton("Aggiungi musicista");
-		optionAddMus.add(btnNewMus, "flowx,cell 1 4,alignx center,growy");
+		optionAddMus.add(btnNewMus, "cell 2 4,alignx center,aligny top");
 		
 		
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new area_riservata_goback(this));
-		optionAddMus.add(btnBack, "cell 1 4,alignx center,growy");
+		optionAddMus.add(btnBack, "cell 3 4,alignx center,aligny top");
 		optionAddMus.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{addMusArtName, addMusCbGen, addMusCbInstr, btnNewMus}));
 		this.setVisible(true);
 	}
@@ -383,21 +401,6 @@ public class areaRiservataWnd extends JFrame {
 
 		JPanel product_detal_panel = new JPanel();
 		product_detal_panel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GroupLayout gl_insert_area_riservata_panel = new GroupLayout(insert_area_riservata_panel);
-		gl_insert_area_riservata_panel.setHorizontalGroup(
-				gl_insert_area_riservata_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_insert_area_riservata_panel.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(product_detal_panel, GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		gl_insert_area_riservata_panel.setVerticalGroup(
-				gl_insert_area_riservata_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_insert_area_riservata_panel.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(product_detal_panel, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
-						.addContainerGap())
-				);
 		//Mask per input date
 		MaskFormatter dataMask=new MaskFormatter("##/##/##");
 
@@ -478,9 +481,10 @@ public class areaRiservataWnd extends JFrame {
 				
 						btn_goback_insert = new JButton("Annulla");
 						btn_goback_insert.addActionListener(new area_riservata_goback(this));
+						insert_area_riservata_panel.setLayout(new MigLayout("", "[1174px]", "[851px]"));
 						product_detal_panel.add(btn_goback_insert, "cell 1 8,alignx right,growy");
 						product_detal_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
-		insert_area_riservata_panel.setLayout(gl_insert_area_riservata_panel);
+		insert_area_riservata_panel.add(product_detal_panel, "cell 0 0,grow");
 		insert_area_riservata_panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_cd_title, txt_tracklist, txt_price, txt_desc, cb_gen, cb_musician, chb_leader, txt_amount, btn_insert_product}));
 	}
 
@@ -566,16 +570,17 @@ public class areaRiservataWnd extends JFrame {
 		option_area_riservata_panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 
 		option_area_riservata_panel.add(buttons_container, "cell 0 0,alignx left,aligny top");
-		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[][][][]"));
-		buttons_container.add(btn_insert_cd, "cell 0 0,growx,aligny top");
-		buttons_container.add(btn_view_warehouse, "cell 0 1,growx,aligny top");
+		buttons_container.setLayout(new MigLayout("", "[grow,fill]", "[grow][grow][grow][grow]"));
+		buttons_container.add(btn_insert_cd, "cell 0 0,alignx center,aligny top");
+		buttons_container.add(btn_view_warehouse, "cell 0 1,alignx center,aligny top");
 		
 		btn_add_mus = new JButton("Aggiungi musicista");
-		buttons_container.add(btn_add_mus, "cell 0 2");
+		buttons_container.add(btn_add_mus, "cell 0 2,aligny top");
 		btn_add_mus.addActionListener(new area_riservata_insert_musician(this));
 		
-		btn_add_cd_mus = new JButton("Aggiungi partecipazione");
-		buttons_container.add(btn_add_cd_mus, "cell 0 3");
+		btnOptionNewGen = new JButton("Aggiungi nuovo genere");
+		btnOptionNewGen.addActionListener(new areaRiservataOptionAddGen(this));
+		buttons_container.add(btnOptionNewGen, "cell 0 3,alignx center,aligny top");
 	}
 	
 	//Metodi pubblici
@@ -657,7 +662,6 @@ public class areaRiservataWnd extends JFrame {
 
 	public void clearComponents()
 	{
-		//txt_cd_code.setText("");
 		txt_cd_title.setText("");
 		txt_price.setText("");
 		txt_desc.setText("");
