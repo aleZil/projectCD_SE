@@ -148,6 +148,34 @@ public class Cd{
 		}
 		
 		return true;
+	}
+	
+	public ResultSet getAllInfo() {
 		
+		ResultSet rs = null;
+		
+		try {
+			String query = "SELECT C.id AS id,  "
+					+ "FROM cd AS C "
+					+ "JOIN genere AS G"
+					+ "		ON C.genere_id = G.id"
+					+ "JOIN partecipazione AS P"
+					+ "		ON P.cd_id = C.id"
+					+ "JOIN Musicista AS M"
+					+ "		ON M.id = P.musicista_id"
+					+ ""
+					+ "ORDER BY nome";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			
+			rs = ps.executeQuery();
+			
+			if (!rs.next() ) {
+				return null;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return rs;
 	}
 }

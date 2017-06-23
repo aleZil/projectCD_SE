@@ -52,8 +52,10 @@ public class Genere {
 			
 			ResultSet res = ps.executeQuery();
 			
-			if (res.next())
+			if (res.next()) {
+				ps.close();
 				return res.getInt("id");
+			}
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
