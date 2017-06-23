@@ -233,7 +233,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		try
 		{
-			ResultSet res = modelCd.getAll();
+			ResultSet res = modelCd.getAllInfo();
 			
 			//Variabili supporto 
 			String codeCd;
@@ -244,10 +244,9 @@ public class areaRiservataWnd extends JFrame {
 			String descCd;
 			int soldCd;
 			int amountCd;
-			int genId;
-			int musId;
+			String genere;
 			//String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id","Musicista Id"};
-			String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id"};
+			String[] colNames={"Codice","Titolo","Prezzo","Data I.","Genere", "Descrizione","Venduti","Rimanenti"};
 			
 			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
 			tableModel model=new tableModel(0, 10);
@@ -256,15 +255,15 @@ public class areaRiservataWnd extends JFrame {
 			{
 				codeCd=res.getString("codice");
 				titleCd=res.getString("titolo");
-				trackList=res.getString("titoloBrani");
 				priceCd=res.getBigDecimal("prezzo");
 				insertDate=res.getDate("data_inserimento");
+				genere=res.getString("genere");
 				descCd=res.getString("descrizione");
 				soldCd=res.getInt("pezzi_venduti");
 				amountCd=res.getInt("pezzi_magazzino");
-				genId=res.getInt("genere_id");
+				
 				//musId=res.getInt("musicista_id");
-				model.addRow(new Object[]{codeCd,titleCd,trackList,priceCd,insertDate,descCd,soldCd,amountCd,genId});
+				model.addRow(new Object[]{codeCd,titleCd,priceCd,insertDate,genere,descCd,soldCd,amountCd});
 			}
 
 			tb_product.setModel(model);
@@ -502,7 +501,7 @@ public class areaRiservataWnd extends JFrame {
 		panel_container.add(warehouse_area_riservata_panel, "warehouse");
 		warehouse_area_riservata_panel.setLayout(new MigLayout("", "[grow]", "[][grow,fill][]"));
 		
-		btn_goback_warehouse=new JButton("X");
+		btn_goback_warehouse=new JButton("Indietro");
 		btn_goback_warehouse.addActionListener(new area_riservata_goback(this));
 		warehouse_area_riservata_panel.add(btn_goback_warehouse, "cell 0 0,alignx right");
 

@@ -160,29 +160,14 @@ public class Cd{
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT C.codice AS id, c.titolo AS titolo,  "
+			String query = "SELECT codice, titolo,  prezzo, data_inserimento, nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
 					+ "FROM cd AS C "
-					+ "JOIN genere AS G"
-					+ "		ON C.genere_id = G.id"
-					+ "JOIN partecipazione AS P"
-					+ "		ON P.cd_id = C.id"
-					+ "JOIN Musicista AS M"
-					+ "		ON M.id = P.musicista_id"
-					+ ""
+					+ "JOIN genere AS G "
+					+ "ON C.genere_id = G.id "
 					+ "ORDER BY nome";
-			/*
-			 codice           | character varying(255) | not null
-			 titolo           | character varying(255) | not null
-			 prezzo           | numeric(10,2)          | not null
-			 data_inserimento | date                   | not null
-			 descrizione      | text                   | 
-			 pezzi_venduti    | integer                | default 0
-			 pezzi_magazzino  | integer                | default 0
-			 genere_id        | integer                | 
-*/
-			
-			
+
 			PreparedStatement ps = this.db.prepareStatement(query);
+			System.out.println(query);
 			
 			rs = ps.executeQuery();
 			
