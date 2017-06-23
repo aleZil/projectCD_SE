@@ -40,7 +40,25 @@ public class Genere {
 			System.out.println(e.getMessage());
 		}
 		return rs;
+	}
 	
+	public int getIdByNome(String nome) {
+		
+		try {
+			String query = "SELECT id FROM genere WHERE nome ILIKE ?";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			ps.setString(1, nome);
+			
+			ResultSet res = ps.executeQuery();
+			
+			if (res.next())
+				return res.getInt("id");
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return -1; //trovato nulla
 	}
 	
 	public ResultSet getAll() {

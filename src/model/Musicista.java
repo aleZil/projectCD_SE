@@ -46,7 +46,7 @@ public class Musicista {
 	public int getIdByNomeArte(String nomeArte) {
 		
 		try {
-			String query = "SELECT id FROM musicista WHERE nome_arte = ?";
+			String query = "SELECT id FROM musicista WHERE nome_arte ILIKE ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
 			ps.setString(1, nomeArte);
