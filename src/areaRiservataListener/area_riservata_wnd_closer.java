@@ -12,6 +12,7 @@ public class area_riservata_wnd_closer extends WindowAdapter {
 	
 	public area_riservata_wnd_closer(JFrame main_wnd) {
 		this.main_wnd=main_wnd;
+
 	}
 	
 	@Override

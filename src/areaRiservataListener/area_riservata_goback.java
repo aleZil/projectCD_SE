@@ -18,7 +18,7 @@ public class area_riservata_goback implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		((areaRiservataWnd) option_wnd).showOption("asd");
+		((areaRiservataWnd) option_wnd).showOption();
 	}
 
 }

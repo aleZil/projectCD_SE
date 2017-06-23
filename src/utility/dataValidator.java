@@ -7,14 +7,11 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 public class dataValidator {
 
-	public static boolean checkCdCode(String cdCode)
+	
+	
+	public static boolean checkString(String st)
 	{
-		return cdCode.matches("CD[0-9]+");
-	}
-
-	public static boolean checkTitle(String cdTitle)
-	{
-		return !cdTitle.isEmpty();
+		return !st.isEmpty();
 	}
 
 	public static boolean emptyTrackList(String cdTrackList)
