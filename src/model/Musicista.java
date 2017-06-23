@@ -43,6 +43,26 @@ public class Musicista {
 	
 	}
 	
+	public int getIdByNomeArte(String nomeArte) {
+		
+		try {
+			String query = "SELECT id FROM musicista WHERE nome_arte = ?";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			ps.setString(1, nomeArte);
+			
+			ResultSet res = ps.executeQuery();
+			
+			if (res.next())
+				return res.getInt("id");
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return -1;
+	}
+	
+	
 	public ResultSet getAll() {
 		
 		ResultSet rs = null;
@@ -80,22 +100,24 @@ public class Musicista {
 			psIns.setInt(i++, genereId);
 			psIns.setInt(i++ ,annoNascita);
 			
-			/*
-			PreparedStatement ps = this.db.prepareStatement(query);
-			Integer i = 1;
+			// recupero l'id del musicista appena inserito
+			int id = this.getIdByNomeArte(nomeArte);
+
+			insertQuery = "INSERT INTO utilizzo (musicista_id, strumenti_id) VALUES (?,?)";
+			psIns = this.db.prepareStatement(insertQuery);
 			
-			ps.setString(i++, titolo);
-			ps.setString(i++, titoloBrani);
-			ps.setBigDecimal(i++, prezzo); 
-			ps.setDate(i++, dataInserimento);
-			ps.setString(i++, descrizione);
-			ps.setString(i++, codice);
-			*/
-			if( psIns.executeUpdate() != 1 )
-				return false;
+			// aggiungo per ogni strumento una riga su utilizzo
+			for(int j = 0; j < strumenti.length; j++)
+			{
+				i = 1;
+				psIns.setInt(i++, id);
+				psIns.setInt(i++, strumenti[j]);
+				psIns.executeUpdate();
+			}
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return false;
 		}
 		
 		return true;
