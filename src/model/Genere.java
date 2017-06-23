@@ -18,7 +18,6 @@ public class Genere {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 	
 	public ResultSet getById(int id) {

@@ -2,6 +2,8 @@ package model;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -67,42 +69,45 @@ public class Cd{
 	
 	
 	public Boolean insert(String titolo,
-			String titoloBrani,
 			String descrizione,
 			BigDecimal prezzo,
 			Integer pezziMagazzino,
-			Integer genereId) {
+			Integer genereId,
+			Hashtable<Integer, String> listaBrani) {
 
 		try {
 			String insertCdQuery="INSERT INTO Cd "
-					+ "(titolo, titoli_pezzi, prezzo, descrizione, pezzi_magazzino, genere_id) "
+					+ "(titolo, prezzo, descrizione, pezzi_magazzino, genere_id) "
 					+ "VALUES (?,?,?,?, ?)";
 			
 			PreparedStatement psIns = this.db.prepareStatement(insertCdQuery);
 			
+			int i = 1;
+			psIns.setString(i++ , titolo);
+			psIns.setBigDecimal(i++ , prezzo);
+			psIns.setString(i++ , descrizione);
+			psIns.setInt(i++ , pezziMagazzino);
+			psIns.setInt(i++, genereId);
+			
+			
+			Iterator it = listaBrani.entrySet().iterator();
+			
+			while(it.hasNext()) {
+				
+			}
+			
+			
+			
+
 			String insertParecipa="INSERT INTO Partecipazione "
 					+ "(cd_codice,musicista_id,is_titolare) "
 					+ "VALUES (?,?,?)";
 			
-			int i = 1;
-			psIns.setString(i++, titolo);
-			psIns.setString(i++, titoloBrani);
-			psIns.setBigDecimal(i++ ,prezzo);
-			psIns.setString(i++, descrizione);
-			psIns.setInt(i++ , pezziMagazzino);
-			psIns.setInt(i++, genereId);
 			
-			/*
-			PreparedStatement ps = this.db.prepareStatement(query);
-			Integer i = 1;
 			
-			ps.setString(i++, titolo);
-			ps.setString(i++, titoloBrani);
-			ps.setBigDecimal(i++, prezzo); 
-			ps.setDate(i++, dataInserimento);
-			ps.setString(i++, descrizione);
-			ps.setString(i++, codice);
-			*/
+			
+			
+			
 			if( psIns.executeUpdate() != 1 )
 				return false;
 			
@@ -155,7 +160,7 @@ public class Cd{
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT C.id AS id,  "
+			String query = "SELECT C.codice AS id, c.titolo AS titolo,  "
 					+ "FROM cd AS C "
 					+ "JOIN genere AS G"
 					+ "		ON C.genere_id = G.id"
@@ -165,6 +170,17 @@ public class Cd{
 					+ "		ON M.id = P.musicista_id"
 					+ ""
 					+ "ORDER BY nome";
+			/*
+			 codice           | character varying(255) | not null
+			 titolo           | character varying(255) | not null
+			 prezzo           | numeric(10,2)          | not null
+			 data_inserimento | date                   | not null
+			 descrizione      | text                   | 
+			 pezzi_venduti    | integer                | default 0
+			 pezzi_magazzino  | integer                | default 0
+			 genere_id        | integer                | 
+*/
+			
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
 			
@@ -178,4 +194,5 @@ public class Cd{
 		}
 		return rs;
 	}
+	
 }
