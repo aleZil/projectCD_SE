@@ -41,6 +41,7 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import areaRiservataListener.areaRiservataInsertNewGen;
 import areaRiservataListener.areaRiservataOptionAddGen;
 import areaRiservataListener.area_riservata_goMain;
 import areaRiservataListener.area_riservata_goback;
@@ -88,13 +89,14 @@ public class areaRiservataWnd extends JFrame {
 	private JButton btnOptionNewGen;
 	private JComboBox<String> addMusCbGen;
 	private JComboBox<String> addMusCbInstr;
+	private JTextField addMusArtName;
+	private JTextField addGenName;
 	
 	//Variabili usate per il fullscreen
 		
 	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height - 70;
 	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
 
-	
 	//Utility
 	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
@@ -149,9 +151,10 @@ public class areaRiservataWnd extends JFrame {
 	}
 	
 
+	//Metodi show
+	
 	public void showAddMusPanel()
 	{
-		
 		this.setTitle("Aggiungi musicista");
 		area_riservata_layout.show(panel_container,"optionAddMus");
 	}
@@ -216,21 +219,14 @@ public class areaRiservataWnd extends JFrame {
 			rowEdited.add(tcl.getRow());
 		}
 	};
-	private JTextField addMusArtName;
-	private JTextField addGenName;
+
 
 	public void showWarehouse()
 	{
-		
-		// String queryCd="SELECT * FROM Cd";
 		try
 		{
-			// Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
-			//Connection con = Db.getConnection();
-			
-			//Statement stm=con.createStatement();
 			ResultSet res = modelCd.getAll();
-
+			
 			//Variabili supporto 
 			String codeCd;
 			String titleCd;
@@ -282,6 +278,8 @@ public class areaRiservataWnd extends JFrame {
 	{
 		this.setTitle("Aggiungi nuovo genere");
 		area_riservata_layout.show(panel_container, "optionAddGen");
+		
+		
 	}
 	
 	public void showInsertCd()
@@ -336,6 +334,8 @@ public class areaRiservataWnd extends JFrame {
 		area_riservata_layout.show(panel_container, "insert");
 	}
 
+	//Metodi creazione
+	
 	private void createOptionAddGenPanel()
 	{
 		JPanel optionAddGen = new JPanel();
@@ -350,6 +350,7 @@ public class areaRiservataWnd extends JFrame {
 		addGenName.setColumns(10);
 		
 		JButton btnNewGen = new JButton("Aggiungi Genere");
+		btnNewGen.addActionListener(new areaRiservataInsertNewGen(this));
 		optionAddGen.add(btnNewGen, "cell 1 1,alignx right,aligny top");
 		
 		JButton btnCancel = new JButton("Annulla");
@@ -384,12 +385,12 @@ public class areaRiservataWnd extends JFrame {
 		optionAddMus.add(addMusCbInstr, "cell 3 3,alignx left,aligny center");
 		
 		JButton btnNewMus = new JButton("Aggiungi musicista");
-		optionAddMus.add(btnNewMus, "cell 2 4,alignx center,aligny top");
+		optionAddMus.add(btnNewMus, "cell 2 4,growx,aligny top");
 		
 		
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new area_riservata_goback(this));
-		optionAddMus.add(btnBack, "cell 3 4,alignx center,aligny top");
+		optionAddMus.add(btnBack, "cell 3 4,growx,aligny top");
 		optionAddMus.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{addMusArtName, addMusCbGen, addMusCbInstr, btnNewMus}));
 		this.setVisible(true);
 	}
@@ -406,21 +407,6 @@ public class areaRiservataWnd extends JFrame {
 
 		JLabel lbl_price = new JLabel("Prezzo:");
 		product_detal_panel.setLayout(new MigLayout("", "[][600px,grow,fill][]", "[][20px][grow][20px][grow][20px][20px][20px][60px]"));
-
-
-		
-		/*
-		JLabel lbl_codice_cd = new JLabel("Codice Cd:");
-		product_detal_panel.add(lbl_codice_cd, "cell 0 0,alignx right,aligny center");
-
-		
-		// il codice del CD lo facciamo generato in automatico
-		
-		txt_cd_code = new JTextField();
-		txt_cd_code.setColumns(10);
-		product_detal_panel.add(txt_cd_code, "cell 1 0,alignx center,aligny center");
-
-		*/ 
 
 		JLabel lbl_title_cd = new JLabel("Titolo Cd:");
 		product_detal_panel.add(lbl_title_cd, "cell 0 1,alignx right,aligny center");
@@ -553,7 +539,6 @@ public class areaRiservataWnd extends JFrame {
 		this.setVisible(false);
 	}
 	
-	
 	private void createOptionPanel()
 	{
 		panel_container.add(option_area_riservata_panel, "options");
@@ -584,6 +569,19 @@ public class areaRiservataWnd extends JFrame {
 	}
 	
 	//Metodi pubblici
+	
+	//Metodi get
+	
+	public String getGenName()
+	{
+		return addGenName.getText();
+	}
+	
+	public String getMusName()
+	{
+		return addMusArtName.getText();
+	}
+	
 	public String getUsername()
 	{
 		return txt_usr.getText();
@@ -613,7 +611,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		return txt_desc.getText();
 	}
-
+	
 	public int getMusicianId()
 	{
 		return kMus.get(cb_musician.getSelectedItem());
@@ -636,7 +634,7 @@ public class areaRiservataWnd extends JFrame {
 
 	public boolean validValues()
 	{
-		if(!dataValidator.checkTitle(getCdTitle()))
+		if(!dataValidator.checkString(getCdTitle()))
 		{
 			JOptionPane.showMessageDialog(this,"Inserire titolo Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
 			return false;
@@ -670,4 +668,28 @@ public class areaRiservataWnd extends JFrame {
 		cb_gen.removeAllItems();
 		cb_musician.removeAllItems();
 	}
+
+	//Aggiunge nuovo genere
+	public void AddNewGen()
+	{
+		if(!dataValidator.checkString(getGenName()))
+		{
+			JOptionPane.showMessageDialog(this, "Inserire nome genere!","Attenzione!",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		
+		Genere newGen=new Genere();
+		
+		if(newGen.insert(getGenName()))
+		{
+			JOptionPane.showMessageDialog(this, "Nuovo genere inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+			addGenName.setText("");
+			return;
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(this, "Genere già esistente!","Errore!",JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+	}	
 }
