@@ -6,12 +6,12 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-public class area_riservata_wnd_closer extends WindowAdapter {
+public class closerWndListener extends WindowAdapter {
 	
-	JFrame main_wnd;
+	JFrame caller;
 	
-	public area_riservata_wnd_closer(JFrame main_wnd) {
-		this.main_wnd=main_wnd;
+	public closerWndListener(JFrame caller) {
+		this.caller=caller;
 
 	}
 	
@@ -19,7 +19,7 @@ public class area_riservata_wnd_closer extends WindowAdapter {
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
 		// Ri-abilito la main_wnd
-		main_wnd.setVisible(true);
+		caller.setVisible(true);
 		// Chiudo area_riservata_wnd
 		super.windowClosing(e);
 	}

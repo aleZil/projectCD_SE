@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import sun.swing.SwingLazyValue;
-import view.areaRiservataWnd;
+import viewAreaRiservata.areaRiservataWnd;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +16,13 @@ import java.security.MessageDigest;
 import java.sql.*;
 
 
-public class area_riservata_login implements ActionListener,KeyListener {
+public class btnLoginListener implements ActionListener,KeyListener {
 	
-	areaRiservataWnd login_wnd;
+	JFrame caller;
 	
-	public area_riservata_login(JFrame caller)
+	public btnLoginListener(JFrame caller)
 	{
-		login_wnd=(areaRiservataWnd) caller;
+		caller=(areaRiservataWnd) caller;
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -33,8 +33,8 @@ public class area_riservata_login implements ActionListener,KeyListener {
 	private void Login()
 	{
 
-		String user=login_wnd.getUsername();
-		String pssw=login_wnd.getPassword();
+		String user=((areaRiservataWnd) caller).getUsername();
+		String pssw=((areaRiservataWnd) caller).getPassword();
 		
 		String query="SELECT * FROM personale WHERE username=? AND password=MD5(?)";
 		try {
@@ -45,7 +45,7 @@ public class area_riservata_login implements ActionListener,KeyListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 
-			JOptionPane.showMessageDialog(login_wnd, e1.getMessage());
+			JOptionPane.showMessageDialog(caller, e1.getMessage());
 			return;
 		}
 
@@ -59,13 +59,13 @@ public class area_riservata_login implements ActionListener,KeyListener {
 			ResultSet rs=pst.executeQuery();
 			if(rs.next())
 			{
-				login_wnd.showOption();
+				((areaRiservataWnd) caller).showOption();
 				//Controllo quantità
 				checkAmount();
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(login_wnd, "Username o password non corretti!");
+				JOptionPane.showMessageDialog(caller, "Username o password non corretti!");
 			}
 			pst.close();
 			rs.close();
@@ -74,7 +74,7 @@ public class area_riservata_login implements ActionListener,KeyListener {
 		}
 		catch (Exception exc)
 		{
-			JOptionPane.showMessageDialog(login_wnd,exc.getMessage());
+			JOptionPane.showMessageDialog(caller,exc.getMessage());
 		}
 	}
 	
@@ -105,12 +105,12 @@ public class area_riservata_login implements ActionListener,KeyListener {
 			 
 			 if(showmessage)
 			 {
-				 JOptionPane.showMessageDialog(login_wnd, "Attenzione i seguenti titoli sono in esaurimento:"+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
+				 JOptionPane.showMessageDialog(caller, "Attenzione i seguenti titoli sono in esaurimento:"+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
 			 }
 		}
 		catch (Exception exception)
 		{
-			JOptionPane.showMessageDialog(login_wnd, exception.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(caller, exception.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

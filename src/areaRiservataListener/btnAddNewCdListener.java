@@ -9,19 +9,20 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.Cd;
-import view.areaRiservataWnd;
 
-public class area_riservata_newcd_insert implements ActionListener,KeyListener{
+public class btnAddNewCdListener implements ActionListener,KeyListener{
 
-	areaRiservataWnd ar_ref;
+	JFrame caller;
 	private Cd modelCd = new Cd();
 
-	public area_riservata_newcd_insert(areaRiservataWnd caller)
+	public btnAddNewCdListener(JFrame caller)
 	{
-		ar_ref=caller;
+		this.caller=caller;
 	}
 
 	@Override

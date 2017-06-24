@@ -7,22 +7,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import view.areaRiservataWnd;
-import view.aggiungiBranoWnd;
+
+import viewAreaRiservata.aggiungiBranoWnd;
+import viewAreaRiservata.areaRiservataWnd;
 
 
-public class area_riservata_goMain implements ActionListener {
+public class returnNegozioListener implements ActionListener {
 	
-	areaRiservataWnd prova_wnd;
-	public area_riservata_goMain(areaRiservataWnd caller)
+	JFrame caller;
+	public returnNegozioListener(areaRiservataWnd caller)
 	{
-		prova_wnd=caller;
+		this.caller=caller;
 	}	
 	
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		prova_wnd.showMain();
+		caller.show();
 		
 	}
 

@@ -1,4 +1,4 @@
-package view;
+package viewNegozio;
 
 import utility.*;
 import javax.swing.JFrame;
@@ -29,10 +29,10 @@ import com.sun.corba.se.spi.orbutil.fsm.Action;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
 import com.sun.xml.internal.ws.addressing.model.MissingAddressingHeaderException;
 
-import areaRiservataListener.area_riservata_goback;
-import areaRiservataListener.area_riservata_option_insert_cd;
-import areaRiservataListener.area_riservata_see_warehouse;
-import areaRiservataListener.area_riservata_wnd_closer;
+import areaRiservataListener.btnBackListener;
+import areaRiservataListener.o1Listener;
+import areaRiservataListener.o2Listener;
+import areaRiservataListener.closerWndListener;
 import jdk.nashorn.internal.scripts.JO;
 import negozioListener.carrello_goMain;
 import negozioListener.carrello_intro;
@@ -117,7 +117,7 @@ public class carrelloWnd extends JFrame {
 		//Tengo il riferimento al main form
 		main_wnd=caller;
 		panel_container.setLayout(carrello_layout);
-		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));	//cambiare nome a questo file?
+		this.addWindowListener(new closerWndListener(main_wnd));	//cambiare nome a questo file?
 		//premendo la x rossa torno al pannello precedente
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -3,19 +3,21 @@ package areaRiservataListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import view.areaRiservataWnd;
+import javax.swing.JFrame;
 
-public class areaRiservataOptionAddGen implements ActionListener{
+import viewAreaRiservata.areaRiservataWnd;
+
+public class o4Listener implements ActionListener{
 	
-	areaRiservataWnd caller;
+	JFrame caller;
 	
-	public areaRiservataOptionAddGen(areaRiservataWnd caller) {
+	public o4Listener(areaRiservataWnd caller) {
 		this.caller=caller;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		caller.showAddNewGen();
+		((areaRiservataWnd) caller).showAddNewGen();
 	}
 }

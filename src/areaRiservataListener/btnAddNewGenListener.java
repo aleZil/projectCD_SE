@@ -3,13 +3,15 @@ package areaRiservataListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import view.areaRiservataWnd;
+import javax.swing.JFrame;
 
-public class areaRiservataInsertNewGen implements ActionListener{
+import viewAreaRiservata.areaRiservataWnd;
 
-	areaRiservataWnd caller;
+public class btnAddNewGenListener implements ActionListener{
+
+	JFrame caller;
 	
-	public areaRiservataInsertNewGen(areaRiservataWnd caller) {
+	public btnAddNewGenListener(JFrame caller) {
 		// TODO Auto-generated constructor stub
 		this.caller=caller;
 	}
@@ -17,6 +19,6 @@ public class areaRiservataInsertNewGen implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		caller.AddNewGen();
+		((areaRiservataWnd) caller).AddNewGen();
 	}
 }

@@ -1,4 +1,4 @@
-package view;
+package viewAreaRiservata;
 
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
@@ -6,11 +6,11 @@ import utility.dataValidator;
 
 import javax.swing.JTextField;
 
-import areaRiservataListener.area_riservata_wnd_closer;
-import areaRiservataListener.areaRiservataWnd_to_aggiungiBranoWnd;
-import areaRiservataListener.area_riservata_goMain;
-import areaRiservataListener.area_riservata_goback;
-import areaRiservataListener.area_riservata_newcd_insert;
+import areaRiservataListener.closerWndListener;
+import areaRiservataListener.btnAddTrackListener;
+import areaRiservataListener.returnNegozioListener;
+import areaRiservataListener.btnBackListener;
+import areaRiservataListener.btnAddNewCdListener;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -49,7 +49,7 @@ public class aggiungiBranoWnd extends JFrame{
 		main_wnd=caller;
 		panel_container.setLayout(aggiungiBranoLayout);	//card_layout (contenitore di tutti i panel, ogni panel è un Mig layout)
 		
-		this.addWindowListener(new area_riservata_wnd_closer(main_wnd));
+		this.addWindowListener(new closerWndListener(main_wnd));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
 		
 		//Dimensioni finestra	

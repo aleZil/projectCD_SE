@@ -4,7 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import view.areaRiservataWnd;
+
+import viewAreaRiservata.areaRiservataWnd;
 
 public class main_wnd_btn_area_riservata implements ActionListener {
 

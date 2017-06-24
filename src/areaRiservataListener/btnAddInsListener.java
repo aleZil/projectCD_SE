@@ -4,14 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import view.aggiungiBranoWnd;
 
-public class areaRiservataWnd_to_aggiungiBranoWnd implements ActionListener {
+import viewAreaRiservata.aggiungiBranoWnd;
+import viewAreaRiservata.aggiungiStrumentoWnd;
 
-	JFrame main_wnd;
-	public areaRiservataWnd_to_aggiungiBranoWnd(JFrame caller_wnd)
+public class btnAddInsListener implements ActionListener {
+
+	JFrame caller;
+	public btnAddInsListener(JFrame caller)
 	{
-		main_wnd=caller_wnd;
+		this.caller=caller;
 	}
 
 
@@ -20,7 +22,7 @@ public class areaRiservataWnd_to_aggiungiBranoWnd implements ActionListener {
 			//Visualizzo la finestra di configurazione
 		try
 		{
-			aggiungiBranoWnd wnd=new aggiungiBranoWnd(main_wnd);
+			aggiungiStrumentoWnd wnd=new aggiungiStrumentoWnd(caller);
 		}
 		catch (Exception exception)
 		{

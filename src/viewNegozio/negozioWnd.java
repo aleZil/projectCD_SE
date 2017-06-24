@@ -1,4 +1,4 @@
-package view;
+package viewNegozio;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -34,8 +34,8 @@ public class negozioWnd extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					negozioWnd frame = new negozioWnd();
-					frame.setVisible(true);
+					negozioWnd negozio = new negozioWnd();
+					negozio.setVisible(true);
 					//frame.setExtendedState(Frame.MAXIMIZED_BOTH);		//fullscreen
 					/*
 					//Altro modo per fare fullscreen:
@@ -63,16 +63,16 @@ public class negozioWnd extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);	// null = Flaw layout
 		
-		JButton btn_area_riservata = new JButton("Area Riservata");
-		btn_area_riservata.setBounds(229, 12, 207, 25);
-		btn_area_riservata.addActionListener(new main_wnd_btn_area_riservata(this));
-		contentPane.add(btn_area_riservata);
+		JButton btnAreaRIservata = new JButton("Area Riservata");
+		btnAreaRIservata.setBounds(229, 12, 207, 25);
+		btnAreaRIservata.addActionListener(new main_wnd_btn_area_riservata(this));
+		contentPane.add(btnAreaRIservata);
 		
 		
-		JButton btn_carrello = new JButton("Carrello");
-		btn_carrello.setBounds(229,50,207,25);
-		btn_carrello.addActionListener(new main_wnd_btn_carrello(this));
-		contentPane.add(btn_carrello);
+		JButton btnCarrello = new JButton("Carrello");
+		btnCarrello.setBounds(229,50,207,25);
+		btnCarrello.addActionListener(new main_wnd_btn_carrello(this));
+		contentPane.add(btnCarrello);
 		
 		/*	
 		btn_annulla.addActionListener(ascoltatore);

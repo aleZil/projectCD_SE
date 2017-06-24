@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import view.carrelloWnd;
+import viewNegozio.carrelloWnd;
 
 public class main_wnd_btn_carrello implements ActionListener {
 

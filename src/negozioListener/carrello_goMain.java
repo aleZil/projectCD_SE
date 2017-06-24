@@ -9,8 +9,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import view.areaRiservataWnd;
-import view.carrelloWnd;
+import viewAreaRiservata.areaRiservataWnd;
+import viewNegozio.carrelloWnd;
 
 
 public class carrello_goMain implements ActionListener {
