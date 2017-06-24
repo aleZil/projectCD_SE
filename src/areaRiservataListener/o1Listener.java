@@ -13,7 +13,7 @@ public class o1Listener implements ActionListener{
 	JFrame caller;
 	public o1Listener(areaRiservataWnd caller)
 	{
-		caller=caller;
+		this.caller=caller;
 	}
 	
 	public void actionPerformed(ActionEvent e)

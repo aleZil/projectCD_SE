@@ -22,7 +22,7 @@ public class btnLoginListener implements ActionListener,KeyListener {
 	
 	public btnLoginListener(JFrame caller)
 	{
-		caller=(areaRiservataWnd) caller;
+		this.caller=(areaRiservataWnd) caller;
 	}
 	
 	public void actionPerformed(ActionEvent e)
