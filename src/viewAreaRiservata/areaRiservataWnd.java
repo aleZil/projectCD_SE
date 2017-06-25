@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 //import listeners.carrello_intro;
 //import listeners.negozio_btn_carrello;
 import javax.swing.JPasswordField;
@@ -15,6 +16,7 @@ import javax.swing.JScrollPane;
 
 import java.sql.*;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
@@ -31,9 +33,12 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import javax.swing.AbstractAction;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import net.miginfocom.swing.MigLayout;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,7 +58,7 @@ import areaRiservataListener.btnSaveWarehListener;
 import areaRiservataListener.o2Listener;
 import areaRiservataListener.closerWndListener;
 import areaRiservataListener.Listener;
-import areaRiservataListener.btnAddTrackListener;
+import areaRiservataListener.btnShowTrackListListener;
 import areaRiservataListener.btnAddInsListener;
 
 import java.awt.Component;
@@ -65,6 +70,7 @@ import java.awt.Toolkit;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.JList;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -72,12 +78,12 @@ public class areaRiservataWnd extends JFrame {
 
 	JFrame negozio;
 	private static CardLayout clPanel=new CardLayout();
-	
+
 	//Panel container
 	private JPanel panelContainer=new JPanel();
-	
+
 	//Componenti di rilievo
-	
+
 	//Pannello inserimento cd
 	private JTextField txtTitle;
 	private JTextField txtUser;
@@ -87,16 +93,17 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
 	private JTextArea txtDesc;
-	private JTextArea txtTrackList;
 	private JCheckBox chbLeader;
-	
+	private JList listTrackList;
+	private DefaultListModel<String> listModel;
+
 	//Pannello magazzino
 	private JTable tbCd;
-	
+
 	//Pannello nuovo musicista
 	private JComboBox<String> cbGenP3;
 	private JTextField txtArtName;
-	
+
 	//Pannello nuovo genere
 	private JTextField txtGen;
 
@@ -224,16 +231,12 @@ public class areaRiservataWnd extends JFrame {
 			rowEdited.add(tcl.getRow());
 		}
 	};
-	private JTextField textField;
-	private JTextField txtNumeroBrano;
-	private JTextField txtTitolo;
 
 	public void showWarehouse()
 	{
 		try
 		{
 			ResultSet res = modelCd.getAllInfo();
-
 			//Variabili supporto 
 			String codeCd;
 			String titleCd;
@@ -411,7 +414,6 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel option1Panel = new JPanel();
 		panelContainer.add(option1Panel, "insert");
-
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		//Mask per input date
@@ -432,7 +434,7 @@ public class areaRiservataWnd extends JFrame {
 
 		JButton btnAddTrack = new JButton("Aggiungi");
 		newCdPanel.add(btnAddTrack, "cell 1 2,grow");
-		btnAddTrack.addActionListener(new btnAddTrackListener(this));
+		btnAddTrack.addActionListener(new btnShowTrackListListener(this));
 
 		JLabel lblTrackList = new JLabel("Lista Brani:");
 		newCdPanel.add(lblTrackList, "cell 0 3,alignx right,aligny center");
@@ -440,8 +442,9 @@ public class areaRiservataWnd extends JFrame {
 		JScrollPane scrollTrackList = new JScrollPane();
 		newCdPanel.add(scrollTrackList, "cell 1 3,grow");
 
-		txtTrackList= new JTextArea();
-		scrollTrackList.setRowHeaderView(txtTrackList);
+		listModel=new DefaultListModel<String>();
+		listTrackList = new JList(listModel);
+		scrollTrackList.setViewportView(listTrackList);
 		newCdPanel.add(lblPrice, "cell 0 4,alignx right,aligny center");
 
 		txtPrice = new JTextField();
@@ -487,7 +490,7 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		newCdPanel.add(btnBack, "cell 1 9,alignx right,growy");
-		
+
 		chbLeader = new JCheckBox("Capoband");
 		newCdPanel.add(chbLeader, "cell 1 7,alignx left,aligny center");
 	}
@@ -509,12 +512,13 @@ public class areaRiservataWnd extends JFrame {
 		headerPanel.setViewportView(tbCd);
 		tbCd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
-		
+
 		JButton btnSaveUpdate = new JButton("Salva Modifiche!");
 		btnSaveUpdate.addActionListener(new btnSaveWarehListener(this));
 		warehPanel.add(btnSaveUpdate, "flowx,cell 0 1,grow");
 
 		JButton btnBack = new JButton("Annulla");
+		btnBack.addActionListener(new btnBackListener(this));
 		warehPanel.add(btnBack, "cell 0 1,grow");
 	}
 
@@ -544,7 +548,7 @@ public class areaRiservataWnd extends JFrame {
 		loginPanel.add(btnBack, "cell 0 6,alignx center,aligny center");
 
 		panelContainer.add(loginPanel, "login");
-		
+
 		//Aggiungo gli eventi
 		btnLogin.addActionListener(new btnLoginListener(this));
 		btnLogin.addKeyListener(new btnLoginListener(this));
@@ -564,7 +568,7 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnO2 = new JButton("Visualizza magazzino");
 		JButton btnO3 = new JButton("Aggiungi musicista");
 		JButton btnO4 = new JButton("Aggiungi nuovo genere");
-		
+
 		btnO1.addActionListener(new o1Listener(this));
 		btnO2.addActionListener(new o2Listener(this));
 		optionPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
@@ -581,7 +585,7 @@ public class areaRiservataWnd extends JFrame {
 
 		btnO4.addActionListener(new o4Listener(this));
 		buttonPanel.add(btnO4, "cell 0 3,alignx center,aligny top");
-		
+
 		panelContainer.add(optionPanel, "options");
 
 	}
@@ -627,10 +631,22 @@ public class areaRiservataWnd extends JFrame {
 		return txtTitle.getText();
 	}
 
-	public String getTrackList()
+	public DefaultListModel<String> getTrackList()
 	{
-		return txtTrackList.getText();
+		return listModel;
 	}
+
+	//Settare la tracklist
+	public void setTrackList(ArrayList<String> trackList)
+	{
+		listModel.clear();
+		for(String track:trackList)
+		{
+			listModel.addElement(track);
+		}
+	}
+	
+	
 
 	public String getCdPrice()
 	{
@@ -660,7 +676,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		return chbLeader.isSelected();
 	}
-	
+
 	public boolean validValues()
 	{
 		if(!dataValidator.checkString(getCdTitle()))
@@ -693,13 +709,13 @@ public class areaRiservataWnd extends JFrame {
 		txtPrice.setText("");
 		txtDesc.setText("");
 		txtAmo.setText("");
-		txtTrackList.setText("");
+		listModel.clear();
 		cbGen.removeAllItems();
 		cbMus.removeAllItems();
 	}
 
 	//Aggiunge nuovo genere
-	public void AddNewGen()
+	public void addNewGen()
 	{
 		if(!dataValidator.checkString(getGenName()))
 		{
@@ -721,4 +737,43 @@ public class areaRiservataWnd extends JFrame {
 			return;
 		}
 	}	
+
+	public void AddNewCd()
+	{
+
+		if(validValues())
+		{
+			try
+			{
+				//Recupero i dati dal form 
+				
+				String titolo=getCdTitle();
+				ListModel<String> titoloBrani=getTrackList();
+				BigDecimal prezzo=new BigDecimal(getCdPrice());
+				String descrizione=getCdDesc();
+				
+				long millis=System.currentTimeMillis();  
+				Date dataIns=new java.sql.Date(millis);  
+
+				int pezziMagazzino=Integer.parseInt(getAmount());
+				int genereId=getGenderId();
+				
+				// Inserisco il record nel DB 
+				
+				Boolean status = modelCd.insert(titolo, descrizione,dataIns, prezzo, pezziMagazzino, genereId ,listModel);
+
+				if (status == true) {
+					//Inserisco in partecipa
+					JOptionPane.showMessageDialog(this,"Cd inserito correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
+					clearComponents();
+				} else {
+					//Il cd che si prova a inserire esiste già
+					JOptionPane.showMessageDialog(this,"Il cd che stai inserendo esiste già!","Info",JOptionPane.ERROR_MESSAGE);
+				}
+
+			} catch (Exception exception) {
+				JOptionPane.showMessageDialog(this, exception.getMessage());
+			}
+		}
+	}
 }
