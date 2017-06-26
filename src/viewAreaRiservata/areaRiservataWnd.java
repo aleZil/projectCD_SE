@@ -130,7 +130,7 @@ public class areaRiservataWnd extends JFrame {
 		negozio=caller;
 		panelContainer.setLayout(clPanel);	//card_layout (contenitore di tutti i panel, ogni panel è un Mig layout)
 
-		this.addWindowListener(new closerWndListener(negozio));
+		this.addWindowListener(new returnNegozioListener(negozio,this));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		//Dimensioni finestra	
@@ -575,7 +575,7 @@ public class areaRiservataWnd extends JFrame {
 		//Aggiungo gli eventi
 		btnLogin.addActionListener(new btnLoginListener(this));
 		btnLogin.addKeyListener(new btnLoginListener(this));
-		btnBack.addActionListener(new returnNegozioListener(this));
+		btnBack.addActionListener(new returnNegozioListener(negozio,this));
 		txtPass.addActionListener(new btnLoginListener(this));
 
 	}

@@ -12,19 +12,33 @@ import viewAggiungiBrano.aggiungiBranoWnd;
 import viewAreaRiservata.areaRiservataWnd;
 
 
-public class returnNegozioListener implements ActionListener {
+public class returnNegozioListener extends WindowAdapter implements ActionListener {
 	
+	JFrame negozio;
 	JFrame caller;
-	public returnNegozioListener(areaRiservataWnd caller)
+	public returnNegozioListener(JFrame negozio,JFrame caller)
 	{
 		this.caller=caller;
+		this.negozio=negozio;
 	}	
 	
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		caller.show();
-		
+		caller.dispose();
+		negozio.setVisible(true);
 	}
 
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+		//Se la finestra di area riservata è disabled
+		//non devo poter chiudere
+		if(caller.isEnabled())
+		{
+			negozio.setVisible(true);
+			// Chiudo area_riservata_wnd
+			super.windowClosing(e);
+		}
+	}
 }

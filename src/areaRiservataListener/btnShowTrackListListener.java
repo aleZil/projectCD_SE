@@ -20,6 +20,7 @@ public class btnShowTrackListListener implements ActionListener {
 	{	
 		caller.setEnabled(false);
 		caller.setFocusable(false);
+		caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		//Visualizzo la finestra di configurazione
 		aggiungiBranoWnd wnd=new aggiungiBranoWnd(caller);
 	}

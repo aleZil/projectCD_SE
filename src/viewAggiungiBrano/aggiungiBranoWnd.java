@@ -43,6 +43,7 @@ import aggiungiBranoListener.closerAddTrackListener;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 
 public class aggiungiBranoWnd extends JFrame{
@@ -54,6 +55,7 @@ public class aggiungiBranoWnd extends JFrame{
 	
 	
 	public aggiungiBranoWnd(JFrame caller) {
+		setResizable(false);
 		//Tengo il riferimento al main form
 		this.caller=caller;
 		this.setTitle("Aggiungi brani");
@@ -84,6 +86,7 @@ public class aggiungiBranoWnd extends JFrame{
 		btnAddTrack.addActionListener(new btnAddTrackListener(this));
 		getContentPane().add(btnAddTrack, "cell 1 2,alignx center,aligny center");
 		getContentPane().add(btnRemoveTrack, "cell 3 2,alignx center,aligny center");
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTrackName, btnAddTrack}));
 		
 		this.setVisible(true);
 	}
@@ -114,7 +117,7 @@ public class aggiungiBranoWnd extends JFrame{
 	{
 		caller.setEnabled(true);
 		caller.setAlwaysOnTop(true);
-		
+		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ArrayList<String> trackList=new ArrayList();
 		
 		for(int i=0; i<listModel.size(); i++)

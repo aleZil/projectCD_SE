@@ -1,4 +1,4 @@
-package viewAreaRiservata;
+package viewAggiungiStrumento;
 
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;

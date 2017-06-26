@@ -18,7 +18,6 @@ public class closerWndListener extends WindowAdapter {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		// Ri-abilito la main_wnd
 		caller.setVisible(true);
 		// Chiudo area_riservata_wnd
 		super.windowClosing(e);
