@@ -23,11 +23,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 import java.awt.Color;
-//<<<<<<< HEAD:src/projectCD_SE/area_riservata_wnd.java
 import java.awt.FlowLayout;
 import java.awt.Frame;
-//=======
-//>>>>>>> 03c59dba1181ae0b72d8248dfb48f38f6f0b13a0:src/frame/areaRiservataWnd.java
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import javax.swing.AbstractAction;
@@ -95,10 +92,12 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
 	private JTextArea txtDesc;
-	private JList listTrackList;
-	private JList listPartecipantList;	//ocio
-	private DefaultListModel<String> listModel;
-	private DefaultListModel<String> listModel2; //ocio
+	
+	private JList listTrackList;		//lista dei brani
+	private DefaultListModel<String> listModel;		//lista dei brani
+	
+	private JList listPartecipantList;	//lista dei musicisti partecipanti
+	private DefaultListModel<String> listModel2; 	//lista dei musicisti partecipanti
 
 
 	//Pannello magazzino
@@ -431,6 +430,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel option1Panel = new JPanel();
 		panelContainer.add(option1Panel, "insert");
+		
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		//Mask per input date
@@ -489,7 +489,6 @@ public class areaRiservataWnd extends JFrame {
 		newCdPanel.add(lblMus, "cell 0 7,alignx right,aligny center");
 
 		cbMus = new JComboBox();
-
 		newCdPanel.add(cbMus, "flowx,cell 1 7,growx,aligny center");
 		
 		JLabel lblCollaboratore = new JLabel("Gestione musicisti:");
@@ -505,7 +504,7 @@ public class areaRiservataWnd extends JFrame {
 		//pannello visualizzazione musicisti partecipanti
 		JScrollPane scrollPartecipantList = new JScrollPane();
 		newCdPanel.add(scrollPartecipantList, "cell 1 9,grow");
-		listModel2=new DefaultListModel<String>();	//ocio
+		listModel2=new DefaultListModel<String>();	
 		listPartecipantList = new JList(listModel2);
 		scrollPartecipantList.setViewportView(listPartecipantList);
 
@@ -666,17 +665,17 @@ public class areaRiservataWnd extends JFrame {
 		return txtTitle.getText();
 	}
 
-	public DefaultListModel<String> getTrackList()
+	public DefaultListModel<String> getTrackList()	//lista dei brani
 	{
 		return listModel;
 	}
 	
-	public DefaultListModel<String> getPartecipantList()	//ocio
+	public DefaultListModel<String> getPartecipantList()	//lista dei musicisti partecipanti
 	{
 		return listModel2;
 	}
 
-	//Settare la tracklist
+	//Settare la tracklist (funzione chiamata da "aggiungiBranoWnd")
 	public void setTrackList(ArrayList<String> trackList)
 	{
 		listModel.clear();
@@ -686,7 +685,8 @@ public class areaRiservataWnd extends JFrame {
 		}
 	}
 	
-	public void setPartecipantList(ArrayList<String> partecipantList)	//ocio
+	//funzione chiamata da "aggiungiPartecipanteWnd"
+	public void setPartecipantList(ArrayList<String> partecipantList)	
 	{
 		listModel2.clear();
 		for(String partecipant:partecipantList)
@@ -695,10 +695,6 @@ public class areaRiservataWnd extends JFrame {
 		}
 	}
 	
-	
-	
-	
-
 	public String getCdPrice()
 	{
 		return txtPrice.getText();

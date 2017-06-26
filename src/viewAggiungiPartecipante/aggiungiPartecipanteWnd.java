@@ -1,4 +1,4 @@
-package viewAggiungiBrano;
+package viewAggiungiPartecipante;
 
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
@@ -20,9 +20,15 @@ import javax.swing.JPanel;
 
 import java.awt.CardLayout;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -53,6 +59,11 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	private JList<String> list;
 	private DefaultListModel<String> listModel2;
 	
+	Map<String,Integer> kGen;
+	Map<String,Integer> kMus;
+	private JComboBox<String> cbMus;
+
+	
 	
 	public aggiungiPartecipanteWnd(JFrame caller) {
 		//Tengo il riferimento al main form
@@ -62,18 +73,50 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		this.addWindowListener(new closerAddPartecipantListener(this));
 		loadModel();		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
-		setBounds(caller.getLocation().x,caller.getLocation().y, 550, 170);
-		getContentPane().setLayout(new MigLayout("", "[175.00,grow][141.00,grow][grow,fill]", "[grow,top][grow,top][grow,top][grow,top]"));
+		setBounds(caller.getLocation().x,caller.getLocation().y, 650, 170);
+		getContentPane().setLayout(new MigLayout("", "[100.00][200.00,grow][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
 		
 		JLabel lblNomePartecipante = new JLabel("Seleziona musicista:");
 		getContentPane().add(lblNomePartecipante, "cell 0 0,alignx trailing,aligny center");
 		
-		JButton btnAddColl = new JButton("Aggiungi musicista");
-		btnAddColl.addActionListener(new btnAddPartecipantListener(this));	
+		//JComboBox cbMusicisti = new JComboBox();
+		//getContentPane().add(cbMusicisti, "cell 1 0,growx,aligny center");
+		//provo a sistemare la wombocombobox
+		cbMus = new JComboBox();
+		getContentPane().add(cbMus, "cell 1 0,growx,aligny center");
 		
-		JComboBox cbMusicisti = new JComboBox();
-		getContentPane().add(btnAddColl, "cell 0 2,alignx center,aligny center");
+		try
+		{
+			String queryMusicista="SELECT * FROM Musicista ORDER BY nome_arte";
+			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
+			Statement stMus=con.createStatement();
+
+			ResultSet musicisti=stMus.executeQuery(queryMusicista);
+
+			//Devo tenere una mappa chiave primaria e stringa 
+			kMus=new HashMap<String,Integer>();
+
+			//Rimuovo gli elementi che eventualmente ci sono
+			cbMus.removeAll();
+
+			while(musicisti.next())
+			{
+				kMus.put(musicisti.getString("nome_arte"),musicisti.getInt("id"));
+				cbMus.addItem(musicisti.getString("nome_arte"));
+			}
+			stMus.close();
+			con.close();
+		}
+		catch(Exception exception)
+		{
+			JOptionPane.showMessageDialog(null, exception.getMessage());
+		}
 		
+		
+		
+		
+		
+		//___________________________
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		
@@ -83,14 +126,28 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		JButton btnRemoveColl = new JButton("Rimuovi musicista");
 		btnRemoveColl.addActionListener(new btnRemovePartecipantListener(this));	
 		
+		JButton btnAddColl = new JButton("Aggiungi musicista");
+		btnAddColl.addActionListener(new btnAddPartecipantListener(this));	
+		
+		//JComboBox cbMusicisti = new JComboBox();
+		
 		txtCollName = new JTextField();
-		getContentPane().add(txtCollName, "cell 1 2,alignx center,aligny center");
+		getContentPane().add(txtCollName, "cell 0 2,alignx center,aligny center");
 		txtCollName.setColumns(10);
-		getContentPane().add(btnRemoveColl, "cell 0 3,alignx center,aligny center");
+		getContentPane().add(btnAddColl, "cell 1 2,alignx center,aligny center");
+		getContentPane().add(btnRemoveColl, "cell 3 2,alignx center,aligny center");
 		
 		this.setVisible(true);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 	public void addPartecipant()
 	{
 		if(dataValidator.checkString(getTxtCollName()) && !listModel2.contains(getTxtCollName()))
