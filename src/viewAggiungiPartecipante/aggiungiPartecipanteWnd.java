@@ -11,6 +11,8 @@ import javax.swing.ListModel;
 import areaRiservataListener.closerWndListener;
 import areaRiservataListener.btnShowTrackListListener;
 import areaRiservataListener.returnNegozioListener;
+import model.Genere;
+import model.Musicista;
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.btnAddNewCdListener;
 import areaRiservataListener.btnAddNewGenListener;
@@ -87,9 +89,10 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		//provo a sistemare la WOMBOCOMBOBOX
 		cbMus = new JComboBox();
 		getContentPane().add(cbMus, "cell 1 0,growx,aligny center");
-		cbMus.addActionListener(new cbAddPartecipantListener(this));
+		//cbMus.addActionListener(new cbAddPartecipantListener(this));	//ocio
 		
 		//questo try serve per mostrare la lista di tutti i musicisti nella ComboBox
+		/*
 		try
 		{
 			String queryMusicista="SELECT * FROM Musicista ORDER BY nome_arte";
@@ -115,6 +118,26 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		catch(Exception exception)
 		{
 			JOptionPane.showMessageDialog(null, exception.getMessage());
+		}
+		*/
+		
+		
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
+		
+		//Se l'utente aveva scritto prima,pulisco
+		clearComponents();
+
+		kMus=new HashMap<String,Integer>();
+		
+		//Rimuovo gli elementi che eventualmente ci sono
+		cbMus.removeAll();
+		
+		for (int i = 0; i < listaMusicisti.size(); i++) {
+			
+			Musicista musicista = listaMusicisti.get(i);
+			
+			kMus.put(musicista.getNomeArte(), musicista.getId());
+			cbMus.addItem(musicista.getNomeArte());
 		}
 		
 		
@@ -191,6 +214,18 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		listModel2=((areaRiservataWnd)caller).getPartecipantList();
 	}
 
+	public void clearComponents()
+	{/*
+		txtTitle.setText("");
+		txtPrice.setText("");
+		txtDesc.setText("");
+		txtAmo.setText("");
+		listModel.clear();
+		*/
+		listModel2.clear();
+		//cbGen.removeAllItems();
+		cbMus.removeAllItems();
+	}
 	
 }
 
