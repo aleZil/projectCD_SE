@@ -79,6 +79,7 @@ public class Cd{
 		
 	}
 	
+	// ------------------------------------------------ RECUPERO INFO BASE
 	
 	public String getCodice() {
 		return this.codice;
@@ -96,6 +97,19 @@ public class Cd{
 		return this.dataInserimento;
 	}
 	
+	// ------------------------------------------------ SETTAGGIO INFO BASE
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// ------------------------------------------------ INTERAZIONE DB
 	
 	
 	

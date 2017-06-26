@@ -24,6 +24,20 @@ public class Genere {
 		}
 	}
 	
+	public Genere(Integer id, String nome) {
+		
+		try {
+			this.db = Db.getConnection();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		this.id = id;
+		this.nome = nome;
+	}
+	
+	
+	// ------------------------------------------------ RECUPERO INFO BASE
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -32,6 +46,8 @@ public class Genere {
 		return this.nome;
 	}
 	
+	// ------------------------------------------------ SETTAGGIO DATI BASE
+	
 	private void setId(Integer id) {
 		this.id = id;
 	}
@@ -39,6 +55,8 @@ public class Genere {
 	private void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	// ------------------------------------------------ INTERAZIONE DB
 	
 	public void getById(int id) {
 		

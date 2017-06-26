@@ -302,21 +302,40 @@ public class areaRiservataWnd extends JFrame {
 	{
 		this.setTitle("Inserisci un nuovo cd");
 		//Recupero lista generi e lista musicisti per le combobox
-		String queryGenere="SELECT * FROM Genere ORDER BY nome";
+		//String queryGenere="SELECT * FROM Genere ORDER BY nome";
 		String queryMusicista="SELECT * FROM Musicista ORDER BY nome_arte";
 		
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
-		
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
 		
 		//Se l'utente aveva scritto prima,pulisco
 		clearComponents();
-
-		//Il driver è già stato caricato durante il login
+		
+		kMus=new HashMap<String,Integer>();
+		kGen=new HashMap<String,Integer>();
+		
+		//Rimuovo gli elementi che eventualmente ci sono
+		cbMus.removeAll();
+		cbGen.removeAll();
 
 		for (int i = 0; i < listaGeneri.size(); i++) {
 			
+			Genere genere = listaGeneri.get(i);
+			
+			kGen.put(genere.getNome(), genere.getId());
+			cbGen.addItem(genere.getNome());
 		}
 		
+		for (int i = 0; i < listaMusicisti.size(); i++) {
+			
+			Musicista musicista = listaMusicisti.get(i);
+			
+			kMus.put(musicista.getNomeArte(), musicista.getId());
+			cbMus.addItem(musicista.getNomeArte());
+			
+		}
+		
+		/*
 		
 		try
 		{
@@ -355,6 +374,9 @@ public class areaRiservataWnd extends JFrame {
 		{
 			JOptionPane.showMessageDialog(null, exception.getMessage());
 		}
+		
+		
+		*/
 
 		clPanel.show(panelContainer, "insert");
 	}
