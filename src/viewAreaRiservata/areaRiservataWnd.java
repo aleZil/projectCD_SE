@@ -306,6 +306,7 @@ public class areaRiservataWnd extends JFrame {
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
 		
+		
 		//Se l'utente aveva scritto prima, pulisco
 		clearComponents();
 		
