@@ -306,7 +306,7 @@ public class areaRiservataWnd extends JFrame {
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
 		
-		//Se l'utente aveva scritto prima,pulisco
+		//Se l'utente aveva scritto prima, pulisco
 		clearComponents();
 		
 		kMus=new HashMap<String,Integer>();
@@ -331,49 +331,6 @@ public class areaRiservataWnd extends JFrame {
 			kMus.put(musicista.getNomeArte(), musicista.getId());
 			cbMus.addItem(musicista.getNomeArte());
 		}
-		
-		/*
-		
-		try
-		{
-			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
-			Statement stGen=con.createStatement();
-			Statement stMus=con.createStatement();
-
-			ResultSet generi=stGen.executeQuery(queryGenere);
-			ResultSet musicisti=stMus.executeQuery(queryMusicista);
-
-			//Devo tenere una mappa chiave primaria e stringa 
-			kMus=new HashMap<String,Integer>();
-			kGen=new HashMap<String,Integer>();
-
-			//Rimuovo gli elementi che eventualmente ci sono
-			cbMus.removeAll();
-			cbGen.removeAll();
-
-
-			while(generi.next())
-			{
-				kGen.put(generi.getString("nome"),generi.getInt("id"));
-				cbGen.addItem(generi.getString("nome"));
-			}
-
-			while(musicisti.next())
-			{
-				kMus.put(musicisti.getString("nome_arte"),musicisti.getInt("id"));
-				cbMus.addItem(musicisti.getString("nome_arte"));
-			}
-			stGen.close();
-			stMus.close();
-			con.close();
-		}
-		catch(Exception exception)
-		{
-			JOptionPane.showMessageDialog(null, exception.getMessage());
-		}
-		
-		
-		*/
 
 		clPanel.show(panelContainer, "insert");
 	}
