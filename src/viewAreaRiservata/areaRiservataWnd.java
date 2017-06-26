@@ -301,10 +301,8 @@ public class areaRiservataWnd extends JFrame {
 	public void showInsertCd()
 	{
 		this.setTitle("Inserisci un nuovo cd");
-		//Recupero lista generi e lista musicisti per le combobox
-		//String queryGenere="SELECT * FROM Genere ORDER BY nome";
-		String queryMusicista="SELECT * FROM Musicista ORDER BY nome_arte";
 		
+		//Recupero lista generi e lista musicisti per le combobox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
 		
@@ -332,7 +330,6 @@ public class areaRiservataWnd extends JFrame {
 			
 			kMus.put(musicista.getNomeArte(), musicista.getId());
 			cbMus.addItem(musicista.getNomeArte());
-			
 		}
 		
 		/*
