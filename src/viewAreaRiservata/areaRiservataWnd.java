@@ -93,10 +93,10 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> cbMus;
 	private JTextArea txtDesc;
 	
-	private JList listTrackList;		//lista dei brani
+	private JList listTrackList;					//lista dei brani
 	private DefaultListModel<String> listModel;		//lista dei brani
 	
-	private JList listPartecipantList;	//lista dei musicisti partecipanti
+	private JList listPartecipantList;				//lista dei musicisti partecipanti
 	private DefaultListModel<String> listModel2; 	//lista dei musicisti partecipanti
 
 
@@ -812,7 +812,7 @@ public class areaRiservataWnd extends JFrame {
 				
 				String titolo=getCdTitle();
 				ListModel<String> titoloBrani=getTrackList();
-				ListModel<String> nomiPartecipanti=getPartecipantList();
+				//ListModel<String> nomiPartecipanti=getPartecipantList();
 				BigDecimal prezzo=new BigDecimal(getCdPrice());
 				String descrizione=getCdDesc();
 				
