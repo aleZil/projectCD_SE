@@ -62,22 +62,29 @@ public class aggiungiBranoWnd extends JFrame{
 		loadModel();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
 		setBounds(caller.getLocation().x,caller.getLocation().y, 550, 170);
-		getContentPane().setLayout(new MigLayout("", "[grow][grow,fill]", "[grow,top][grow,top][grow,top][grow,top]"));
-		JLabel lblNomeBrano = new JLabel("Nome brano");
+		getContentPane().setLayout(new MigLayout("", "[175.00,grow][141.00][grow,fill]", "[grow,top][grow,top][grow,top][grow,top]"));
+		
+		JLabel lblNomeBrano = new JLabel("Nome brano:");
 		getContentPane().add(lblNomeBrano, "cell 0 0,alignx center,aligny center");
-		txtTrackName = new JTextField();
-		getContentPane().add(txtTrackName, "cell 0 1,alignx center,aligny center");
-		txtTrackName.setColumns(10);
+		
 		JButton btnAddTrack = new JButton("Aggiungi brano");
 		btnAddTrack.addActionListener(new btnAddTrackListener(this));
+		
+		txtTrackName = new JTextField();
+		getContentPane().add(txtTrackName, "cell 1 0,alignx center,aligny center");
+		txtTrackName.setColumns(10);
 		getContentPane().add(btnAddTrack, "cell 0 2,alignx center,aligny center");
+		
 		JScrollPane listPanel = new JScrollPane();
-		getContentPane().add(listPanel, "cell 1 0 1 4,grow");
+		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
+		
 		list = new JList(listModel);
 		listPanel.setViewportView(list);
+		
 		JButton btnRemoveTrack = new JButton("Rimuovi brano");
 		btnRemoveTrack.addActionListener(new btnRemoveTrackListener(this));
 		getContentPane().add(btnRemoveTrack, "cell 0 3,alignx center,aligny center");
+		
 		this.setVisible(true);
 	}
 
@@ -110,7 +117,7 @@ public class aggiungiBranoWnd extends JFrame{
 		
 		ArrayList<String> trackList=new ArrayList();
 		
-		for(int i=0;i<listModel.size();i++)
+		for(int i=0; i<listModel.size(); i++)
 		{
 			trackList.add(listModel.getElementAt(i));
 		}
