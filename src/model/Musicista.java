@@ -214,13 +214,12 @@ public class Musicista {
 			
 			ps.close();
 			rs.close();
-			return lista;
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		
-		return null;
+		return lista;
 	}
 	
 	
