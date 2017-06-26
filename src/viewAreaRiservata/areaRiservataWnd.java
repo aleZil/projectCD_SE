@@ -39,10 +39,13 @@ import net.miginfocom.swing.MigLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.JCheckBox;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator;
 
 import areaRiservataListener.btnAddNewGenListener;
 import areaRiservataListener.o4Listener;
@@ -237,45 +240,49 @@ public class areaRiservataWnd extends JFrame {
 	{
 		try
 		{
-			ResultSet res = modelCd.getAllInfo();
+
+			Catalogo catalogo = new Catalogo();
+			catalogo.getAll();
+
 			//Variabili supporto 
-			String codeCd;
-			String titleCd;
+			String code;
+			String title;
 			String trackList;
-			BigDecimal priceCd;
+			BigDecimal price;
 			Date insertDate;
 			String descCd;
 			int soldCd;
 			int amountCd;
 			String genere;
-			//String[] colNames={"Codice","Titolo","Titolo Pezzi","Prezzo","Data I.","Descrizione","Venduti","Rimanenti","Genere Id","Musicista Id"};
-			String[] colNames={"Codice","Titolo","Prezzo","Data I.","Genere", "Descrizione","Venduti","Rimanenti"};
 
+			// definizione della tabella
+			
+			String[] colNames={"Codice","Titolo","Prezzo","Data I."};
+			//String[] colNames={"Codice","Titolo","Prezzo","Data I.","Genere", "Titolare","Descrizione","Venduti","Rimanenti"};
 			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
 			tableModel model=new tableModel(0, 10);
 			model.setColumnIdentifiers(colNames);
-			while(res.next())
-			{
-				codeCd=res.getString("codice");
-				titleCd=res.getString("titolo");
-				priceCd=res.getBigDecimal("prezzo");
-				insertDate=res.getDate("data_inserimento");
-				genere=res.getString("genere");
-				descCd=res.getString("descrizione");
-				soldCd=res.getInt("pezzi_venduti");
-				amountCd=res.getInt("pezzi_magazzino");
+			
+			ArrayList<Cd> listCd = catalogo.getList();
+			Cd cdTmp = new Cd();
+			
+			for (int i= 0; i < listCd.size(); i++) {
+				cdTmp = listCd.get(i);
 
-				//musId=res.getInt("musicista_id");
-				model.addRow(new Object[]{codeCd,titleCd,priceCd,insertDate,genere,descCd,soldCd,amountCd});
+				code = cdTmp.getCodice();
+				title = cdTmp.getTitolo();
+				price = cdTmp.getPrezzo();
+				insertDate = cdTmp.getDataInserimento();
+				
+				model.addRow(new Object[]{code, title, price,insertDate});
 			}
-
+			
 			tbCd.setModel(model);
 
 			TableCellListener tcl=new TableCellListener(tbCd,GetUpdate);
 
 			this.setTitle("Magazzino");
 			clPanel.show(panelContainer, "warehouse");
-			res.close();
 		}
 		catch(Exception exception)
 		{
@@ -288,8 +295,6 @@ public class areaRiservataWnd extends JFrame {
 	{
 		this.setTitle("Aggiungi nuovo genere");
 		clPanel.show(panelContainer, "optionAddGen");
-
-
 	}
 
 	public void showInsertCd()
