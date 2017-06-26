@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import utility.Db;
 
@@ -23,6 +24,20 @@ public class Genere {
 		}
 	}
 	
+	public Genere(Integer id, String nome) {
+		
+		try {
+			this.db = Db.getConnection();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		this.id = id;
+		this.nome = nome;
+	}
+	
+	
+	// ------------------------------------------------ RECUPERO INFO BASE
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -31,6 +46,8 @@ public class Genere {
 		return this.nome;
 	}
 	
+	// ------------------------------------------------ SETTAGGIO DATI BASE
+	
 	private void setId(Integer id) {
 		this.id = id;
 	}
@@ -38,6 +55,8 @@ public class Genere {
 	private void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	// ------------------------------------------------ INTERAZIONE DB
 	
 	public void getById(int id) {
 		
@@ -61,7 +80,6 @@ public class Genere {
 			System.out.println(e.getMessage());
 		}
 	}
-	
 	
 	
 	/*
@@ -89,24 +107,33 @@ public class Genere {
 	
 	*/
 	
-	public ResultSet getAll() {
+	public ArrayList<Genere> getAll() {
 		
 		ResultSet rs = null;
+		ArrayList<Genere> lista = new ArrayList<Genere>();
 		
 		try {
 			String query = "SELECT * FROM genere ORDER BY nome";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
-			
 			rs = ps.executeQuery();
 			
-			if (!rs.next() ) {
-				return null;
+			while (rs.next() ) {
+				
+				Genere genere = new Genere();
+				genere.setId(rs.getInt("id"));
+				genere.setNome(rs.getString("nome"));
+				
+				lista.add(genere);
 			}
+			
+			ps.close();
+			rs.close();
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return rs;
+		return lista;
 	}
 	
 	public Boolean insert(String nome) {
