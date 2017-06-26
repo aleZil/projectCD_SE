@@ -474,7 +474,7 @@ public class areaRiservataWnd extends JFrame {
 		cbGen = new JComboBox();
 		newCdPanel.add(cbGen, "cell 1 6,alignx center,aligny center");
 
-		JLabel lblMus = new JLabel("Musicista:");
+		JLabel lblMus = new JLabel("Capo band:");
 		newCdPanel.add(lblMus, "cell 0 7,alignx right,aligny center");
 
 		cbMus = new JComboBox();
