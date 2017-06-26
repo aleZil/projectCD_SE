@@ -3,7 +3,8 @@ package aggiungiPartecipanteListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
-import viewAggiungiBrano.aggiungiPartecipanteWnd;
+
+import viewAggiungiPartecipante.aggiungiPartecipanteWnd;
 
 public class closerAddPartecipantListener extends WindowAdapter{
 	

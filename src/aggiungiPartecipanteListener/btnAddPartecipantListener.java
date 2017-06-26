@@ -3,7 +3,8 @@ package aggiungiPartecipanteListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import viewAggiungiBrano.aggiungiPartecipanteWnd;
+
+import viewAggiungiPartecipante.aggiungiPartecipanteWnd;
 
 
 public class btnAddPartecipantListener implements ActionListener{

@@ -61,19 +61,15 @@ public class aggiungiBranoWnd extends JFrame{
 		this.addWindowListener(new closerAddTrackListener(this));
 		loadModel();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
-		setBounds(caller.getLocation().x,caller.getLocation().y, 550, 170);
-		getContentPane().setLayout(new MigLayout("", "[175.00,grow][141.00][grow,fill]", "[grow,top][grow,top][grow,top][grow,top]"));
+		setBounds(caller.getLocation().x,caller.getLocation().y, 650, 170);
+		getContentPane().setLayout(new MigLayout("", "[100.00][200.00][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
 		
 		JLabel lblNomeBrano = new JLabel("Nome brano:");
 		getContentPane().add(lblNomeBrano, "cell 0 0,alignx center,aligny center");
 		
-		JButton btnAddTrack = new JButton("Aggiungi brano");
-		btnAddTrack.addActionListener(new btnAddTrackListener(this));
-		
 		txtTrackName = new JTextField();
 		getContentPane().add(txtTrackName, "cell 1 0,alignx center,aligny center");
 		txtTrackName.setColumns(10);
-		getContentPane().add(btnAddTrack, "cell 0 2,alignx center,aligny center");
 		
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
@@ -83,7 +79,11 @@ public class aggiungiBranoWnd extends JFrame{
 		
 		JButton btnRemoveTrack = new JButton("Rimuovi brano");
 		btnRemoveTrack.addActionListener(new btnRemoveTrackListener(this));
-		getContentPane().add(btnRemoveTrack, "cell 0 3,alignx center,aligny center");
+		
+		JButton btnAddTrack = new JButton("Aggiungi brano");
+		btnAddTrack.addActionListener(new btnAddTrackListener(this));
+		getContentPane().add(btnAddTrack, "cell 1 2,alignx center,aligny center");
+		getContentPane().add(btnRemoveTrack, "cell 3 2,alignx center,aligny center");
 		
 		this.setVisible(true);
 	}
