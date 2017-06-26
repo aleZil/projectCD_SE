@@ -2,6 +2,9 @@ package utility;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
@@ -14,7 +17,7 @@ public class dataValidator {
 		return !st.isEmpty();
 	}
 
-	public static boolean emptyTrackList(String cdTrackList)
+	public static boolean emptyTrackList(DefaultListModel<String> cdTrackList)
 	{
 		return cdTrackList.isEmpty();
 	}

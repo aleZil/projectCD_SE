@@ -8,13 +8,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-//import listeners.carrello_intro;
-//import listeners.negozio_btn_carrello;
+import javax.swing.ListModel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 
 import java.sql.*;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
@@ -31,6 +31,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import javax.swing.AbstractAction;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import net.miginfocom.swing.MigLayout;
@@ -55,10 +56,11 @@ import areaRiservataListener.btnLoginListener;
 import areaRiservataListener.btnAddNewCdListener;
 import areaRiservataListener.o1Listener;
 import areaRiservataListener.btnSaveWarehListener;
+import areaRiservataListener.btnShowCollaboratorListListener;
 import areaRiservataListener.o2Listener;
 import areaRiservataListener.closerWndListener;
 import areaRiservataListener.Listener;
-import areaRiservataListener.btnAddTrackListener;
+import areaRiservataListener.btnShowTrackListListener;
 import areaRiservataListener.btnAddInsListener;
 
 import java.awt.Component;
@@ -70,6 +72,7 @@ import java.awt.Toolkit;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.JList;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -77,12 +80,12 @@ public class areaRiservataWnd extends JFrame {
 
 	JFrame negozio;
 	private static CardLayout clPanel=new CardLayout();
-	
+
 	//Panel container
 	private JPanel panelContainer=new JPanel();
-	
+
 	//Componenti di rilievo
-	
+
 	//Pannello inserimento cd
 	private JTextField txtTitle;
 	private JTextField txtUser;
@@ -92,16 +95,19 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
 	private JTextArea txtDesc;
-	private JTextArea txtTrackList;
-	private JCheckBox chbLeader;
-	
+	private JList listTrackList;
+	private JList listPartecipantList;	//ocio
+	private DefaultListModel<String> listModel;
+	private DefaultListModel<String> listModel2; //ocio
+
+
 	//Pannello magazzino
 	private JTable tbCd;
-	
+
 	//Pannello nuovo musicista
 	private JComboBox<String> cbGenP3;
 	private JTextField txtArtName;
-	
+
 	//Pannello nuovo genere
 	private JTextField txtGen;
 
@@ -146,8 +152,8 @@ public class areaRiservataWnd extends JFrame {
 		createOptionAddMusPanel();
 		//Creo pannello di aggiunta genere
 		createOptionAddGenPanel();
+		
 		//Aggiungo il container che contiene tutti i panel
-
 		getContentPane().add(panelContainer);
 		clPanel.show(panelContainer, "login");
 
@@ -194,7 +200,7 @@ public class areaRiservataWnd extends JFrame {
 				try
 				{
 					// TODO dovrebbe chiamare il controller
-					Boolean status = modelCd.updateByCodice(codice, titolo, titoloBrani, descrizione, prezzo, dataInserimento);
+					Boolean status = modelCd.updateByCodice(codice, titolo, titoloBrani, descrizione, prezzo, dataInserimento); 
 
 					if(status == true)
 						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica eseguita con successo!","Info",JOptionPane.INFORMATION_MESSAGE);
@@ -229,22 +235,22 @@ public class areaRiservataWnd extends JFrame {
 			rowEdited.add(tcl.getRow());
 		}
 	};
-	private JTextField textField;
-	private JTextField txtNumeroBrano;
-	private JTextField txtTitolo;
 
 	public void showWarehouse()
 	{
 		try
 		{
+
 			Catalogo catalogo = new Catalogo();
 			catalogo.getAll();
-			
+
 			//Variabili supporto 
 			String code;
 			String title;
 			String trackList;
+
 			BigDecimal price;
+
 			Date insertDate;
 			String descCd;
 			int soldCd;
@@ -416,14 +422,13 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel option1Panel = new JPanel();
 		panelContainer.add(option1Panel, "insert");
-
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		//Mask per input date
 		MaskFormatter dataMask=new MaskFormatter("##/##/##");
 
-		JLabel lblPrice = new JLabel("Prezzo:");
-		newCdPanel.setLayout(new MigLayout("", "[][600px,grow,fill][]", "[][20px][][grow][20px][grow][20px][20px][20px][60px]"));
+		
+		newCdPanel.setLayout(new MigLayout("", "[grow][600px,grow,fill][]", "[][20px][][grow][20px][grow][20px][20px][48.00,grow][grow][20px][60px]"));
 
 		JLabel lblTitle = new JLabel("Titolo Cd:");
 		newCdPanel.add(lblTitle, "cell 0 1,alignx right,aligny center");
@@ -432,21 +437,24 @@ public class areaRiservataWnd extends JFrame {
 		txtTitle.setColumns(10);
 		newCdPanel.add(txtTitle, "cell 1 1,alignx left,aligny center");
 
-		JLabel lblAddTrackList = new JLabel("Aggiungi brano:");
+		JLabel lblAddTrackList = new JLabel("Gestione brani:");
 		newCdPanel.add(lblAddTrackList, "cell 0 2,alignx right,aligny center");
 
-		JButton btnAddTrack = new JButton("Aggiungi");
+		JButton btnAddTrack = new JButton("Aggiungi/Rimuovi");
 		newCdPanel.add(btnAddTrack, "cell 1 2,grow");
-		btnAddTrack.addActionListener(new btnAddTrackListener(this));
+		btnAddTrack.addActionListener(new btnShowTrackListListener(this));	//apro nuovo frame
 
-		JLabel lblTrackList = new JLabel("Lista Brani:");
+		JLabel lblTrackList = new JLabel("Lista brani:");
 		newCdPanel.add(lblTrackList, "cell 0 3,alignx right,aligny center");
 
+		//Pannello di visualizzazione brani
 		JScrollPane scrollTrackList = new JScrollPane();
 		newCdPanel.add(scrollTrackList, "cell 1 3,grow");
-
-		txtTrackList= new JTextArea();
-		scrollTrackList.setRowHeaderView(txtTrackList);
+		listModel=new DefaultListModel<String>();
+		listTrackList = new JList(listModel);
+		scrollTrackList.setViewportView(listTrackList);
+		
+		JLabel lblPrice = new JLabel("Prezzo:");
 		newCdPanel.add(lblPrice, "cell 0 4,alignx right,aligny center");
 
 		txtPrice = new JTextField();
@@ -469,32 +477,48 @@ public class areaRiservataWnd extends JFrame {
 		newCdPanel.add(cbGen, "cell 1 6,alignx center,aligny center");
 
 		JLabel lblMus = new JLabel("Musicista:");
-		newCdPanel.add(lblMus, "cell 0 7,alignx trailing");
+		newCdPanel.add(lblMus, "cell 0 7,alignx right,aligny center");
 
 		cbMus = new JComboBox();
 
 		newCdPanel.add(cbMus, "flowx,cell 1 7,growx,aligny center");
+		
+		JLabel lblCollaboratore = new JLabel("Gestione musicisti:");
+		newCdPanel.add(lblCollaboratore, "cell 0 8,alignx right,aligny center");
+		
+		JButton btnAggiungiCollaboratore = new JButton("Aggiungi/Rimuovi");
+		newCdPanel.add(btnAggiungiCollaboratore, "cell 1 8");
+		btnAggiungiCollaboratore.addActionListener(new btnShowCollaboratorListListener(this)); 	//apro nuovo frame
+		
+		JLabel lblListaMusicisti = new JLabel("Lista musicisti:");
+		newCdPanel.add(lblListaMusicisti, "cell 0 9,alignx right,aligny center");
+		
+		//pannello visualizzazione musicisti partecipanti
+		JScrollPane scrollPartecipantList = new JScrollPane();
+		newCdPanel.add(scrollPartecipantList, "cell 1 9,grow");
+		listModel2=new DefaultListModel<String>();	//ocio
+		listPartecipantList = new JList(listModel2);
+		scrollPartecipantList.setViewportView(listPartecipantList);
 
 		JLabel lblAmo = new JLabel("Quantità:");
-		newCdPanel.add(lblAmo, "cell 0 8,alignx right,aligny center");
+		newCdPanel.add(lblAmo, "cell 0 10,alignx right,aligny center");
 
 		txtAmo = new JTextField();
 		txtAmo.setColumns(10);
-		newCdPanel.add(txtAmo, "cell 1 8,alignx center,aligny center");
+		newCdPanel.add(txtAmo, "cell 1 10,alignx center,aligny center");
 
 		JButton btnAddNewCd = new JButton("Inserisci prodotto");
 		btnAddNewCd.addActionListener(new btnAddNewCdListener(this));
 		btnAddNewCd.addKeyListener(new btnAddNewCdListener(this));
-		newCdPanel.add(btnAddNewCd, "flowx,cell 1 9,alignx left,growy");
+		newCdPanel.add(btnAddNewCd, "flowx,cell 1 11,alignx left,growy");
 		option1Panel.setLayout(new MigLayout("", "[1174px]", "[851px]"));
 		option1Panel.add(newCdPanel, "cell 0 0,grow");
 
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
-		newCdPanel.add(btnBack, "cell 1 9,alignx right,growy");
+		newCdPanel.add(btnBack, "cell 1 11,alignx right,growy");
+
 		
-		chbLeader = new JCheckBox("Capoband");
-		newCdPanel.add(chbLeader, "cell 1 7,alignx left,aligny center");
 	}
 
 	private void createWarehousePanel()
@@ -514,12 +538,13 @@ public class areaRiservataWnd extends JFrame {
 		headerPanel.setViewportView(tbCd);
 		tbCd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
-		
+
 		JButton btnSaveUpdate = new JButton("Salva Modifiche!");
 		btnSaveUpdate.addActionListener(new btnSaveWarehListener(this));
 		warehPanel.add(btnSaveUpdate, "flowx,cell 0 1,grow");
 
 		JButton btnBack = new JButton("Annulla");
+		btnBack.addActionListener(new btnBackListener(this));
 		warehPanel.add(btnBack, "cell 0 1,grow");
 	}
 
@@ -549,7 +574,7 @@ public class areaRiservataWnd extends JFrame {
 		loginPanel.add(btnBack, "cell 0 6,alignx center,aligny center");
 
 		panelContainer.add(loginPanel, "login");
-		
+
 		//Aggiungo gli eventi
 		btnLogin.addActionListener(new btnLoginListener(this));
 		btnLogin.addKeyListener(new btnLoginListener(this));
@@ -569,7 +594,7 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnO2 = new JButton("Visualizza magazzino");
 		JButton btnO3 = new JButton("Aggiungi musicista");
 		JButton btnO4 = new JButton("Aggiungi nuovo genere");
-		
+
 		btnO1.addActionListener(new o1Listener(this));
 		btnO2.addActionListener(new o2Listener(this));
 		optionPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
@@ -586,7 +611,7 @@ public class areaRiservataWnd extends JFrame {
 
 		btnO4.addActionListener(new o4Listener(this));
 		buttonPanel.add(btnO4, "cell 0 3,alignx center,aligny top");
-		
+
 		panelContainer.add(optionPanel, "options");
 
 	}
@@ -632,10 +657,38 @@ public class areaRiservataWnd extends JFrame {
 		return txtTitle.getText();
 	}
 
-	public String getTrackList()
+	public DefaultListModel<String> getTrackList()
 	{
-		return txtTrackList.getText();
+		return listModel;
 	}
+	
+	public DefaultListModel<String> getPartecipantList()	//ocio
+	{
+		return listModel2;
+	}
+
+	//Settare la tracklist
+	public void setTrackList(ArrayList<String> trackList)
+	{
+		listModel.clear();
+		for(String track:trackList)
+		{
+			listModel.addElement(track);
+		}
+	}
+	
+	public void setPartecipantList(ArrayList<String> partecipantList)	//ocio
+	{
+		listModel2.clear();
+		for(String partecipant:partecipantList)
+		{
+			listModel2.addElement(partecipant);
+		}
+	}
+	
+	
+	
+	
 
 	public String getCdPrice()
 	{
@@ -661,11 +714,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		return txtAmo.getText();
 	}
-	public boolean isLeader()
-	{
-		return chbLeader.isSelected();
-	}
-	
+
 	public boolean validValues()
 	{
 		if(!dataValidator.checkString(getCdTitle()))
@@ -698,13 +747,14 @@ public class areaRiservataWnd extends JFrame {
 		txtPrice.setText("");
 		txtDesc.setText("");
 		txtAmo.setText("");
-		txtTrackList.setText("");
+		listModel.clear();
+		listModel2.clear();
 		cbGen.removeAllItems();
 		cbMus.removeAllItems();
 	}
 
 	//Aggiunge nuovo genere
-	public void AddNewGen()
+	public void addNewGen()
 	{
 		if(!dataValidator.checkString(getGenName()))
 		{
@@ -726,4 +776,44 @@ public class areaRiservataWnd extends JFrame {
 			return;
 		}
 	}	
+
+	public void AddNewCd()
+	{
+
+		if(validValues())
+		{
+			try
+			{
+				//Recupero i dati dal form 
+				
+				String titolo=getCdTitle();
+				ListModel<String> titoloBrani=getTrackList();
+				ListModel<String> nomiPartecipanti=getPartecipantList();
+				BigDecimal prezzo=new BigDecimal(getCdPrice());
+				String descrizione=getCdDesc();
+				
+				long millis=System.currentTimeMillis();  
+				Date dataIns=new java.sql.Date(millis);  
+
+				int pezziMagazzino=Integer.parseInt(getAmount());
+				int genereId=getGenderId();
+				
+				// Inserisco il record nel DB 
+				
+				Boolean status = modelCd.insert(titolo, descrizione,dataIns, prezzo, pezziMagazzino, genereId ,listModel);
+
+				if (status == true) {
+					//Inserisco in partecipa
+					JOptionPane.showMessageDialog(this,"Cd inserito correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
+					clearComponents();
+				} else {
+					//Il cd che si prova a inserire esiste già
+					JOptionPane.showMessageDialog(this,"Il cd che stai inserendo esiste già!","Info",JOptionPane.ERROR_MESSAGE);
+				}
+
+			} catch (Exception exception) {
+				JOptionPane.showMessageDialog(this, exception.getMessage());
+			}
+		}
+	}
 }

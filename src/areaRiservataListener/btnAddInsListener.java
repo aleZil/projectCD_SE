@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import viewAreaRiservata.aggiungiBranoWnd;
+import viewAggiungiBrano.aggiungiBranoWnd;
 import viewAreaRiservata.aggiungiStrumentoWnd;
 
 public class btnAddInsListener implements ActionListener {

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 
 import utility.*;
 
@@ -149,48 +150,38 @@ public class Cd{
 	
 	// TODO da rivedere da qua in poi
 	
-	public Boolean insert(String titolo,
-			String descrizione,
-			BigDecimal prezzo,
-			Integer pezziMagazzino,
-			Integer genereId,
-			Hashtable<Integer, String> listaBrani) {
+	public Boolean insert(String titolo,String descrizione,Date dataIns,BigDecimal prezzo,Integer pezziMagazzino,Integer genereId,ListModel<String> listaBrani)
+	{
 
 		try {
 			String insertCdQuery="INSERT INTO Cd "
-					+ "(titolo, prezzo, descrizione, pezzi_magazzino, genere_id) "
-					+ "VALUES (?,?,?,?, ?)";
+					+ "(titolo, prezzo,data_inserimento,descrizione,pezzi_magazzino,genere_id) "
+					+ "VALUES (?,?,?,?,?,?)";
 			
 			PreparedStatement psIns = this.db.prepareStatement(insertCdQuery);
 			
 			int i = 1;
-			psIns.setString(i++ , titolo);
-			psIns.setBigDecimal(i++ , prezzo);
-			psIns.setString(i++ , descrizione);
-			psIns.setInt(i++ , pezziMagazzino);
-			psIns.setInt(i++, genereId);
-			
-			
-			Iterator it = listaBrani.entrySet().iterator();
-			
-			while(it.hasNext()) {
-				
+			psIns.setString(1 , titolo);
+			psIns.setBigDecimal(2, prezzo);
+			psIns.setDate(3,dataIns);
+			psIns.setString(4,descrizione);
+			psIns.setInt(5,pezziMagazzino);
+			psIns.setInt(6,genereId);
+		
+			if(psIns.executeUpdate()!=1)
+			{
+				return false;
 			}
-			
-			
-			
 
-			String insertParecipa="INSERT INTO Partecipazione "
+			psIns.clearParameters();
+
+			/*String insertParecipa="INSERT INTO Partecipazione "
 					+ "(cd_codice,musicista_id,is_titolare) "
 					+ "VALUES (?,?,?)";
 			
 			
-			
-			
-			
-			
 			if( psIns.executeUpdate() != 1 )
-				return false;
+				return false;*/
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

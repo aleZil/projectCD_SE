@@ -1,17 +1,14 @@
-package areaRiservataListener;
+package aggiungiBranoListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
+import viewAggiungiBrano.aggiungiBranoWnd;
 
-import viewAreaRiservata.areaRiservataWnd;
-
-public class btnAddNewGenListener implements ActionListener{
-
-	JFrame caller;
+public class btnAddTrackListener implements ActionListener{
 	
-	public btnAddNewGenListener(JFrame caller) {
+	JFrame caller;
+	public btnAddTrackListener(JFrame caller) {
 		// TODO Auto-generated constructor stub
 		this.caller=caller;
 	}
@@ -19,6 +16,6 @@ public class btnAddNewGenListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		((areaRiservataWnd) caller).addNewGen();
+		((aggiungiBranoWnd) caller).addTrack();
 	}
 }
