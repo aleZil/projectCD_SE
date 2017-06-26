@@ -267,6 +267,8 @@ public class areaRiservataWnd extends JFrame {
 			Cd cdTmp = new Cd();
 			
 			for (int i= 0; i < listCd.size(); i++) {
+				
+				// salvo in cdTmp l'oggetto cd recuperato dalla lista
 				cdTmp = listCd.get(i);
 
 				code = cdTmp.getCodice();
@@ -303,11 +305,20 @@ public class areaRiservataWnd extends JFrame {
 		//Recupero lista generi e lista musicisti per le combobox
 		String queryGenere="SELECT * FROM Genere ORDER BY nome";
 		String queryMusicista="SELECT * FROM Musicista ORDER BY nome_arte";
+		
+		ArrayList<Genere> listaGeneri = new Genere().getAll();
+		
+		
 		//Se l'utente aveva scritto prima,pulisco
 		clearComponents();
 
 		//Il driver è già stato caricato durante il login
 
+		for (int i = 0; i < listaGeneri.size(); i++) {
+			
+		}
+		
+		
 		try
 		{
 			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");

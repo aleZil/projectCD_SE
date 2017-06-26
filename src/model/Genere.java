@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import utility.Db;
 
@@ -63,7 +64,6 @@ public class Genere {
 	}
 	
 	
-	
 	/*
 	
 	public int getIdByNome(String nome) {
@@ -89,24 +89,33 @@ public class Genere {
 	
 	*/
 	
-	public ResultSet getAll() {
+	public ArrayList<Genere> getAll() {
 		
 		ResultSet rs = null;
+		ArrayList<Genere> lista = new ArrayList<Genere>();
 		
 		try {
 			String query = "SELECT * FROM genere ORDER BY nome";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
-			
 			rs = ps.executeQuery();
 			
-			if (!rs.next() ) {
-				return null;
+			while (rs.next() ) {
+				
+				Genere genere = new Genere();
+				genere.setId(rs.getInt("id"));
+				genere.setNome(rs.getString("nome"));
+				
+				lista.add(genere);
 			}
+			
+			ps.close();
+			rs.close();
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return rs;
+		return lista;
 	}
 	
 	public Boolean insert(String nome) {
