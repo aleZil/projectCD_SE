@@ -16,8 +16,7 @@ public class Musicista {
 	private Integer id;
 	private String nomeArte;
 	private Integer annoNascita;
-	private Integer genereId;
-	private String genere;
+	private Genere genere;
 	
 	public Musicista() {
 		
@@ -31,8 +30,7 @@ public class Musicista {
 	public Musicista(	Integer id,
 						String nomeArte,
 						Integer annoNascita,
-						Integer genereId,
-						String genere) {
+						Genere genere) {
 		
 		try {
 			this.db = Db.getConnection();
@@ -43,9 +41,46 @@ public class Musicista {
 		this.id = id;
 		this.nomeArte = nomeArte;
 		this.annoNascita = annoNascita;
-		this.genereId = genereId;
 		this.genere = genere;
 	}
+	
+	// ------------------------------------------------ RECUPERO INFO BASE
+	
+	public Integer getId() {
+		return this.id;
+	}
+	
+	public String getNomeArte() {
+		return this.nomeArte;
+	}
+	
+	public Integer getAnnoNascita() {
+		return this.annoNascita;
+	}
+	
+	public Genere getGenere() {
+		return this.genere;
+	}
+	
+	// ------------------------------------------------ SETTAGGIO DATI BASE
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public void setNomeArte(String nomeArte) {
+		this.nomeArte = nomeArte;
+	}
+	
+	public void setAnnoNascita(Integer annoNascita) {
+		this.annoNascita = annoNascita;
+	}
+	
+	public void setGenere(Genere genere) {
+		this.genere = genere;
+	}
+	
+	// ------------------------------------------------ INTERAZIONE DB
 	
 	/**
 	 * @param id del musicista da cui ottenere le informazioni
@@ -65,13 +100,13 @@ public class Musicista {
 			ResultSet rs = ps.executeQuery();
 			
 			if (!rs.next() ) {
-				this.id = rs.getInt("id");
-				this.nomeArte = rs.getString("nome_arte");
-				this.annoNascita = rs.getInt("anno_nascita");
-				this.genereId= rs.getInt("genere_id");
-				this.genere= rs.getString("genere");
+				this.setId(rs.getInt("id"));
+				this.setNomeArte(rs.getString("nome_arte"));
+				this.setAnnoNascita(rs.getInt("anno_nascita"));
+				
+				this.setGenere(new Genere(rs.getInt("genere_id"), rs.getString("genere")));
 			}
-			
+			ps.close();
 			rs.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -97,11 +132,11 @@ public class Musicista {
 			ResultSet rs = ps.executeQuery();
 			
 			if (!rs.next() ) {
-				this.id = rs.getInt("id");
-				this.nomeArte = rs.getString("nome_arte");
-				this.annoNascita = rs.getInt("anno_nascita");
-				this.genereId= rs.getInt("genere_id");
-				this.genere= rs.getString("genere");
+				this.setId(rs.getInt("id"));
+				this.setNomeArte(rs.getString("nome_arte"));
+				this.setAnnoNascita(rs.getInt("anno_nascita"));
+				
+				this.setGenere(new Genere(rs.getInt("genere_id"), rs.getString("genere")));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -128,13 +163,14 @@ public class Musicista {
 			ResultSet rs = ps.executeQuery();
 			
 			if (!rs.next() ) {
-				this.id = rs.getInt("id");
-				this.nomeArte = rs.getString("nome_arte");
-				this.annoNascita = rs.getInt("anno_nascita");
-				this.genereId= rs.getInt("genere_id");
-				this.genere= rs.getString("genere");
+				this.setId(rs.getInt("id"));
+				this.setNomeArte(rs.getString("nome_arte"));
+				this.setAnnoNascita(rs.getInt("anno_nascita"));
+				
+				this.setGenere(new Genere(rs.getInt("genere_id"), rs.getString("genere")));
 				
 			}
+			ps.close();
 			rs.close();
 			
 		} catch (SQLException e) {
@@ -149,8 +185,7 @@ public class Musicista {
 		Integer id;
 		String nomeArte;
 		Integer annoNascita;
-		Integer genereId;
-		String genere;
+		Genere genere;
 		
 		try {
 			String query = "SELECT M.id AS id, M.nome_arte AS nome_arte, M.anno_nascita AS anno_nascita, M.genere_id AS genere_id, G.nome AS genere "
@@ -172,44 +207,59 @@ public class Musicista {
 				id = rs.getInt("id");
 				nomeArte = rs.getString("nome_arte");
 				annoNascita = rs.getInt("anno_nascita");
-				genereId= rs.getInt("genere_id");
-				genere= rs.getString("genere");
+				genere = new Genere(rs.getInt("genere_id"), rs.getString("genere"));
 				
-				lista.add(new Musicista(id, nomeArte, annoNascita,genereId, genere));
+				lista.add(new Musicista(id, nomeArte, annoNascita, genere));
 			}
 			
 			ps.close();
 			rs.close();
-			return lista;
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		
-		return null;
+		return lista;
 	}
 	
-	/*
-	public ResultSet getAll() {
+	
+	public ArrayList<Musicista> getAll() {
 		
-		ResultSet rs = null;
+		ArrayList<Musicista> lista = new ArrayList<Musicista>();
 		
 		try {
-			String query = "SELECT * FROM musicista ORDER BY nome_arte";
+			String query = "SELECT M.id AS id, M.nome_arte AS nome_arte, M.anno_nascita AS anno_nascita, G.id AS genere_id, G.nome AS genere "
+					+ "FROM musicista AS M "
+					+ "JOIN Genere AS G "
+					+ "ON M.genere_id = G.id "
+					+ "ORDER BY nome_arte";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
 			
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			
-			if (!rs.next() ) {
-				return null;
+			while (rs.next() ) {
+				Musicista m = new Musicista();
+				
+				m.setId(rs.getInt("id"));
+				m.setNomeArte(rs.getString("nome_arte"));
+				m.setAnnoNascita(rs.getInt("anno_nascita"));
+				m.setGenere(new Genere(rs.getInt("genere_id"), rs.getString("genere")));
+			
+				lista.add(m);
 			}
+			
+			ps.close();
+			rs.close();
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return rs;
+		return lista;
 	}
 	
+	
+	/*
 	public Boolean insert(String nomeArte,
 			int genereId,
 			int annoNascita,

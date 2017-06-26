@@ -266,6 +266,8 @@ public class areaRiservataWnd extends JFrame {
 			Cd cdTmp = new Cd();
 			
 			for (int i= 0; i < listCd.size(); i++) {
+				
+				// salvo in cdTmp l'oggetto cd recuperato dalla lista
 				cdTmp = listCd.get(i);
 
 				code = cdTmp.getCodice();
@@ -299,14 +301,39 @@ public class areaRiservataWnd extends JFrame {
 	public void showInsertCd()
 	{
 		this.setTitle("Inserisci un nuovo cd");
+		
 		//Recupero lista generi e lista musicisti per le combobox
-		String queryGenere="SELECT * FROM Genere ORDER BY nome";
-		String queryMusicista="SELECT * FROM Musicista ORDER BY nome_arte";
+		ArrayList<Genere> listaGeneri = new Genere().getAll();
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
+		
 		//Se l'utente aveva scritto prima,pulisco
 		clearComponents();
+		
+		kMus=new HashMap<String,Integer>();
+		kGen=new HashMap<String,Integer>();
+		
+		//Rimuovo gli elementi che eventualmente ci sono
+		cbMus.removeAll();
+		cbGen.removeAll();
 
-		//Il driver è già stato caricato durante il login
-
+		for (int i = 0; i < listaGeneri.size(); i++) {
+			
+			Genere genere = listaGeneri.get(i);
+			
+			kGen.put(genere.getNome(), genere.getId());
+			cbGen.addItem(genere.getNome());
+		}
+		
+		for (int i = 0; i < listaMusicisti.size(); i++) {
+			
+			Musicista musicista = listaMusicisti.get(i);
+			
+			kMus.put(musicista.getNomeArte(), musicista.getId());
+			cbMus.addItem(musicista.getNomeArte());
+		}
+		
+		/*
+		
 		try
 		{
 			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
@@ -344,6 +371,9 @@ public class areaRiservataWnd extends JFrame {
 		{
 			JOptionPane.showMessageDialog(null, exception.getMessage());
 		}
+		
+		
+		*/
 
 		clPanel.show(panelContainer, "insert");
 	}
@@ -474,7 +504,7 @@ public class areaRiservataWnd extends JFrame {
 		cbGen = new JComboBox();
 		newCdPanel.add(cbGen, "cell 1 6,alignx center,aligny center");
 
-		JLabel lblMus = new JLabel("Musicista:");
+		JLabel lblMus = new JLabel("Capo band:");
 		newCdPanel.add(lblMus, "cell 0 7,alignx right,aligny center");
 
 		cbMus = new JComboBox();

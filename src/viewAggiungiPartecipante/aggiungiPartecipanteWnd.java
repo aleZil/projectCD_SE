@@ -11,8 +11,11 @@ import javax.swing.ListModel;
 import areaRiservataListener.closerWndListener;
 import areaRiservataListener.btnShowTrackListListener;
 import areaRiservataListener.returnNegozioListener;
+import model.Genere;
+import model.Musicista;
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.btnAddNewCdListener;
+import areaRiservataListener.btnAddNewGenListener;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,6 +23,8 @@ import javax.swing.JPanel;
 
 import java.awt.CardLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -44,7 +49,8 @@ import javax.swing.SwingConstants;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import aggiungiPartecipanteListener.btnAddPartecipantListener;
-import aggiungiPartecipanteListener.btnRemovePartecipantListener;	
+import aggiungiPartecipanteListener.btnRemovePartecipantListener;
+import aggiungiPartecipanteListener.cbAddPartecipantListener;
 import aggiungiPartecipanteListener.closerAddPartecipantListener;	
 
 import javax.swing.JList;
@@ -59,10 +65,8 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	private JList<String> list;
 	private DefaultListModel<String> listModel2;
 	
-	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
 	private JComboBox<String> cbMus;
-
 	
 	
 	public aggiungiPartecipanteWnd(JFrame caller) {
@@ -81,10 +85,14 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		
 		//JComboBox cbMusicisti = new JComboBox();
 		//getContentPane().add(cbMusicisti, "cell 1 0,growx,aligny center");
-		//provo a sistemare la wombocombobox
+		
+		//provo a sistemare la WOMBOCOMBOBOX
 		cbMus = new JComboBox();
 		getContentPane().add(cbMus, "cell 1 0,growx,aligny center");
+		//cbMus.addActionListener(new cbAddPartecipantListener(this));	//ocio
 		
+		//questo try serve per mostrare la lista di tutti i musicisti nella ComboBox
+		/*
 		try
 		{
 			String queryMusicista="SELECT * FROM Musicista ORDER BY nome_arte";
@@ -111,6 +119,26 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		{
 			JOptionPane.showMessageDialog(null, exception.getMessage());
 		}
+		*/
+		
+		
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
+		
+		//Se l'utente aveva scritto prima,pulisco
+		clearComponents();
+
+		kMus=new HashMap<String,Integer>();
+		
+		//Rimuovo gli elementi che eventualmente ci sono
+		cbMus.removeAll();
+		
+		for (int i = 0; i < listaMusicisti.size(); i++) {
+			
+			Musicista musicista = listaMusicisti.get(i);
+			
+			kMus.put(musicista.getNomeArte(), musicista.getId());
+			cbMus.addItem(musicista.getNomeArte());
+		}
 		
 		
 		
@@ -119,7 +147,6 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		//___________________________
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
-		
 		list = new JList(listModel2);
 		listPanel.setViewportView(list);
 		
@@ -128,9 +155,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		
 		JButton btnAddColl = new JButton("Aggiungi musicista");
 		btnAddColl.addActionListener(new btnAddPartecipantListener(this));	
-		
-		//JComboBox cbMusicisti = new JComboBox();
-		
+				
 		txtCollName = new JTextField();
 		getContentPane().add(txtCollName, "cell 0 2,alignx center,aligny center");
 		txtCollName.setColumns(10);
@@ -139,15 +164,14 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		
 		this.setVisible(true);
 	}
+	//_______________
 
 	
 	
 	
 	
 	
-	
-	
-	
+	//_______________
 	public void addPartecipant()
 	{
 		if(dataValidator.checkString(getTxtCollName()) && !listModel2.contains(getTxtCollName()))
@@ -190,4 +214,95 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		listModel2=((areaRiservataWnd)caller).getPartecipantList();
 	}
 
+	public void clearComponents()
+	{/*
+		txtTitle.setText("");
+		txtPrice.setText("");
+		txtDesc.setText("");
+		txtAmo.setText("");
+		listModel.clear();
+		*/
+		listModel2.clear();
+		//cbGen.removeAllItems();
+		cbMus.removeAllItems();
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+cbMus.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		    	
+		        System.out.println("ciaone"); 
+		        this.aggiungiPartecipante();
+		        this.rimuoviPartecipante();
+		        this.getTxtPartecipante();
+		        this.close();
+		        this.loadModel();
+		        System.out.println("ciaone2"); 
+
+				//loadModel();		
+
+		    }
+		    
+		    public void aggiungiPartecipante()
+			{
+				if(dataValidator.checkString(getTxtPartecipante()) && !listModel2.contains(getTxtPartecipante()))
+				{ 
+					listModel2.addElement(getTxtPartecipante());
+				}
+				txtCollName.setText("");
+			}
+			
+			public void rimuoviPartecipante()
+			{
+				if(list.getSelectedValue() != null)
+				{
+					listModel2.remove(list.getSelectedIndex());
+				}
+			}
+			
+			private String getTxtPartecipante()
+			{
+				return txtCollName.getText();
+			}
+			
+			public void close()
+			{
+				caller.setEnabled(true);
+				caller.setAlwaysOnTop(true);
+				
+				ArrayList<String> partecipantList=new ArrayList();
+				
+				for(int i=0; i<listModel2.size(); i++)
+				{
+					partecipantList.add(listModel2.getElementAt(i));
+				}
+
+				((areaRiservataWnd) caller).setPartecipantList(partecipantList);
+			}
+			
+			private void loadModel()
+			{		
+				listModel2=((areaRiservataWnd)caller).getPartecipantList();
+			}
+		    
+			//_______________
+
+		});
+
+*/
