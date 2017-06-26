@@ -11,6 +11,9 @@ public class Genere {
 	
 	private Connection db;
 	
+	private Integer id;
+	private String nome;
+	
 	public Genere() {
 		
 		try {
@@ -20,9 +23,23 @@ public class Genere {
 		}
 	}
 	
-	public ResultSet getById(int id) {
-		
-		ResultSet rs = null;
+	public Integer getId() {
+		return this.id;
+	}
+	
+	public String getNome() {
+		return this.nome;
+	}
+	
+	private void setId(Integer id) {
+		this.id = id;
+	}
+	
+	private void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public void getById(int id) {
 		
 		try {
 			String query = "SELECT * FROM genere WHERE id = ?";
@@ -30,16 +47,24 @@ public class Genere {
 			PreparedStatement ps = this.db.prepareStatement(query);
 			ps.setInt(1, id);
 			
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			
-			if (!rs.next() ) {
-				return null;
+			if (rs.next() ) {
+				this.setId(rs.getInt("id"));
+				this.setNome(rs.getString("nome"));
 			}
+			
+			ps.close();
+			rs.close();
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return rs;
 	}
+	
+	
+	
+	/*
 	
 	public int getIdByNome(String nome) {
 		
@@ -61,6 +86,8 @@ public class Genere {
 		}
 		return -1; //trovato nulla
 	}
+	
+	*/
 	
 	public ResultSet getAll() {
 		
