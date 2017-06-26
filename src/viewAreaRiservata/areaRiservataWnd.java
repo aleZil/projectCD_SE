@@ -242,7 +242,6 @@ public class areaRiservataWnd extends JFrame {
 			String codeCd;
 			String titleCd;
 			String trackList;
-			String partecipantList;	//ocio
 			BigDecimal priceCd;
 			Date insertDate;
 			String descCd;
