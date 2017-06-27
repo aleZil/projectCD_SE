@@ -228,6 +228,10 @@ public class areaRiservataWnd extends JFrame {
 	{
 		try
 		{
+
+			// recupero tutti i cd
+			ArrayList<Cd> listaCd = new Cd().getAll();
+			
 			//Variabili supporto 
 			String title;
 			BigDecimal price;
@@ -529,7 +533,7 @@ public class areaRiservataWnd extends JFrame {
 		loginPanel.add(btnLogin, "flowx,cell 0 6,alignx center,aligny center");
 
 		JButton btnBack = new JButton("Indietro");
-		loginPanel.add(btnBack, "cell 0 6,alignx center,aligny center");
+		loginPanel.add(btnBack, "flowx,cell 0 6,alignx center,aligny center");
 
 		panelContainer.add(loginPanel, "login");
 
@@ -774,7 +778,8 @@ public class areaRiservataWnd extends JFrame {
 
 		Genere newGen=new Genere();
 
-		if(newGen.insert(getGenName()))
+		// TODO da rivedere
+		if(newGen.insert())
 		{
 			JOptionPane.showMessageDialog(this, "Nuovo genere inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
 			txtGen.setText("");

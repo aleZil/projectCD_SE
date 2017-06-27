@@ -24,6 +24,7 @@ public class Cd{
 	private String descrizione;
 	private Integer pezziVenduti;
 	private Integer pezziMagazzino;
+	private ArrayList<Brano> brani;
 	private Genere genere;
 	private Musicista titolare;
 	private ArrayList<Musicista> partecipanti;
@@ -37,26 +38,14 @@ public class Cd{
 		}
 	}
 	
-	/**
-	 * 
-	 * @param id
-	 * @param titolo
-	 * @param prezzo
-	 * @param dataInserimento
-	 * @param descrizione
-	 * @param pezziVenduti
-	 * @param pezziMagazzino
-	 * @param genere
-	 * @param musicista
-	 * @param partecipanti
-	 */
-	public Cd(	Integer id,
+	// costruttore usato dall'utente per la creazione di un cd di cui non conosce id e data inserimento
+	public Cd(
 				String titolo,
 				BigDecimal prezzo,
-				Date dataInserimento,
 				String descrizione,
 				Integer pezziVenduti,
 				Integer pezziMagazzino,
+				ArrayList<Brano> brani,
 				Genere genere,
 				Musicista titolare,
 				ArrayList<Musicista> partecipanti) {
@@ -66,18 +55,48 @@ public class Cd{
 			System.out.println(e.getMessage());
 		}
 		
-		this.setId(id);
 		this.setTitolo(titolo);
 		this.setPrezzo(prezzo);
-		this.setDataInserimento(dataInserimento);
 		this.setDescrizione(descrizione);
 		this.setPezziVenduti(pezziVenduti);
 		this.setPezziMagazzino(pezziMagazzino);
+		this.setBrani(brani);
 		this.setGenere(genere);
 		this.setTitolare(titolare);
 		this.setPartecipanti(partecipanti);
-		
 	}
+	
+	// costruttore del cd ottenuto dal database, con tutte le informazioni
+	public Cd(
+			Integer id,
+			String titolo,
+			BigDecimal prezzo,
+			String descrizione,
+			Integer pezziVenduti,
+			Integer pezziMagazzino,
+			Date dataInserimento,
+			ArrayList<Brano> brani,
+			Genere genere,
+			Musicista titolare,
+			ArrayList<Musicista> partecipanti) {
+	try {
+		this.db = Db.getConnection();
+	} catch (Exception e) {
+		System.out.println(e.getMessage());
+	}
+	
+	this.setId(id);
+	this.setTitolo(titolo);
+	this.setPrezzo(prezzo);
+	this.setDescrizione(descrizione);
+	this.setPezziVenduti(pezziVenduti);
+	this.setPezziMagazzino(pezziMagazzino);
+	this.setDataInserimento(dataInserimento);
+	this.setBrani(brani);
+	this.setGenere(genere);
+	this.setTitolare(titolare);
+	this.setPartecipanti(partecipanti);
+}
 	
 	// ------------------------------------------------ RECUPERO INFO BASE
 	
@@ -107,6 +126,10 @@ public class Cd{
 	
 	public Integer getPezziMagazzino() {
 		return this.pezziMagazzino;
+	}
+	
+	public ArrayList<Brano> getBrani() {
+		return this.brani;
 	}
 	
 	public Genere getGenere() {
@@ -150,6 +173,10 @@ public class Cd{
 		this.pezziMagazzino = pezziMagazzino;
 	}
 	
+	public void setBrani(ArrayList<Brano> brani) {
+		this.brani = brani;
+	}
+	
 	public void setGenere(Genere genere) {
 		this.genere = genere;
 	}
@@ -170,7 +197,7 @@ public class Cd{
 	 * @param codice del cd del quale si vogliono settare le informazioni
 	 * @return 
 	 */
-	public Cd getByCodice(String codice) {
+	public void getById(int id) {
 
 		try {
 			String query = "SELECT id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
@@ -180,18 +207,19 @@ public class Cd{
 					+ "WHERE C.id = ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
-			ps.setString(1, codice);
+			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();
 			
 			if (rs.next() ) {
-				this.id = rs.getInt("id");
-				this.titolo = rs.getString("titolo");
-				this.prezzo = rs.getBigDecimal("prezzo");
-				this.dataInserimento = rs.getDate("data_inserimento");
-				this.descrizione = rs.getString("descrizione");
-				this.pezziVenduti = rs.getInt("pezzi_venduti");
-				this.pezziMagazzino = rs.getInt("pezzi_magazzino");
+				this.setId(rs.getInt("id"));
+				this.setTitolo(rs.getString("titolo"));
+				this.setPrezzo(rs.getBigDecimal("prezzo"));
+				this.setDataInserimento(rs.getDate("data_inserimento"));
+				this.setDescrizione(rs.getString("descrizione"));
+				this.setPezziVenduti(rs.getInt("pezzi_venduti"));
+				this.setPezziMagazzino(rs.getInt("pezzi_magazzino"));
+				
 				this.genere = new Genere();
 				this.genere.getById(rs.getInt("genere_id"));
 
@@ -205,17 +233,68 @@ public class Cd{
 			ps.close();
 			rs.close();
 			
-			return this;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * @return un ArrayList<Cd> con le informazioni solo della tabella Cd del database
+	 */
+	public ArrayList<Cd> getAllBase() {
+		
+		ArrayList<Cd> lista = new ArrayList<Cd>();
+		
+		Integer id;
+		String titolo;
+		BigDecimal prezzo;
+		Date dataInserimento;
+		String descrizione;
+		Integer pezziVenduti;
+		Integer pezziMagazzino;
+		
+		ArrayList<Brano> brani = new ArrayList<Brano>();
+		Genere genere = null;
+		Musicista titolare = null;
+		ArrayList<Musicista> partecipanti = new ArrayList<Musicista>();
+		
+		try { 
+			String query = "SELECT id, titolo,  prezzo, data_inserimento, descrizione, pezzi_venduti, pezzi_magazzino "
+					+ "FROM cd AS C "
+					+ "ORDER BY titolo";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			
+			while( rs.next() ){
+				
+				Cd cdTmp = new Cd();
+				
+				id = rs.getInt("id");
+				titolo = rs.getString("titolo");
+				prezzo = rs.getBigDecimal("prezzo");
+				dataInserimento = rs.getDate("data_inserimento");
+				descrizione = rs.getString("descrizione");
+				pezziVenduti = rs.getInt("pezzi_venduti");
+				pezziMagazzino = rs.getInt("pezzi_magazzino");
+
+				lista.add(new Cd(id, titolo, prezzo, descrizione, pezziVenduti, pezziMagazzino, dataInserimento, brani, genere,	titolare, partecipanti));
+			}
+			ps.close();
+			rs.close();
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return null;
-	
+		
+		return lista;
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @return ArrayList<Cd> con tutte le informazioni relative al Cd, anche quelle in relazione ad altre tabelle
+	 */
 	public ArrayList<Cd> getAll() {
 		
 		ArrayList<Cd> lista = new ArrayList<Cd>();
@@ -227,9 +306,11 @@ public class Cd{
 		String descrizione;
 		Integer pezziVenduti;
 		Integer pezziMagazzino;
+		
+		ArrayList<Brano> brani = new ArrayList<Brano>();
 		Genere genere;
 		Musicista titolare;
-		ArrayList<Musicista> partecipanti;
+		ArrayList<Musicista> partecipanti = new ArrayList<Musicista>();
 		
 		try { 
 			String query = "SELECT C.id AS id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
@@ -242,6 +323,9 @@ public class Cd{
 			ResultSet rs = ps.executeQuery();
 			
 			while( rs.next() ){
+				
+				Cd cdTmp = new Cd();
+				
 				id = rs.getInt("id");
 				titolo = rs.getString("titolo");
 				prezzo = rs.getBigDecimal("prezzo");
@@ -257,8 +341,10 @@ public class Cd{
 				titolare.getTitolareByIdCd(id);
 				
 				partecipanti = new Musicista().getPartecipantiByIdCd(id);
+				//brani = new Brano().getBraniByIdCd();
+				
 
-				lista.add(new Cd(id, titolo, prezzo, dataInserimento, descrizione, pezziVenduti, pezziMagazzino, genere, titolare, partecipanti));
+				lista.add(new Cd(id, titolo, prezzo, descrizione, pezziVenduti, pezziMagazzino, dataInserimento, brani, genere,	titolare, partecipanti));
 			}
 			ps.close();
 			rs.close();
@@ -269,6 +355,103 @@ public class Cd{
 		
 		return lista;
 	}
+	
+	
+	/**
+	 *  Inserisce nel db l'oggetto Cd creato
+	 */
+	public Boolean insert()
+	{
+
+		ArrayList<Brano> brani = this.getBrani();
+		Genere genere = this.getGenere();
+		Musicista titolare = this.getTitolare();
+		ArrayList<Musicista> partecipanti = this.getPartecipanti();
+		
+		try {
+			String query="INSERT INTO Cd "
+					+ "(titolo, prezzo, data_inserimento, descrizione, pezzi_magazzino, genere_id) "
+					+ "VALUES (?,?,?,?,?,?)";
+			
+			PreparedStatement psIns = this.db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
+			int i = 1;
+
+			psIns.setString(i++ , this.getTitolo());
+			psIns.setBigDecimal(i++, this.getPrezzo());
+			psIns.setDate(i++, this.getDataInserimento());
+			psIns.setString(i++, this.getDescrizione());
+			psIns.setInt(i++, this.getPezziMagazzino());
+			psIns.setInt(i++, genere.getId());
+
+			psIns.executeUpdate(query);
+			int id = 0;
+			
+			ResultSet rs = psIns.getGeneratedKeys();
+			
+			if (rs.next()){
+				// recupero l'id della tupla inserita
+			    id = rs.getInt(1);
+			} else {
+				return false;
+			}
+			
+			// ---------------------------------------------------- AGGIUNTA BRANI
+			
+			query = "INSERT INTO Brano "
+					+ "(nome, ordine, cd_id) "
+					+ "VALUES (?,?,?)";
+			
+			for (int j = 0; j < brani.size(); j++) 
+			{
+				psIns.clearParameters();
+				i = 1;
+				
+				// recupero il brano j-esimo
+				Brano b = brani.get(j);
+				
+				psIns.setString(i++, b.getNome());
+				psIns.setInt(i++, b.getOrdine());
+				psIns.setInt(i++, id);
+				
+				if( psIns.executeUpdate() != 1 )
+					return false;
+			}
+
+			// ---------------------------------------------------- AGGIUNTA TITOLARE
+			query ="INSERT INTO Partecipazione "
+					+ "(cd_id, musicista_id, is_titolare) "
+					+ "VALUES (?,?,?)";
+			
+			i = 1;
+			psIns.setInt(i++, id);
+			psIns.setInt(i++, titolare.getId());
+			psIns.setBoolean(i++, true);
+			
+			if( psIns.executeUpdate() != 1 )
+				return false;
+
+			// ---------------------------------------------------- AGGIUNTA PARTECIPANTI
+			for (int j = 0; j < partecipanti.size(); j++) 
+			{
+				psIns.clearParameters();
+				i = 1;
+				
+				psIns.setInt(i++, id);
+				// recupero l'id del musicista partecipante j-esimo
+				psIns.setInt(i++, partecipanti.get(j).getId());
+				psIns.setBoolean(i++, false);
+				
+				if( psIns.executeUpdate() != 1 )
+					return false;
+			}
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return true;
+	}
 
 	/*
 	 * ----------------------------------------------------------------
@@ -277,48 +460,6 @@ public class Cd{
 	 */
 	
 	
-	
-	// TODO da sistemare
-	public Boolean insert(String titolo,String descrizione,Date dataIns,BigDecimal prezzo,Integer pezziMagazzino,Integer genereId,ListModel<String> listaBrani)
-	{
-
-		try {
-			String insertCdQuery="INSERT INTO Cd "
-					+ "(titolo, prezzo,data_inserimento,descrizione,pezzi_magazzino,genere_id) "
-					+ "VALUES (?,?,?,?,?,?)";
-			
-			PreparedStatement psIns = this.db.prepareStatement(insertCdQuery);
-			
-			int i = 1;
-			psIns.setString(1 , titolo);
-			psIns.setBigDecimal(2, prezzo);
-			psIns.setDate(3,dataIns);
-			psIns.setString(4,descrizione);
-			psIns.setInt(5,pezziMagazzino);
-			psIns.setInt(6,genereId);
-		
-			if(psIns.executeUpdate()!=1)
-			{
-				return false;
-			}
-
-			psIns.clearParameters();
-
-			/*String insertParecipa="INSERT INTO Partecipazione "
-					+ "(cd_codice,musicista_id,is_titolare) "
-					+ "VALUES (?,?,?)";
-			
-			
-			if( psIns.executeUpdate() != 1 )
-				return false;*/
-			
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		return true;
-		
-	}
 	
 	// TODO da sistemare
 	public Boolean updateByCodice(String codice, 
@@ -354,30 +495,5 @@ public class Cd{
 		}
 		
 		return true;
-	}
-	
-	// TODO da sistemare
-	public ResultSet getAllInfo() {
-		
-		ResultSet rs = null;
-		
-		try {
-			String query = "SELECT codice, titolo,  prezzo, data_inserimento, nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
-					+ "FROM cd AS C "
-					+ "JOIN genere AS G "
-					+ "ON C.genere_id = G.id "
-					+ "ORDER BY nome";
-
-			PreparedStatement ps = this.db.prepareStatement(query);
-			
-			rs = ps.executeQuery();
-			
-			if (!rs.next() ) {
-				return null;
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return rs;
 	}
 }

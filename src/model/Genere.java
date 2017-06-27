@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import utility.Db;
 
+
+
+
 public class Genere {
 	
 	private Connection db;
@@ -32,6 +35,17 @@ public class Genere {
 			System.out.println(e.getMessage());
 		}
 		this.id = id;
+		this.nome = nome;
+	}
+	
+	public Genere(String nome) {
+		
+		try {
+			this.db = Db.getConnection();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		// this.id = id;
 		this.nome = nome;
 	}
 	
@@ -136,7 +150,8 @@ public class Genere {
 		return lista;
 	}
 	
-	public Boolean insert(String nome) {
+
+	public Boolean insert() {
 		
 		try {
 			String insertQuery="INSERT INTO Genere (nome) VALUES (?)";
