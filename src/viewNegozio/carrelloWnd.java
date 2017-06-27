@@ -121,7 +121,7 @@ public class carrelloWnd extends JFrame {
 		//premendo la x rossa torno al pannello precedente
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 770, 600);
+		setBounds(main_wnd.getLocation().x,main_wnd.getLocation().y, 1000, 700);
 		
 		//Creo pannello per visualizzare il carrello (andrea)
 		createCarrelloPanel();
