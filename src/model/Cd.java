@@ -292,10 +292,10 @@ public class Cd{
 			int i = 1;
 			psIns.setString(1 , titolo);
 			psIns.setBigDecimal(2, prezzo);
-			psIns.setDate(3,dataIns);
-			psIns.setString(4,descrizione);
-			psIns.setInt(5,pezziMagazzino);
-			psIns.setInt(6,genereId);
+			psIns.setDate(3, dataIns);
+			psIns.setString(4, descrizione);
+			psIns.setInt(5, pezziMagazzino);
+			psIns.setInt(6, genereId);
 		
 			if(psIns.executeUpdate()!=1)
 			{

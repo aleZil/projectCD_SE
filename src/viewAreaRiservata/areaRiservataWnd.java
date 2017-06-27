@@ -553,7 +553,7 @@ public class areaRiservataWnd extends JFrame {
 		loginPanel.add(btnLogin, "flowx,cell 0 6,alignx center,aligny center");
 
 		JButton btnBack = new JButton("Indietro");
-		loginPanel.add(btnBack, "cell 0 6,alignx center,aligny center");
+		loginPanel.add(btnBack, "flowx,cell 0 6,alignx center,aligny center");
 
 		panelContainer.add(loginPanel, "login");
 
