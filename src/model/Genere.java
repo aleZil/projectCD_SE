@@ -35,6 +35,17 @@ public class Genere {
 		this.nome = nome;
 	}
 	
+	public Genere(String nome) {
+		
+		try {
+			this.db = Db.getConnection();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		// this.id = id;
+		this.nome = nome;
+	}
+	
 	
 	// ------------------------------------------------ RECUPERO INFO BASE
 	
@@ -136,7 +147,7 @@ public class Genere {
 		return lista;
 	}
 	
-	public Boolean insert(String nome) {
+	public Boolean insert() {
 		
 		try {
 			String insertQuery="INSERT INTO Genere (nome) VALUES (?)";
