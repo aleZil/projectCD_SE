@@ -62,11 +62,12 @@ public class Genere {
 	
 	// ------------------------------------------------ SETTAGGIO DATI BASE
 	
-	private void setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
-	private void setNome(String nome) {
+	//TODO ho cambiato da private a public
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
@@ -95,31 +96,6 @@ public class Genere {
 		}
 	}
 	
-	
-	/*
-	
-	public int getIdByNome(String nome) {
-		
-		try {
-			String query = "SELECT id FROM genere WHERE nome ILIKE ?";
-			
-			PreparedStatement ps = this.db.prepareStatement(query);
-			ps.setString(1, nome);
-			
-			ResultSet res = ps.executeQuery();
-			
-			if (res.next()) {
-				ps.close();
-				return res.getInt("id");
-			}
-			
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return -1; //trovato nulla
-	}
-	
-	*/
 	
 	public ArrayList<Genere> getAll() {
 		
