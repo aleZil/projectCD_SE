@@ -63,7 +63,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	private JList<String> list;
 	private DefaultListModel<String> listModel2;
 	
-	Map<String,Integer> kMus;
+	Map<String,Integer> kMusicisti;
 	private JComboBox<String> cbMusicisti;
 	
 	
@@ -106,7 +106,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		//Se l'utente aveva scritto prima,pulisco
 		clearComponents();
 
-		kMus=new HashMap<String,Integer>();
+		kMusicisti=new HashMap<String,Integer>();
 				
 		//Rimuovo gli elementi che eventualmente ci sono
 		cbMusicisti.removeAll();
@@ -114,7 +114,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		for (int i=0; i<listaMusicisti.size(); i++) {
 					
 			Musicista musicista = listaMusicisti.get(i);
-			kMus.put(musicista.getNomeArte(), musicista.getId());
+			kMusicisti.put(musicista.getNomeArte(), musicista.getId());
 			cbMusicisti.addItem(musicista.getNomeArte());
 		}
 		
@@ -126,8 +126,8 @@ public class aggiungiPartecipanteWnd extends JFrame{
 
 	public void addPartecipant()
 	{
+		//value prende il valore che è attualmente selezionato nella ComboBox
 		String value = cbMusicisti.getSelectedItem().toString();
-		//listModel2.addElement(value);
 		
 		if(dataValidator.checkString(value) && !listModel2.contains(value))
 		{ 
@@ -144,7 +144,6 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	}
 	
 
-//ocio, serve o è da cancellare?
 	public void close()
 	{
 		caller.setEnabled(true);
@@ -174,7 +173,6 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		listModel.clear();
 		*/
 		listModel2.clear();
-		//cbGen.removeAllItems();
 		cbMusicisti.removeAllItems();
 	}
 	
