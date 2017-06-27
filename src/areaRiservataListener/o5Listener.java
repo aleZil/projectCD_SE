@@ -7,17 +7,19 @@ import javax.swing.JFrame;
 
 import viewAreaRiservata.areaRiservataWnd;
 
-public class btnSaveWarehListener implements ActionListener{
+public class o5Listener implements ActionListener {
 	
 	JFrame caller;
 	
-	public btnSaveWarehListener(JFrame caller)
+	public o5Listener(JFrame caller)
 	{
 		this.caller=caller;
 	}
-	
+
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		((areaRiservataWnd) caller).showAddMusIns();
 	}
 
 }

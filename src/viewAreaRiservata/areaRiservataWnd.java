@@ -2,29 +2,23 @@ package viewAreaRiservata;
 
 import utility.*;
 import model.*;
-import negozioListener.carrello_goMain;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
-
 import java.sql.*;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import javax.swing.AbstractAction;
@@ -32,20 +26,15 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import net.miginfocom.swing.MigLayout;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.JCheckBox;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
-
-import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator;
-
 import areaRiservataListener.btnAddNewGenListener;
 import areaRiservataListener.o4Listener;
+import areaRiservataListener.o5Listener;
 import areaRiservataListener.returnNegozioListener;
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.o3Listener;
@@ -55,21 +44,15 @@ import areaRiservataListener.o1Listener;
 import areaRiservataListener.btnSaveWarehListener;
 import areaRiservataListener.btnShowCollaboratorListListener;
 import areaRiservataListener.o2Listener;
-import areaRiservataListener.closerWndListener;
 import areaRiservataListener.Listener;
 import areaRiservataListener.btnShowTrackListListener;
-import areaRiservataListener.btnAddInsListener;
-
+import areaRiservataListener.btnAddMusInsListener;
 import java.awt.Component;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
-
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.border.LineBorder;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -92,10 +75,10 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
 	private JTextArea txtDesc;
-	
+
 	private JList listTrackList;					//lista dei brani
 	private DefaultListModel<String> listModel;		//lista dei brani
-	
+
 	private JList listPartecipantList;				//lista dei musicisti partecipanti
 	private DefaultListModel<String> listModel2; 	//lista dei musicisti partecipanti
 
@@ -110,6 +93,14 @@ public class areaRiservataWnd extends JFrame {
 	//Pannello nuovo genere
 	private JTextField txtGen;
 
+
+	//Pannello strumenti per musicista
+
+	private JComboBox cbMusIns;
+	private JList listInst;
+	private JComboBox cbIns;
+
+
 	//Variabili usate per il fullscreen
 	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height - 70;
 	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
@@ -123,8 +114,7 @@ public class areaRiservataWnd extends JFrame {
 	private Cd modelCd = new Cd();
 
 	public areaRiservataWnd(JFrame caller) throws ParseException {
-
-		setResizable(true);
+		setResizable(false);
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		negozio=caller;
@@ -151,11 +141,12 @@ public class areaRiservataWnd extends JFrame {
 		createOptionAddMusPanel();
 		//Creo pannello di aggiunta genere
 		createOptionAddGenPanel();
-		
+		//Creo pannello aggiunta strumenti per musicista
+		createOptionAddMusIns();
+
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panelContainer);
 		clPanel.show(panelContainer, "login");
-
 	}
 
 
@@ -218,7 +209,6 @@ public class areaRiservataWnd extends JFrame {
 		}
 	}
 
-
 	//Prende il riferimento alla riga modificata
 	AbstractAction GetUpdate=new AbstractAction() {
 
@@ -239,44 +229,35 @@ public class areaRiservataWnd extends JFrame {
 	{
 		try
 		{
-			ArrayList<Cd> listaCd = new Cd().getAll();
-			
 			//Variabili supporto 
-			Integer code;
 			String title;
-			String trackList;
 			BigDecimal price;
-			Date insertDate;
-			String descCd;
-			int soldCd;
 			int amountCd;
-			String genere;
 
-			// definizione della tabella
-			
-			String[] colNames={"Codice","Titolo","Prezzo","Data I."};
-			//String[] colNames={"Codice","Titolo","Prezzo","Data I.","Genere", "Titolare","Descrizione","Venduti","Rimanenti"};
-			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
-			tableModel model=new tableModel(0, 10);
-			model.setColumnIdentifiers(colNames);
-			
+			//Prendo la lista dei cd
+
+			ArrayList<Cd> cdList;
 			Cd cdTmp = new Cd();
+			cdList=cdTmp.getAll(); 
 			
-			for (int i= 0; i < listaCd.size(); i++) {
-				
-				// salvo in cdTmp l'oggetto cd recuperato dalla lista
-				cdTmp = listaCd.get(i);
+			// definizione della tabella
 
-				code = cdTmp.getId();
-				title = cdTmp.getTitolo();
-				price = cdTmp.getPrezzo();
-				insertDate = cdTmp.getDataInserimento();
-				
-				model.addRow(new Object[]{code, title, price,insertDate});
+			String[] colNames={"Titolo","Prezzo","Rimasti","Dettagli"};
+			DefaultTableModel model=new DefaultTableModel(colNames,0);
+			//tableModel model=new tableModel(0, 10);
+			
+			for (int i= 0; i < cdList.size(); i++) 
+			{
+				title = cdList.get(i).getTitolo();
+				price = cdList.get(i).getPrezzo();
+				amountCd = cdList.get(i).getPezziMagazzino();
+				Object[] rowCd={title,price,amountCd,"Dettagli"};
+				model.addRow(rowCd);
 			}
-			
 			tbCd.setModel(model);
-
+			tbCd.getColumn("Dettagli").setCellRenderer(new ButtonRenderer());
+			tbCd.getColumn("Dettagli").setCellEditor(new ButtonEditor(new JCheckBox()));
+			
 			TableCellListener tcl=new TableCellListener(tbCd,GetUpdate);
 
 			this.setTitle("Magazzino");
@@ -298,34 +279,34 @@ public class areaRiservataWnd extends JFrame {
 	public void showInsertCd()
 	{
 		this.setTitle("Inserisci un nuovo cd");
-		
+
 		//Recupero lista generi e lista musicisti per le combobox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
-		
-		
+
+
 		//Se l'utente aveva scritto prima, pulisco
 		clearComponents();
-		
+
 		kMus=new HashMap<String,Integer>();
 		kGen=new HashMap<String,Integer>();
-		
+
 		//Rimuovo gli elementi che eventualmente ci sono
 		cbMus.removeAll();
 		cbGen.removeAll();
 
 		for (int i = 0; i < listaGeneri.size(); i++) {
-			
+
 			Genere genere = listaGeneri.get(i);
-			
+
 			kGen.put(genere.getNome(), genere.getId());
 			cbGen.addItem(genere.getNome());
 		}
-		
+
 		for (int i = 0; i < listaMusicisti.size(); i++) {
-			
+
 			Musicista musicista = listaMusicisti.get(i);
-			
+
 			kMus.put(musicista.getNomeArte(), musicista.getId());
 			cbMus.addItem(musicista.getNomeArte());
 		}
@@ -384,7 +365,7 @@ public class areaRiservataWnd extends JFrame {
 
 		JButton btnAddIns = new JButton("Aggiungi strumento");
 		option3Panel.add(btnAddIns, "cell 2 2,growx,aligny center");
-		btnAddIns.addActionListener(new btnAddInsListener(this));
+		btnAddIns.addActionListener(new btnAddMusInsListener(this));
 
 		//		JComboBox cbInstru = new JComboBox();
 		//	optionAddMus.add(cbInstru, "cell 1 3,alignx center,aligny center");
@@ -404,13 +385,13 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel option1Panel = new JPanel();
 		panelContainer.add(option1Panel, "insert");
-		
+
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		//Mask per input date
 		MaskFormatter dataMask=new MaskFormatter("##/##/##");
 
-		
+
 		newCdPanel.setLayout(new MigLayout("", "[grow][600px,grow,fill][]", "[][20px][][grow][20px][grow][20px][20px][48.00,grow][grow][20px][60px]"));
 
 		JLabel lblTitle = new JLabel("Titolo Cd:");
@@ -436,7 +417,7 @@ public class areaRiservataWnd extends JFrame {
 		listModel=new DefaultListModel<String>();
 		listTrackList = new JList(listModel);
 		scrollTrackList.setViewportView(listTrackList);
-		
+
 		JLabel lblPrice = new JLabel("Prezzo:");
 		newCdPanel.add(lblPrice, "cell 0 4,alignx right,aligny center");
 
@@ -464,17 +445,17 @@ public class areaRiservataWnd extends JFrame {
 
 		cbMus = new JComboBox();
 		newCdPanel.add(cbMus, "flowx,cell 1 7,growx,aligny center");
-		
+
 		JLabel lblCollaboratore = new JLabel("Gestione musicisti:");
 		newCdPanel.add(lblCollaboratore, "cell 0 8,alignx right,aligny center");
-		
+
 		JButton btnAggiungiCollaboratore = new JButton("Aggiungi/Rimuovi");
 		newCdPanel.add(btnAggiungiCollaboratore, "cell 1 8");
 		btnAggiungiCollaboratore.addActionListener(new btnShowCollaboratorListListener(this)); 	//apro nuovo frame
-		
+
 		JLabel lblListaMusicisti = new JLabel("Lista musicisti:");
 		newCdPanel.add(lblListaMusicisti, "cell 0 9,alignx right,aligny center");
-		
+
 		//pannello visualizzazione musicisti partecipanti
 		JScrollPane scrollPartecipantList = new JScrollPane();
 		newCdPanel.add(scrollPartecipantList, "cell 1 9,grow");
@@ -500,7 +481,7 @@ public class areaRiservataWnd extends JFrame {
 		btnBack.addActionListener(new btnBackListener(this));
 		newCdPanel.add(btnBack, "cell 1 11,alignx right,growy");
 
-		
+
 	}
 
 	private void createWarehousePanel()
@@ -582,7 +563,7 @@ public class areaRiservataWnd extends JFrame {
 		optionPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 
 		optionPanel.add(buttonPanel, "cell 0 0,alignx left,aligny top");
-		buttonPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow][grow][grow][grow]"));
+		buttonPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow][grow][grow][grow][grow]"));
 		buttonPanel.add(btnO1, "cell 0 0,alignx center,aligny top");
 		buttonPanel.add(btnO2, "cell 0 1,alignx center,aligny top");
 
@@ -594,10 +575,58 @@ public class areaRiservataWnd extends JFrame {
 		btnO4.addActionListener(new o4Listener(this));
 		buttonPanel.add(btnO4, "cell 0 3,alignx center,aligny top");
 
+		JButton btnO5 = new JButton("Modifica strumenti per musicista");
+		btnO5.addActionListener(new o5Listener(this));
+		buttonPanel.add(btnO5, "cell 0 4,alignx center,aligny top");
+
 		panelContainer.add(optionPanel, "options");
 
 	}
 
+	private void createOptionAddMusIns()
+	{
+		JPanel option5Panel = new JPanel();
+		panelContainer.add(option5Panel, "optionAddMusIns");
+		option5Panel.setLayout(new MigLayout("", "[grow]", "[][grow][][][][]"));
+
+		JPanel musPanel = new JPanel();
+		musPanel.setBorder(new TitledBorder(null, "Musicista", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		option5Panel.add(musPanel, "cell 0 0,growx,aligny center");
+		musPanel.setLayout(new MigLayout("", "[grow]", "[]"));
+
+		cbMusIns = new JComboBox();
+		musPanel.add(cbMusIns, "cell 0 0,alignx center,aligny center");
+
+		JPanel insMusPanel = new JPanel();
+		insMusPanel.setBorder(new TitledBorder(null, "Strumenti suonati", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		option5Panel.add(insMusPanel, "cell 0 1,grow");
+		insMusPanel.setLayout(new MigLayout("", "[grow]", "[grow]"));
+
+		JScrollPane scrollMusInsList = new JScrollPane();
+		insMusPanel.add(scrollMusInsList, "flowx,cell 0 0,alignx center,growy");
+
+		listInst = new JList();
+		scrollMusInsList.setViewportView(listInst);
+
+		JButton btnRemoveMusIns = new JButton("Rimuovi strumento");
+		option5Panel.add(btnRemoveMusIns, "cell 0 2,alignx center");
+
+		JPanel insPanel = new JPanel();
+		insPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Strumenti", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		option5Panel.add(insPanel, "cell 0 3,growx,aligny center");
+		insPanel.setLayout(new MigLayout("", "[grow]", "[]"));
+
+		cbIns = new JComboBox();
+		insPanel.add(cbIns, "flowx,cell 0 0,alignx center,aligny center");
+
+		JButton btnAddMusIns = new JButton("Aggiungi strumento");
+		option5Panel.add(btnAddMusIns, "flowx,cell 0 4,alignx center,aligny top");
+
+		JButton btnBack = new JButton("Indietro");
+		btnBack.addActionListener(new btnBackListener(this));
+		option5Panel.add(btnBack, "cell 0 5,alignx center,aligny center");
+
+	}
 
 	public void showMain()
 	{
@@ -605,6 +634,13 @@ public class areaRiservataWnd extends JFrame {
 		this.setVisible(false);
 	}
 
+
+
+	public void showAddMusIns()
+	{
+		this.setTitle("Modifica strumenti per musicista");
+		clPanel.show(panelContainer, "optionAddMusIns");
+	}
 
 
 
@@ -643,7 +679,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		return listModel;
 	}
-	
+
 	public DefaultListModel<String> getPartecipantList()	//lista dei musicisti partecipanti
 	{
 		return listModel2;
@@ -658,7 +694,7 @@ public class areaRiservataWnd extends JFrame {
 			listModel.addElement(track);
 		}
 	}
-	
+
 	//funzione chiamata da "aggiungiPartecipanteWnd"
 	public void setPartecipantList(ArrayList<String> partecipantList)	
 	{
@@ -668,7 +704,7 @@ public class areaRiservataWnd extends JFrame {
 			listModel2.addElement(partecipant);
 		}
 	}
-	
+
 	public String getCdPrice()
 	{
 		return txtPrice.getText();
@@ -764,19 +800,19 @@ public class areaRiservataWnd extends JFrame {
 			try
 			{
 				//Recupero i dati dal form 
-				
+
 				String titolo = getCdTitle();
 				ListModel<String> titoloBrani=getTrackList();
-				
+
 				BigDecimal prezzo = new BigDecimal(getCdPrice());
 				String descrizione = getCdDesc();
-				
+
 				//long millis=System.currentTimeMillis();  
 				//Date dataIns=new java.sql.Date(millis);  
 
 				int pezziMagazzino = Integer.parseInt(getAmount());
 				int genereId  =getGenderId();
-				
+
 				// Inserisco il record nel DB 
 				/*
 				Boolean status = modelCd.insert(titolo, descrizione,dataIns, prezzo, pezziMagazzino, genereId ,listModel);
@@ -789,7 +825,7 @@ public class areaRiservataWnd extends JFrame {
 					//Il cd che si prova a inserire esiste già
 					JOptionPane.showMessageDialog(this,"Il cd che stai inserendo esiste già!","Info",JOptionPane.ERROR_MESSAGE);
 				}
-*/
+				 */
 			} catch (Exception exception) {
 				JOptionPane.showMessageDialog(this, exception.getMessage());
 			}

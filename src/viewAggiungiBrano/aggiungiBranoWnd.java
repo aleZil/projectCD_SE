@@ -7,8 +7,6 @@ import viewAreaRiservata.areaRiservataWnd;
 
 import javax.swing.JTextField;
 import javax.swing.ListModel;
-
-import areaRiservataListener.closerWndListener;
 import areaRiservataListener.btnShowTrackListListener;
 import areaRiservataListener.returnNegozioListener;
 import areaRiservataListener.btnBackListener;
