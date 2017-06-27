@@ -52,6 +52,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -324,7 +325,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel option4Panel = new JPanel();
 		panelContainer.add(option4Panel, "optionAddGen");
-		option4Panel.setLayout(new MigLayout("", "[][grow][][grow][]", "[grow][grow][grow][grow]"));
+		option4Panel.setLayout(new MigLayout("", "[][60.00][100.00][grow][]", "[50.00][50.00][50.00][50.00]"));
 
 		JLabel lblGen = new JLabel("Nome nuovo genere:");
 		option4Panel.add(lblGen, "cell 1 0,alignx right,aligny center");
@@ -335,19 +336,19 @@ public class areaRiservataWnd extends JFrame {
 
 		JButton btnAddNewGen = new JButton("Aggiungi Genere");
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
-		option4Panel.add(btnAddNewGen, "cell 2 1,grow");
+		option4Panel.add(btnAddNewGen, "cell 2 1,growx,aligny center");
 		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
 
 		JButton btnBack= new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
-		option4Panel.add(btnBack, "cell 2 2,growx,aligny top");
+		option4Panel.add(btnBack, "cell 2 2,growx,aligny center");
 	}
 
 	private void createOptionAddMusPanel()
 	{
 		JPanel option3Panel = new JPanel();
 		panelContainer.add(option3Panel, "optionAddMus");
-		option3Panel.setLayout(new MigLayout("", "[][154.00,grow,left][][grow][grow][]", "[grow][grow][grow][grow][grow]"));
+		option3Panel.setLayout(new MigLayout("", "[][60.00][100.00][grow][grow][]", "[50][50.00][50.00][50.00][50.00]"));
 
 		JLabel lblArtName = new JLabel("Nome arte:");
 		option3Panel.add(lblArtName, "cell 1 0,alignx right,aligny center");
@@ -378,8 +379,8 @@ public class areaRiservataWnd extends JFrame {
 
 		JButton btnAddNewMus = new JButton("Aggiungi musicista");
 		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGenP3, btnAddNewMus}));
-		option3Panel.add(btnAddNewMus, "cell 2 3,grow");
-		option3Panel.add(btnBack, "cell 2 4,growx,aligny top");
+		option3Panel.add(btnAddNewMus, "cell 2 3,growx,aligny center");
+		option3Panel.add(btnBack, "cell 2 4,growx,aligny center");
 		this.setVisible(true);
 	}
 
@@ -552,31 +553,31 @@ public class areaRiservataWnd extends JFrame {
 		buttonPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Opzioni", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		buttonPanel.setToolTipText("");
 
-		JButton btnO1 = new JButton("Inserisci un nuovo cd");
+		JButton btnO1 = new JButton("Inserisci un nuovo Cd/Dvd");
 		JButton btnO2 = new JButton("Visualizza magazzino");
 		JButton btnO3 = new JButton("Aggiungi musicista");
-		JButton btnO4 = new JButton("Aggiungi nuovo genere");
+		JButton btnO4 = new JButton("Aggiungi genere");
 
 		btnO1.addActionListener(new o1Listener(this));
 		btnO2.addActionListener(new o2Listener(this));
 		optionPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 
 		optionPanel.add(buttonPanel, "cell 0 0,alignx left,aligny top");
-		buttonPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow][grow][grow][grow][grow]"));
-		buttonPanel.add(btnO1, "cell 0 0,alignx center,aligny top");
-		buttonPanel.add(btnO2, "cell 0 1,alignx center,aligny top");
+		buttonPanel.setLayout(new MigLayout("", "[grow][300.00,fill][grow]", "[pref!][][][][]"));
+		buttonPanel.add(btnO1, "cell 1 0,alignx center,aligny center");
+		buttonPanel.add(btnO2, "cell 1 1,alignx center,aligny center");
 
 
-		buttonPanel.add(btnO3, "cell 0 2,aligny top");
+		buttonPanel.add(btnO3, "cell 1 2,alignx center,aligny center");
 		btnO3.addActionListener(new o3Listener(this));
 
 
 		btnO4.addActionListener(new o4Listener(this));
-		buttonPanel.add(btnO4, "cell 0 3,alignx center,aligny top");
+		buttonPanel.add(btnO4, "cell 1 3,alignx center,aligny center");
 
 		JButton btnO5 = new JButton("Modifica strumenti per musicista");
 		btnO5.addActionListener(new o5Listener(this));
-		buttonPanel.add(btnO5, "cell 0 4,alignx center,aligny top");
+		buttonPanel.add(btnO5, "cell 1 4,alignx center,aligny center");
 
 		panelContainer.add(optionPanel, "options");
 
