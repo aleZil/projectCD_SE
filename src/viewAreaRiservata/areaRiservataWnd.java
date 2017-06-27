@@ -125,7 +125,7 @@ public class areaRiservataWnd extends JFrame {
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
 
-		setBounds(negozio.getLocation().x,negozio.getLocation().y, 800, 550);
+		setBounds(negozio.getLocation().x,negozio.getLocation().y, 1000, 700);
 		//setSize(tk.getScreenSize());
 		setUndecorated(false);
 		//Creo panel di login
@@ -391,7 +391,7 @@ public class areaRiservataWnd extends JFrame {
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-		newCdPanel.setLayout(new MigLayout("", "[grow][600px,grow,fill][]", "[][20px][][grow][20px][grow][20px][20px][48.00,grow][grow][20px][60px]"));
+		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[][20px][][grow][20px][75][20px][20px][48.00,grow][grow][20px][50px]"));
 
 		JLabel lblTitle = new JLabel("Titolo Cd:");
 		newCdPanel.add(lblTitle, "cell 0 1,alignx right,aligny center");
