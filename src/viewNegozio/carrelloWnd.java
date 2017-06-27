@@ -32,7 +32,7 @@ import com.sun.xml.internal.ws.addressing.model.MissingAddressingHeaderException
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.o1Listener;
 import areaRiservataListener.o2Listener;
-import areaRiservataListener.closerWndListener;
+import areaRiservataListener.returnNegozioListener;
 import jdk.nashorn.internal.scripts.JO;
 import negozioListener.carrello_goMain;
 import negozioListener.carrello_intro;
@@ -117,7 +117,7 @@ public class carrelloWnd extends JFrame {
 		//Tengo il riferimento al main form
 		main_wnd=caller;
 		panel_container.setLayout(carrello_layout);
-		this.addWindowListener(new closerWndListener(main_wnd));	//cambiare nome a questo file?
+		this.addWindowListener(new returnNegozioListener(main_wnd,this));	//cambiare nome a questo file?
 		//premendo la x rossa torno al pannello precedente
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
