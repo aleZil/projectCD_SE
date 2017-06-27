@@ -17,7 +17,7 @@ public class Cd{
 	
 	private Connection db;
 	
-	private String codice;
+	private Integer id;
 	private String titolo;
 	private BigDecimal prezzo;
 	private Date dataInserimento;
@@ -39,7 +39,7 @@ public class Cd{
 	
 	/**
 	 * 
-	 * @param codice
+	 * @param id
 	 * @param titolo
 	 * @param prezzo
 	 * @param dataInserimento
@@ -50,7 +50,7 @@ public class Cd{
 	 * @param musicista
 	 * @param partecipanti
 	 */
-	public Cd(	String codice,
+	public Cd(	Integer id,
 				String titolo,
 				BigDecimal prezzo,
 				Date dataInserimento,
@@ -66,23 +66,23 @@ public class Cd{
 			System.out.println(e.getMessage());
 		}
 		
-		this.codice = codice;
-		this.titolo = titolo;
-		this.prezzo = prezzo;
-		this.dataInserimento = dataInserimento;
-		this.descrizione = descrizione;
-		this.pezziVenduti = pezziVenduti;
-		this.pezziMagazzino = pezziMagazzino;
-		this.genere = genere;
-		this.titolare = titolare;
-		this.partecipanti = partecipanti;
+		this.setId(id);
+		this.setTitolo(titolo);
+		this.setPrezzo(prezzo);
+		this.setDataInserimento(dataInserimento);
+		this.setDescrizione(descrizione);
+		this.setPezziVenduti(pezziVenduti);
+		this.setPezziMagazzino(pezziMagazzino);
+		this.setGenere(genere);
+		this.setTitolare(titolare);
+		this.setPartecipanti(partecipanti);
 		
 	}
 	
 	// ------------------------------------------------ RECUPERO INFO BASE
 	
-	public String getCodice() {
-		return this.codice;
+	public Integer getId() {
+		return this.id;
 	}
 	
 	public String getTitolo() {
@@ -97,20 +97,73 @@ public class Cd{
 		return this.dataInserimento;
 	}
 	
+	public String getDescrizione() {
+		return this.descrizione;
+	}
+	
+	public Integer getPezziVenduti() {
+		return this.pezziVenduti;
+	}
+	
+	public Integer getPezziMagazzino() {
+		return this.pezziMagazzino;
+	}
+	
+	public Genere getGenere() {
+		return this.genere;
+	}
+	
+	public Musicista getTitolare() {
+		return this.titolare;
+	}
+	
+	public ArrayList<Musicista> getPartecipanti() {
+		return this.partecipanti;
+	}
 	// ------------------------------------------------ SETTAGGIO INFO BASE
 	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
+	public void setTitolo(String titolo) {
+		this.titolo = titolo;
+	}
 	
+	public void setPrezzo(BigDecimal prezzo) {
+		this.prezzo = prezzo;
+	}
 	
+	public void setDataInserimento(Date data) {
+		this.dataInserimento = data;
+	}
 	
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
 	
+	public void setPezziVenduti(Integer pezziVenduti) {
+		this.pezziVenduti = pezziVenduti;
+	}
 	
+	public void setPezziMagazzino(Integer pezziMagazzino) {
+		this.pezziMagazzino = pezziMagazzino;
+	}
 	
+	public void setGenere(Genere genere) {
+		this.genere = genere;
+	}
 	
+	public void setTitolare(Musicista titolare) {
+		this.titolare = titolare;
+	}
+	
+	public void setPartecipanti(ArrayList<Musicista> partecipanti) {
+		this.partecipanti = partecipanti;
+	}
 	
 	
 	// ------------------------------------------------ INTERAZIONE DB
-	
 	
 	
 	/**
@@ -120,11 +173,11 @@ public class Cd{
 	public Cd getByCodice(String codice) {
 
 		try {
-			String query = "SELECT codice, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
+			String query = "SELECT id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
 					+ "FROM cd AS C "
 					+ "JOIN Genere AS G "
 					+ "ON C.genere_id = G.id "
-					+ "WHERE C.codice = ?";
+					+ "WHERE C.id = ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
 			ps.setString(1, codice);
@@ -132,7 +185,7 @@ public class Cd{
 			ResultSet rs = ps.executeQuery();
 			
 			if (rs.next() ) {
-				this.codice = rs.getString("codice");
+				this.id = rs.getInt("id");
 				this.titolo = rs.getString("titolo");
 				this.prezzo = rs.getBigDecimal("prezzo");
 				this.dataInserimento = rs.getDate("data_inserimento");
@@ -143,9 +196,9 @@ public class Cd{
 				this.genere.getById(rs.getInt("genere_id"));
 
 				this.titolare = new Musicista();
-				this.titolare.getTitolareByCodiceCd(this.codice);
+				this.titolare.getTitolareByIdCd(this.id);
 				
-				this.partecipanti = new Musicista().getPartecipantiByCodiceCd(this.codice);
+				this.partecipanti = new Musicista().getPartecipantiByIdCd(this.id);
 				
 			}
 			
@@ -160,10 +213,72 @@ public class Cd{
 		return null;
 	
 	}
+	
+	
+	
+	public ArrayList<Cd> getAll() {
+		
+		ArrayList<Cd> lista = new ArrayList<Cd>();
+		
+		Integer id;
+		String titolo;
+		BigDecimal prezzo;
+		Date dataInserimento;
+		String descrizione;
+		Integer pezziVenduti;
+		Integer pezziMagazzino;
+		Genere genere;
+		Musicista titolare;
+		ArrayList<Musicista> partecipanti;
+		
+		try { 
+			String query = "SELECT C.id AS id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
+					+ "FROM cd AS C "
+					+ "JOIN Genere AS G "
+					+ "ON C.genere_id = G.id "
+					+ "ORDER BY titolo";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			
+			while( rs.next() ){
+				id = rs.getInt("id");
+				titolo = rs.getString("titolo");
+				prezzo = rs.getBigDecimal("prezzo");
+				dataInserimento = rs.getDate("data_inserimento");
+				descrizione = rs.getString("descrizione");
+				pezziVenduti = rs.getInt("pezzi_venduti");
+				pezziMagazzino = rs.getInt("pezzi_magazzino");
+				
+				genere = new Genere();
+				genere.getById(rs.getInt("genere_id"));
+				
+				titolare = new Musicista();
+				titolare.getTitolareByIdCd(id);
+				
+				partecipanti = new Musicista().getPartecipantiByIdCd(id);
 
+				lista.add(new Cd(id, titolo, prezzo, dataInserimento, descrizione, pezziVenduti, pezziMagazzino, genere, titolare, partecipanti));
+			}
+			ps.close();
+			rs.close();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return lista;
+	}
+
+	/*
+	 * ----------------------------------------------------------------
+	 * 					DA SISTEMARE
+	 * ----------------------------------------------------------------
+	 */
 	
-	// TODO da rivedere da qua in poi
 	
+	
+	// TODO da sistemare
 	public Boolean insert(String titolo,String descrizione,Date dataIns,BigDecimal prezzo,Integer pezziMagazzino,Integer genereId,ListModel<String> listaBrani)
 	{
 
@@ -205,7 +320,7 @@ public class Cd{
 		
 	}
 	
-	
+	// TODO da sistemare
 	public Boolean updateByCodice(String codice, 
 				String titolo,
 				String titoloBrani,
@@ -241,6 +356,7 @@ public class Cd{
 		return true;
 	}
 	
+	// TODO da sistemare
 	public ResultSet getAllInfo() {
 		
 		ResultSet rs = null;

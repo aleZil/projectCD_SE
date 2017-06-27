@@ -207,6 +207,119 @@ public class areaRiservataWnd extends JFrame {
 		}
 	}
 
+	//Prende il riferimento alla riga modificata
+	AbstractAction GetUpdate=new AbstractAction() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			TableCellListener tcl=(TableCellListener)e.getSource();
+			int row=tcl.getRow();
+
+			//Se non viene modificato il valore,non si fa l'update
+			if(tcl.getOldValue().equals(tcl.getNewValue()))
+				return;
+			//Se modificata,salvo l'indice con riga da modificare
+			rowEdited.add(tcl.getRow());
+		}
+	};
+
+	public void showWarehouse()
+	{
+		try
+		{
+			ArrayList<Cd> listaCd = new Cd().getAll();
+			
+			//Variabili supporto 
+			Integer code;
+			String title;
+			String trackList;
+			BigDecimal price;
+			Date insertDate;
+			String descCd;
+			int soldCd;
+			int amountCd;
+			String genere;
+
+			// definizione della tabella
+			
+			String[] colNames={"Codice","Titolo","Prezzo","Data I."};
+			//String[] colNames={"Codice","Titolo","Prezzo","Data I.","Genere", "Titolare","Descrizione","Venduti","Rimanenti"};
+			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
+			tableModel model=new tableModel(0, 10);
+			model.setColumnIdentifiers(colNames);
+			
+			Cd cdTmp = new Cd();
+			
+			for (int i= 0; i < listaCd.size(); i++) {
+				
+				// salvo in cdTmp l'oggetto cd recuperato dalla lista
+				cdTmp = listaCd.get(i);
+
+				code = cdTmp.getId();
+				title = cdTmp.getTitolo();
+				price = cdTmp.getPrezzo();
+				insertDate = cdTmp.getDataInserimento();
+				
+				model.addRow(new Object[]{code, title, price,insertDate});
+			}
+			
+			tbCd.setModel(model);
+
+			TableCellListener tcl=new TableCellListener(tbCd,GetUpdate);
+
+			this.setTitle("Magazzino");
+			clPanel.show(panelContainer, "warehouse");
+		}
+		catch(Exception exception)
+		{
+			JOptionPane.showMessageDialog(this, exception.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+
+	public void showAddNewGen()
+	{
+		this.setTitle("Aggiungi nuovo genere");
+		clPanel.show(panelContainer, "optionAddGen");
+	}
+
+	public void showInsertCd()
+	{
+		this.setTitle("Inserisci un nuovo cd");
+		
+		//Recupero lista generi e lista musicisti per le combobox
+		ArrayList<Genere> listaGeneri = new Genere().getAll();
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
+		
+		
+		//Se l'utente aveva scritto prima, pulisco
+		clearComponents();
+		
+		kMus=new HashMap<String,Integer>();
+		kGen=new HashMap<String,Integer>();
+		
+		//Rimuovo gli elementi che eventualmente ci sono
+		cbMus.removeAll();
+		cbGen.removeAll();
+
+		for (int i = 0; i < listaGeneri.size(); i++) {
+			
+			Genere genere = listaGeneri.get(i);
+			
+			kGen.put(genere.getNome(), genere.getId());
+			cbGen.addItem(genere.getNome());
+		}
+		
+		for (int i = 0; i < listaMusicisti.size(); i++) {
+			
+			Musicista musicista = listaMusicisti.get(i);
+			
+			kMus.put(musicista.getNomeArte(), musicista.getId());
+			cbMus.addItem(musicista.getNomeArte());
+		}
+
+		clPanel.show(panelContainer, "insert");
+	}
 
 
 
@@ -528,122 +641,6 @@ public class areaRiservataWnd extends JFrame {
 		this.setVisible(false);
 	}
 
-	//Prende il riferimento alla riga modificata
-	AbstractAction GetUpdate=new AbstractAction() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			TableCellListener tcl=(TableCellListener)e.getSource();
-			int row=tcl.getRow();
-
-			//Se non viene modificato il valore,non si fa l'update
-			if(tcl.getOldValue().equals(tcl.getNewValue()))
-				return;
-			//Se modificata,salvo l'indice con riga da modificare
-			rowEdited.add(tcl.getRow());
-		}
-	};
-
-	public void showWarehouse()
-	{
-		try
-		{
-
-			Catalogo catalogo = new Catalogo();
-			catalogo.getAll();
-
-			//Variabili supporto 
-			String code;
-			String title;
-			String trackList;
-			BigDecimal price;
-			Date insertDate;
-			String descCd;
-			int soldCd;
-			int amountCd;
-			String genere;
-
-			// definizione della tabella
-			
-			String[] colNames={"Codice","Titolo","Prezzo","Data I."};
-			//String[] colNames={"Codice","Titolo","Prezzo","Data I.","Genere", "Titolare","Descrizione","Venduti","Rimanenti"};
-			//DefaultTableModel model=new DefaultTableModel(colNames, 0);
-			tableModel model=new tableModel(0, 10);
-			model.setColumnIdentifiers(colNames);
-			
-			ArrayList<Cd> listCd = catalogo.getList();
-			Cd cdTmp = new Cd();
-			
-			for (int i= 0; i < listCd.size(); i++) {
-				
-				// salvo in cdTmp l'oggetto cd recuperato dalla lista
-				cdTmp = listCd.get(i);
-
-				code = cdTmp.getCodice();
-				title = cdTmp.getTitolo();
-				price = cdTmp.getPrezzo();
-				insertDate = cdTmp.getDataInserimento();
-				
-				model.addRow(new Object[]{code, title, price,insertDate});
-			}
-			
-			tbCd.setModel(model);
-
-			TableCellListener tcl=new TableCellListener(tbCd,GetUpdate);
-
-			this.setTitle("Magazzino");
-			clPanel.show(panelContainer, "warehouse");
-		}
-		catch(Exception exception)
-		{
-			JOptionPane.showMessageDialog(this, exception.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
-		}
-
-	}
-
-	public void showAddNewGen()
-	{
-		this.setTitle("Aggiungi nuovo genere");
-		clPanel.show(panelContainer, "optionAddGen");
-	}
-
-	public void showInsertCd()
-	{
-		this.setTitle("Inserisci un nuovo cd");
-		
-		//Recupero lista generi e lista musicisti per le combobox
-		ArrayList<Genere> listaGeneri = new Genere().getAll();
-		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
-		
-		//Se l'utente aveva scritto prima, pulisco
-		clearComponents();
-		
-		kMus=new HashMap<String,Integer>();
-		kGen=new HashMap<String,Integer>();
-		
-		//Rimuovo gli elementi che eventualmente ci sono
-		cbMus.removeAll();
-		cbGen.removeAll();
-
-		for (int i = 0; i < listaGeneri.size(); i++) {
-			
-			Genere genere = listaGeneri.get(i);
-			
-			kGen.put(genere.getNome(), genere.getId());
-			cbGen.addItem(genere.getNome());
-		}
-		
-		for (int i = 0; i < listaMusicisti.size(); i++) {
-			
-			Musicista musicista = listaMusicisti.get(i);
-			
-			kMus.put(musicista.getNomeArte(), musicista.getId());
-			cbMus.addItem(musicista.getNomeArte());
-		}
-
-		clPanel.show(panelContainer, "insert");
-	}
-
 	public void showAddMusIns()
 	{
 		this.setTitle("Modifica strumenti per musicista");
@@ -809,20 +806,20 @@ public class areaRiservataWnd extends JFrame {
 			{
 				//Recupero i dati dal form 
 				
-				String titolo=getCdTitle();
+				String titolo = getCdTitle();
 				ListModel<String> titoloBrani=getTrackList();
-				//ListModel<String> nomiPartecipanti=getPartecipantList();
-				BigDecimal prezzo=new BigDecimal(getCdPrice());
-				String descrizione=getCdDesc();
 				
-				long millis=System.currentTimeMillis();  
-				Date dataIns=new java.sql.Date(millis);  
+				BigDecimal prezzo = new BigDecimal(getCdPrice());
+				String descrizione = getCdDesc();
+				
+				//long millis=System.currentTimeMillis();  
+				//Date dataIns=new java.sql.Date(millis);  
 
-				int pezziMagazzino=Integer.parseInt(getAmount());
-				int genereId=getGenderId();
+				int pezziMagazzino = Integer.parseInt(getAmount());
+				int genereId  =getGenderId();
 				
 				// Inserisco il record nel DB 
-				
+				/*
 				Boolean status = modelCd.insert(titolo, descrizione,dataIns, prezzo, pezziMagazzino, genereId ,listModel);
 
 				if (status == true) {
@@ -833,7 +830,7 @@ public class areaRiservataWnd extends JFrame {
 					//Il cd che si prova a inserire esiste già
 					JOptionPane.showMessageDialog(this,"Il cd che stai inserendo esiste già!","Info",JOptionPane.ERROR_MESSAGE);
 				}
-
+*/
 			} catch (Exception exception) {
 				JOptionPane.showMessageDialog(this, exception.getMessage());
 			}

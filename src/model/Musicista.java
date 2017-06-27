@@ -144,7 +144,7 @@ public class Musicista {
 	}
 	
 	
-	public void getTitolareByCodiceCd(String codice) {
+	public void getTitolareByIdCd(Integer cdId) {
 		
 		try {
 			String query = "SELECT M.id AS id, M.nome_arte AS nome_arte, M.anno_nascita AS anno_nascita, M.genere_id AS genere_id, G.nome AS genere "
@@ -153,12 +153,12 @@ public class Musicista {
 					+ "ON G.id = M.genere_id "
 					+ "JOIN Partecipazione AS P "
 					+ "ON P.musicista_id = M.id "
-					+ "WHERE P.cd_codice = ? "
+					+ "WHERE P.cd_id = ? "
 					+ "AND P.is_titolare = TRUE "
 					+ "LIMIT 1";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
-			ps.setString(1, codice);
+			ps.setInt(1, cdId);
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -178,7 +178,7 @@ public class Musicista {
 		}
 	}
 	
-	public ArrayList<Musicista> getPartecipantiByCodiceCd(String codice) {
+	public ArrayList<Musicista> getPartecipantiByIdCd(Integer cdId) {
 		
 		ArrayList<Musicista> lista = new ArrayList<Musicista>();
 		Musicista tmp = null;
@@ -194,11 +194,11 @@ public class Musicista {
 					+ "ON G.id = M.genere_id "
 					+ "JOIN Partecipazione AS P "
 					+ "ON P.musicista_id = M.id "
-					+ "WHERE P.cd_codice = ? "
+					+ "WHERE P.cd_id = ? "
 					+ "AND P.is_titolare = FALSE ";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
-			ps.setString(1, codice);
+			ps.setInt(1, cdId);
 			
 			ResultSet rs = ps.executeQuery();
 			
