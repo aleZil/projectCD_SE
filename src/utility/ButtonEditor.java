@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import viewModificaCd.modificaCdWnd;
   
 public class ButtonEditor extends DefaultCellEditor {
   protected JButton button;
@@ -42,11 +44,19 @@ public class ButtonEditor extends DefaultCellEditor {
   }
   
   public Object getCellEditorValue() {
-    if (isPushed)  {
-      //
-      //
-      JOptionPane.showMessageDialog(button ,row);
-      // System.out.println(label + ": Ouch!");
+    if (isPushed)  
+    {
+    	caller.setEnabled(false);
+    	caller.setFocusable(false);
+    	caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	try
+    	{
+    		modificaCdWnd modificaCd=new modificaCdWnd(caller);
+    	}
+    	catch (Exception e)
+    	{
+    		JOptionPane.showMessageDialog(caller, e.getMessage());
+    	}
     }
     isPushed = false;
     return new String( label ) ;
