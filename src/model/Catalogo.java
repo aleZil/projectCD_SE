@@ -37,7 +37,7 @@ public class Catalogo {
 	
 	public void getAll() {
 		
-		String codice;
+		Integer id;
 		String titolo;
 		BigDecimal prezzo;
 		Date dataInserimento;
@@ -48,8 +48,8 @@ public class Catalogo {
 		Musicista titolare;
 		ArrayList<Musicista> partecipanti;
 		
-		try {
-			String query = "SELECT codice, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
+		try { 
+			String query = "SELECT C.id AS id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
 					+ "FROM cd AS C "
 					+ "JOIN Genere AS G "
 					+ "ON C.genere_id = G.id "
@@ -59,7 +59,7 @@ public class Catalogo {
 			ResultSet rs = ps.executeQuery();
 			
 			while( rs.next() ){
-				codice = rs.getString("codice");
+				id = rs.getInt("id");
 				titolo = rs.getString("titolo");
 				prezzo = rs.getBigDecimal("prezzo");
 				dataInserimento = rs.getDate("data_inserimento");
@@ -71,11 +71,11 @@ public class Catalogo {
 				genere.getById(rs.getInt("genere_id"));
 				
 				titolare = new Musicista();
-				titolare.getTitolareByCodiceCd(codice);
+				titolare.getTitolareByIdCd(id);
 				
-				partecipanti = new Musicista().getPartecipantiByCodiceCd(codice);
+				partecipanti = new Musicista().getPartecipantiByIdCd(id);
 
-				this.addCd(new Cd(codice, titolo, prezzo, dataInserimento, descrizione, pezziVenduti, pezziMagazzino, genere, titolare, partecipanti));
+				this.addCd(new Cd(id, titolo, prezzo, dataInserimento, descrizione, pezziVenduti, pezziMagazzino, genere, titolare, partecipanti));
 			}
 			rs.close();
 			

@@ -239,12 +239,10 @@ public class areaRiservataWnd extends JFrame {
 	{
 		try
 		{
-
-			Catalogo catalogo = new Catalogo();
-			catalogo.getAll();
-
+			ArrayList<Cd> listaCd = new Cd().getAll();
+			
 			//Variabili supporto 
-			String code;
+			Integer code;
 			String title;
 			String trackList;
 			BigDecimal price;
@@ -262,15 +260,14 @@ public class areaRiservataWnd extends JFrame {
 			tableModel model=new tableModel(0, 10);
 			model.setColumnIdentifiers(colNames);
 			
-			ArrayList<Cd> listCd = catalogo.getList();
 			Cd cdTmp = new Cd();
 			
-			for (int i= 0; i < listCd.size(); i++) {
+			for (int i= 0; i < listaCd.size(); i++) {
 				
 				// salvo in cdTmp l'oggetto cd recuperato dalla lista
-				cdTmp = listCd.get(i);
+				cdTmp = listaCd.get(i);
 
-				code = cdTmp.getCodice();
+				code = cdTmp.getId();
 				title = cdTmp.getTitolo();
 				price = cdTmp.getPrezzo();
 				insertDate = cdTmp.getDataInserimento();
@@ -768,20 +765,20 @@ public class areaRiservataWnd extends JFrame {
 			{
 				//Recupero i dati dal form 
 				
-				String titolo=getCdTitle();
+				String titolo = getCdTitle();
 				ListModel<String> titoloBrani=getTrackList();
-				//ListModel<String> nomiPartecipanti=getPartecipantList();
-				BigDecimal prezzo=new BigDecimal(getCdPrice());
-				String descrizione=getCdDesc();
 				
-				long millis=System.currentTimeMillis();  
-				Date dataIns=new java.sql.Date(millis);  
+				BigDecimal prezzo = new BigDecimal(getCdPrice());
+				String descrizione = getCdDesc();
+				
+				//long millis=System.currentTimeMillis();  
+				//Date dataIns=new java.sql.Date(millis);  
 
-				int pezziMagazzino=Integer.parseInt(getAmount());
-				int genereId=getGenderId();
+				int pezziMagazzino = Integer.parseInt(getAmount());
+				int genereId  =getGenderId();
 				
 				// Inserisco il record nel DB 
-				
+				/*
 				Boolean status = modelCd.insert(titolo, descrizione,dataIns, prezzo, pezziMagazzino, genereId ,listModel);
 
 				if (status == true) {
@@ -792,7 +789,7 @@ public class areaRiservataWnd extends JFrame {
 					//Il cd che si prova a inserire esiste già
 					JOptionPane.showMessageDialog(this,"Il cd che stai inserendo esiste già!","Info",JOptionPane.ERROR_MESSAGE);
 				}
-
+*/
 			} catch (Exception exception) {
 				JOptionPane.showMessageDialog(this, exception.getMessage());
 			}
