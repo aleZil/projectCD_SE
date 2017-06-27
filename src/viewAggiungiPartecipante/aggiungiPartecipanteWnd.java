@@ -145,8 +145,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	public void close()
 	{
 		caller.setEnabled(true);
-		caller.setAlwaysOnTop(true);
-		
+		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ArrayList<String> partecipantList=new ArrayList();
 		
 		for(int i=0; i<listModel2.size(); i++)
@@ -163,13 +162,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	}
 
 	public void clearComponents()
-	{/*
-		txtTitle.setText("");
-		txtPrice.setText("");
-		txtDesc.setText("");
-		txtAmo.setText("");
-		listModel.clear();
-		*/
+	{
 		listModel2.clear();
 		cbMusicisti.removeAllItems();
 	}

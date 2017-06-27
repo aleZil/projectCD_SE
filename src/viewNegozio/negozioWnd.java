@@ -20,9 +20,10 @@ import java.awt.event.ActionEvent;
 
 public class negozioWnd extends JFrame {
 	
-	//JButton btn_annulla = new JButton("Annulla");
-	//Listener ascoltatore = new Listener();
-
+	/* prova fatta da andrea e zil
+	JButton btn_annulla = new JButton("Annulla");
+	Listener ascoltatore = new Listener();
+	 */
 	private JPanel contentPane;
 	
 	/**
@@ -57,24 +58,23 @@ public class negozioWnd extends JFrame {
 	
 	public negozioWnd() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(getLocation().x,getLocation().y, 800, 550);	//misura uguale a tutte le Wnd principali
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);	// null = Flaw layout
 		
 		JButton btnAreaRIservata = new JButton("Area Riservata");
-		btnAreaRIservata.setBounds(229, 12, 207, 25);
+		btnAreaRIservata.setBounds(575, 400, 200, 25);
 		btnAreaRIservata.addActionListener(new main_wnd_btn_area_riservata(this));
 		contentPane.add(btnAreaRIservata);
 		
-		
 		JButton btnCarrello = new JButton("Carrello");
-		btnCarrello.setBounds(229,50,207,25);
+		btnCarrello.setBounds(575, 25, 200, 25);
 		btnCarrello.addActionListener(new main_wnd_btn_carrello(this));
 		contentPane.add(btnCarrello);
 		
-		/*	
+		/*	prova fatta da andrea e zil
 		btn_annulla.addActionListener(ascoltatore);
 		btn_annulla.setActionCommand(Listener.ANNULLA);
 		btn_annulla.setBounds(28, 101, 117, 25);
