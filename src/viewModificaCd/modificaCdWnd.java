@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
@@ -33,6 +34,9 @@ public class modificaCdWnd extends JFrame {
 	private JTextField txtAmo;
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
+	private ListModel<String> listModel;
+	private ListModel<String> listModel2;
+	private JList listTrackList;
 	private JTextArea txtDesc;
 
 	public modificaCdWnd() {
@@ -48,6 +52,7 @@ public class modificaCdWnd extends JFrame {
 	
 	private void createInsertPanel() throws ParseException
 	{
+		this.setTitle("Modifica cd esistente");
 		setBounds(0,0,800,550);
 		JPanel option1Panel = new JPanel();
 		JPanel newCdPanel = new JPanel();
@@ -75,9 +80,9 @@ public class modificaCdWnd extends JFrame {
 		//Pannello di visualizzazione brani
 		JScrollPane scrollTrackList = new JScrollPane();
 		newCdPanel.add(scrollTrackList, "cell 1 3,grow");
-		/*listModel=new DefaultListModel<String>();
+		listModel=new DefaultListModel<String>();
 		listTrackList = new JList(listModel);
-		scrollTrackList.setViewportView(listTrackList);*/
+		scrollTrackList.setViewportView(listTrackList);
 
 		JLabel lblPrice = new JLabel("Prezzo:");
 		newCdPanel.add(lblPrice, "cell 0 4,alignx right,aligny center");
@@ -120,6 +125,9 @@ public class modificaCdWnd extends JFrame {
 		//pannello visualizzazione musicisti partecipanti
 		JScrollPane scrollPartecipantList = new JScrollPane();
 		newCdPanel.add(scrollPartecipantList, "cell 1 9,grow");
+		
+		JList list = new JList();
+		scrollPartecipantList.setViewportView(list);
 		/*listModel2=new DefaultListModel<String>();	
 		listPartecipantList = new JList(listModel2);
 		scrollPartecipantList.setViewportView(listPartecipantList);*/
