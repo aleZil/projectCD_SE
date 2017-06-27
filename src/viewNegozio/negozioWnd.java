@@ -20,17 +20,12 @@ import java.awt.event.ActionEvent;
 
 public class negozioWnd extends JFrame {
 	
-	/* prova fatta da andrea e zil
-	JButton btn_annulla = new JButton("Annulla");
-	Listener ascoltatore = new Listener();
-	 */
 	private JPanel contentPane;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -74,12 +69,6 @@ public class negozioWnd extends JFrame {
 		btnCarrello.addActionListener(new main_wnd_btn_carrello(this));
 		contentPane.add(btnCarrello);
 		
-		/*	prova fatta da andrea e zil
-		btn_annulla.addActionListener(ascoltatore);
-		btn_annulla.setActionCommand(Listener.ANNULLA);
-		btn_annulla.setBounds(28, 101, 117, 25);
-		contentPane.add(btn_annulla);
-		*/
 	}
 
 }
