@@ -114,7 +114,6 @@ public class aggiungiBranoWnd extends JFrame{
 	public void close()
 	{
 		caller.setEnabled(true);
-		caller.setAlwaysOnTop(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ArrayList<String> trackList=new ArrayList();
 		
