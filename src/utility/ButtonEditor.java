@@ -8,9 +8,13 @@ public class ButtonEditor extends DefaultCellEditor {
   protected JButton button;
   private String    label;
   private boolean   isPushed;
+  private JTable table;
+  private int row;
+  private JFrame caller;
   
-  public ButtonEditor(JCheckBox checkBox) {
+  public ButtonEditor(JCheckBox checkBox,JFrame caller) {
     super(checkBox);
+    this.caller=caller;
     button = new JButton();
     button.setOpaque(true);
     button.addActionListener(new ActionListener() {
@@ -31,6 +35,8 @@ public class ButtonEditor extends DefaultCellEditor {
     }
     label = (value ==null) ? "" : value.toString();
     button.setText( label );
+    this.table=table;
+    this.row=row;
     isPushed = true;
     return button;
   }
@@ -39,19 +45,10 @@ public class ButtonEditor extends DefaultCellEditor {
     if (isPushed)  {
       //
       //
-      JOptionPane.showMessageDialog(button ,label + ": Ouch!");
+      JOptionPane.showMessageDialog(button ,row);
       // System.out.println(label + ": Ouch!");
     }
     isPushed = false;
     return new String( label ) ;
-  }
-    
-  public boolean stopCellEditing() {
-    isPushed = false;
-    return super.stopCellEditing();
-  }
-  
-  protected void fireEditingStopped() {
-    super.fireEditingStopped();
   }
 }

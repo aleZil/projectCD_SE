@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
@@ -243,20 +242,19 @@ public class areaRiservataWnd extends JFrame {
 			// definizione della tabella
 
 			String[] colNames={"Titolo","Prezzo","Rimasti","Dettagli"};
-			DefaultTableModel model=new DefaultTableModel(colNames,0);
-			//tableModel model=new tableModel(0, 10);
-			
+			tableModel model=new tableModel();
+			model.setColumnIdentifiers(colNames);
 			for (int i= 0; i < cdList.size(); i++) 
 			{
 				title = cdList.get(i).getTitolo();
 				price = cdList.get(i).getPrezzo();
 				amountCd = cdList.get(i).getPezziMagazzino();
-				Object[] rowCd={title,price,amountCd,"Dettagli"};
+				Object[] rowCd={title,price,amountCd,"Info Cd"};
 				model.addRow(rowCd);
 			}
 			tbCd.setModel(model);
 			tbCd.getColumn("Dettagli").setCellRenderer(new ButtonRenderer());
-			tbCd.getColumn("Dettagli").setCellEditor(new ButtonEditor(new JCheckBox()));
+			tbCd.getColumn("Dettagli").setCellEditor(new ButtonEditor(new JCheckBox(),this));
 			
 			TableCellListener tcl=new TableCellListener(tbCd,GetUpdate);
 
@@ -388,9 +386,6 @@ public class areaRiservataWnd extends JFrame {
 
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		//Mask per input date
-		MaskFormatter dataMask=new MaskFormatter("##/##/##");
-
 
 		newCdPanel.setLayout(new MigLayout("", "[grow][600px,grow,fill][]", "[][20px][][grow][20px][grow][20px][20px][48.00,grow][grow][20px][60px]"));
 
