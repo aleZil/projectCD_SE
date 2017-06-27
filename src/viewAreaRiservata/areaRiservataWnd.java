@@ -148,8 +148,16 @@ public class areaRiservataWnd extends JFrame {
 
 
 
-	//Metodi show
+	
+	
+	// *********************************************************************************************
+	
+	//								SHOW
+	
+	// *********************************************************************************************
 
+	
+	
 	public void showAddMusPanel()
 	{
 		this.setTitle("Aggiungi musicista");
@@ -161,70 +169,7 @@ public class areaRiservataWnd extends JFrame {
 		this.setTitle("Pannello area riservata");
 		clPanel.show(panelContainer, "options");
 	}
-
-
-	// probabilmente questo sarà un controller
-	public void saveUpdates()
-	{
-
-		if (rowEdited.size() == 0) {
-
-			JOptionPane.showMessageDialog(this, "Premi invio dopo la modifica");
-
-		} else {
-
-			for(int row:rowEdited)
-			{
-
-				//Faccio l'update sulle righe modificate
-				String codice=(String)tbCd.getValueAt(row, 0);
-				String titolo=(String)tbCd.getValueAt(row, 1);
-				String titoloBrani=(String)tbCd.getValueAt(row, 2);
-				BigDecimal prezzo=(BigDecimal)tbCd.getValueAt(row, 3);
-				Date dataInserimento=(Date)tbCd.getValueAt(row,4);
-				String descrizione=(String)tbCd.getValueAt(row,5);
-
-				try
-				{
-					// TODO dovrebbe chiamare il controller
-					//Boolean status = modelCd.updateByCodice(codice, titolo, titoloBrani, descrizione, prezzo, dataInserimento); 
-					
-					Boolean status = false;
-					
-					
-					if(status == true)
-						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica eseguita con successo!","Info",JOptionPane.INFORMATION_MESSAGE);
-					else
-						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica non eseguita! Aggiorna il model dei cd","Errore",JOptionPane.ERROR_MESSAGE);
-
-				}
-				catch (Exception exception)
-				{
-					JOptionPane.showMessageDialog(tbCd.getParent(), exception.getMessage());
-				}
-			}
-
-			rowEdited.clear();
-			clPanel.show(panelContainer, "warehouse");
-		}
-	}
-
-	//Prende il riferimento alla riga modificata
-	AbstractAction GetUpdate=new AbstractAction() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			TableCellListener tcl=(TableCellListener)e.getSource();
-			int row=tcl.getRow();
-
-			//Se non viene modificato il valore,non si fa l'update
-			if(tcl.getOldValue().equals(tcl.getNewValue()))
-				return;
-			//Se modificata,salvo l'indice con riga da modificare
-			rowEdited.add(tcl.getRow());
-		}
-	};
-
+	
 	public void showWarehouse()
 	{
 		try
@@ -317,9 +262,30 @@ public class areaRiservataWnd extends JFrame {
 		clPanel.show(panelContainer, "insert");
 	}
 
+	public void showMain()
+	{
+		negozio.setVisible(true);
+		this.setVisible(false);
+	}
 
 
-	//Metodi creazione
+
+	public void showAddMusIns()
+	{
+		this.setTitle("Modifica strumenti per musicista");
+		clPanel.show(panelContainer, "optionAddMusIns");
+	}
+
+
+
+	
+	// *********************************************************************************************
+	
+	//								METODI PER CREAZIONE
+	
+	// *********************************************************************************************
+	
+	
 
 	private void createOptionAddGenPanel()
 	{
@@ -628,27 +594,13 @@ public class areaRiservataWnd extends JFrame {
 
 	}
 
-	public void showMain()
-	{
-		negozio.setVisible(true);
-		this.setVisible(false);
-	}
 
-
-
-	public void showAddMusIns()
-	{
-		this.setTitle("Modifica strumenti per musicista");
-		clPanel.show(panelContainer, "optionAddMusIns");
-	}
-
-
-
-	//_________________________________________	
-
-	//Metodi pubblici
-
-	//Metodi get
+	
+	// *********************************************************************************************
+	
+	//								RECUPERO INFORMAZIONI DA FORM
+	
+	// *********************************************************************************************
 
 	public String getGenName()
 	{
@@ -685,25 +637,6 @@ public class areaRiservataWnd extends JFrame {
 		return listModel2;
 	}
 
-	//Settare la tracklist (funzione chiamata da "aggiungiBranoWnd")
-	public void setTrackList(ArrayList<String> trackList)
-	{
-		listModel.clear();
-		for(String track:trackList)
-		{
-			listModel.addElement(track);
-		}
-	}
-
-	//funzione chiamata da "aggiungiPartecipanteWnd"
-	public void setPartecipantList(ArrayList<String> partecipantList)	
-	{
-		listModel2.clear();
-		for(String partecipant:partecipantList)
-		{
-			listModel2.addElement(partecipant);
-		}
-	}
 
 	public String getCdPrice()
 	{
@@ -729,6 +662,44 @@ public class areaRiservataWnd extends JFrame {
 	{
 		return txtAmo.getText();
 	}
+	
+	
+	
+	// *********************************************************************************************
+	
+	//								SETTAGGIO DATI FORM
+	
+	// *********************************************************************************************
+	
+	
+	//Settare la tracklist (funzione chiamata da "aggiungiBranoWnd")
+	public void setTrackList(ArrayList<String> trackList)
+	{
+		listModel.clear();
+		for(String track:trackList)
+		{
+			listModel.addElement(track);
+		}
+	}
+
+	//funzione chiamata da "aggiungiPartecipanteWnd"
+	public void setPartecipantList(ArrayList<String> partecipantList)	
+	{
+		listModel2.clear();
+		for(String partecipant:partecipantList)
+		{
+			listModel2.addElement(partecipant);
+		}
+	}
+	
+	
+	
+	// *********************************************************************************************
+	
+	//								FUNZIONI DI SUPPORTO
+	
+	// *********************************************************************************************
+	
 
 	public boolean validValues()
 	{
@@ -755,6 +726,23 @@ public class areaRiservataWnd extends JFrame {
 		}
 		return true;
 	}
+	
+	
+	//Prende il riferimento alla riga modificata
+	AbstractAction GetUpdate=new AbstractAction() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			TableCellListener tcl=(TableCellListener)e.getSource();
+			int row=tcl.getRow();
+
+			//Se non viene modificato il valore,non si fa l'update
+			if(tcl.getOldValue().equals(tcl.getNewValue()))
+				return;
+			//Se modificata,salvo l'indice con riga da modificare
+			rowEdited.add(tcl.getRow());
+		}
+	};
 
 	public void clearComponents()
 	{
@@ -768,21 +756,13 @@ public class areaRiservataWnd extends JFrame {
 		cbMus.removeAllItems();
 	}
 	
-	public void popolaCBoxGeneri() {
-		
-		ArrayList<Genere> listaGeneri = new Genere().getAll();
-		kGen=new HashMap<String,Integer>();
-
-		cbGen.removeAll();
-
-		for (int i = 0; i < listaGeneri.size(); i++) {
-
-			Genere genere = listaGeneri.get(i);
-
-			kGen.put(genere.getNome(), genere.getId());
-			cbGen.addItem(genere.getNome());
-		}
-	}
+	
+	// *********************************************************************************************
+	
+	//								INTERAZIONE CON MODEL
+	
+	// *********************************************************************************************
+	
 
 	//Aggiunge nuovo genere
 	public void addNewGen()
@@ -858,6 +838,52 @@ public class areaRiservataWnd extends JFrame {
 			} catch (Exception exception) {
 				JOptionPane.showMessageDialog(this, exception.getMessage());
 			}
+		}
+	}
+	
+	// probabilmente questo sarà un controller
+	public void saveUpdates()
+	{
+
+		if (rowEdited.size() == 0) {
+
+			JOptionPane.showMessageDialog(this, "Premi invio dopo la modifica");
+
+		} else {
+
+			for(int row:rowEdited)
+			{
+
+				//Faccio l'update sulle righe modificate
+				String codice=(String)tbCd.getValueAt(row, 0);
+				String titolo=(String)tbCd.getValueAt(row, 1);
+				String titoloBrani=(String)tbCd.getValueAt(row, 2);
+				BigDecimal prezzo=(BigDecimal)tbCd.getValueAt(row, 3);
+				Date dataInserimento=(Date)tbCd.getValueAt(row,4);
+				String descrizione=(String)tbCd.getValueAt(row,5);
+
+				try
+				{
+					// TODO dovrebbe chiamare il controller
+					//Boolean status = modelCd.updateByCodice(codice, titolo, titoloBrani, descrizione, prezzo, dataInserimento); 
+					
+					Boolean status = false;
+					
+					
+					if(status == true)
+						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica eseguita con successo!","Info",JOptionPane.INFORMATION_MESSAGE);
+					else
+						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica non eseguita! Aggiorna il model dei cd","Errore",JOptionPane.ERROR_MESSAGE);
+
+				}
+				catch (Exception exception)
+				{
+					JOptionPane.showMessageDialog(tbCd.getParent(), exception.getMessage());
+				}
+			}
+
+			rowEdited.clear();
+			clPanel.show(panelContainer, "warehouse");
 		}
 	}
 }
