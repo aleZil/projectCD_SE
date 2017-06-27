@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import utility.Db;
 
+
+
+
 public class Genere {
 	
 	private Connection db;
@@ -147,6 +150,7 @@ public class Genere {
 		return lista;
 	}
 	
+
 	public Boolean insert() {
 		
 		try {

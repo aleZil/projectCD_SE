@@ -376,13 +376,14 @@ public class Cd{
 			PreparedStatement psIns = this.db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
 			int i = 1;
+
 			psIns.setString(i++ , this.getTitolo());
 			psIns.setBigDecimal(i++, this.getPrezzo());
 			psIns.setDate(i++, this.getDataInserimento());
 			psIns.setString(i++, this.getDescrizione());
 			psIns.setInt(i++, this.getPezziMagazzino());
 			psIns.setInt(i++, genere.getId());
-		
+
 			psIns.executeUpdate(query);
 			int id = 0;
 			

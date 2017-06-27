@@ -18,7 +18,6 @@ public class btnSaveWarehListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		((areaRiservataWnd) caller).saveUpdates();
 	}
 
 }
