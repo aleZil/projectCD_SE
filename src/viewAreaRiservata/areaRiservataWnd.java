@@ -230,7 +230,7 @@ public class areaRiservataWnd extends JFrame {
 		{
 
 			// recupero tutti i cd
-			ArrayList<Cd> listaCd = new Cd().getAll();
+			ArrayList<Cd> listaCd = new Cd().getAllBase();
 			
 			//Variabili supporto 
 			String title;
@@ -807,7 +807,6 @@ public class areaRiservataWnd extends JFrame {
 
 	public void AddNewCd()
 	{
-
 		if(validValues())
 		{
 			try
