@@ -109,9 +109,6 @@ public class areaRiservataWnd extends JFrame {
 	Map<String,Integer> kMus;
 	Set<Integer> rowEdited;
 
-	// Model per il recupero dei dati
-	private Cd modelCd = new Cd();
-
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		setResizable(false);
 		rowEdited=new HashSet<>();
@@ -124,7 +121,7 @@ public class areaRiservataWnd extends JFrame {
 
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
-
+		
 		setBounds(negozio.getLocation().x,negozio.getLocation().y, 1000, 700);
 		//setSize(tk.getScreenSize());
 		setUndecorated(false);
@@ -189,12 +186,15 @@ public class areaRiservataWnd extends JFrame {
 				try
 				{
 					// TODO dovrebbe chiamare il controller
-					Boolean status = modelCd.updateByCodice(codice, titolo, titoloBrani, descrizione, prezzo, dataInserimento); 
-
+					//Boolean status = modelCd.updateByCodice(codice, titolo, titoloBrani, descrizione, prezzo, dataInserimento); 
+					
+					Boolean status = false;
+					
+					
 					if(status == true)
 						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica eseguita con successo!","Info",JOptionPane.INFORMATION_MESSAGE);
 					else
-						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica non eseguita!","Errore",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica non eseguita! Aggiorna il model dei cd","Errore",JOptionPane.ERROR_MESSAGE);
 
 				}
 				catch (Exception exception)
@@ -765,6 +765,22 @@ public class areaRiservataWnd extends JFrame {
 		listModel2.clear();
 		cbGen.removeAllItems();
 		cbMus.removeAllItems();
+	}
+	
+	public void popolaCBoxGeneri() {
+		
+		ArrayList<Genere> listaGeneri = new Genere().getAll();
+		kGen=new HashMap<String,Integer>();
+
+		cbGen.removeAll();
+
+		for (int i = 0; i < listaGeneri.size(); i++) {
+
+			Genere genere = listaGeneri.get(i);
+
+			kGen.put(genere.getNome(), genere.getId());
+			cbGen.addItem(genere.getNome());
+		}
 	}
 
 	//Aggiunge nuovo genere
