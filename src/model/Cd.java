@@ -269,6 +269,60 @@ public class Cd{
 		
 		return lista;
 	}
+	
+	public Boolean insert(Cd cd)
+	{
+
+		Genere genere = cd.getGenere();
+		Musicista titolare = cd.getTitolare();
+		ArrayList<Musicista> partecipanti = cd.getPartecipanti();
+		
+		try {
+			String query="INSERT INTO Cd "
+					+ "(titolo, prezzo, data_inserimento, descrizione, pezzi_magazzino, genere_id) "
+					+ "VALUES (?,?,?,?,?,?)";
+			
+			PreparedStatement psIns = this.db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
+			int i = 1;
+			psIns.setString(i++ , cd.getTitolo());
+			psIns.setBigDecimal(i++, cd.getPrezzo());
+			psIns.setDate(i++, cd.getDataInserimento());
+			psIns.setString(i++, cd.getDescrizione());
+			psIns.setInt(i++, cd.getPezziMagazzino());
+			psIns.setInt(i++, genere.getId());
+		
+			int res = psIns.executeUpdate(query);
+			int id = 0;
+			
+			ResultSet rs = psIns.getGeneratedKeys();
+			
+			if (rs.next()){
+			    id = rs.getInt(1);
+			}
+			
+			psIns.clearParameters();
+
+			query ="INSERT INTO Partecipazione "
+					+ "(cd_id, musicista_id, is_titolare) "
+					+ "VALUES (?,?,?)";
+			
+			i = 1;
+			psIns.setString(i++ , id);
+			psIns.setBigDecimal(i++, cd.getPrezzo());
+			psIns.setDate(i++, cd.getDataInserimento());
+			
+			
+			
+			if( psIns.executeUpdate() != 1 )
+				return false;
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return true;
+	}
 
 	/*
 	 * ----------------------------------------------------------------

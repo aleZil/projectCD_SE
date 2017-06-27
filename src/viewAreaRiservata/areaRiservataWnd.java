@@ -239,6 +239,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		try
 		{
+			// recupero tutti i cd
 			ArrayList<Cd> listaCd = new Cd().getAll();
 			
 			//Variabili supporto 
