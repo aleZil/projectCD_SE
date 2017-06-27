@@ -17,6 +17,7 @@ public class Musicista {
 	private String nomeArte;
 	private Integer annoNascita;
 	private Genere genere;
+	private ArrayList<Strumento> strumenti;
 	
 	public Musicista() {
 		
@@ -26,11 +27,29 @@ public class Musicista {
 			System.out.println(e.getMessage());
 		}
 	}
+
+	public Musicista(	Integer id,
+			String nomeArte,
+			Integer annoNascita,
+			Genere genere) {
+
+		try {
+			this.db = Db.getConnection();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		this.setId(id);
+		this.setNomeArte(nomeArte);
+		this.setAnnoNascita(annoNascita);
+		this.setGenere(genere);
+	}
 	
 	public Musicista(	Integer id,
 						String nomeArte,
 						Integer annoNascita,
-						Genere genere) {
+						Genere genere,
+						ArrayList<Strumento> strumenti) {
 		
 		try {
 			this.db = Db.getConnection();
@@ -38,10 +57,11 @@ public class Musicista {
 			System.out.println(e.getMessage());
 		}
 		
-		this.id = id;
-		this.nomeArte = nomeArte;
-		this.annoNascita = annoNascita;
-		this.genere = genere;
+		this.setId(id);
+		this.setNomeArte(nomeArte);
+		this.setAnnoNascita(annoNascita);
+		this.setGenere(genere);
+		this.setStrumenti(strumenti);
 	}
 	
 	// ------------------------------------------------ RECUPERO INFO BASE
@@ -62,6 +82,10 @@ public class Musicista {
 		return this.genere;
 	}
 	
+	public ArrayList<Strumento> getStrumenti() {
+		return this.strumenti;
+	}
+	
 	// ------------------------------------------------ SETTAGGIO DATI BASE
 	
 	public void setId(Integer id) {
@@ -78,6 +102,10 @@ public class Musicista {
 	
 	public void setGenere(Genere genere) {
 		this.genere = genere;
+	}
+	
+	public void setStrumenti(ArrayList<Strumento> strumenti) {
+		this.strumenti = strumenti;
 	}
 	
 	// ------------------------------------------------ INTERAZIONE DB
@@ -259,11 +287,10 @@ public class Musicista {
 	}
 	
 	
-	/*
-	public Boolean insert(String nomeArte,
-			int genereId,
-			int annoNascita,
-			int[] strumenti) {
+	
+	public Boolean insert() {
+		
+		ArrayList<Strumento> strumenti = this.getStrumenti();
 		
 		try {
 			String insertQuery="INSERT INTO Musicista "
@@ -273,22 +300,34 @@ public class Musicista {
 			PreparedStatement psIns = this.db.prepareStatement(insertQuery);
 			
 			int i = 1;
-			psIns.setString(i++, nomeArte);
-			psIns.setInt(i++, genereId);
-			psIns.setInt(i++ ,annoNascita);
+			psIns.setString(i++, this.getNomeArte());
+			psIns.setInt(i++, this.getGenere().getId());
+			psIns.setInt(i++ ,this.getAnnoNascita());
 			
-			// recupero l'id del musicista appena inserito
-			int id = this.getIdByNomeArte(nomeArte);
+			psIns.executeUpdate();
+			
+			int id = 0;
+			ResultSet rs = psIns.getGeneratedKeys();
+			
+			if (rs.next()){
+				// recupero l'id della tupla inserita
+			    id = rs.getInt("id");
+			} else {
+				return false;
+			}
 
 			insertQuery = "INSERT INTO utilizzo (musicista_id, strumenti_id) VALUES (?,?)";
 			psIns = this.db.prepareStatement(insertQuery);
 			
 			// aggiungo per ogni strumento una riga su utilizzo
-			for(int j = 0; j < strumenti.length; j++)
+			for(int j = 0; j < strumenti.size(); j++)
 			{
+				// recupero l'oggetto strumento dalla lista
+				Strumento s = strumenti.get(j);
+				
 				i = 1;
 				psIns.setInt(i++, id);
-				psIns.setInt(i++, strumenti[j]);
+				psIns.setInt(i++, s.getId());
 				psIns.executeUpdate();
 			}
 			
@@ -298,6 +337,7 @@ public class Musicista {
 		}
 		
 		return true;
+		
 	}
-	*/
+	
 }

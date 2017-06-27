@@ -371,7 +371,7 @@ public class Cd{
 					+ "(titolo, prezzo, descrizione, pezzi_magazzino, genere_id) "
 					+ "VALUES (?,?,?,?,?)";
 			
-			
+			// Statement.RETURN_GENERATED_KEYS permette di recuperare subito la chiave della riga appena inserita
 			PreparedStatement psIns = this.db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
 			int i = 1;
