@@ -501,7 +501,7 @@ public class areaRiservataWnd extends JFrame {
 		tbCd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
 
-		JButton btnSaveUpdate = new JButton("Salva Modifiche!");
+		JButton btnSaveUpdate = new JButton("Salva Modifiche");
 		btnSaveUpdate.addActionListener(new btnSaveWarehListener(this));
 		warehPanel.add(btnSaveUpdate, "flowx,cell 0 1,grow");
 
