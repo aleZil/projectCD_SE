@@ -775,23 +775,20 @@ public class areaRiservataWnd extends JFrame {
 	//Aggiunge nuovo genere
 	public void addNewGen()
 	{
-		if(!dataValidator.checkString(getGenName()))
+		String nomeGenere = getGenName();
+		if(!dataValidator.checkString(nomeGenere))
 		{
 			JOptionPane.showMessageDialog(this, "Inserire nome genere!","Attenzione!",JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
-		Genere newGen=new Genere();
+		Genere newGen = new Genere(nomeGenere);
 
-		// TODO da rivedere
-		if(newGen.insert())
-		{
+		if(newGen.insert()) {
 			JOptionPane.showMessageDialog(this, "Nuovo genere inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
 			txtGen.setText("");
 			return;
-		}
-		else
-		{
+		} else {
 			JOptionPane.showMessageDialog(this, "Genere già esistente!","Errore!",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -804,33 +801,49 @@ public class areaRiservataWnd extends JFrame {
 		{
 			try
 			{
-				//Recupero i dati dal form 
+				// Recupero i dati dal form 
 
+				// ---------------------------------------------------- info base
 				String titolo = getCdTitle();
-				ListModel<String> titoloBrani=getTrackList();
-
 				BigDecimal prezzo = new BigDecimal(getCdPrice());
 				String descrizione = getCdDesc();
 
-				//long millis=System.currentTimeMillis();  
-				//Date dataIns=new java.sql.Date(millis);  
-
 				int pezziMagazzino = Integer.parseInt(getAmount());
-				int genereId  =getGenderId();
+				Genere genere  = new Genere();
+				genere.getById(getGenderId());
+				
+				// ---------------------------------------------------- brani
+				ListModel<String> titoloBrani=getTrackList();
+				ArrayList<Brano> brani = new ArrayList<Brano>(); 
 
-				// Inserisco il record nel DB 
-				/*
-				Boolean status = modelCd.insert(titolo, descrizione,dataIns, prezzo, pezziMagazzino, genereId ,listModel);
-
-				if (status == true) {
-					//Inserisco in partecipa
-					JOptionPane.showMessageDialog(this,"Cd inserito correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
-					clearComponents();
-				} else {
-					//Il cd che si prova a inserire esiste già
-					JOptionPane.showMessageDialog(this,"Il cd che stai inserendo esiste già!","Info",JOptionPane.ERROR_MESSAGE);
+				for(int i=0; i < titoloBrani.getSize(); i++){
+					brani.add(new Brano(titoloBrani.getElementAt(i), i));
 				}
-				 */
+
+				// ---------------------------------------------------- musicista titolare
+				Musicista titolare = new Musicista();
+				titolare.getById(getMusicianId());
+
+				// ---------------------------------------------------- partecipanti
+				ListModel<String> listaNomiPartecipanti = getPartecipantList();
+				ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
+
+				for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
+					Musicista p = new Musicista();
+					p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
+					
+					partecipanti.add(p);
+				}
+
+				// creazione del Cd
+				Cd cdToAdd = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
+				
+				if(cdToAdd.insert()) {
+					JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
+				}
+				
 			} catch (Exception exception) {
 				JOptionPane.showMessageDialog(this, exception.getMessage());
 			}

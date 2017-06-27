@@ -99,7 +99,7 @@ public class Musicista {
 			
 			ResultSet rs = ps.executeQuery();
 			
-			if (!rs.next() ) {
+			if (rs.next() ) {
 				this.setId(rs.getInt("id"));
 				this.setNomeArte(rs.getString("nome_arte"));
 				this.setAnnoNascita(rs.getInt("anno_nascita"));

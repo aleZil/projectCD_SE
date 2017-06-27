@@ -43,7 +43,6 @@ public class Cd{
 				String titolo,
 				BigDecimal prezzo,
 				String descrizione,
-				Integer pezziVenduti,
 				Integer pezziMagazzino,
 				ArrayList<Brano> brani,
 				Genere genere,
@@ -58,7 +57,6 @@ public class Cd{
 		this.setTitolo(titolo);
 		this.setPrezzo(prezzo);
 		this.setDescrizione(descrizione);
-		this.setPezziVenduti(pezziVenduti);
 		this.setPezziMagazzino(pezziMagazzino);
 		this.setBrani(brani);
 		this.setGenere(genere);
@@ -369,38 +367,39 @@ public class Cd{
 		ArrayList<Musicista> partecipanti = this.getPartecipanti();
 		
 		try {
-			String query="INSERT INTO Cd "
-					+ "(titolo, prezzo, data_inserimento, descrizione, pezzi_magazzino, genere_id) "
-					+ "VALUES (?,?,?,?,?,?)";
+			String query= "INSERT INTO Cd "
+					+ "(titolo, prezzo, descrizione, pezzi_magazzino, genere_id) "
+					+ "VALUES (?,?,?,?,?)";
+			
 			
 			PreparedStatement psIns = this.db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
 			int i = 1;
-
+			
 			psIns.setString(i++ , this.getTitolo());
 			psIns.setBigDecimal(i++, this.getPrezzo());
-			psIns.setDate(i++, this.getDataInserimento());
 			psIns.setString(i++, this.getDescrizione());
 			psIns.setInt(i++, this.getPezziMagazzino());
 			psIns.setInt(i++, genere.getId());
-
-			psIns.executeUpdate(query);
-			int id = 0;
 			
+			psIns.executeUpdate();
+			
+			int id = 0;
 			ResultSet rs = psIns.getGeneratedKeys();
 			
 			if (rs.next()){
 				// recupero l'id della tupla inserita
-			    id = rs.getInt(1);
+			    id = rs.getInt("id");
 			} else {
 				return false;
 			}
 			
 			// ---------------------------------------------------- AGGIUNTA BRANI
-			
 			query = "INSERT INTO Brano "
 					+ "(nome, ordine, cd_id) "
 					+ "VALUES (?,?,?)";
+			
+			psIns = this.db.prepareStatement(query);
 			
 			for (int j = 0; j < brani.size(); j++) 
 			{
@@ -423,9 +422,12 @@ public class Cd{
 					+ "(cd_id, musicista_id, is_titolare) "
 					+ "VALUES (?,?,?)";
 			
+			psIns = this.db.prepareStatement(query);
+			
 			i = 1;
 			psIns.setInt(i++, id);
 			psIns.setInt(i++, titolare.getId());
+			System.out.println(titolare.getId());
 			psIns.setBoolean(i++, true);
 			
 			if( psIns.executeUpdate() != 1 )

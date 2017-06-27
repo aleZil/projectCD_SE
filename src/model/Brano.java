@@ -43,6 +43,18 @@ public class Brano {
 		this.setCdId(cd_id);
 	}
 	
+	public Brano(String nome, Integer ordine) {
+		
+		try{
+			this.db = Db.getConnection();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		this.setNome(nome);
+		this.setOrdine(ordine);
+	}
+	
 	
 	// ------------------------------------------------ RECUPERO INFO BASE
 	

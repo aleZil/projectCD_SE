@@ -46,7 +46,7 @@ public class Genere {
 			System.out.println(e.getMessage());
 		}
 		// this.id = id;
-		this.nome = nome;
+		this.setNome(nome);
 	}
 	
 	
@@ -159,8 +159,12 @@ public class Genere {
 			PreparedStatement psIns = this.db.prepareStatement(insertQuery);
 			
 			int i = 1;
-			psIns.setString(i++, nome);
+			System.out.println(this.getNome());
+			
+			psIns.setString(i++, this.getNome());
 			psIns.executeUpdate();
+			
+			psIns.close();
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
