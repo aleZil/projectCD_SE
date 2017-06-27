@@ -2,8 +2,6 @@ package viewAreaRiservata;
 
 import utility.*;
 import model.*;
-import negozioListener.carrello_goMain;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -11,20 +9,14 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
-
 import java.sql.*;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import javax.swing.AbstractAction;
@@ -32,20 +24,15 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import net.miginfocom.swing.MigLayout;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.JCheckBox;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
-
-import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator;
-
 import areaRiservataListener.btnAddNewGenListener;
 import areaRiservataListener.o4Listener;
+import areaRiservataListener.o5Listener;
 import areaRiservataListener.returnNegozioListener;
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.o3Listener;
@@ -55,21 +42,15 @@ import areaRiservataListener.o1Listener;
 import areaRiservataListener.btnSaveWarehListener;
 import areaRiservataListener.btnShowCollaboratorListListener;
 import areaRiservataListener.o2Listener;
-import areaRiservataListener.closerWndListener;
 import areaRiservataListener.Listener;
 import areaRiservataListener.btnShowTrackListListener;
-import areaRiservataListener.btnAddInsListener;
-
+import areaRiservataListener.btnAddMusInsListener;
 import java.awt.Component;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
-
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.border.LineBorder;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -110,6 +91,14 @@ public class areaRiservataWnd extends JFrame {
 	//Pannello nuovo genere
 	private JTextField txtGen;
 
+	
+	//Pannello strumenti per musicista
+	
+	private JComboBox cbMusIns;
+	private JList listInst;
+	private JComboBox cbIns;
+	
+	
 	//Variabili usate per il fullscreen
 	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height - 70;
 	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
@@ -123,8 +112,7 @@ public class areaRiservataWnd extends JFrame {
 	private Cd modelCd = new Cd();
 
 	public areaRiservataWnd(JFrame caller) throws ParseException {
-
-		setResizable(true);
+		setResizable(false);
 		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		negozio=caller;
@@ -151,11 +139,12 @@ public class areaRiservataWnd extends JFrame {
 		createOptionAddMusPanel();
 		//Creo pannello di aggiunta genere
 		createOptionAddGenPanel();
+		//Creo pannello aggiunta strumenti per musicista
+		createOptionAddMusIns();
 		
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panelContainer);
 		clPanel.show(panelContainer, "login");
-
 	}
 
 
@@ -217,7 +206,6 @@ public class areaRiservataWnd extends JFrame {
 			clPanel.show(panelContainer, "warehouse");
 		}
 	}
-
 
 	//Prende il riferimento alla riga modificata
 	AbstractAction GetUpdate=new AbstractAction() {
@@ -385,7 +373,7 @@ public class areaRiservataWnd extends JFrame {
 
 		JButton btnAddIns = new JButton("Aggiungi strumento");
 		option3Panel.add(btnAddIns, "cell 2 2,growx,aligny center");
-		btnAddIns.addActionListener(new btnAddInsListener(this));
+		btnAddIns.addActionListener(new btnAddMusInsListener(this));
 
 		//		JComboBox cbInstru = new JComboBox();
 		//	optionAddMus.add(cbInstru, "cell 1 3,alignx center,aligny center");
@@ -583,7 +571,7 @@ public class areaRiservataWnd extends JFrame {
 		optionPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 
 		optionPanel.add(buttonPanel, "cell 0 0,alignx left,aligny top");
-		buttonPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow][grow][grow][grow]"));
+		buttonPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow][grow][grow][grow][grow]"));
 		buttonPanel.add(btnO1, "cell 0 0,alignx center,aligny top");
 		buttonPanel.add(btnO2, "cell 0 1,alignx center,aligny top");
 
@@ -594,18 +582,71 @@ public class areaRiservataWnd extends JFrame {
 
 		btnO4.addActionListener(new o4Listener(this));
 		buttonPanel.add(btnO4, "cell 0 3,alignx center,aligny top");
+		
+		JButton btnO5 = new JButton("Modifica strumenti per musicista");
+		btnO5.addActionListener(new o5Listener(this));
+		buttonPanel.add(btnO5, "cell 0 4,alignx center,aligny top");
 
 		panelContainer.add(optionPanel, "options");
 
 	}
 
+	private void createOptionAddMusIns()
+	{
+		JPanel option5Panel = new JPanel();
+		panelContainer.add(option5Panel, "optionAddMusIns");
+		option5Panel.setLayout(new MigLayout("", "[grow]", "[][grow][][][][]"));
+		
+		JPanel musPanel = new JPanel();
+		musPanel.setBorder(new TitledBorder(null, "Musicista", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		option5Panel.add(musPanel, "cell 0 0,growx,aligny center");
+		musPanel.setLayout(new MigLayout("", "[grow]", "[]"));
+		
+		cbMusIns = new JComboBox();
+		musPanel.add(cbMusIns, "cell 0 0,alignx center,aligny center");
+		
+		JPanel insMusPanel = new JPanel();
+		insMusPanel.setBorder(new TitledBorder(null, "Strumenti suonati", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		option5Panel.add(insMusPanel, "cell 0 1,grow");
+		insMusPanel.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		
+		JScrollPane scrollMusInsList = new JScrollPane();
+		insMusPanel.add(scrollMusInsList, "flowx,cell 0 0,alignx center,growy");
+		
+		listInst = new JList();
+		scrollMusInsList.setViewportView(listInst);
+		
+		JButton btnRemoveMusIns = new JButton("Rimuovi strumento");
+		option5Panel.add(btnRemoveMusIns, "cell 0 2,alignx center");
+		
+		JPanel insPanel = new JPanel();
+		insPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Strumenti", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		option5Panel.add(insPanel, "cell 0 3,growx,aligny center");
+		insPanel.setLayout(new MigLayout("", "[grow]", "[]"));
+		
+		cbIns = new JComboBox();
+		insPanel.add(cbIns, "flowx,cell 0 0,alignx center,aligny center");
+		
+		JButton btnAddMusIns = new JButton("Aggiungi strumento");
+		option5Panel.add(btnAddMusIns, "flowx,cell 0 4,alignx center,aligny top");
+		
+		JButton btnBack = new JButton("Indietro");
+		btnBack.addActionListener(new btnBackListener(this));
+		option5Panel.add(btnBack, "cell 0 5,alignx center,aligny center");
 
+	}
+	
 	public void showMain()
 	{
 		negozio.setVisible(true);
 		this.setVisible(false);
 	}
 
+	public void showAddMusIns()
+	{
+		this.setTitle("Modifica strumenti per musicista");
+		clPanel.show(panelContainer, "optionAddMusIns");
+	}
 
 
 
