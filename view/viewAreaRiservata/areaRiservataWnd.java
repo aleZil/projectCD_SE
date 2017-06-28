@@ -76,7 +76,6 @@ public class areaRiservataWnd extends JFrame {
 	private JTextField txtAmo;
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
-	private JTextArea txtDesc;
 
 	private JList listTrackList;					
 	private DefaultListModel<String> listModel;		//lista dei brani
@@ -301,11 +300,11 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnAddNewGen = new JButton("Aggiungi Genere");
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
 		option4Panel.add(btnAddNewGen, "cell 2 1,growx,aligny center");
-		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
 
 		JButton btnBack= new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		option4Panel.add(btnBack, "cell 2 2,growx,aligny center");
+		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
 	}
 
 	
@@ -430,9 +429,6 @@ public class areaRiservataWnd extends JFrame {
 		JScrollPane scrollDesc = new JScrollPane();
 		newCdPanel.add(scrollDesc, "cell 1 5,grow");
 
-		txtDesc = new JTextArea();
-		scrollDesc.setViewportView(txtDesc);
-
 		JLabel lblGen = new JLabel("Genere:");
 		newCdPanel.add(lblGen, "cell 0 6,alignx right,aligny center");
 
@@ -479,6 +475,7 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		newCdPanel.add(btnBack, "cell 1 11,alignx right,growy");
+		option1Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, btnAddTrack, txtPrice, cbGen, cbMus, btnAggiungiCollaboratore, listPartecipantList, txtAmo, btnAddNewCd}));
 	}
 	
 	
@@ -503,14 +500,10 @@ public class areaRiservataWnd extends JFrame {
 		headerPanel.setViewportView(tbCd);
 		tbCd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
-
-		JButton btnSaveUpdate = new JButton("Salva Modifiche");
-		btnSaveUpdate.addActionListener(new btnSaveWarehListener(this));
-		warehPanel.add(btnSaveUpdate, "flowx,cell 0 1,grow");
-
-		JButton btnBack = new JButton("Annulla");
+		JButton btnBack = new JButton("Torna a lista opzioni");
 		btnBack.addActionListener(new btnBackListener(this));
-		warehPanel.add(btnBack, "cell 0 1,grow");
+		warehPanel.add(btnBack, "cell 0 1,alignx center,aligny center");
+		warehPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnBack}));
 	}
 
 	private void createLoginPanel()
@@ -536,6 +529,7 @@ public class areaRiservataWnd extends JFrame {
 		loginPanel.add(btnLogin, "flowx,cell 0 6,alignx center,aligny center");
 
 		panelContainer.add(loginPanel, "login");
+		loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUser, txtPass, btnLogin}));
 
 		//Aggiungo gli eventi
 		btnLogin.addActionListener(new btnLoginListener(this));
@@ -577,6 +571,7 @@ public class areaRiservataWnd extends JFrame {
 		buttonPanel.add(btnO5, "cell 1 4,alignx center,aligny center");
 
 		panelContainer.add(optionPanel, "options");
+		optionPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnO1, btnO2, btnO3, btnO4, btnO5}));
 
 	}
 
