@@ -64,6 +64,24 @@ public class Musicista {
 		this.setStrumenti(strumenti);
 	}
 	
+	//TODO
+	public Musicista(	String nomeArte,
+						Integer annoNascita,
+						Genere genere) {
+		
+		try {
+			this.db = Db.getConnection();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		this.setNomeArte(nomeArte);
+		this.setAnnoNascita(annoNascita);
+		this.setGenere(genere);
+	}
+	
+	
+	
 	// ------------------------------------------------ RECUPERO INFO BASE
 	
 	public Integer getId() {
@@ -290,23 +308,43 @@ public class Musicista {
 	
 	
 	public Boolean insert() {
-		
-		ArrayList<Strumento> strumenti = this.getStrumenti();
+		System.out.println("model1");
+
+//		ArrayList<Strumento> strumenti = this.getStrumenti();
+		Genere genere = new Genere();
+		genere = this.getGenere();
+		System.out.println(genere.getId()+"ciao");
+
 		
 		try {
+			System.out.println("model2");
 			String insertQuery="INSERT INTO Musicista "
 					+ "(nome_arte, genere_id, anno_nascita) "
 					+ "VALUES (?,?,?)";
-			
+			System.out.println("model3");
+
 			PreparedStatement psIns = this.db.prepareStatement(insertQuery);
-			
+			System.out.println("model4");
+
 			int i = 1;
+			System.out.println("model5");
+
 			psIns.setString(i++, this.getNomeArte());
-			psIns.setInt(i++, this.getGenere().getId());
+			System.out.println("model6");
+
+			//TODO
+			//psIns.setInt(i++, this.getGenere().getId());
+			System.out.println(genere.getId());
+			psIns.setInt(i++, genere.getId());
+
+			System.out.println("model7");
+
 			psIns.setInt(i++ ,this.getAnnoNascita());
-			
+			System.out.println("model8");
+
 			psIns.executeUpdate();
-			
+			System.out.println("model9");
+
 			int id = 0;
 			ResultSet rs = psIns.getGeneratedKeys();
 			
@@ -316,7 +354,8 @@ public class Musicista {
 			} else {
 				return false;
 			}
-
+			System.out.println("model3");
+/*
 			insertQuery = "INSERT INTO utilizzo (musicista_id, strumenti_id) VALUES (?,?)";
 			psIns = this.db.prepareStatement(insertQuery);
 			
@@ -331,7 +370,7 @@ public class Musicista {
 				psIns.setInt(i++, s.getId());
 				psIns.executeUpdate();
 			}
-			
+	*/		
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return false;

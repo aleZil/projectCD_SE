@@ -41,7 +41,6 @@ public class Genere {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		// this.id = id;
 		this.setNome(nome);
 	}
 	
@@ -70,8 +69,10 @@ public class Genere {
 	// ------------------------------------------------ INTERAZIONE DB
 	
 	public void getById(int id) {
-		
+		System.out.println("GEnere model");
 		try {
+			System.out.println("dentro Genere");
+
 			String query = "SELECT * FROM genere WHERE id = ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
@@ -86,7 +87,8 @@ public class Genere {
 			
 			ps.close();
 			rs.close();
-			
+			System.out.println("fuori Genere");
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
