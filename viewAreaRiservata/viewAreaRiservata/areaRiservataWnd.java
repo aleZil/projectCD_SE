@@ -2,6 +2,7 @@ package viewAreaRiservata;
 
 import utility.*;
 import model.*;
+import controller.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -122,6 +123,9 @@ public class areaRiservataWnd extends JFrame {
 
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
+		
+		GenereController cGenere = new GenereController(this);
+		
 		
 		setBounds(negozio.getLocation().x,negozio.getLocation().y, 1000, 700);
 		//setSize(tk.getScreenSize());
