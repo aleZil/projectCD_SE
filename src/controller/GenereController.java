@@ -1,7 +1,7 @@
 package controller;
 
-import javax.swing.JOptionPane;
-
+import exception.InsertFailedException;
+import exception.MissingDataException;
 import model.Genere;
 import utility.dataValidator;
 import viewAreaRiservata.areaRiservataWnd;
@@ -16,28 +16,22 @@ public class GenereController {
 		this.wnd = wnd;
 	}
 
-	public Boolean insert() {
+	public Boolean insert() throws MissingDataException, InsertFailedException {
 		
 		String nomeGenere = wnd.getGenName();
 		if(!dataValidator.checkString(nomeGenere))
 		{
-			//JOptionPane.showMessageDialog(this, "Inserire nome genere!","Attenzione!",JOptionPane.WARNING_MESSAGE);
-			return false;
+			throw new MissingDataException("Inserire nome genere!");
 		}
 
-		Genere newGen = new Genere(nomeGenere);
+		model = new Genere(nomeGenere);
 
-		if(newGen.insert()) {
-			//JOptionPane.showMessageDialog(this, "Nuovo genere inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-			//wnd.txtGen.setText("");
-			return false;
+		if(model.insert()) {
+			return true;
 		} else {
-			//JOptionPane.showMessageDialog(this, "Genere già esistente!","Errore!",JOptionPane.ERROR_MESSAGE);
-			return false;
+			throw new InsertFailedException("Genere non inserito. Controlla se questo genere esiste già.");
 		}
-		
 	}
-
 }
 
 

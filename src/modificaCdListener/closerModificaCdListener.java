@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 import viewAggiungiBrano.aggiungiBranoWnd;
+import viewModificaCd.modificaCdWnd;
 
 public class closerModificaCdListener extends WindowAdapter{
 	
@@ -21,7 +22,7 @@ public class closerModificaCdListener extends WindowAdapter{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		((aggiungiBranoWnd) this.caller).close();
+		((modificaCdWnd) this.caller).close();
 		super.windowClosing(e);
 	}
 }

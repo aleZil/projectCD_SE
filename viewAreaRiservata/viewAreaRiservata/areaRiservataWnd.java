@@ -67,6 +67,7 @@ public class areaRiservataWnd extends JFrame {
 
 	//Componenti di rilievo
 
+	
 	//Pannello inserimento cd
 	private JTextField txtTitle;
 	private JTextField txtUser;
@@ -122,10 +123,6 @@ public class areaRiservataWnd extends JFrame {
 
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
-		
-		GenereController cGenere = new GenereController(this);
-		
-		
 		setBounds(negozio.getLocation().x,negozio.getLocation().y, 1000, 700);
 		//setSize(tk.getScreenSize());
 		setUndecorated(false);
@@ -147,6 +144,7 @@ public class areaRiservataWnd extends JFrame {
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panelContainer);
 		clPanel.show(panelContainer, "login");
+
 	}
 
 
@@ -276,6 +274,9 @@ public class areaRiservataWnd extends JFrame {
 	public void showAddMusIns()
 	{
 		this.setTitle("Modifica strumenti per musicista");
+		
+		
+		
 		clPanel.show(panelContainer, "optionAddMusIns");
 	}
 
@@ -347,7 +348,7 @@ public class areaRiservataWnd extends JFrame {
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();					
 		//Se l'utente aveva scritto prima,pulisco
-		clearComponents();
+		//clearComponents();
 		kGen=new HashMap<String,Integer>();					
 		//Rimuovo gli elementi che eventualmente ci sono
 		cbGeneri.removeAll();					
@@ -362,7 +363,7 @@ public class areaRiservataWnd extends JFrame {
 		
 		JButton btnAggiungirimuovi = new JButton("Aggiungi/Rimuovi");
 		option3Panel.add(btnAggiungirimuovi, "cell 2 3,growx,aligny center");
-		btnAggiungirimuovi.addActionListener(new btnShowStrumentiListListener(this));
+	//	btnAggiungirimuovi.addActionListener(new btnShowStrumentiListListener(this));
 						
 		JLabel lblListaStrumenti = new JLabel("Lista strumenti:");
 		option3Panel.add(lblListaStrumenti, "cell 1 4");
@@ -782,6 +783,7 @@ public class areaRiservataWnd extends JFrame {
 
 	public void clearComponents()
 	{
+		txtGen.setText("");
 		txtTitle.setText("");
 		txtPrice.setText("");
 		txtDesc.setText("");
@@ -803,79 +805,31 @@ public class areaRiservataWnd extends JFrame {
 	//Aggiunge nuovo genere
 	public void addNewGen()
 	{
-		String nomeGenere = getGenName();
-		if(!dataValidator.checkString(nomeGenere))
-		{
-			JOptionPane.showMessageDialog(this, "Inserire nome genere!","Attenzione!",JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		Genere newGen = new Genere(nomeGenere);
-
-		if(newGen.insert()) {
-			JOptionPane.showMessageDialog(this, "Nuovo genere inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-			txtGen.setText("");
-			return;
-		} else {
-			JOptionPane.showMessageDialog(this, "Genere già esistente!","Errore!",JOptionPane.ERROR_MESSAGE);
-			return;
+		GenereController cGenere = new GenereController(this);
+		try {
+			if(cGenere.insert()) {
+				JOptionPane.showMessageDialog(this, "Genere Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				this.clearComponents();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
 	}	
+	
 
 	public void AddNewCd()
 	{
-		if(validValues())
-		{
-			try
-			{
-				// Recupero i dati dal form 
 
-				// ---------------------------------------------------- info base
-				String titolo = getCdTitle();
-				BigDecimal prezzo = new BigDecimal(getCdPrice());
-				String descrizione = getCdDesc();
-
-				int pezziMagazzino = Integer.parseInt(getAmount());
-				Genere genere  = new Genere();
-				genere.getById(getGenderId());
-				
-				// ---------------------------------------------------- brani
-				ListModel<String> titoloBrani=getTrackList();
-				ArrayList<Brano> brani = new ArrayList<Brano>(); 
-
-				for(int i=0; i < titoloBrani.getSize(); i++){
-					brani.add(new Brano(titoloBrani.getElementAt(i), i));
-				}
-
-				// ---------------------------------------------------- musicista titolare
-				Musicista titolare = new Musicista();
-				titolare.getById(getMusicianId());
-
-				// ---------------------------------------------------- partecipanti
-				ListModel<String> listaNomiPartecipanti = getPartecipantList();
-				ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
-
-				for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
-					Musicista p = new Musicista();
-					p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
-					
-					partecipanti.add(p);
-				}
-
-				// creazione del Cd
-				Cd cdToAdd = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
-				
-				if(cdToAdd.insert()) {
-					JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-					clearComponents();
-				} else {
-					JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
-				}
-				
-			} catch (Exception exception) {
-				JOptionPane.showMessageDialog(this, exception.getMessage());
+		CdController cCd = new CdController(this);
+		try {
+			if(cCd.insert()) {
+				JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				this.clearComponents();
 			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
+		
 	}
 	
 	// probabilmente questo sarà un controller

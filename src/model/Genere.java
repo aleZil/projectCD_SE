@@ -131,7 +131,6 @@ public class Genere {
 			PreparedStatement psIns = this.db.prepareStatement(insertQuery);
 			
 			int i = 1;
-			System.out.println(this.getNome());
 			
 			psIns.setString(i++, this.getNome());
 			psIns.executeUpdate();
