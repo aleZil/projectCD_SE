@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import utility.dataValidator;
 import viewAreaRiservata.areaRiservataWnd;
+import viewModificaCd.modificaCdWnd;
 
 import javax.swing.JTextField;
 import javax.swing.ListModel;
@@ -58,6 +59,7 @@ public class aggiungiBranoWnd extends JFrame{
 		this.caller=caller;
 		this.setTitle("Aggiungi brani");
 		this.setAlwaysOnTop(true);
+		caller.setFocusable(false);
 		this.addWindowListener(new closerAddTrackListener(this));
 		loadModel();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
@@ -122,12 +124,27 @@ public class aggiungiBranoWnd extends JFrame{
 			trackList.add(listModel.getElementAt(i));
 		}
 
-		((areaRiservataWnd) caller).setTrackList(trackList);
+		if(caller instanceof areaRiservataWnd)
+		{
+			((areaRiservataWnd) caller).setTrackList(trackList);
+		}
+		else
+		{
+			((modificaCdWnd) caller).setTrackList(trackList);
+		}
 	}
 	
 	private void loadModel()
 	{		
-		listModel=((areaRiservataWnd)caller).getTrackList();
+		if(caller instanceof areaRiservataWnd)
+		{
+			listModel=((areaRiservataWnd)caller).getTrackList();
+		}
+		else
+		{
+			listModel=((modificaCdWnd)caller).getTrackList();
+		}
+
 	}
 }
 
