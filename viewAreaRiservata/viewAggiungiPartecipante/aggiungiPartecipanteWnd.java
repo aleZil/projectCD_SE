@@ -79,8 +79,6 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		JLabel lblNomePartecipante = new JLabel("Seleziona musicista:");
 		getContentPane().add(lblNomePartecipante, "cell 0 0,alignx trailing,aligny center");
 		
-		
-		
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		list = new JList(listModel2);
@@ -102,7 +100,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 						
 		clearComponents();			//Se l'utente aveva scritto prima,pulisco
 
-		kMusicisti=new HashMap<String,Integer>();
+		kMusicisti = new HashMap<String,Integer>();
 						
 		cbMusicisti.removeAll();	//Rimuovo gli elementi che eventualmente ci sono
 						
@@ -152,7 +150,6 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		{
 			partecipantList.add(listModel2.getElementAt(i));
 		}
-
 		((areaRiservataWnd) caller).setPartecipantList(partecipantList);
 	}
 	

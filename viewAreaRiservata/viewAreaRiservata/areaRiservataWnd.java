@@ -163,6 +163,7 @@ public class areaRiservataWnd extends JFrame {
 	public void showAddMusPanel()
 	{
 		this.setTitle("Aggiungi musicista");
+		clearComponents();	//pulisco appena viene premuto il bottone riferito all'azione (op3)
 		clPanel.show(panelContainer,"optionAddMus");
 	}
 
@@ -232,7 +233,6 @@ public class areaRiservataWnd extends JFrame {
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
 
-
 		//Se l'utente aveva scritto prima, pulisco
 		clearComponents();
 
@@ -271,7 +271,6 @@ public class areaRiservataWnd extends JFrame {
 	public void showAddMusIns()
 	{
 		this.setTitle("Modifica strumenti per musicista");
-		clearComponents();
 		clPanel.show(panelContainer, "optionAddMusIns");
 	}
 
@@ -343,7 +342,6 @@ public class areaRiservataWnd extends JFrame {
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();					
 		//Se l'utente aveva scritto prima,pulisco
-		//clearComponents();	//TODO sistemare clearComponents	
 		
 		kGen=new HashMap<String,Integer>();					
 		//Rimuovo gli elementi che eventualmente ci sono
@@ -474,15 +472,19 @@ public class areaRiservataWnd extends JFrame {
 		btnAddNewCd.addActionListener(new btnAddNewCdListener(this));
 		btnAddNewCd.addKeyListener(new btnAddNewCdListener(this));
 		newCdPanel.add(btnAddNewCd, "flowx,cell 1 11,alignx left,growy");
+		
 		option1Panel.setLayout(new MigLayout("", "fill", "[fill]"));
 		option1Panel.add(newCdPanel, "cell 0 0,grow");
 
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		newCdPanel.add(btnBack, "cell 1 11,alignx right,growy");
-
-
 	}
+	
+	
+	
+	
+	
 
 	private void createWarehousePanel()
 	{
@@ -566,7 +568,6 @@ public class areaRiservataWnd extends JFrame {
 
 		buttonPanel.add(btnO3, "cell 1 2,alignx center,aligny center");
 		btnO3.addActionListener(new o3Listener(this));
-
 
 		btnO4.addActionListener(new o4Listener(this));
 		buttonPanel.add(btnO4, "cell 1 3,alignx center,aligny center");
