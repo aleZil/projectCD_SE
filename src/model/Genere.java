@@ -95,14 +95,13 @@ public class Genere {
 	
 	public ArrayList<Genere> getAll() {
 		
-		ResultSet rs = null;
 		ArrayList<Genere> lista = new ArrayList<Genere>();
 		
 		try {
 			String query = "SELECT * FROM genere ORDER BY nome";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
-			rs = ps.executeQuery();
+			ResultSet rs = rs = ps.executeQuery();
 			
 			while (rs.next() ) {
 				
