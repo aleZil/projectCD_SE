@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
@@ -67,5 +68,24 @@ public class dataValidator {
 	}
 
 
-
+	public static boolean validValues(String title,DefaultListModel<String> trackList,String price,String amount)
+	{
+		if(!dataValidator.checkString(title))
+		{
+			return false;
+		}
+		if(dataValidator.emptyTrackList(trackList))
+		{
+			return false;
+		}
+		if(!dataValidator.checkCdPrice(price))
+		{
+			return false;
+		}
+		if(!dataValidator.checkInteger(amount))
+		{
+			return false;
+		}
+		return true;
+	}
 }

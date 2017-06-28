@@ -165,10 +165,8 @@ public class modificaCdWnd extends JFrame {
 	private void loadPanel(int index)
 	{
 		idCd=((areaRiservataWnd)caller).getSelectedCdId(index);
-		
 		Cd selectedCd=new Cd();
 		selectedCd.getById(idCd);
-		
 		setCdTitle(selectedCd.getTitolo());
 		loadTrackList(selectedCd.getBrani());
 		setDescription(selectedCd.getDescrizione());
@@ -185,21 +183,21 @@ public class modificaCdWnd extends JFrame {
 		try {
 			if(cCd.update()) {
 				JOptionPane.showMessageDialog(this, "Cd Modificato!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				//Fine update con chiusura della finestra
+				caller.setEnabled(true);
+				caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				dispose();
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
-		//Fine update con chiusura della finestra
-		caller.setEnabled(true);
-		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		dispose();
-		
 	}
 
 	public void close()
 	{
 		caller.setEnabled(true);
 		caller.setAlwaysOnTop(true);
+		((areaRiservataWnd)caller).showWarehouse();
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
@@ -210,33 +208,6 @@ public class modificaCdWnd extends JFrame {
 	// *********************************************************************************************
 	
 
-	public boolean validValues()
-	{
-		if(!dataValidator.checkString(getCdTitle()))
-		{
-			JOptionPane.showMessageDialog(this,"Inserire titolo Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		if(dataValidator.emptyTrackList(getTrackList()))
-		{
-			JOptionPane.showMessageDialog(this,"Inserire elenco brani!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		if(!dataValidator.checkCdPrice(getCdPrice()))
-		{
-			JOptionPane.showMessageDialog(this, "Prezzo non valido!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-
-		if(!dataValidator.checkInteger(getAmount()))
-		{
-			JOptionPane.showMessageDialog(this, "Quantità non valida!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		return true;
-	}
-	
-	
 
 
 	// *********************************************************************************************
@@ -252,6 +223,7 @@ public class modificaCdWnd extends JFrame {
 	
 	private void loadTrackList(ArrayList<Brano> trackList)
 	{
+		listModel.clear();
 		for(Brano b:trackList)
 		{
 			listModel.addElement(b.getNome());
@@ -260,6 +232,7 @@ public class modificaCdWnd extends JFrame {
 	
 	public void setTrackList(ArrayList<String> trackList)
 	{
+		listModel.clear();
 		for(String b:trackList)
 		{
 			listModel.addElement(b);
@@ -296,6 +269,7 @@ public class modificaCdWnd extends JFrame {
 	
 	private void loadMusicianList(ArrayList<Musicista> musList)
 	{
+		listModel2.clear();
 		for(Musicista m:musList)
 		{
 			listModel2.addElement(m.getNomeArte());
@@ -367,6 +341,4 @@ public class modificaCdWnd extends JFrame {
 	{
 		return txtAmo.getText();
 	}
-
-
 }

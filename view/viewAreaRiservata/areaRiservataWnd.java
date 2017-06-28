@@ -746,33 +746,6 @@ public class areaRiservataWnd extends JFrame {
 	
 	// *********************************************************************************************
 	
-
-	public boolean validValues()
-	{
-		if(!dataValidator.checkString(getCdTitle()))
-		{
-			JOptionPane.showMessageDialog(this,"Inserire titolo Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		if(dataValidator.emptyTrackList(getTrackList()))
-		{
-			JOptionPane.showMessageDialog(this,"Inserire elenco brani!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		if(!dataValidator.checkCdPrice(getCdPrice()))
-		{
-			JOptionPane.showMessageDialog(this, "Prezzo non valido!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-
-		if(!dataValidator.checkInteger(getAmount()))
-		{
-			JOptionPane.showMessageDialog(this, "Quantità non valida!","Attenzione",JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		return true;
-	}
-
 	private JTextField textField;
 
 

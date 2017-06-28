@@ -129,7 +129,8 @@ public class CdController {
 			if(!cd.update()) {
 				throw new InsertFailedException("Cd non modificato.");
 			}
+			return false;
 		}
-		return true;
+		return false;
 	}
 }
