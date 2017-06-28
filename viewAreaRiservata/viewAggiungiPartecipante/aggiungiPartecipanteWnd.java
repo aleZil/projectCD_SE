@@ -116,7 +116,6 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		getContentPane().add(cbMusicisti, "cell 1 0,growx,aligny center");
 		
 		
-		
 		this.setVisible(true);
 	}
 	

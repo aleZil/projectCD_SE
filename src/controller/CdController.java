@@ -30,53 +30,47 @@ public class CdController {
 
 		if(this.wnd.validValues())
 		{
-			try
-			{
-				// Recupero i dati dal form 
+			// Recupero i dati dal form 
 
-				// ---------------------------------------------------- info base
-				String titolo = wnd.getCdTitle();
-				BigDecimal prezzo = new BigDecimal(wnd.getCdPrice());
-				String descrizione = wnd.getCdDesc();
+			// ---------------------------------------------------- info base
+			String titolo = wnd.getCdTitle();
+			BigDecimal prezzo = new BigDecimal(wnd.getCdPrice());
+			String descrizione = wnd.getCdDesc();
 
-				int pezziMagazzino = Integer.parseInt(wnd.getAmount());
-				Genere genere  = new Genere();
-				genere.getById(wnd.getGenderId());
+			int pezziMagazzino = Integer.parseInt(wnd.getAmount());
+			Genere genere  = new Genere();
+			genere.getById(wnd.getGenderId());
 
-				// ---------------------------------------------------- brani
-				ListModel<String> titoloBrani = wnd.getTrackList();
-				ArrayList<Brano> brani = new ArrayList<Brano>(); 
+			// ---------------------------------------------------- brani
+			ListModel<String> titoloBrani = wnd.getTrackList();
+			ArrayList<Brano> brani = new ArrayList<Brano>(); 
 
-				for(int i=0; i < titoloBrani.getSize(); i++){
-					brani.add(new Brano(titoloBrani.getElementAt(i), i));
-				}
+			for(int i=0; i < titoloBrani.getSize(); i++){
+				brani.add(new Brano(titoloBrani.getElementAt(i), i));
+			}
 
-				// ---------------------------------------------------- musicista titolare
-				Musicista titolare = new Musicista();
-				titolare.getById(wnd.getMusicianId());
+			// ---------------------------------------------------- musicista titolare
+			Musicista titolare = new Musicista();
+			titolare.getById(wnd.getMusicianId());
 
-				// ---------------------------------------------------- partecipanti
-				ListModel<String> listaNomiPartecipanti = wnd.getPartecipantList();
-				ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
+			// ---------------------------------------------------- partecipanti
+			ListModel<String> listaNomiPartecipanti = wnd.getPartecipantList();
+			ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
 
-				for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
-					Musicista p = new Musicista();
-					p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
+			for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
+				Musicista p = new Musicista();
+				p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
 
-					partecipanti.add(p);
-				}
+				partecipanti.add(p);
+			}
 
-				// creazione del Cd
-				model = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
+			// creazione del Cd
+			model = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
 
-				if(!model.insert()) {
-					//JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-					throw new InsertFailedException("Cd non inserito.");
-					//JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
-				}
-
-			} catch (Exception exception) {
+			if(!model.insert()) {
+				//JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
 				throw new InsertFailedException("Cd non inserito.");
+				//JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		return true;
@@ -86,53 +80,13 @@ public class CdController {
 
 		if(this.wnd.validValues())
 		{
-			try
-			{
-				// Recupero i dati dal form 
+			// recupero del cd
+			Cd cd = new Cd();
 
-				// ---------------------------------------------------- info base
-				String titolo = wnd.getCdTitle();
-				BigDecimal prezzo = new BigDecimal(wnd.getCdPrice());
-				String descrizione = wnd.getCdDesc();
+			// Recupero i dati dal form 
 
-				int pezziMagazzino = Integer.parseInt(wnd.getAmount());
-				Genere genere  = new Genere();
-				genere.getById(wnd.getGenderId());
-
-				// ---------------------------------------------------- brani
-				ListModel<String> titoloBrani = wnd.getTrackList();
-				ArrayList<Brano> brani = new ArrayList<Brano>(); 
-
-				for (int i = 0; i < titoloBrani.getSize(); i++) {
-					brani.add(new Brano(titoloBrani.getElementAt(i), i));
-				}
-
-				// ---------------------------------------------------- musicista titolare
-				Musicista titolare = new Musicista();
-				titolare.getById(wnd.getMusicianId());
-
-				// ---------------------------------------------------- partecipanti
-				ListModel<String> listaNomiPartecipanti = wnd.getPartecipantList();
-				ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
-
-				for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
-					Musicista p = new Musicista();
-					p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
-
-					partecipanti.add(p);
-				}
-
-				// creazione del Cd
-				model = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
-
-				if(!model.update()) {
-					//JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-					throw new InsertFailedException("Cd non inserito.");
-					//JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
-				}
-
-			} catch (Exception exception) {
-				throw new InsertFailedException("Cd non inserito.");
+			if(!cd.update()) {
+				throw new InsertFailedException("Cd non moodificato.");
 			}
 		}
 		return true;
