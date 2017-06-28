@@ -46,7 +46,7 @@ import areaRiservataListener.btnShowCollaboratorListListener;
 import areaRiservataListener.o2Listener;
 import areaRiservataListener.Listener;
 import areaRiservataListener.btnShowTrackListListener;
-import areaRiservataListener.btnAddMusInsListener;
+import areaRiservataListener.btnShowStrumentiListListener;
 import java.awt.Component;
 import java.awt.Toolkit;
 import javax.swing.JTable;
@@ -67,6 +67,7 @@ public class areaRiservataWnd extends JFrame {
 
 	//Componenti di rilievo
 
+	
 	//Pannello inserimento cd
 	private JTextField txtTitle;
 	private JTextField txtUser;
@@ -89,7 +90,7 @@ public class areaRiservataWnd extends JFrame {
 	private ArrayList<Cd> supListCd;
 	
 	//Pannello nuovo musicista
-	private JComboBox<String> cbGenP3;
+	private JComboBox<String> cbGeneri;
 	private JTextField txtArtName;
 
 	//Pannello nuovo genere
@@ -97,7 +98,6 @@ public class areaRiservataWnd extends JFrame {
 
 
 	//Pannello strumenti per musicista
-
 	private JComboBox cbMusIns;
 	private JList listInst;
 	private JComboBox cbIns;
@@ -143,6 +143,7 @@ public class areaRiservataWnd extends JFrame {
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panelContainer);
 		clPanel.show(panelContainer, "login");
+
 	}
 
 
@@ -268,6 +269,9 @@ public class areaRiservataWnd extends JFrame {
 	public void showAddMusIns()
 	{
 		this.setTitle("Modifica strumenti per musicista");
+		
+		
+		
 		clPanel.show(panelContainer, "optionAddMusIns");
 	}
 
@@ -305,11 +309,15 @@ public class areaRiservataWnd extends JFrame {
 		option4Panel.add(btnBack, "cell 2 2,growx,aligny center");
 	}
 
+	
+	
+	
+	
 	private void createOptionAddMusPanel()
 	{
 		JPanel option3Panel = new JPanel();
 		panelContainer.add(option3Panel, "optionAddMus");
-		option3Panel.setLayout(new MigLayout("", "[][60.00][100.00][grow][grow][]", "[50][50.00][50.00][50.00][50.00]"));
+		option3Panel.setLayout(new MigLayout("", "[][60.00][100.00,grow][grow][grow]", "[50][50][50.00][50.00][100][50.00][50.00]"));
 
 		JLabel lblArtName = new JLabel("Nome arte:");
 		option3Panel.add(lblArtName, "cell 1 0,alignx right,aligny center");
@@ -317,34 +325,62 @@ public class areaRiservataWnd extends JFrame {
 		txtArtName = new JTextField();
 		option3Panel.add(txtArtName, "cell 2 0,growx,aligny center");
 		txtArtName.setColumns(10);
+		
+		JLabel lblAnnoDiNascita = new JLabel("Anno di nascita:");
+		option3Panel.add(lblAnnoDiNascita, "cell 1 1,alignx trailing");
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		option3Panel.add(textField, "cell 2 1,growx,aligny center");
 
 		JLabel lblGen = new JLabel("Genere:");
-		option3Panel.add(lblGen, "cell 1 1,alignx right,aligny center");
+		option3Panel.add(lblGen, "cell 1 2,alignx right,aligny center");
 
-		cbGenP3 = new JComboBox();
-		option3Panel.add(cbGenP3, "cell 2 1,growx,aligny center");
-
-		JLabel lblIns = new JLabel("Strumenti:");
-		option3Panel.add(lblIns, "cell 1 2,alignx right,aligny center");
-
-		JButton btnAddIns = new JButton("Aggiungi strumento");
-		option3Panel.add(btnAddIns, "cell 2 2,growx,aligny center");
-		btnAddIns.addActionListener(new btnAddMusInsListener(this));
-
-		//		JComboBox cbInstru = new JComboBox();
-		//	optionAddMus.add(cbInstru, "cell 1 3,alignx center,aligny center");
-
-
-		JButton btnBack = new JButton("Annulla");
-		btnBack.addActionListener(new btnBackListener(this));
+		//ComboBox dei Generi
+		cbGeneri = new JComboBox();
+		option3Panel.add(cbGeneri, "cell 2 2,growx,aligny center");
+		
+		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
+		ArrayList<Genere> listaGeneri = new Genere().getAll();					
+		//Se l'utente aveva scritto prima,pulisco
+		//clearComponents();
+		kGen=new HashMap<String,Integer>();					
+		//Rimuovo gli elementi che eventualmente ci sono
+		cbGeneri.removeAll();					
+		for (int i=0; i<listaGeneri.size(); i++) {						
+			Genere genere = listaGeneri.get(i);
+			kGen.put(genere.getNome(), genere.getId());
+			cbGeneri.addItem(genere.getNome());
+		}
+		
+		JLabel lblStrumenti = new JLabel("Strumenti:");
+		option3Panel.add(lblStrumenti, "cell 1 3");
+		
+		JButton btnAggiungirimuovi = new JButton("Aggiungi/Rimuovi");
+		option3Panel.add(btnAggiungirimuovi, "cell 2 3,growx,aligny center");
+	//	btnAggiungirimuovi.addActionListener(new btnShowStrumentiListListener(this));
+						
+		JLabel lblListaStrumenti = new JLabel("Lista strumenti:");
+		option3Panel.add(lblListaStrumenti, "cell 1 4");
+						
+		JList list = new JList();
+		option3Panel.add(list, "cell 2 4,grow");
 
 		JButton btnAddNewMus = new JButton("Aggiungi musicista");
-		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGenP3, btnAddNewMus}));
-		option3Panel.add(btnAddNewMus, "cell 2 3,growx,aligny center");
-		option3Panel.add(btnBack, "cell 2 4,growx,aligny center");
+		option3Panel.add(btnAddNewMus, "cell 2 6,growx,aligny center");
+		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGeneri, btnAddNewMus}));
+
+		JButton btnBack = new JButton("Annulla");
+		option3Panel.add(btnBack, "cell 3 6,growx,aligny center");
+		btnBack.addActionListener(new btnBackListener(this));
+
 		this.setVisible(true);
 	}
 
+	
+	
+	
+	
 	private void createInsertPanel() throws ParseException
 	{
 		JPanel option1Panel = new JPanel();
@@ -721,6 +757,9 @@ public class areaRiservataWnd extends JFrame {
 		return true;
 	}
 
+	private JTextField textField;
+
+
 	public void clearComponents()
 	{
 		txtGen.setText("");
@@ -755,60 +794,21 @@ public class areaRiservataWnd extends JFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
 	}	
+	
 
 	public void AddNewCd()
 	{
-		if(validValues())
-		{
-			try
-			{
-				// Recupero i dati dal form 
 
-				// ---------------------------------------------------- info base
-				String titolo = getCdTitle();
-				BigDecimal prezzo = new BigDecimal(getCdPrice());
-				String descrizione = getCdDesc();
-
-				int pezziMagazzino = Integer.parseInt(getAmount());
-				Genere genere  = new Genere();
-				genere.getById(getGenderId());
-				
-				// ---------------------------------------------------- brani
-				ListModel<String> titoloBrani=getTrackList();
-				ArrayList<Brano> brani = new ArrayList<Brano>(); 
-
-				for(int i=0; i < titoloBrani.getSize(); i++){
-					brani.add(new Brano(titoloBrani.getElementAt(i), i));
-				}
-
-				// ---------------------------------------------------- musicista titolare
-				Musicista titolare = new Musicista();
-				titolare.getById(getMusicianId());
-
-				// ---------------------------------------------------- partecipanti
-				ListModel<String> listaNomiPartecipanti = getPartecipantList();
-				ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
-
-				for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
-					Musicista p = new Musicista();
-					p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
-					
-					partecipanti.add(p);
-				}
-
-				// creazione del Cd
-				Cd cdToAdd = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
-				
-				if(cdToAdd.insert()) {
-					JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
-				}
-				
-			} catch (Exception exception) {
-				JOptionPane.showMessageDialog(this, exception.getMessage());
+		CdController cCd = new CdController(this);
+		try {
+			if(cCd.insert()) {
+				JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				this.clearComponents();
 			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
+		
 	}
 	
 	// probabilmente questo sarà un controller

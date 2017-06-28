@@ -455,42 +455,99 @@ public class Cd{
 		return true;
 	}
 
-	/*
-	 * ----------------------------------------------------------------
-	 * 					DA SISTEMARE
-	 * ----------------------------------------------------------------
-	 */
+	public Boolean update() {
 	
-	
-	
-	// TODO da sistemare
-	public Boolean updateByCodice(String codice, 
-				String titolo,
-				String titoloBrani,
-				String descrizione,
-				BigDecimal prezzo,
-				Date dataInserimento) {
-	
+		ArrayList<Brano> brani = this.getBrani();
+		Genere genere = this.getGenere();
+		Musicista titolare = this.getTitolare();
+		ArrayList<Musicista> partecipanti = this.getPartecipanti();
+		
 		try {
 			String query="UPDATE Cd SET titolo=?,"
-					+ "titoloBrani=?,"
-					+ "prezzo=?,"   
-					+ "data_inserimento=?,"
-					+ "descrizione=? "
-					+ "WHERE codice=?";
+					+ "prezzo= ?, "   
+					+ "descrizione = ?, "
+					+ "pezzi_magazzino = ?, "
+					+ "genere_id = ? "
+					+ "WHERE id = ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
 			Integer i = 1;
 			
-			ps.setString(i++, titolo);
-			ps.setString(i++, titoloBrani);
-			ps.setBigDecimal(i++, prezzo); 
-			ps.setDate(i++, dataInserimento);
-			ps.setString(i++, descrizione);
-			ps.setString(i++, codice);
+			ps.setString(i++, this.getTitolo());
+			ps.setBigDecimal(i++, this.getPrezzo()); 
+			ps.setString(i++, this.getDescrizione());
+			ps.setInt(i++, this.getPezziMagazzino());
+			ps.setInt(i++, genere.getId());
+			ps.setInt(i++, this.getId());
 			
 			if( ps.executeUpdate() != 1 )
 				return false;
+			
+			// ---------------------------------------------------- ELIMINO INFORMAZIONI VECCHIE
+			
+			query = "DELETE FROM Brano WHERE cd_id = ?";
+			ps = this.db.prepareStatement(query);
+			ps.setInt(1, this.getId()); 
+			
+			query = "DELETE FROM Partecipazione WHERE cd_id = ?";
+			ps = this.db.prepareStatement(query);
+			ps.setInt(1, this.getId()); 
+			
+			
+			// ---------------------------------------------------- AGGIUNTA BRANO
+			
+			query = "INSERT INTO Brano "
+					+ "(nome, ordine, cd_id) "
+					+ "VALUES (?,?,?)";
+			
+			ps = this.db.prepareStatement(query);
+			
+			for (int j = 0; j < brani.size(); j++) 
+			{
+				ps.clearParameters();
+				i = 1;
+				
+				// recupero il brano j-esimo
+				Brano b = brani.get(j);
+				
+				ps.setString(i++, b.getNome());
+				ps.setInt(i++, b.getOrdine());
+				ps.setInt(i++, this.getId());
+				
+				if( ps.executeUpdate() != 1 )
+					return false;
+			}
+			
+			// ---------------------------------------------------- AGGIUNTA TITOLARE
+			query ="INSERT INTO Partecipazione "
+					+ "(cd_id, musicista_id, is_titolare) "
+					+ "VALUES (?,?,?)";
+			
+			ps = this.db.prepareStatement(query);
+			
+			i = 1;
+			ps.setInt(i++, this.getId());
+			ps.setInt(i++, titolare.getId());
+			System.out.println(titolare.getId());
+			ps.setBoolean(i++, true);
+			
+			if( ps.executeUpdate() != 1 )
+				return false;
+
+			// ---------------------------------------------------- AGGIUNTA PARTECIPANTI
+			for (int j = 0; j < partecipanti.size(); j++) 
+			{
+				ps.clearParameters();
+				i = 1;
+				
+				ps.setInt(i++, this.getId());
+				// recupero l'id del musicista partecipante j-esimo
+				ps.setInt(i++, partecipanti.get(j).getId());
+				ps.setBoolean(i++, false);
+				
+				if( ps.executeUpdate() != 1 )
+					return false;
+			}
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

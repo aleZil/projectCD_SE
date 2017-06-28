@@ -1,7 +1,5 @@
 package controller;
 
-import javax.swing.JOptionPane;
-
 import exception.InsertFailedException;
 import exception.MissingDataException;
 import model.Genere;

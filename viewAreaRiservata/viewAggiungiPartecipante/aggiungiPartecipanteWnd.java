@@ -96,23 +96,22 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		
 		//ComboBox
 		cbMusicisti = new JComboBox();
+		
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
-				ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
 						
-				//Se l'utente aveva scritto prima,pulisco
-				clearComponents();
+		clearComponents();			//Se l'utente aveva scritto prima,pulisco
 
-				kMusicisti=new HashMap<String,Integer>();
+		kMusicisti=new HashMap<String,Integer>();
 						
-				//Rimuovo gli elementi che eventualmente ci sono
-				cbMusicisti.removeAll();
+		cbMusicisti.removeAll();	//Rimuovo gli elementi che eventualmente ci sono
 						
-				for (int i=0; i<listaMusicisti.size(); i++) {
-							
-					Musicista musicista = listaMusicisti.get(i);
-					kMusicisti.put(musicista.getNomeArte(), musicista.getId());
-					cbMusicisti.addItem(musicista.getNomeArte());
-				}
+		for (int i=0; i<listaMusicisti.size(); i++) {
+					
+			Musicista musicista = listaMusicisti.get(i);
+			kMusicisti.put(musicista.getNomeArte(), musicista.getId());
+			cbMusicisti.addItem(musicista.getNomeArte());
+		}
 				
 		getContentPane().add(cbMusicisti, "cell 1 0,growx,aligny center");
 		
