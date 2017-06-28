@@ -16,10 +16,13 @@ public class btnShowStrumentiListListener implements ActionListener {
 		this.caller=caller;
 	}
 	
-	
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) 
+	{
+		caller.setEnabled(false);
+		caller.setFocusable(false);
+		caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		//Visualizzo la finestra di configurazione
 		((areaRiservataWnd) caller).showAddMusIns();
 	}
 

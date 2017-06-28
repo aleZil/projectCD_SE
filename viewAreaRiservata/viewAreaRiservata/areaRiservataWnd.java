@@ -363,7 +363,7 @@ public class areaRiservataWnd extends JFrame {
 		
 		JButton btnAggiungirimuovi = new JButton("Aggiungi/Rimuovi");
 		option3Panel.add(btnAggiungirimuovi, "cell 2 3,growx,aligny center");
-	//	btnAggiungirimuovi.addActionListener(new btnShowStrumentiListListener(this));
+		btnAggiungirimuovi.addActionListener(new btnShowStrumentiListListener(this));
 						
 		JLabel lblListaStrumenti = new JLabel("Lista strumenti:");
 		option3Panel.add(lblListaStrumenti, "cell 1 4");
