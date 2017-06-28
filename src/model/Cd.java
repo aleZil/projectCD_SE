@@ -225,6 +225,7 @@ public class Cd{
 				
 				Musicista titolare = new Musicista();
 				titolare.getTitolareByIdCd(this.id);
+				System.out.println(titolare.getNomeArte());
 				this.setTitolare(titolare);
 				this.setPartecipanti(new Musicista().getPartecipantiByIdCd(this.id));
 				
