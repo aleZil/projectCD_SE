@@ -2,10 +2,9 @@ package areaRiservataListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 
-import viewAreaRiservata.areaRiservataWnd;
+import viewAggiungiStrumento.aggiungiStrumentoWnd;
 
 public class btnShowStrumentiListListener implements ActionListener {
 
@@ -23,7 +22,7 @@ public class btnShowStrumentiListListener implements ActionListener {
 		caller.setFocusable(false);
 		caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		//Visualizzo la finestra di configurazione
-		((areaRiservataWnd) caller).showAddMusIns();
+		aggiungiStrumentoWnd wnd=new aggiungiStrumentoWnd(caller);
 	}
 
 }

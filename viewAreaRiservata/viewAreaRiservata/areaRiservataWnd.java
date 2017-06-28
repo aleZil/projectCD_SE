@@ -78,13 +78,15 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> cbMus;
 	private JTextArea txtDesc;
 
-	private JList listTrackList;					//lista dei brani
+	private JList listTrackList;					
 	private DefaultListModel<String> listModel;		//lista dei brani
 
-	private JList listPartecipantList;				//lista dei musicisti partecipanti
+	private JList listPartecipantList;				
 	private DefaultListModel<String> listModel2; 	//lista dei musicisti partecipanti
 
-
+	private JList listInstrumentList;
+	private DefaultListModel<String> listModel3;	//lista degli strumenti
+	
 	//Pannello magazzino
 	private JTable tbCd;
 	private ArrayList<Cd> supListCd;
@@ -317,7 +319,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel option3Panel = new JPanel();
 		panelContainer.add(option3Panel, "optionAddMus");
-		option3Panel.setLayout(new MigLayout("", "[][60.00][100.00,grow][grow][grow]", "[50][50][50.00][50.00][100][50.00][50.00]"));
+		option3Panel.setLayout(new MigLayout("", "[][60.00][300][300][grow]", "[40][40][40][40][100][40][40]"));
 
 		JLabel lblArtName = new JLabel("Nome arte:");
 		option3Panel.add(lblArtName, "cell 1 0,alignx right,aligny center");
@@ -343,7 +345,8 @@ public class areaRiservataWnd extends JFrame {
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();					
 		//Se l'utente aveva scritto prima,pulisco
-		//clearComponents();
+		//clearComponents();	
+		//TODO sistemare clearComponents
 		kGen=new HashMap<String,Integer>();					
 		//Rimuovo gli elementi che eventualmente ci sono
 		cbGeneri.removeAll();					
@@ -354,7 +357,7 @@ public class areaRiservataWnd extends JFrame {
 		}
 		
 		JLabel lblStrumenti = new JLabel("Strumenti:");
-		option3Panel.add(lblStrumenti, "cell 1 3");
+		option3Panel.add(lblStrumenti, "cell 1 3,alignx right,aligny center");
 		
 		JButton btnAggiungirimuovi = new JButton("Aggiungi/Rimuovi");
 		option3Panel.add(btnAggiungirimuovi, "cell 2 3,growx,aligny center");
@@ -362,9 +365,12 @@ public class areaRiservataWnd extends JFrame {
 						
 		JLabel lblListaStrumenti = new JLabel("Lista strumenti:");
 		option3Panel.add(lblListaStrumenti, "cell 1 4");
-						
-		JList list = new JList();
-		option3Panel.add(list, "cell 2 4,grow");
+		
+		JScrollPane scrollInstrumentList = new JScrollPane();
+		option3Panel.add(scrollInstrumentList, "cell 2 4,grow");
+		listModel3=new DefaultListModel<String>();	
+		listInstrumentList = new JList(listModel3);
+		scrollInstrumentList.setViewportView(listInstrumentList);
 
 		JButton btnAddNewMus = new JButton("Aggiungi musicista");
 		option3Panel.add(btnAddNewMus, "cell 2 6,growx,aligny center");
@@ -664,6 +670,11 @@ public class areaRiservataWnd extends JFrame {
 	{
 		return listModel2;
 	}
+	
+	public DefaultListModel<String> getInstrumentList()
+	{
+		return listModel3;
+	}
 
 	public String getCdPrice()
 	{
@@ -702,7 +713,7 @@ public class areaRiservataWnd extends JFrame {
 	// *********************************************************************************************
 	
 	
-	//Settare la tracklist (funzione chiamata da "aggiungiBranoWnd")
+	//funzione chiamata da "aggiungiBranoWnd" (setta la tracklist)
 	public void setTrackList(ArrayList<String> trackList)
 	{
 		listModel.clear();
@@ -722,6 +733,16 @@ public class areaRiservataWnd extends JFrame {
 		}
 	}
 	
+	//funzione chiamata da "aggiungiStrumentiWnd"
+	public void setInstrumentList(ArrayList<String> instrumentList)	
+	{
+		listModel3.clear();
+		for(String instrument:instrumentList)
+		{
+			listModel3.addElement(instrument);
+		}
+	}
+
 	
 	
 	// *********************************************************************************************
@@ -769,6 +790,7 @@ public class areaRiservataWnd extends JFrame {
 		txtAmo.setText("");
 		listModel.clear();
 		listModel2.clear();
+		listModel3.clear();
 		cbGen.removeAllItems();
 		cbMus.removeAllItems();
 	}

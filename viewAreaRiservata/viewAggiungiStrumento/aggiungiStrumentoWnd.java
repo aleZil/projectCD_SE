@@ -1,4 +1,4 @@
-package viewAggiungiPartecipante;
+package viewAggiungiStrumento;
 
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
@@ -11,6 +11,7 @@ import areaRiservataListener.btnShowTrackListListener;
 import areaRiservataListener.returnNegozioListener;
 import model.Genere;
 import model.Musicista;
+import model.Strumento;
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.btnAddNewCdListener;
 import areaRiservataListener.btnAddNewGenListener;
@@ -47,73 +48,75 @@ import javax.swing.SwingConstants;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import aggiungiPartecipanteListener.btnAddPartecipantListener;
-import aggiungiPartecipanteListener.btnRemovePartecipantListener;
-import aggiungiPartecipanteListener.closerAddPartecipantListener;	
+import aggiungiStrumentoListener.btnAddInstrumentListener;
+import aggiungiStrumentoListener.btnRemoveInstrumentListener;
+import aggiungiStrumentoListener.closerAddInstrumentListener;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 
 
-public class aggiungiPartecipanteWnd extends JFrame{
+public class aggiungiStrumentoWnd extends JFrame{
 
 	private JFrame caller;
 	private JList<String> list;
-	private DefaultListModel<String> listModel2;
+	private DefaultListModel<String> listModel3;
 	
-	Map<String,Integer> kMusicisti;
-	private JComboBox<String> cbMusicisti;
+	Map<String,Integer> kStrumenti;
+	private JComboBox<String> cbStrumenti;
 	
 	
-	public aggiungiPartecipanteWnd(JFrame caller) {
+	public aggiungiStrumentoWnd(JFrame caller) {
 		//Tengo il riferimento al main form
 		this.caller=caller;
-		this.setTitle("Aggiungi musicisti partecipanti");
+		this.setTitle("Aggiungi gli strumenti suonati dal musicista");
 		this.setAlwaysOnTop(true);
-		this.addWindowListener(new closerAddPartecipantListener(this));
+		this.addWindowListener(new closerAddInstrumentListener(this));
 		loadModel();		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
-		setBounds(caller.getLocation().x,caller.getLocation().y, 650, 170);
+		setBounds(caller.getLocation().x,caller.getLocation().y, 700, 170);
 		getContentPane().setLayout(new MigLayout("", "[100.00][200.00,grow][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
 		
-		JLabel lblNomePartecipante = new JLabel("Seleziona musicista:");
-		getContentPane().add(lblNomePartecipante, "cell 0 0,alignx trailing,aligny center");
+		JLabel lblSelezionaStrumento = new JLabel("Seleziona strumento:");
+		getContentPane().add(lblSelezionaStrumento, "cell 0 0,alignx trailing,aligny center");
 		
 		
 		
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
-		list = new JList(listModel2);
+		list = new JList(listModel3);
 		listPanel.setViewportView(list);
 		
-		JButton btnRemoveColl = new JButton("Rimuovi musicista");
-		getContentPane().add(btnRemoveColl, "cell 3 2,alignx center,aligny center");
-		btnRemoveColl.addActionListener(new btnRemovePartecipantListener(this));	
-		
-		JButton btnAddColl = new JButton("Aggiungi musicista");
-		getContentPane().add(btnAddColl, "cell 1 2,alignx center,aligny center");
-		btnAddColl.addActionListener(new btnAddPartecipantListener(this));
+		JButton btnAggiungiStrumento = new JButton("Aggiungi strumento");
+		getContentPane().add(btnAggiungiStrumento, "cell 1 2,alignx center,aligny center");
+		btnAggiungiStrumento.addActionListener(new btnAddInstrumentListener(this));
+
+		JButton btnRimuoviStrumento = new JButton("Rimuovi strumento");
+		getContentPane().add(btnRimuoviStrumento, "cell 3 2,alignx center,aligny center");
+		btnRimuoviStrumento.addActionListener(new btnRemoveInstrumentListener(this));
 		
 		//ComboBox
-		cbMusicisti = new JComboBox();
+		cbStrumenti = new JComboBox();
 		
-		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
-		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
-						
+		//da qui in poi per mostrare la lista di tutti gli strumenti nella ComboBox
+		ArrayList<Strumento> listaStrumenti = new Strumento().getAll();
+		
 		clearComponents();			//Se l'utente aveva scritto prima,pulisco
-
-		kMusicisti=new HashMap<String,Integer>();
+		
+		kStrumenti = new HashMap<String,Integer>();
 						
-		cbMusicisti.removeAll();	//Rimuovo gli elementi che eventualmente ci sono
+		cbStrumenti.removeAll();	//Rimuovo gli elementi che eventualmente ci sono
 						
-		for (int i=0; i<listaMusicisti.size(); i++) {
+		for (int i=0; i < listaStrumenti.size(); i++) {
 					
-			Musicista musicista = listaMusicisti.get(i);
-			kMusicisti.put(musicista.getNomeArte(), musicista.getId());
-			cbMusicisti.addItem(musicista.getNomeArte());
+			Strumento strumento = listaStrumenti.get(i);
+			kStrumenti.put(strumento.getNome(), strumento.getId());
+			cbStrumenti.addItem(strumento.getNome());
 		}
 				
-		getContentPane().add(cbMusicisti, "cell 1 0,growx,aligny center");
+		getContentPane().add(cbStrumenti, "cell 1 0,growx,aligny center");
+		
 		
 		
 		this.setVisible(true);
@@ -122,22 +125,22 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	
 	
 
-	public void addPartecipant()
+	public void addInstrument()
 	{
 		//value prende il valore che è attualmente selezionato nella ComboBox
-		String value = cbMusicisti.getSelectedItem().toString();
+		String value = cbStrumenti.getSelectedItem().toString();
 		
-		if(dataValidator.checkString(value) && !listModel2.contains(value))
+		if(dataValidator.checkString(value) && !listModel3.contains(value))
 		{ 
-			listModel2.addElement(value);
+			listModel3.addElement(value);
 		}
 	}
 	
-	public void removePartecipant()
+	public void removeInstrument()
 	{
 		if(list.getSelectedValue() != null)
 		{
-			listModel2.remove(list.getSelectedIndex());
+			listModel3.remove(list.getSelectedIndex());
 		}
 	}
 	
@@ -146,25 +149,24 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	{
 		caller.setEnabled(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		ArrayList<String> partecipantList=new ArrayList();
+		ArrayList<String> instrumentList=new ArrayList();
 		
-		for(int i=0; i<listModel2.size(); i++)
+		for(int i=0; i<listModel3.size(); i++)
 		{
-			partecipantList.add(listModel2.getElementAt(i));
+			instrumentList.add(listModel3.getElementAt(i));
 		}
-
-		((areaRiservataWnd) caller).setPartecipantList(partecipantList);
+		((areaRiservataWnd) caller).setInstrumentList(instrumentList);
 	}
 	
 	private void loadModel()
 	{		
-		listModel2=((areaRiservataWnd)caller).getPartecipantList();
+		listModel3=((areaRiservataWnd)caller).getInstrumentList();
 	}
 
 	public void clearComponents()
 	{
-		listModel2.clear();
-		cbMusicisti.removeAllItems();
+		listModel3.clear();
+		cbStrumenti.removeAllItems();
 	}
 	
 }
