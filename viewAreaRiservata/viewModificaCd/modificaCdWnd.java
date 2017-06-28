@@ -49,7 +49,7 @@ public class modificaCdWnd extends JFrame {
 		this.setAlwaysOnTop(true);
 		createInsertPanel();
 		loadPanel();
-
+		this.setVisible(true);
 
 	}
 
