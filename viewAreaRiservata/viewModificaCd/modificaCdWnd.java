@@ -47,6 +47,7 @@ public class modificaCdWnd extends JFrame {
 	private DefaultListModel<String> listModel;
 	private DefaultListModel<String> listModel2;
 	private JList listTrackList;
+	private JList listPartecipantList;
 	private JTextArea txtDesc;
 	private JFrame caller;
 
@@ -75,7 +76,7 @@ public class modificaCdWnd extends JFrame {
 
 		txtTitle = new JTextField();
 		txtTitle.setColumns(10);
-		newCdPanel.add(txtTitle, "cell 1 1,alignx left,aligny center");
+		newCdPanel.add(txtTitle, "cell 1 1,grow");
 
 		JLabel lblAddTrackList = new JLabel("Gestione brani:");
 		newCdPanel.add(lblAddTrackList, "cell 0 2,alignx right,aligny center");
@@ -136,11 +137,10 @@ public class modificaCdWnd extends JFrame {
 		JScrollPane scrollPartecipantList = new JScrollPane();
 		newCdPanel.add(scrollPartecipantList, "cell 1 9,grow");
 
-		JList list = new JList();
-		scrollPartecipantList.setViewportView(list);
-		/*listModel2=new DefaultListModel<String>();	
+		listModel2=new DefaultListModel<String>();	
 		listPartecipantList = new JList(listModel2);
-		scrollPartecipantList.setViewportView(listPartecipantList);*/
+		listPartecipantList.setModel(listModel2);
+		scrollPartecipantList.setViewportView(listPartecipantList);
 
 		JLabel lblAmo = new JLabel("Quantità:");
 		newCdPanel.add(lblAmo, "cell 0 10,alignx right,aligny center");
@@ -164,16 +164,15 @@ public class modificaCdWnd extends JFrame {
 		Cd selectedCd=new Cd();
 		selectedCd.getById(idCd);
 		setCdTitle(selectedCd.getTitolo());
-		/*setTrackList(selectedCd.getBrani());
-		setMusicianList(selectedCd.getPartecipanti());*/
+		//setTrackList(selectedCd.getBrani());
+		setMusicianList(selectedCd.getPartecipanti());
 		setAmount(selectedCd.getPezziMagazzino());
-		/*loadGender();
-		loadMusician();*/
+		loadGender();
+		loadMusician();
 	}
 
 	public void saveUpdate()
 	{
-
 		//Fine update con chiusura della finestra
 		caller.setEnabled(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -230,7 +229,7 @@ public class modificaCdWnd extends JFrame {
 	{
 		for(Musicista m:musList)
 		{
-			listModel.addElement(m.getNomeArte());
+			listModel2.addElement(m.getNomeArte());
 		}
 	}
 

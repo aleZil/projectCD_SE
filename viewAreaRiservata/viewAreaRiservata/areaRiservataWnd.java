@@ -476,7 +476,7 @@ public class areaRiservataWnd extends JFrame {
 		btnAddNewCd.addActionListener(new btnAddNewCdListener(this));
 		btnAddNewCd.addKeyListener(new btnAddNewCdListener(this));
 		newCdPanel.add(btnAddNewCd, "flowx,cell 1 11,alignx left,growy");
-		option1Panel.setLayout(new MigLayout("", "[1174px]", "[851px]"));
+		option1Panel.setLayout(new MigLayout("", "fill", "[fill]"));
 		option1Panel.add(newCdPanel, "cell 0 0,grow");
 
 		JButton btnBack = new JButton("Annulla");
@@ -517,16 +517,16 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel loginPanel=new JPanel();
 		loginPanel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
-
-		JLabel lblUser = new JLabel("Username:");
-		loginPanel.add(lblUser, "flowx,cell 0 3,alignx center,aligny center");
+		
+				JLabel lblUser = new JLabel("Username");
+				loginPanel.add(lblUser, "cell 0 2,alignx center,aligny center");
 
 		txtUser = new JTextField("zil");
 		loginPanel.add(txtUser, "cell 0 3,alignx center,aligny center");
 		txtUser.setColumns(10);
-
-		JLabel lblPass = new JLabel("Password:");
-		loginPanel.add(lblPass, "flowx,cell 0 5,alignx center,aligny center");
+		
+				JLabel lblPass = new JLabel("Password");
+				loginPanel.add(lblPass, "cell 0 4,alignx center,aligny center");
 
 		txtPass = new JPasswordField("nonlatrovi");
 		txtPass.setColumns(10);
@@ -535,15 +535,11 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnLogin = new JButton("Login");
 		loginPanel.add(btnLogin, "flowx,cell 0 6,alignx center,aligny center");
 
-		JButton btnBack = new JButton("Indietro");
-		loginPanel.add(btnBack, "flowx,cell 0 6,alignx center,aligny center");
-
 		panelContainer.add(loginPanel, "login");
 
 		//Aggiungo gli eventi
 		btnLogin.addActionListener(new btnLoginListener(this));
 		btnLogin.addKeyListener(new btnLoginListener(this));
-		btnBack.addActionListener(new returnNegozioListener(negozio,this));
 		txtPass.addActionListener(new btnLoginListener(this));
 
 	}
@@ -820,7 +816,6 @@ public class areaRiservataWnd extends JFrame {
 
 	public void AddNewCd()
 	{
-
 		CdController cCd = new CdController(this);
 		try {
 			if(cCd.insert()) {
@@ -830,9 +825,17 @@ public class areaRiservataWnd extends JFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
-		
 	}
 	
-	// probabilmente questo sarà un controller
-
+	public void UpdateCd() {
+		CdController cCd = new CdController(this);
+		try {
+			if(cCd.update()) {
+				JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				this.clearComponents();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
+		}
+	}
 }
