@@ -794,7 +794,6 @@ public class areaRiservataWnd extends JFrame {
 
 	public void AddNewCd()
 	{
-
 		CdController cCd = new CdController(this);
 		try {
 			if(cCd.insert()) {
@@ -804,9 +803,12 @@ public class areaRiservataWnd extends JFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public void UpdateCd() {
 		
 	}
 	
-	// probabilmente questo sarà un controller
+	// TODO manca l'update
 
 }

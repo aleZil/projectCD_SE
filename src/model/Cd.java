@@ -218,14 +218,17 @@ public class Cd{
 				this.setPezziVenduti(rs.getInt("pezzi_venduti"));
 				this.setPezziMagazzino(rs.getInt("pezzi_magazzino"));
 				
-				this.genere = new Genere();
-				this.genere.getById(rs.getInt("genere_id"));
-
-				this.titolare = new Musicista();
-				this.titolare.getTitolareByIdCd(this.id);
+				Genere genere = new Genere();
+				genere.getById(rs.getInt("genere_id"));
 				
-				this.partecipanti = new Musicista().getPartecipantiByIdCd(this.id);
+				this.setGenere(genere);
 				
+				Musicista titolare = new Musicista();
+				titolare.getTitolareByIdCd(this.id);
+				this.setTitolare(titolare);
+				this.setPartecipanti(new Musicista().getPartecipantiByIdCd(this.id));
+				
+				this.setBrani(new Brano().getAllByIdCd(rs.getInt("id")));
 			}
 			
 			ps.close();
