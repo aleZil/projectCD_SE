@@ -271,9 +271,7 @@ public class areaRiservataWnd extends JFrame {
 	public void showAddMusIns()
 	{
 		this.setTitle("Modifica strumenti per musicista");
-		
-		
-		
+		clearComponents();
 		clPanel.show(panelContainer, "optionAddMusIns");
 	}
 
@@ -345,8 +343,8 @@ public class areaRiservataWnd extends JFrame {
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();					
 		//Se l'utente aveva scritto prima,pulisco
-		//clearComponents();	
-		//TODO sistemare clearComponents
+		//clearComponents();	//TODO sistemare clearComponents	
+		
 		kGen=new HashMap<String,Integer>();					
 		//Rimuovo gli elementi che eventualmente ci sono
 		cbGeneri.removeAll();					

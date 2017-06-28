@@ -81,8 +81,6 @@ public class aggiungiStrumentoWnd extends JFrame{
 		JLabel lblSelezionaStrumento = new JLabel("Seleziona strumento:");
 		getContentPane().add(lblSelezionaStrumento, "cell 0 0,alignx trailing,aligny center");
 		
-		
-		
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		list = new JList(listModel3);
@@ -102,7 +100,7 @@ public class aggiungiStrumentoWnd extends JFrame{
 		//da qui in poi per mostrare la lista di tutti gli strumenti nella ComboBox
 		ArrayList<Strumento> listaStrumenti = new Strumento().getAll();
 		
-		clearComponents();			//Se l'utente aveva scritto prima,pulisco
+		//clearComponents();			//Se l'utente aveva scritto prima,pulisco
 		
 		kStrumenti = new HashMap<String,Integer>();
 						
@@ -162,11 +160,11 @@ public class aggiungiStrumentoWnd extends JFrame{
 	{		
 		listModel3=((areaRiservataWnd)caller).getInstrumentList();
 	}
-
+/*
 	public void clearComponents()
 	{
 		listModel3.clear();
 		cbStrumenti.removeAllItems();
 	}
-	
+	*/
 }
