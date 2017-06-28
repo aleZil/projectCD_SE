@@ -782,6 +782,7 @@ public class areaRiservataWnd extends JFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
 	}	
+	
 
 	public void AddNewCd()
 	{
