@@ -67,8 +67,14 @@ public class dataValidator {
 		return true;
 	}
 
-
-	public static boolean validValues(String title,DefaultListModel<String> trackList,String price,String amount)
+	/**
+	 * @param title
+	 * @param trackList
+	 * @param price
+	 * @param amount
+	 * @return boolean 
+	 */
+	public static boolean validValues(String title, DefaultListModel<String> trackList, String price, String amount)
 	{
 		if(!dataValidator.checkString(title))
 		{
