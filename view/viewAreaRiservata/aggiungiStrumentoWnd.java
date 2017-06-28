@@ -1,9 +1,8 @@
-package viewAggiungiStrumento;
+package viewAreaRiservata;
 
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import utility.dataValidator;
-import viewAreaRiservata.areaRiservataWnd;
 
 import javax.swing.JTextField;
 import javax.swing.ListModel;

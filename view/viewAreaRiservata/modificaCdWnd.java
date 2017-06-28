@@ -1,4 +1,4 @@
-package viewModificaCd;
+package viewAreaRiservata;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import model.Genere;
 import model.Musicista;
 import modificaCdListener.*;
 import net.miginfocom.swing.MigLayout;
-import viewAreaRiservata.areaRiservataWnd;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import java.awt.Component;

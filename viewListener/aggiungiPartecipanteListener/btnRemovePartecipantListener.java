@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
-import viewAggiungiPartecipante.aggiungiPartecipanteWnd;
+import viewAreaRiservata.aggiungiPartecipanteWnd;
 
 public class btnRemovePartecipantListener implements ActionListener{
 	

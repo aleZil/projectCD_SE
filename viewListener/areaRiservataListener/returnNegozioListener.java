@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import viewAggiungiBrano.aggiungiBranoWnd;
+import viewAreaRiservata.aggiungiBranoWnd;
 import viewAreaRiservata.areaRiservataWnd;
 
 

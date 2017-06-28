@@ -5,7 +5,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import viewAggiungiBrano.aggiungiBranoWnd;
+import viewAreaRiservata.aggiungiBranoWnd;
 
 public class closerAddTrackListener extends WindowAdapter{
 	

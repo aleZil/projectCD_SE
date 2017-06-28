@@ -7,8 +7,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import viewAggiungiBrano.aggiungiBranoWnd;
-import viewModificaCd.modificaCdWnd;
+import viewAreaRiservata.aggiungiBranoWnd;
+import viewAreaRiservata.modificaCdWnd;
 
 public class closerModificaCdListener extends WindowAdapter{
 	

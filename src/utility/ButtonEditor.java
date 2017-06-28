@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import viewModificaCd.modificaCdWnd;
+import viewAreaRiservata.modificaCdWnd;
   
 public class ButtonEditor extends DefaultCellEditor {
   protected JButton button;

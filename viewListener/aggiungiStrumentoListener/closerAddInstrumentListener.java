@@ -4,7 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
-import viewAggiungiStrumento.aggiungiStrumentoWnd;
+import viewAreaRiservata.aggiungiStrumentoWnd;
 
 public class closerAddInstrumentListener extends WindowAdapter{
 	

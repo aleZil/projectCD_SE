@@ -2,9 +2,10 @@ package modificaCdListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import viewModificaCd.modificaCdWnd;
 
 import javax.swing.JFrame;
+
+import viewAreaRiservata.modificaCdWnd;
 
 public class btnUpdateCdListener implements ActionListener{
 	
