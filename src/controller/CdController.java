@@ -123,7 +123,7 @@ public class CdController {
 				}
 
 				// creazione del Cd
-				model = new Cd(id, titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
+				model = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
 
 				if(!model.update()) {
 					//JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);

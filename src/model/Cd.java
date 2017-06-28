@@ -226,7 +226,9 @@ public class Cd{
 				Musicista titolare = new Musicista();
 				titolare.getTitolareByIdCd(this.id);
 				this.setTitolare(titolare);
-				this.partecipanti = new Musicista().getPartecipantiByIdCd(this.id);
+				this.setPartecipanti(new Musicista().getPartecipantiByIdCd(this.id));
+				
+				this.setBrani(new Brano().getAllByIdCd(rs.getInt("id")));
 			}
 			
 			ps.close();
