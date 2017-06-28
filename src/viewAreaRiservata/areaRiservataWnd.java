@@ -852,6 +852,7 @@ public class areaRiservataWnd extends JFrame {
 				
 				if(cdToAdd.insert()) {
 					JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+					clearComponents();
 				} else {
 					JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
 				}
