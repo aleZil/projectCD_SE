@@ -86,7 +86,8 @@ public class areaRiservataWnd extends JFrame {
 
 	//Pannello magazzino
 	private JTable tbCd;
-
+	private ArrayList<Cd> supListCd;
+	
 	//Pannello nuovo musicista
 	private JComboBox<String> cbGenP3;
 	private JTextField txtArtName;
@@ -109,11 +110,9 @@ public class areaRiservataWnd extends JFrame {
 	//Utility
 	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
-	Set<Integer> rowEdited;
 
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		setResizable(false);
-		rowEdited=new HashSet<>();
 		//Tengo il riferimento al main form
 		negozio=caller;
 		panelContainer.setLayout(clPanel);	//card_layout (contenitore di tutti i panel, ogni panel è un Mig layout)
@@ -123,10 +122,6 @@ public class areaRiservataWnd extends JFrame {
 
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
-		
-		
-		
-		
 		setBounds(negozio.getLocation().x,negozio.getLocation().y, 1000, 700);
 		//setSize(tk.getScreenSize());
 		setUndecorated(false);
@@ -192,7 +187,7 @@ public class areaRiservataWnd extends JFrame {
 			ArrayList<Cd> cdList;
 			Cd cdTmp = new Cd();
 			cdList=cdTmp.getAll(); 
-			
+			supListCd=new ArrayList<Cd>();
 			// definizione della tabella
 
 			String[] colNames={"Titolo","Prezzo","Rimasti","Dettagli"};
@@ -200,6 +195,7 @@ public class areaRiservataWnd extends JFrame {
 			model.setColumnIdentifiers(colNames);
 			for (int i= 0; i < cdList.size(); i++) 
 			{
+				supListCd.add(cdList.get(i));
 				title = cdList.get(i).getTitolo();
 				price = cdList.get(i).getPrezzo();
 				amountCd = cdList.get(i).getPezziMagazzino();
@@ -209,9 +205,6 @@ public class areaRiservataWnd extends JFrame {
 			tbCd.setModel(model);
 			tbCd.getColumn("Dettagli").setCellRenderer(new ButtonRenderer());
 			tbCd.getColumn("Dettagli").setCellEditor(new ButtonEditor(new JCheckBox(),this));
-			
-			TableCellListener tcl=new TableCellListener(tbCd,GetUpdate);
-
 			this.setTitle("Magazzino");
 			clPanel.show(panelContainer, "warehouse");
 		}
@@ -271,8 +264,6 @@ public class areaRiservataWnd extends JFrame {
 		negozio.setVisible(true);
 		this.setVisible(false);
 	}
-
-
 
 	public void showAddMusIns()
 	{
@@ -437,7 +428,6 @@ public class areaRiservataWnd extends JFrame {
 		newCdPanel.add(lblAmo, "cell 0 10,alignx right,aligny center");
 
 		txtAmo = new JTextField();
-		txtAmo.setColumns(10);
 		newCdPanel.add(txtAmo, "cell 1 10,alignx center,aligny center");
 
 		JButton btnAddNewCd = new JButton("Inserisci prodotto");
@@ -598,8 +588,6 @@ public class areaRiservataWnd extends JFrame {
 
 	}
 
-
-	
 	// *********************************************************************************************
 	
 	//								RECUPERO INFORMAZIONI DA FORM
@@ -641,7 +629,6 @@ public class areaRiservataWnd extends JFrame {
 		return listModel2;
 	}
 
-
 	public String getCdPrice()
 	{
 		return txtPrice.getText();
@@ -667,7 +654,10 @@ public class areaRiservataWnd extends JFrame {
 		return txtAmo.getText();
 	}
 	
-	
+	public int getSelectedCdId(int index)
+	{
+		return supListCd.get(index).getId();
+	}
 	
 	// *********************************************************************************************
 	
@@ -730,23 +720,6 @@ public class areaRiservataWnd extends JFrame {
 		}
 		return true;
 	}
-	
-	
-	//Prende il riferimento alla riga modificata
-	AbstractAction GetUpdate=new AbstractAction() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			TableCellListener tcl=(TableCellListener)e.getSource();
-			int row=tcl.getRow();
-
-			//Se non viene modificato il valore,non si fa l'update
-			if(tcl.getOldValue().equals(tcl.getNewValue()))
-				return;
-			//Se modificata,salvo l'indice con riga da modificare
-			rowEdited.add(tcl.getRow());
-		}
-	};
 
 	public void clearComponents()
 	{
@@ -839,48 +812,5 @@ public class areaRiservataWnd extends JFrame {
 	}
 	
 	// probabilmente questo sarà un controller
-	public void saveUpdates()
-	{
 
-		if (rowEdited.size() == 0) {
-
-			JOptionPane.showMessageDialog(this, "Premi invio dopo la modifica");
-
-		} else {
-
-			for(int row:rowEdited)
-			{
-
-				//Faccio l'update sulle righe modificate
-				String codice=(String)tbCd.getValueAt(row, 0);
-				String titolo=(String)tbCd.getValueAt(row, 1);
-				String titoloBrani=(String)tbCd.getValueAt(row, 2);
-				BigDecimal prezzo=(BigDecimal)tbCd.getValueAt(row, 3);
-				Date dataInserimento=(Date)tbCd.getValueAt(row,4);
-				String descrizione=(String)tbCd.getValueAt(row,5);
-
-				try
-				{
-					// TODO dovrebbe chiamare il controller
-					//Boolean status = modelCd.updateByCodice(codice, titolo, titoloBrani, descrizione, prezzo, dataInserimento); 
-					
-					Boolean status = false;
-					
-					
-					if(status == true)
-						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica eseguita con successo!","Info",JOptionPane.INFORMATION_MESSAGE);
-					else
-						JOptionPane.showMessageDialog(tbCd.getParent(), "Modifica non eseguita! Aggiorna il model dei cd","Errore",JOptionPane.ERROR_MESSAGE);
-
-				}
-				catch (Exception exception)
-				{
-					JOptionPane.showMessageDialog(tbCd.getParent(), exception.getMessage());
-				}
-			}
-
-			rowEdited.clear();
-			clPanel.show(panelContainer, "warehouse");
-		}
-	}
 }
