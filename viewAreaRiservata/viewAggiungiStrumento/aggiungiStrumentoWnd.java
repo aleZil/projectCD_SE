@@ -100,22 +100,22 @@ public class aggiungiStrumentoWnd extends JFrame{
 		//da qui in poi per mostrare la lista di tutti gli strumenti nella ComboBox
 		ArrayList<Strumento> listaStrumenti = new Strumento().getAll();
 		
-		//clearComponents();			//Se l'utente aveva scritto prima,pulisco
+		//TODO
+		//Se l'utente aveva scritto prima,pulisco
+		//clearComponents();			
 		
 		kStrumenti = new HashMap<String,Integer>();
-						
-		cbStrumenti.removeAll();	//Rimuovo gli elementi che eventualmente ci sono
+
+		//Rimuovo gli elementi che eventualmente ci sono
+		cbStrumenti.removeAll();	
 						
 		for (int i=0; i < listaStrumenti.size(); i++) {
-					
 			Strumento strumento = listaStrumenti.get(i);
 			kStrumenti.put(strumento.getNome(), strumento.getId());
 			cbStrumenti.addItem(strumento.getNome());
 		}
 				
 		getContentPane().add(cbStrumenti, "cell 1 0,growx,aligny center");
-		
-		
 		
 		this.setVisible(true);
 	}
@@ -160,11 +160,11 @@ public class aggiungiStrumentoWnd extends JFrame{
 	{		
 		listModel3=((areaRiservataWnd)caller).getInstrumentList();
 	}
-/*
+/*//TODO
 	public void clearComponents()
 	{
 		listModel3.clear();
 		cbStrumenti.removeAllItems();
 	}
-	*/
+*/
 }
