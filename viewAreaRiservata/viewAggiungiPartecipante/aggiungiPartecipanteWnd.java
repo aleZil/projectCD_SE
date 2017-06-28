@@ -92,7 +92,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		cbMusicisti = new JComboBox();
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
-		
+
 		for (int i=0; i<listaMusicisti.size(); i++) {
 			Musicista musicista = listaMusicisti.get(i);
 			cbMusicisti.addItem(musicista.getNomeArte());

@@ -225,7 +225,6 @@ public class Cd{
 				
 				Musicista titolare = new Musicista();
 				titolare.getTitolareByIdCd(this.id);
-				System.out.println(titolare.getNomeArte());
 				this.setTitolare(titolare);
 				this.setPartecipanti(new Musicista().getPartecipantiByIdCd(this.id));
 				
@@ -270,8 +269,6 @@ public class Cd{
 			
 			while( rs.next() ){
 				
-				Cd cdTmp = new Cd();
-				
 				id = rs.getInt("id");
 				titolo = rs.getString("titolo");
 				prezzo = rs.getBigDecimal("prezzo");
@@ -281,6 +278,36 @@ public class Cd{
 				pezziMagazzino = rs.getInt("pezzi_magazzino");
 
 				lista.add(new Cd(id, titolo, prezzo, descrizione, pezziVenduti, pezziMagazzino, dataInserimento, brani, genere,	titolare, partecipanti));
+			}
+			ps.close();
+			rs.close();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return lista;
+	}
+	
+	/**
+	 * 
+	 * @return una lista dei titoli in esaurimento
+	 */
+	public ArrayList<String> getTitoliInEsaurimento() {
+		ArrayList<String> lista = new ArrayList<String>();
+		
+		try { 
+			String query = "SELECT titolo "
+					+ "FROM cd AS C "
+					+ "WHERE pezzi_magazzino < 2"
+					+ "ORDER BY titolo";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			
+			while( rs.next() ){
+
+				lista.add(rs.getString("titolo"));
 			}
 			ps.close();
 			rs.close();
@@ -431,7 +458,6 @@ public class Cd{
 			i = 1;
 			psIns.setInt(i++, id);
 			psIns.setInt(i++, titolare.getId());
-			System.out.println(titolare.getId());
 			psIns.setBoolean(i++, true);
 			
 			if( psIns.executeUpdate() != 1 )
@@ -532,7 +558,6 @@ public class Cd{
 			i = 1;
 			ps.setInt(i++, this.getId());
 			ps.setInt(i++, titolare.getId());
-			System.out.println(titolare.getId());
 			ps.setBoolean(i++, true);
 			
 			if( ps.executeUpdate() != 1 )
