@@ -15,34 +15,40 @@ import model.Genere;
 import model.Musicista;
 import utility.dataValidator;
 import viewAreaRiservata.areaRiservataWnd;
+import viewAreaRiservata.modificaCdWnd;
 
 
 public class CdController {
 
-	private areaRiservataWnd wnd;
+	private areaRiservataWnd arWnd;
+	private modificaCdWnd modWnd;
 	private Cd model;
 
 	public CdController(areaRiservataWnd wnd){
-		this.wnd = wnd;
+		this.arWnd = wnd;
+	}
+
+	public CdController(modificaCdWnd modificaCdWnd) {
+		this.modWnd = modificaCdWnd;
 	}
 
 	public Boolean insert() throws InsertFailedException {
 
-		if(this.wnd.validValues())
+		if(this.arWnd.validValues())
 		{
 			// Recupero i dati dal form 
 
 			// ---------------------------------------------------- info base
-			String titolo = wnd.getCdTitle();
-			BigDecimal prezzo = new BigDecimal(wnd.getCdPrice());
-			String descrizione = wnd.getCdDesc();
+			String titolo = arWnd.getCdTitle();
+			BigDecimal prezzo = new BigDecimal(arWnd.getCdPrice());
+			String descrizione = arWnd.getCdDesc();
 
-			int pezziMagazzino = Integer.parseInt(wnd.getAmount());
+			int pezziMagazzino = Integer.parseInt(arWnd.getAmount());
 			Genere genere  = new Genere();
-			genere.getById(wnd.getGenderId());
+			genere.getById(arWnd.getGenderId());
 
 			// ---------------------------------------------------- brani
-			ListModel<String> titoloBrani = wnd.getTrackList();
+			ListModel<String> titoloBrani = arWnd.getTrackList();
 			ArrayList<Brano> brani = new ArrayList<Brano>(); 
 
 			for(int i=0; i < titoloBrani.getSize(); i++){
@@ -51,10 +57,10 @@ public class CdController {
 
 			// ---------------------------------------------------- musicista titolare
 			Musicista titolare = new Musicista();
-			titolare.getById(wnd.getMusicianId());
+			titolare.getById(arWnd.getMusicianId());
 
 			// ---------------------------------------------------- partecipanti
-			ListModel<String> listaNomiPartecipanti = wnd.getPartecipantList();
+			ListModel<String> listaNomiPartecipanti = arWnd.getPartecipantList();
 			ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
 
 			for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
@@ -78,15 +84,50 @@ public class CdController {
 	
 	public Boolean update() {
 
-		if(this.wnd.validValues())
+		if(this.modWnd.validValues())
 		{
-			// recupero del cd
+			int id = modWnd.getCdId();
 			Cd cd = new Cd();
+			cd.getById(id);
+			
+			cd.setTitolo(modWnd.getCdTitle());
+			cd.setPrezzo(new BigDecimal(modWnd.getCdPrice()));
+			cd.setDescrizione(modWnd.getCdDesc());
+			cd.setPezziMagazzino(Integer.parseInt(modWnd.getAmount()));
+			
+			Genere genere  = new Genere();
+			genere.getByNome(modWnd.getGender());
+			cd.setGenere(genere);
+			
+			// ---------------------------------------------------- brani
+			ListModel<String> titoloBrani = modWnd.getTrackList();
+			ArrayList<Brano> brani = new ArrayList<Brano>(); 
 
-			// Recupero i dati dal form 
+			for(int i=0; i < titoloBrani.getSize(); i++){
+				brani.add(new Brano(titoloBrani.getElementAt(i), i));
+			}
+			
+			// ---------------------------------------------------- musicista titolare
+			Musicista titolare = new Musicista();
+			titolare.getByNomeArte(modWnd.getMusician());
 
+			// ---------------------------------------------------- partecipanti
+			ListModel<String> listaNomiPartecipanti = modWnd.getPartecipantList();
+			ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
+
+			for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
+				Musicista p = new Musicista();
+				p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
+
+				partecipanti.add(p);
+			}
+			
+			cd.setTitolare(titolare);
+			cd.setPartecipanti(partecipanti);
+			cd.setBrani(brani);
+			
 			if(!cd.update()) {
-				throw new InsertFailedException("Cd non moodificato.");
+				throw new InsertFailedException("Cd non modificato.");
 			}
 		}
 		return true;

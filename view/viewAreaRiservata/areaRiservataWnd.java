@@ -820,16 +820,4 @@ public class areaRiservataWnd extends JFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
-	public void UpdateCd() {
-		CdController cCd = new CdController(this);
-		try {
-			if(cCd.update()) {
-				JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-				this.clearComponents();
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
-		}
-	}
 }
