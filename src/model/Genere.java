@@ -92,6 +92,29 @@ public class Genere {
 		}
 	}
 	
+	public void getByNome(String nome) {
+		
+		try {
+			String query = "SELECT * FROM genere WHERE nome = ?";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			ps.setString(1, nome);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next() ) {
+				this.setId(rs.getInt("id"));
+				this.setNome(rs.getString("nome"));
+			}
+			
+			ps.close();
+			rs.close();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	
 	public ArrayList<Genere> getAll() {
 		

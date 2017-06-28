@@ -2,6 +2,7 @@
 package viewAreaRiservata;
 
 import areaRiservataListener.*;
+import controller.CdController;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -12,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -21,12 +23,14 @@ import javax.swing.ListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
+import controller.CdController;
 import model.Brano;
 import model.Cd;
 import model.Genere;
 import model.Musicista;
 import modificaCdListener.*;
 import net.miginfocom.swing.MigLayout;
+import utility.dataValidator;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
@@ -161,8 +165,10 @@ public class modificaCdWnd extends JFrame {
 	private void loadPanel(int index)
 	{
 		idCd=((areaRiservataWnd)caller).getSelectedCdId(index);
+		
 		Cd selectedCd=new Cd();
 		selectedCd.getById(idCd);
+		
 		setCdTitle(selectedCd.getTitolo());
 		loadTrackList(selectedCd.getBrani());
 		setDescription(selectedCd.getDescrizione());
@@ -175,11 +181,19 @@ public class modificaCdWnd extends JFrame {
 
 	public void saveUpdate()
 	{
-		Cd updateCd=buildCd();
+		CdController cCd = new CdController(this);
+		try {
+			if(cCd.update()) {
+				JOptionPane.showMessageDialog(this, "Cd Modificato!","Info!",JOptionPane.INFORMATION_MESSAGE);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
+		}
 		//Fine update con chiusura della finestra
 		caller.setEnabled(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		dispose();
+		
 	}
 
 	public void close()
@@ -187,6 +201,39 @@ public class modificaCdWnd extends JFrame {
 		caller.setEnabled(true);
 		caller.setAlwaysOnTop(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+	
+	// *********************************************************************************************
+	
+	//								FUNZIONI DI SUPPORTO
+	
+	// *********************************************************************************************
+	
+
+	public boolean validValues()
+	{
+		if(!dataValidator.checkString(getCdTitle()))
+		{
+			JOptionPane.showMessageDialog(this,"Inserire titolo Cd!","Attenzione",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		if(dataValidator.emptyTrackList(getTrackList()))
+		{
+			JOptionPane.showMessageDialog(this,"Inserire elenco brani!","Attenzione",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		if(!dataValidator.checkCdPrice(getCdPrice()))
+		{
+			JOptionPane.showMessageDialog(this, "Prezzo non valido!","Attenzione",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+
+		if(!dataValidator.checkInteger(getAmount()))
+		{
+			JOptionPane.showMessageDialog(this, "Quantità non valida!","Attenzione",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 	
 	
@@ -240,7 +287,6 @@ public class modificaCdWnd extends JFrame {
 	
 	private void setMusician(Musicista mus)
 	{
-		System.out.println(mus.getId());
 		for(Musicista m:mus.getAll())
 		{
 			cbMus.addItem(m.getNomeArte());
@@ -270,25 +316,57 @@ public class modificaCdWnd extends JFrame {
 		}
 	}
 	
+	
 	// *********************************************************************************************
 
-	//								METODI GET
-
+	//								RECUPERO INFORMAZIONI DA FORM
+	
 	// *********************************************************************************************
 
-	public DefaultListModel<String> getTrackList()
+	public int getCdId()
+	{
+		return idCd;
+	}
+	
+	public String getCdTitle()
+	{
+		return txtTitle.getText();
+	}
+
+	public DefaultListModel<String> getTrackList()	//lista dei brani
 	{
 		return listModel;
 	}
-	
+
 	public DefaultListModel<String> getPartecipantList()	//lista dei musicisti partecipanti
 	{
 		return listModel2;
 	}
-	
-	private Cd buildCd()
+
+	public String getCdPrice()
 	{
-		return null;
+		return txtPrice.getText();
 	}
-	
+
+	public String getCdDesc()
+	{
+		return txtDesc.getText();
+	}
+
+	public String getMusician()
+	{
+		return cbMus.getSelectedItem().toString();
+	}
+
+	public String getGender()
+	{
+		return cbGen.getSelectedItem().toString();
+	}
+
+	public String getAmount()
+	{
+		return txtAmo.getText();
+	}
+
+
 }

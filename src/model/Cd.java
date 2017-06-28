@@ -514,16 +514,18 @@ public class Cd{
 				return false;
 			
 			// ---------------------------------------------------- ELIMINO INFORMAZIONI VECCHIE
-			
+			System.out.println("1");
 			query = "DELETE FROM Brano WHERE cd_id = ?";
 			ps = this.db.prepareStatement(query);
 			ps.setInt(1, this.getId()); 
+			ps.executeUpdate();
 			
 			query = "DELETE FROM Partecipazione WHERE cd_id = ?";
 			ps = this.db.prepareStatement(query);
 			ps.setInt(1, this.getId()); 
+			ps.executeUpdate();
 			
-			
+			System.out.println("2");
 			// ---------------------------------------------------- AGGIUNTA BRANO
 			
 			query = "INSERT INTO Brano "
@@ -577,6 +579,7 @@ public class Cd{
 				if( ps.executeUpdate() != 1 )
 					return false;
 			}
+			ps.close();
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
