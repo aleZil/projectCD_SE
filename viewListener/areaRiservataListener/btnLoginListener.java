@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
+import model.Cd;
 import sun.swing.SwingLazyValue;
 import viewAreaRiservata.areaRiservataWnd;
 
@@ -14,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class btnLoginListener implements ActionListener,KeyListener {
@@ -80,38 +82,18 @@ public class btnLoginListener implements ActionListener,KeyListener {
 	
 	public void checkAmount()
 	{
-		String query="SELECT * FROM CD";
-
-		try
-		{
-			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
-			
-			 Statement stm=con.createStatement();
-			 
-			 ResultSet res=stm.executeQuery(query);
-			 
-			 boolean showmessage=false;
-			 int amount=0;
-			 String list="";
-			 while(res.next())
-			 {
-				 amount=res.getInt("pezzi_magazzino");
-				 if(amount==1)
-				 {
-					 showmessage=true;
-					 list+=res.getString("titolo")+"\n";
-				 }
-			 }
-			 
-			 if(showmessage)
-			 {
-				 JOptionPane.showMessageDialog(caller, "Attenzione i seguenti titoli sono in esaurimento: "+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
-			 }
+		ArrayList<String> listaInEsaurimento = new Cd().getTitoliInEsaurimento();
+		String list="";
+		int nProdotti = listaInEsaurimento.size();
+		
+		for(int i=0; i < nProdotti; i++) {
+			list += "\n- " + listaInEsaurimento.get(i)+"\n";
 		}
-		catch (Exception exception)
-		{
-			JOptionPane.showMessageDialog(caller, exception.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
-		}
+		
+		if(nProdotti == 1)
+			JOptionPane.showMessageDialog(caller, "Attenzione "+ nProdotti+" prodotto in esaurimento: "+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
+		else if (nProdotti > 1)
+			JOptionPane.showMessageDialog(caller, "Attenzione "+ nProdotti+" prodotti in esaurimento: "+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
 	}
 	
 	public void keyPressed(KeyEvent e) {
