@@ -105,7 +105,7 @@ public class btnLoginListener implements ActionListener,KeyListener {
 			 
 			 if(showmessage)
 			 {
-				 JOptionPane.showMessageDialog(caller, "Attenzione i seguenti titoli sono in esaurimento:"+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
+				 JOptionPane.showMessageDialog(caller, "Attenzione i seguenti titoli sono in esaurimento: "+list,"Attenzione!", JOptionPane.WARNING_MESSAGE);
 			 }
 		}
 		catch (Exception exception)

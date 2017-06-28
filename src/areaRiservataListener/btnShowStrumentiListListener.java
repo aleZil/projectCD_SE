@@ -7,11 +7,11 @@ import javax.swing.JFrame;
 
 import viewAreaRiservata.areaRiservataWnd;
 
-public class btnAddMusInsListener implements ActionListener {
+public class btnShowStrumentiListListener implements ActionListener {
 
 	JFrame caller;
 	
-	public btnAddMusInsListener(JFrame caller)
+	public btnShowStrumentiListListener(JFrame caller)
 	{
 		this.caller=caller;
 	}
