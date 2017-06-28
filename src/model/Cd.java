@@ -198,7 +198,7 @@ public class Cd{
 	public void getById(int id) {
 
 		try {
-			String query = "SELECT id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
+			String query = "SELECT C.id AS id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
 					+ "FROM cd AS C "
 					+ "JOIN Genere AS G "
 					+ "ON C.genere_id = G.id "
@@ -218,14 +218,15 @@ public class Cd{
 				this.setPezziVenduti(rs.getInt("pezzi_venduti"));
 				this.setPezziMagazzino(rs.getInt("pezzi_magazzino"));
 				
-				this.genere = new Genere();
-				this.genere.getById(rs.getInt("genere_id"));
-
-				this.titolare = new Musicista();
-				this.titolare.getTitolareByIdCd(this.id);
+				Genere genere = new Genere();
+				genere.getById(rs.getInt("genere_id"));
 				
+				this.setGenere(genere);
+				
+				Musicista titolare = new Musicista();
+				titolare.getTitolareByIdCd(this.id);
+				this.setTitolare(titolare);
 				this.partecipanti = new Musicista().getPartecipantiByIdCd(this.id);
-				
 			}
 			
 			ps.close();

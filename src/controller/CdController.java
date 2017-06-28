@@ -81,4 +81,60 @@ public class CdController {
 		}
 		return true;
 	}
+	
+	public Boolean update() {
+
+		if(this.wnd.validValues())
+		{
+			try
+			{
+				// Recupero i dati dal form 
+
+				// ---------------------------------------------------- info base
+				String titolo = wnd.getCdTitle();
+				BigDecimal prezzo = new BigDecimal(wnd.getCdPrice());
+				String descrizione = wnd.getCdDesc();
+
+				int pezziMagazzino = Integer.parseInt(wnd.getAmount());
+				Genere genere  = new Genere();
+				genere.getById(wnd.getGenderId());
+
+				// ---------------------------------------------------- brani
+				ListModel<String> titoloBrani = wnd.getTrackList();
+				ArrayList<Brano> brani = new ArrayList<Brano>(); 
+
+				for (int i = 0; i < titoloBrani.getSize(); i++) {
+					brani.add(new Brano(titoloBrani.getElementAt(i), i));
+				}
+
+				// ---------------------------------------------------- musicista titolare
+				Musicista titolare = new Musicista();
+				titolare.getById(wnd.getMusicianId());
+
+				// ---------------------------------------------------- partecipanti
+				ListModel<String> listaNomiPartecipanti = wnd.getPartecipantList();
+				ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
+
+				for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
+					Musicista p = new Musicista();
+					p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
+
+					partecipanti.add(p);
+				}
+
+				// creazione del Cd
+				model = new Cd(id, titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
+
+				if(!model.update()) {
+					//JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+					throw new InsertFailedException("Cd non inserito.");
+					//JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
+				}
+
+			} catch (Exception exception) {
+				throw new InsertFailedException("Cd non inserito.");
+			}
+		}
+		return true;
+	}
 }
