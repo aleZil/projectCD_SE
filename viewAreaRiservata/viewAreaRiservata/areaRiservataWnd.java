@@ -786,56 +786,14 @@ public class areaRiservataWnd extends JFrame {
 
 	public void AddNewCd()
 	{
-		if(validValues())
-		{
-			try
-			{
-				// Recupero i dati dal form 
-
-				// ---------------------------------------------------- info base
-				String titolo = getCdTitle();
-				BigDecimal prezzo = new BigDecimal(getCdPrice());
-				String descrizione = getCdDesc();
-
-				int pezziMagazzino = Integer.parseInt(getAmount());
-				Genere genere  = new Genere();
-				genere.getById(getGenderId());
-				
-				// ---------------------------------------------------- brani
-				ListModel<String> titoloBrani=getTrackList();
-				ArrayList<Brano> brani = new ArrayList<Brano>(); 
-
-				for(int i=0; i < titoloBrani.getSize(); i++){
-					brani.add(new Brano(titoloBrani.getElementAt(i), i));
-				}
-
-				// ---------------------------------------------------- musicista titolare
-				Musicista titolare = new Musicista();
-				titolare.getById(getMusicianId());
-
-				// ---------------------------------------------------- partecipanti
-				ListModel<String> listaNomiPartecipanti = getPartecipantList();
-				ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
-
-				for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
-					Musicista p = new Musicista();
-					p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
-					
-					partecipanti.add(p);
-				}
-
-				// creazione del Cd
-				Cd cdToAdd = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
-				
-				if(cdToAdd.insert()) {
-					JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
-				}
-				
-			} catch (Exception exception) {
-				JOptionPane.showMessageDialog(this, exception.getMessage());
+		CdController cCd = new CdController(this);
+		try {
+			if(cCd.insert()) {
+				JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				this.clearComponents();
 			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
