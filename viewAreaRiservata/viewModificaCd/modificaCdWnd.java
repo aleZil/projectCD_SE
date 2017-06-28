@@ -22,11 +22,13 @@ import areaRiservataListener.btnAddNewCdListener;
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.btnShowCollaboratorListListener;
 import areaRiservataListener.btnShowTrackListListener;
+import modificaCdListener.btnUpdateCdListener;
+import modificaCdListener.closerModificaCdListener;
 import net.miginfocom.swing.MigLayout;
 import java.awt.BorderLayout;
 
 public class modificaCdWnd extends JFrame {
-	
+
 	private JTextField txtTitle;
 	private JTextField txtUser;
 	private JPasswordField txtPass;
@@ -38,23 +40,24 @@ public class modificaCdWnd extends JFrame {
 	private ListModel<String> listModel2;
 	private JList listTrackList;
 	private JTextArea txtDesc;
+	private JFrame caller;
 
-	public modificaCdWnd() {
+	public modificaCdWnd(JFrame caller) throws ParseException{
+		this.caller=caller;
 		setResizable(false);
-		try {
-			createInsertPanel();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		this.addWindowListener(new closerModificaCdListener(this));
+		this.setAlwaysOnTop(true);
+		createInsertPanel();
+		loadPanel();
+
+
 	}
-	
+
 	private void createInsertPanel() throws ParseException
 	{
 		this.setTitle("Modifica cd esistente");
 		setBounds(0,0,800,550);
-		JPanel option1Panel = new JPanel();
+		JPanel insertPanel = new JPanel();
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
@@ -125,7 +128,7 @@ public class modificaCdWnd extends JFrame {
 		//pannello visualizzazione musicisti partecipanti
 		JScrollPane scrollPartecipantList = new JScrollPane();
 		newCdPanel.add(scrollPartecipantList, "cell 1 9,grow");
-		
+
 		JList list = new JList();
 		scrollPartecipantList.setViewportView(list);
 		/*listModel2=new DefaultListModel<String>();	
@@ -139,17 +142,31 @@ public class modificaCdWnd extends JFrame {
 		txtAmo.setColumns(10);
 		newCdPanel.add(txtAmo, "cell 1 10,alignx center,aligny center");
 
-		JButton btnAddNewCd = new JButton("Inserisci prodotto");
-		/*btnAddNewCd.addActionListener(new btnAddNewCdListener(this));
-		btnAddNewCd.addKeyListener(new btnAddNewCdListener(this));*/
-		newCdPanel.add(btnAddNewCd, "flowx,cell 1 11,alignx left,growy");
-		option1Panel.setLayout(new MigLayout("", "[1174px]", "[851px]"));
-		option1Panel.add(newCdPanel, "cell 0 0,grow");
+		JButton btnUpdateCd = new JButton("Modifica prodotto");
+		btnUpdateCd.addActionListener(new btnUpdateCdListener(this));
+		newCdPanel.add(btnUpdateCd, "flowx,cell 1 11,alignx left,growy");
+		insertPanel.setLayout(new MigLayout("", "[1174px]", "[851px]"));
+		insertPanel.add(newCdPanel, "cell 0 0,grow");
+		getContentPane().add(insertPanel);
+	}
 
-		JButton btnBack = new JButton("Annulla");
-		btnBack.addActionListener(new btnBackListener(this));
-		newCdPanel.add(btnBack, "cell 1 11,alignx right,growy");
-		getContentPane().add(option1Panel);
+	private void loadPanel()
+	{
 
+	}
+	
+	public void saveUpdate()
+	{
+		
+		//Fine update con chiusura della finestra
+		caller.setEnabled(true);
+		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		dispose();
+	}
+
+	public void close()
+	{
+		caller.setEnabled(true);
+		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 }

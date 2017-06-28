@@ -1,47 +1,44 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import model.Genere;
-import view.GenereView;
+import utility.dataValidator;
+import viewAreaRiservata.areaRiservataWnd;
 
 
 public class GenereController {
-	   private Genere model;
-	   private GenereView view;
+	
+	private areaRiservataWnd wnd;
+	private Genere model;
 
-	   public GenereController(Genere model, GenereView view){
-	      this.model = model;
-	      this.view = view;
-	   }
-	   
-		// ------------------------------------------------ RECUPERO INFO BASE(controller)
-
-	   public Integer getGenereId(){
-		   return model.getId();
-	   }
-
-	   public String getGenereNome(){
-	      return model.getNome();		
-	   }
-	   
-		// ------------------------------------------------ SETTAGGIO DATI BASE(controller)
-
-	   public void setGenereId(Integer id){
-		   model.setId(id);
-	   }
-
-	   public void setGenereNome(String nome){
-		   model.setNome(nome);		
-	   }
-	   
-	   
-	   public void updateView(){				
-	      view.printGenere(model.getId(), model.getNome());
-	   }	
-	   
-	   
-	   
-	   
+	public GenereController(areaRiservataWnd wnd){
+		this.wnd = wnd;
 	}
+
+	public Boolean insert() {
+		
+		String nomeGenere = wnd.getGenName();
+		if(!dataValidator.checkString(nomeGenere))
+		{
+			//JOptionPane.showMessageDialog(this, "Inserire nome genere!","Attenzione!",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+
+		Genere newGen = new Genere(nomeGenere);
+
+		if(newGen.insert()) {
+			//JOptionPane.showMessageDialog(this, "Nuovo genere inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+			//wnd.txtGen.setText("");
+			return false;
+		} else {
+			//JOptionPane.showMessageDialog(this, "Genere già esistente!","Errore!",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+	}
+
+}
 
 
 

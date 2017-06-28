@@ -24,7 +24,7 @@ public class main_wnd_btn_area_riservata implements ActionListener {
 		//Visualizzo la finestra di configurazione
 		try
 		{
-			areaRiservataWnd wnd=new areaRiservataWnd(main_wnd);
+			areaRiservataWnd wnd = new areaRiservataWnd(main_wnd);
 		}
 		catch (Exception exception)
 		{
