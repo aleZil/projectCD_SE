@@ -209,7 +209,7 @@ public class Musicista {
 	public ArrayList<Musicista> getPartecipantiByIdCd(Integer cdId) {
 		
 		ArrayList<Musicista> lista = new ArrayList<Musicista>();
-		Musicista tmp = null;
+		//Musicista tmp = null;
 		Integer id;
 		String nomeArte;
 		Integer annoNascita;

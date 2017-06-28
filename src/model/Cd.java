@@ -198,7 +198,7 @@ public class Cd{
 	public void getById(int id) {
 
 		try {
-			String query = "SELECT id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
+			String query = "SELECT C.id AS id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
 					+ "FROM cd AS C "
 					+ "JOIN Genere AS G "
 					+ "ON C.genere_id = G.id "
