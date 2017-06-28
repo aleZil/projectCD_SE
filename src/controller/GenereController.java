@@ -1,44 +1,39 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
+import exception.InsertFailedException;
+import exception.MissingDataException;
 import model.Genere;
+import utility.dataValidator;
+import viewAreaRiservata.areaRiservataWnd;
 
 
 public class GenereController {
 	
+	private areaRiservataWnd wnd;
 	private Genere model;
 
-	public GenereController(Genere model){
-		this.model = model;
+	public GenereController(areaRiservataWnd wnd){
+		this.wnd = wnd;
 	}
 
-	// ------------------------------------------------ RECUPERO INFO BASE(controller)
+	public Boolean insert() throws MissingDataException, InsertFailedException {
+		
+		String nomeGenere = wnd.getGenName();
+		if(!dataValidator.checkString(nomeGenere))
+		{
+			throw new MissingDataException("Inserire nome genere!");
+		}
 
-	public Integer getGenereId(){
-		return model.getId();
+		model = new Genere(nomeGenere);
+
+		if(model.insert()) {
+			return true;
+		} else {
+			throw new InsertFailedException("Genere non inserito. Controlla se questo genere esiste già.");
+		}
 	}
-
-	public String getGenereNome(){
-		return model.getNome();		
-	}
-
-	// ------------------------------------------------ SETTAGGIO DATI BASE(controller)
-
-	public void setGenereId(Integer id){
-		model.setId(id);
-	}
-
-	public void setGenereNome(String nome){
-		model.setNome(nome);		
-	}
-
-
-	public void updateView(){				
-		view.printGenere(model.getId(), model.getNome());
-	}	
-
-
-
-
 }
 
 

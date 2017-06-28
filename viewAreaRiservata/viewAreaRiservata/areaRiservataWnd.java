@@ -2,6 +2,7 @@ package viewAreaRiservata;
 
 import utility.*;
 import model.*;
+import controller.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -122,6 +123,9 @@ public class areaRiservataWnd extends JFrame {
 
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
+		
+		
+		
 		
 		setBounds(negozio.getLocation().x,negozio.getLocation().y, 1000, 700);
 		//setSize(tk.getScreenSize());
@@ -746,6 +750,7 @@ public class areaRiservataWnd extends JFrame {
 
 	public void clearComponents()
 	{
+		txtGen.setText("");
 		txtTitle.setText("");
 		txtPrice.setText("");
 		txtDesc.setText("");
@@ -767,22 +772,14 @@ public class areaRiservataWnd extends JFrame {
 	//Aggiunge nuovo genere
 	public void addNewGen()
 	{
-		String nomeGenere = getGenName();
-		if(!dataValidator.checkString(nomeGenere))
-		{
-			JOptionPane.showMessageDialog(this, "Inserire nome genere!","Attenzione!",JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		Genere newGen = new Genere(nomeGenere);
-
-		if(newGen.insert()) {
-			JOptionPane.showMessageDialog(this, "Nuovo genere inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-			txtGen.setText("");
-			return;
-		} else {
-			JOptionPane.showMessageDialog(this, "Genere già esistente!","Errore!",JOptionPane.ERROR_MESSAGE);
-			return;
+		GenereController cGenere = new GenereController(this);
+		try {
+			if(cGenere.insert()) {
+				JOptionPane.showMessageDialog(this, "Genere Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				this.clearComponents();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
 	}	
 
