@@ -553,19 +553,13 @@ public class Cd{
 			
 			query = "INSERT INTO Partecipazione "
 					+ "(cd_id, musicista_id, is_titolare) "
-					+ "VALUES (?,?,?)";
+					+ "VALUES ( ?, ?, ? )";
 			
 			ps = this.db.prepareStatement(query);
 			i = 1;
-			ps.setInt(i++, this.getId());
+			ps.setInt(i++, id);
 			ps.setInt(i++, titolare.getId());
-			try {
-				ps.setBoolean(i++, true);
-			} catch (SQLException e){
-				System.out.println(e.getMessage());
-			}
-				
-				
+			ps.setBoolean(i++, true);
 				
 			if( ps.executeUpdate() != 1 )
 				return false;
@@ -584,6 +578,7 @@ public class Cd{
 				if( ps.executeUpdate() != 1 )
 					return false;
 			}
+			
 			ps.close();
 			
 		} catch (SQLException e) {
