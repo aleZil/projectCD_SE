@@ -54,6 +54,7 @@ import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -74,6 +75,7 @@ public class areaRiservataWnd extends JFrame {
 	private JPasswordField txtPass;
 	private JTextField txtPrice;
 	private JTextField txtAmo;
+	private JTextPane txtDesc;
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
 
@@ -428,6 +430,9 @@ public class areaRiservataWnd extends JFrame {
 
 		JScrollPane scrollDesc = new JScrollPane();
 		newCdPanel.add(scrollDesc, "cell 1 5,grow");
+		
+		txtDesc = new JTextPane();
+		scrollDesc.setViewportView(txtDesc);
 
 		JLabel lblGen = new JLabel("Genere:");
 		newCdPanel.add(lblGen, "cell 0 6,alignx right,aligny center");
