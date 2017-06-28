@@ -60,7 +60,6 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	private JList<String> list;
 	private DefaultListModel<String> listModel2;
 	
-	Map<String,Integer> kMusicisti;
 	private JComboBox<String> cbMusicisti;
 	
 	
@@ -74,45 +73,30 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
 		setBounds(caller.getLocation().x,caller.getLocation().y, 650, 170);
 		getContentPane().setLayout(new MigLayout("", "[100.00][200.00,grow][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
-		
 		JLabel lblNomePartecipante = new JLabel("Seleziona musicista:");
 		getContentPane().add(lblNomePartecipante, "cell 0 0,alignx trailing,aligny center");
-		
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		list = new JList(listModel2);
 		listPanel.setViewportView(list);
-		
 		JButton btnRemoveColl = new JButton("Rimuovi musicista");
 		getContentPane().add(btnRemoveColl, "cell 3 2,alignx center,aligny center");
 		btnRemoveColl.addActionListener(new btnRemovePartecipantListener(this));	
-		
 		JButton btnAddColl = new JButton("Aggiungi musicista");
 		getContentPane().add(btnAddColl, "cell 1 2,alignx center,aligny center");
 		btnAddColl.addActionListener(new btnAddPartecipantListener(this));
 		
 		//ComboBox
 		cbMusicisti = new JComboBox();
-		
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
-						
-		clearComponents();			//Se l'utente aveva scritto prima,pulisco
 
-		kMusicisti = new HashMap<String,Integer>();
-						
-		cbMusicisti.removeAll();	//Rimuovo gli elementi che eventualmente ci sono
-						
 		for (int i=0; i<listaMusicisti.size(); i++) {
-					
 			Musicista musicista = listaMusicisti.get(i);
-			kMusicisti.put(musicista.getNomeArte(), musicista.getId());
 			cbMusicisti.addItem(musicista.getNomeArte());
 		}
-				
+
 		getContentPane().add(cbMusicisti, "cell 1 0,growx,aligny center");
-		
-		
 		this.setVisible(true);
 	}
 	
@@ -149,18 +133,27 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		{
 			partecipantList.add(listModel2.getElementAt(i));
 		}
-		((areaRiservataWnd) caller).setPartecipantList(partecipantList);
+		
+		if(caller instanceof areaRiservataWnd)
+		{
+			((areaRiservataWnd) caller).setPartecipantList(partecipantList);
+		}
+		else
+		{
+			((modificaCdWnd) caller).setPartecipantList(partecipantList);
+		}
+
 	}
 	
 	private void loadModel()
 	{		
-		listModel2=((areaRiservataWnd)caller).getPartecipantList();
+		if(caller instanceof areaRiservataWnd)
+		{
+			listModel2=((areaRiservataWnd)caller).getPartecipantList();
+		}
+		else
+		{
+			listModel2=((modificaCdWnd)caller).getPartecipantList();
+		}
 	}
-
-	public void clearComponents()
-	{
-		listModel2.clear();
-		cbMusicisti.removeAllItems();
-	}
-	
 }

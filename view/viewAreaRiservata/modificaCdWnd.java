@@ -1,4 +1,8 @@
+
 package viewAreaRiservata;
+
+import areaRiservataListener.*;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -13,9 +17,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import areaRiservataListener.btnShowCollaboratorListListener;
+
 import model.Brano;
 import model.Cd;
 import model.Genere;
@@ -30,21 +35,24 @@ import java.awt.Component;
 public class modificaCdWnd extends JFrame {
 
 	private JTextField txtTitle;
-	private JTextField txtUser;
-	private JPasswordField txtPass;
 	private JTextField txtPrice;
 	private JTextField txtAmo;
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
 	private DefaultListModel<String> listModel;
 	private DefaultListModel<String> listModel2;
-	private JList listTrackList;
-	private JList listPartecipantList;
+	private JList<String> listTrackList;
+	private JList<String> listPartecipantList;
 	private JTextArea txtDesc;
 	private JFrame caller;
+	
+	//id del cd da modificare
+	private Integer idCd;
 
 	public modificaCdWnd(JFrame caller,int index) throws ParseException{
 		this.caller=caller;
+		this.setTitle("Aggiungi brani");
+		this.setAlwaysOnTop(true);
 		setResizable(false);
 		this.addWindowListener(new closerModificaCdListener(this));
 		this.setAlwaysOnTop(true);
@@ -75,7 +83,7 @@ public class modificaCdWnd extends JFrame {
 
 		JButton btnAddTrack = new JButton("Aggiungi/Rimuovi");
 		newCdPanel.add(btnAddTrack, "cell 1 2,grow");
-		//btnAddTrack.addActionListener(new btnAddTrackListener(this));	//apro nuovo frame
+		btnAddTrack.addActionListener(new btnShowTrackListListener(this));	//apro nuovo frame
 
 		JLabel lblTrackList = new JLabel("Lista brani:");
 		newCdPanel.add(lblTrackList, "cell 0 3,alignx right,aligny center");
@@ -152,13 +160,13 @@ public class modificaCdWnd extends JFrame {
 
 	private void loadPanel(int index)
 	{
-		Integer idCd=((areaRiservataWnd)caller).getSelectedCdId(index);
+		idCd=((areaRiservataWnd)caller).getSelectedCdId(index);
 		Cd selectedCd=new Cd();
 		selectedCd.getById(idCd);
 		setCdTitle(selectedCd.getTitolo());
-		setTrackList(selectedCd.getBrani());
+		loadTrackList(selectedCd.getBrani());
 		setDescription(selectedCd.getDescrizione());
-		setMusicianList(selectedCd.getPartecipanti());
+		loadMusicianList(selectedCd.getPartecipanti());
 		setPrice(selectedCd.getPrezzo());
 		setAmount(selectedCd.getPezziMagazzino());
 		setGender(selectedCd.getGenere());
@@ -167,6 +175,7 @@ public class modificaCdWnd extends JFrame {
 
 	public void saveUpdate()
 	{
+		Cd updateCd=buildCd();
 		//Fine update con chiusura della finestra
 		caller.setEnabled(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -176,6 +185,7 @@ public class modificaCdWnd extends JFrame {
 	public void close()
 	{
 		caller.setEnabled(true);
+		caller.setAlwaysOnTop(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
@@ -193,7 +203,7 @@ public class modificaCdWnd extends JFrame {
 		txtTitle.setText(title);
 	}
 	
-	private void setTrackList(ArrayList<Brano> trackList)
+	private void loadTrackList(ArrayList<Brano> trackList)
 	{
 		for(Brano b:trackList)
 		{
@@ -201,6 +211,14 @@ public class modificaCdWnd extends JFrame {
 		}
 	}
 	
+	public void setTrackList(ArrayList<String> trackList)
+	{
+		for(String b:trackList)
+		{
+			listModel.addElement(b);
+		}
+	}
+
 	private void setPrice(BigDecimal price)
 	{
 		txtPrice.setText(price.toString());
@@ -230,7 +248,7 @@ public class modificaCdWnd extends JFrame {
 		cbMus.setSelectedItem(mus.getNomeArte());
 	}
 	
-	private void setMusicianList(ArrayList<Musicista> musList)
+	private void loadMusicianList(ArrayList<Musicista> musList)
 	{
 		for(Musicista m:musList)
 		{
@@ -242,4 +260,35 @@ public class modificaCdWnd extends JFrame {
 	{
 		txtAmo.setText(amount.toString());
 	}
+	
+	public void setPartecipantList(ArrayList<String> partecipantList)	
+	{
+		listModel2.clear();
+		for(String partecipant:partecipantList)
+		{
+			listModel2.addElement(partecipant);
+		}
+	}
+	
+	// *********************************************************************************************
+
+	//								METODI GET
+
+	// *********************************************************************************************
+
+	public DefaultListModel<String> getTrackList()
+	{
+		return listModel;
+	}
+	
+	public DefaultListModel<String> getPartecipantList()	//lista dei musicisti partecipanti
+	{
+		return listModel2;
+	}
+	
+	private Cd buildCd()
+	{
+		return null;
+	}
+	
 }
