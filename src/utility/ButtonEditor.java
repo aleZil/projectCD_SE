@@ -51,11 +51,11 @@ public class ButtonEditor extends DefaultCellEditor {
     	caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     	try
     	{
-    		modificaCdWnd modificaCd=new modificaCdWnd(caller);
+    		modificaCdWnd modificaCd=new modificaCdWnd(caller,row);
     	}
     	catch (Exception e)
     	{
-    		JOptionPane.showMessageDialog(caller, e.getMessage());
+
     	}
     }
     isPushed = false;

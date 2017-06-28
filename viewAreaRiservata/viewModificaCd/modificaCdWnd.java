@@ -1,7 +1,9 @@
 package viewModificaCd;
 
 import java.awt.CardLayout;
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -9,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -22,9 +25,14 @@ import areaRiservataListener.btnAddNewCdListener;
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.btnShowCollaboratorListListener;
 import areaRiservataListener.btnShowTrackListListener;
+import model.Brano;
+import model.Cd;
+import model.Musicista;
 import modificaCdListener.btnUpdateCdListener;
 import modificaCdListener.closerModificaCdListener;
 import net.miginfocom.swing.MigLayout;
+import viewAreaRiservata.areaRiservataWnd;
+
 import java.awt.BorderLayout;
 
 public class modificaCdWnd extends JFrame {
@@ -36,21 +44,20 @@ public class modificaCdWnd extends JFrame {
 	private JTextField txtAmo;
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
-	private ListModel<String> listModel;
-	private ListModel<String> listModel2;
+	private DefaultListModel<String> listModel;
+	private DefaultListModel<String> listModel2;
 	private JList listTrackList;
 	private JTextArea txtDesc;
 	private JFrame caller;
 
-	public modificaCdWnd(JFrame caller) throws ParseException{
+	public modificaCdWnd(JFrame caller,int index) throws ParseException{
 		this.caller=caller;
 		setResizable(false);
 		this.addWindowListener(new closerModificaCdListener(this));
 		this.setAlwaysOnTop(true);
 		createInsertPanel();
-		loadPanel();
+		loadPanel(index);
 		this.setVisible(true);
-
 	}
 
 	private void createInsertPanel() throws ParseException
@@ -150,14 +157,23 @@ public class modificaCdWnd extends JFrame {
 		getContentPane().add(insertPanel);
 	}
 
-	private void loadPanel()
+	private void loadPanel(int index)
 	{
-
+		Integer idCd=((areaRiservataWnd)caller).getSelectedCdId(index);
+		JOptionPane.showMessageDialog(this, idCd);
+		Cd selectedCd=new Cd();
+		selectedCd.getById(idCd);
+		setCdTitle(selectedCd.getTitolo());
+		/*setTrackList(selectedCd.getBrani());
+		setMusicianList(selectedCd.getPartecipanti());*/
+		setAmount(selectedCd.getPezziMagazzino());
+		/*loadGender();
+		loadMusician();*/
 	}
-	
+
 	public void saveUpdate()
 	{
-		
+
 		//Fine update con chiusura della finestra
 		caller.setEnabled(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -168,5 +184,58 @@ public class modificaCdWnd extends JFrame {
 	{
 		caller.setEnabled(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+
+
+	// *********************************************************************************************
+
+	//								METODI SET
+
+	// *********************************************************************************************
+
+	private void setCdTitle(String title)
+	{
+		txtTitle.setText(title);
+	}
+	
+	private void setTrackList(ArrayList<Brano> trackList)
+	{
+		for(Brano b:trackList)
+		{
+			listModel.addElement(b.getNome());
+		}
+	}
+	
+	private void setPrice(BigDecimal price)
+	{
+		txtPrice.setText(price.toString());
+	}
+	
+	private void setDescription(String description)
+	{
+		txtDesc.setText(description);
+	}
+	
+	private void loadGender()
+	{
+		
+	}
+	
+	private void loadMusician()
+	{
+		
+	}
+	
+	private void setMusicianList(ArrayList<Musicista> musList)
+	{
+		for(Musicista m:musList)
+		{
+			listModel.addElement(m.getNomeArte());
+		}
+	}
+
+	private void setAmount(Integer amount)
+	{
+		txtAmo.setText(amount.toString());
 	}
 }
