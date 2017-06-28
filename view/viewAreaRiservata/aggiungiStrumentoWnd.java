@@ -159,11 +159,5 @@ public class aggiungiStrumentoWnd extends JFrame{
 	{		
 		listModel3=((areaRiservataWnd)caller).getInstrumentList();
 	}
-/*//TODO
-	public void clearComponents()
-	{
-		listModel3.clear();
-		cbStrumenti.removeAllItems();
-	}
-*/
+	
 }

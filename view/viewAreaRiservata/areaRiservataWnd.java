@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import areaRiservataListener.btnAddNewGenListener;
+import areaRiservataListener.btnAddNewMusListener;
 import areaRiservataListener.o4Listener;
 import areaRiservataListener.o5Listener;
 import areaRiservataListener.returnNegozioListener;
@@ -290,7 +291,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel option4Panel = new JPanel();
 		panelContainer.add(option4Panel, "optionAddGen");
-		option4Panel.setLayout(new MigLayout("", "[][60.00][100.00][grow][]", "[50.00][50.00][50.00][50.00]"));
+		option4Panel.setLayout(new MigLayout("", "[][60.00][100.00][135][]", "[50.00][50.00][50.00][50.00]"));
 
 		JLabel lblGen = new JLabel("Nome nuovo genere:");
 		option4Panel.add(lblGen, "cell 1 0,alignx right,aligny center");
@@ -302,6 +303,15 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnAddNewGen = new JButton("Aggiungi Genere");
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
 		option4Panel.add(btnAddNewGen, "cell 2 1,growx,aligny center");
+		/*
+<<<<<<< HEAD:viewAreaRiservata/viewAreaRiservata/areaRiservataWnd.java
+		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
+		
+		JButton btnBack= new JButton("Annulla");
+		btnBack.addActionListener(new btnBackListener(this));
+		option4Panel.add(btnBack, "cell 3 1,growx,aligny center");
+=======
+*/
 
 		JButton btnBack= new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
@@ -329,9 +339,9 @@ public class areaRiservataWnd extends JFrame {
 		JLabel lblAnnoDiNascita = new JLabel("Anno di nascita:");
 		option3Panel.add(lblAnnoDiNascita, "cell 1 1,alignx trailing");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		option3Panel.add(textField, "cell 2 1,growx,aligny center");
+		txtYearMus = new JTextField();
+		txtYearMus.setColumns(10);
+		option3Panel.add(txtYearMus, "cell 2 1,growx,aligny center");
 
 		JLabel lblGen = new JLabel("Genere:");
 		option3Panel.add(lblGen, "cell 1 2,alignx right,aligny center");
@@ -344,12 +354,12 @@ public class areaRiservataWnd extends JFrame {
 		ArrayList<Genere> listaGeneri = new Genere().getAll();					
 		//Se l'utente aveva scritto prima,pulisco
 		
-		kGen=new HashMap<String,Integer>();					
+		//kGen=new HashMap<String,Integer>();					
 		//Rimuovo gli elementi che eventualmente ci sono
 		cbGeneri.removeAll();					
 		for (int i=0; i<listaGeneri.size(); i++) {						
 			Genere genere = listaGeneri.get(i);
-			kGen.put(genere.getNome(), genere.getId());
+			//kGen.put(genere.getNome(), genere.getId());
 			cbGeneri.addItem(genere.getNome());
 		}
 		
@@ -371,6 +381,7 @@ public class areaRiservataWnd extends JFrame {
 
 		JButton btnAddNewMus = new JButton("Aggiungi musicista");
 		option3Panel.add(btnAddNewMus, "cell 2 6,growx,aligny center");
+		btnAddNewMus.addActionListener(new btnAddNewMusListener(this));
 		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGeneri, btnAddNewMus}));
 
 		JButton btnBack = new JButton("Annulla");
@@ -631,6 +642,11 @@ public class areaRiservataWnd extends JFrame {
 	
 	// *********************************************************************************************
 
+	public String getGenFromMus()
+	{
+		return cbGeneri.getSelectedItem().toString();
+	}
+	
 	public String getGenName()
 	{
 		return txtGen.getText();
@@ -666,7 +682,7 @@ public class areaRiservataWnd extends JFrame {
 		return listModel2;
 	}
 	
-	public DefaultListModel<String> getInstrumentList()
+	public DefaultListModel<String> getInstrumentList()		//lista degli strumenti
 	{
 		return listModel3;
 	}
@@ -681,6 +697,12 @@ public class areaRiservataWnd extends JFrame {
 		return txtDesc.getText();
 	}
 
+	//TODO 
+	public Integer getYearMus()
+	{
+		return Integer.parseInt(txtYearMus.getText());
+	}
+	
 	public int getMusicianId()
 	{
 		return kMus.get(cbMus.getSelectedItem());
@@ -746,8 +768,7 @@ public class areaRiservataWnd extends JFrame {
 	
 	// *********************************************************************************************
 	
-	private JTextField textField;
-
+	private JTextField txtYearMus;
 
 	public void clearComponents()
 	{
@@ -784,6 +805,21 @@ public class areaRiservataWnd extends JFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
 	}	
+	
+	//Aggiunge nuovo musicista
+		public void addNewMus()
+		{
+			MusicistaController cMusicista = new MusicistaController(this);
+			try {
+				if(cMusicista.insert()) {
+					JOptionPane.showMessageDialog(this, "Musicista Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+					this.clearComponents();
+
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
+			}
+		}	
 	
 
 	public void AddNewCd()
