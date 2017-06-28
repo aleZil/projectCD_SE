@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
+import model.Autenticazione;
 import model.Cd;
 import sun.swing.SwingLazyValue;
 import viewAreaRiservata.areaRiservataWnd;
@@ -34,50 +35,18 @@ public class btnLoginListener implements ActionListener,KeyListener {
 
 	private void Login()
 	{
-
 		String user=((areaRiservataWnd) caller).getUsername();
-		String pssw=((areaRiservataWnd) caller).getPassword();
+		String pwd=((areaRiservataWnd) caller).getPassword();
+		Autenticazione auth = new Autenticazione("personale", user, pwd);
 		
-		String query="SELECT * FROM personale WHERE username=? AND password=MD5(?)";
-		try {
-
-			Class.forName("org.postgresql.Driver");
-			
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-
-			JOptionPane.showMessageDialog(caller, e1.getMessage());
-			return;
+		if (auth.login()) {
+			((areaRiservataWnd) caller).showOption();
+			//Controllo quantità
+			checkAmount();
+		} else {
+			JOptionPane.showMessageDialog(caller, "Username o password non corretti!");
 		}
-
-		try
-		{
-			Connection con=DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/progetto_cd","hanzo","neversurrender");
-			PreparedStatement pst=con.prepareStatement(query);
-			pst.clearParameters();
-			pst.setString(1, user);
-			pst.setString(2, pssw);
-			ResultSet rs=pst.executeQuery();
-			if(rs.next())
-			{
-				((areaRiservataWnd) caller).showOption();
-				//Controllo quantità
-				checkAmount();
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(caller, "Username o password non corretti!");
-			}
-			pst.close();
-			rs.close();
-			con.close();
-			
-		}
-		catch (Exception exc)
-		{
-			JOptionPane.showMessageDialog(caller,exc.getMessage());
-		}
+		
 	}
 	
 	public void checkAmount()

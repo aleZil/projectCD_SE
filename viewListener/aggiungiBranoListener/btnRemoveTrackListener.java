@@ -3,7 +3,8 @@ package aggiungiBranoListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import viewAggiungiBrano.aggiungiBranoWnd;
+
+import viewAreaRiservata.aggiungiBranoWnd;
 
 public class btnRemoveTrackListener implements ActionListener{
 	

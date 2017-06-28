@@ -31,9 +31,6 @@ public class MusicistaController {
 		genere.getByNome(wnd.getGenFromMus());
 		
 
-		System.out.println(genere.getNome());
-
-
 		
 	//	genere.getById(wnd.getGenderId());
 		/*//TODO
@@ -63,10 +60,8 @@ public class MusicistaController {
 		model = new Musicista(nomeMusicista, annoNascitaMusicista, genere);
 
 		if(model.insert()) {
-			System.out.println("tutoben");
 			return true;
 		} else {
-			System.out.println("erroredc");
 			throw new InsertFailedException("Musicista non inserito. Controlla se esiste già.");
 		}
 	}

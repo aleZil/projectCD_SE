@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -308,53 +309,39 @@ public class Musicista {
 	
 	
 	public Boolean insert() {
-		System.out.println("model1");
-
 //		ArrayList<Strumento> strumenti = this.getStrumenti();
 		Genere genere = new Genere();
 		genere = this.getGenere();
-		System.out.println(genere.getId()+"ciao");
 
 		
 		try {
-			System.out.println("model2");
 			String insertQuery="INSERT INTO Musicista "
 					+ "(nome_arte, genere_id, anno_nascita) "
 					+ "VALUES (?,?,?)";
-			System.out.println("model3");
 
-			PreparedStatement psIns = this.db.prepareStatement(insertQuery);
-			System.out.println("model4");
+			PreparedStatement psIns = this.db.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
 
 			int i = 1;
-			System.out.println("model5");
 
 			psIns.setString(i++, this.getNomeArte());
-			System.out.println("model6");
 
 			//TODO
 			//psIns.setInt(i++, this.getGenere().getId());
-			System.out.println(genere.getId());
 			psIns.setInt(i++, genere.getId());
 
-			System.out.println("model7");
-
 			psIns.setInt(i++ ,this.getAnnoNascita());
-			System.out.println("model8");
 
 			psIns.executeUpdate();
-			System.out.println("model9");
 
 			int id = 0;
 			ResultSet rs = psIns.getGeneratedKeys();
-			
+
 			if (rs.next()){
 				// recupero l'id della tupla inserita
 			    id = rs.getInt("id");
 			} else {
 				return false;
 			}
-			System.out.println("model3");
 /*
 			insertQuery = "INSERT INTO utilizzo (musicista_id, strumenti_id) VALUES (?,?)";
 			psIns = this.db.prepareStatement(insertQuery);
@@ -375,7 +362,7 @@ public class Musicista {
 			System.out.println(e.getMessage());
 			return false;
 		}
-		
+
 		return true;
 	}
 }

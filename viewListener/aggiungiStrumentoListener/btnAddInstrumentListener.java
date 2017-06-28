@@ -3,7 +3,8 @@ package aggiungiStrumentoListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import viewAggiungiStrumento.aggiungiStrumentoWnd;
+
+import viewAreaRiservata.aggiungiStrumentoWnd;
 
 
 public class btnAddInstrumentListener implements ActionListener{

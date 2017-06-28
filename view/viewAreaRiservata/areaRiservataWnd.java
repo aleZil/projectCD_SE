@@ -55,6 +55,7 @@ import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -75,9 +76,9 @@ public class areaRiservataWnd extends JFrame {
 	private JPasswordField txtPass;
 	private JTextField txtPrice;
 	private JTextField txtAmo;
+	private JTextPane txtDesc;
 	private JComboBox<String> cbGen;
 	private JComboBox<String> cbMus;
-	private JTextArea txtDesc;
 
 	private JList listTrackList;					
 	private DefaultListModel<String> listModel;		//lista dei brani
@@ -302,11 +303,20 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnAddNewGen = new JButton("Aggiungi Genere");
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
 		option4Panel.add(btnAddNewGen, "cell 2 1,growx,aligny center");
+		/*
+<<<<<<< HEAD:viewAreaRiservata/viewAreaRiservata/areaRiservataWnd.java
 		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
 		
 		JButton btnBack= new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		option4Panel.add(btnBack, "cell 3 1,growx,aligny center");
+=======
+*/
+
+		JButton btnBack= new JButton("Annulla");
+		btnBack.addActionListener(new btnBackListener(this));
+		option4Panel.add(btnBack, "cell 2 2,growx,aligny center");
+		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
 	}
 
 	
@@ -431,8 +441,8 @@ public class areaRiservataWnd extends JFrame {
 
 		JScrollPane scrollDesc = new JScrollPane();
 		newCdPanel.add(scrollDesc, "cell 1 5,grow");
-
-		txtDesc = new JTextArea();
+		
+		txtDesc = new JTextPane();
 		scrollDesc.setViewportView(txtDesc);
 
 		JLabel lblGen = new JLabel("Genere:");
@@ -481,6 +491,7 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		newCdPanel.add(btnBack, "cell 1 11,alignx right,growy");
+		option1Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, btnAddTrack, txtPrice, cbGen, cbMus, btnAggiungiCollaboratore, listPartecipantList, txtAmo, btnAddNewCd}));
 	}
 	
 	
@@ -505,14 +516,10 @@ public class areaRiservataWnd extends JFrame {
 		headerPanel.setViewportView(tbCd);
 		tbCd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
-
-		JButton btnSaveUpdate = new JButton("Salva Modifiche");
-		btnSaveUpdate.addActionListener(new btnSaveWarehListener(this));
-		warehPanel.add(btnSaveUpdate, "flowx,cell 0 1,grow");
-
-		JButton btnBack = new JButton("Annulla");
+		JButton btnBack = new JButton("Torna a lista opzioni");
 		btnBack.addActionListener(new btnBackListener(this));
-		warehPanel.add(btnBack, "cell 0 1,grow");
+		warehPanel.add(btnBack, "cell 0 1,alignx center,aligny center");
+		warehPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnBack}));
 	}
 
 	private void createLoginPanel()
@@ -538,6 +545,7 @@ public class areaRiservataWnd extends JFrame {
 		loginPanel.add(btnLogin, "flowx,cell 0 6,alignx center,aligny center");
 
 		panelContainer.add(loginPanel, "login");
+		loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUser, txtPass, btnLogin}));
 
 		//Aggiungo gli eventi
 		btnLogin.addActionListener(new btnLoginListener(this));
@@ -579,6 +587,7 @@ public class areaRiservataWnd extends JFrame {
 		buttonPanel.add(btnO5, "cell 1 4,alignx center,aligny center");
 
 		panelContainer.add(optionPanel, "options");
+		optionPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnO1, btnO2, btnO3, btnO4, btnO5}));
 
 	}
 
@@ -645,9 +654,7 @@ public class areaRiservataWnd extends JFrame {
 
 	public String getMusName()
 	{
-		System.out.println(txtArtName.getText());
 		return txtArtName.getText();
-		
 	}
 
 	public String getUsername()
@@ -693,7 +700,6 @@ public class areaRiservataWnd extends JFrame {
 	//TODO 
 	public Integer getYearMus()
 	{
-		System.out.println(txtYearMus.getText());
 		return Integer.parseInt(txtYearMus.getText());
 	}
 	
@@ -704,7 +710,6 @@ public class areaRiservataWnd extends JFrame {
 
 	public int getGenderId()
 	{
-		System.out.println(kGen.get(cbGen.getSelectedItem()));
 		return kGen.get(cbGen.getSelectedItem());
 	}
 
@@ -835,15 +840,11 @@ public class areaRiservataWnd extends JFrame {
 			MusicistaController cMusicista = new MusicistaController(this);
 			try {
 				if(cMusicista.insert()) {
-					System.out.println("entrato if");
 					JOptionPane.showMessageDialog(this, "Musicista Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
 					this.clearComponents();
-					System.out.println("4");
 
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
-
 				JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 			}
 		}	
@@ -854,18 +855,6 @@ public class areaRiservataWnd extends JFrame {
 		CdController cCd = new CdController(this);
 		try {
 			if(cCd.insert()) {
-				JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
-				this.clearComponents();
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
-		}
-	}
-	
-	public void UpdateCd() {
-		CdController cCd = new CdController(this);
-		try {
-			if(cCd.update()) {
 				JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
 				this.clearComponents();
 			}

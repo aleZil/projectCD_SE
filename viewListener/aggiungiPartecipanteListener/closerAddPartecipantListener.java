@@ -4,7 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
-import viewAggiungiPartecipante.aggiungiPartecipanteWnd;
+import viewAreaRiservata.aggiungiPartecipanteWnd;
 
 public class closerAddPartecipantListener extends WindowAdapter{
 	

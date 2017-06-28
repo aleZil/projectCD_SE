@@ -71,8 +71,6 @@ public class Genere {
 	public void getById(int id) {
 		System.out.println("GEnere model");
 		try {
-			System.out.println("dentro Genere");
-
 			String query = "SELECT * FROM genere WHERE id = ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
@@ -87,8 +85,29 @@ public class Genere {
 			
 			ps.close();
 			rs.close();
-			System.out.println("fuori Genere");
-
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void getByNome(String nome) {
+		
+		try {
+			String query = "SELECT * FROM genere WHERE nome = ?";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			ps.setString(1, nome);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next() ) {
+				this.setId(rs.getInt("id"));
+				this.setNome(rs.getString("nome"));
+			}
+			
+			ps.close();
+			rs.close();
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

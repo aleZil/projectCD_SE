@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import viewModificaCd.modificaCdWnd;
+import viewAreaRiservata.modificaCdWnd;
   
 public class ButtonEditor extends DefaultCellEditor {
   protected JButton button;
@@ -46,16 +46,20 @@ public class ButtonEditor extends DefaultCellEditor {
   public Object getCellEditorValue() {
     if (isPushed)  
     {
-    	caller.setEnabled(false);
-    	caller.setFocusable(false);
-    	caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
     	try
     	{
+    		caller.setEnabled(false);
+    		caller.setFocusable(false);
+    		caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     		modificaCdWnd modificaCd=new modificaCdWnd(caller,row);
     	}
     	catch (Exception e)
     	{
-
+    		caller.setEnabled(true);
+    		caller.setFocusable(true);
+    		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    		System.out.println(e.getMessage());
     	}
     }
     isPushed = false;
