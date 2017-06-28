@@ -1,39 +1,31 @@
 package viewModificaCd;
-
-import java.awt.CardLayout;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-
-import areaRiservataListener.btnAddNewCdListener;
-import areaRiservataListener.btnBackListener;
 import areaRiservataListener.btnShowCollaboratorListListener;
-import areaRiservataListener.btnShowTrackListListener;
 import model.Brano;
 import model.Cd;
+import model.Genere;
 import model.Musicista;
-import modificaCdListener.btnUpdateCdListener;
-import modificaCdListener.closerModificaCdListener;
+import modificaCdListener.*;
 import net.miginfocom.swing.MigLayout;
 import viewAreaRiservata.areaRiservataWnd;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
 
 public class modificaCdWnd extends JFrame {
 
@@ -83,7 +75,7 @@ public class modificaCdWnd extends JFrame {
 
 		JButton btnAddTrack = new JButton("Aggiungi/Rimuovi");
 		newCdPanel.add(btnAddTrack, "cell 1 2,grow");
-		btnAddTrack.addActionListener(new btnShowTrackListListener(this));	//apro nuovo frame
+		//btnAddTrack.addActionListener(new btnAddTrackListener(this));	//apro nuovo frame
 
 		JLabel lblTrackList = new JLabel("Lista brani:");
 		newCdPanel.add(lblTrackList, "cell 0 3,alignx right,aligny center");
@@ -121,7 +113,7 @@ public class modificaCdWnd extends JFrame {
 		newCdPanel.add(lblMus, "cell 0 7,alignx right,aligny center");
 
 		cbMus = new JComboBox();
-		newCdPanel.add(cbMus, "flowx,cell 1 7,growx,aligny center");
+		newCdPanel.add(cbMus, "cell 1 7,alignx center,aligny center");
 
 		JLabel lblCollaboratore = new JLabel("Gestione musicisti:");
 		newCdPanel.add(lblCollaboratore, "cell 0 8,alignx right,aligny center");
@@ -152,23 +144,25 @@ public class modificaCdWnd extends JFrame {
 		JButton btnUpdateCd = new JButton("Modifica prodotto");
 		btnUpdateCd.addActionListener(new btnUpdateCdListener(this));
 		newCdPanel.add(btnUpdateCd, "flowx,cell 1 11,alignx left,growy");
-		insertPanel.setLayout(new MigLayout("", "[1174px]", "[851px]"));
+		insertPanel.setLayout(new MigLayout("", "[grow]", "[grow]"));
 		insertPanel.add(newCdPanel, "cell 0 0,grow");
 		getContentPane().add(insertPanel);
+		getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, btnAddTrack, txtPrice, txtDesc, cbGen, cbMus, btnAggiungiCollaboratore, txtAmo, btnUpdateCd}));
 	}
 
 	private void loadPanel(int index)
 	{
 		Integer idCd=((areaRiservataWnd)caller).getSelectedCdId(index);
-		JOptionPane.showMessageDialog(this, idCd);
 		Cd selectedCd=new Cd();
 		selectedCd.getById(idCd);
 		setCdTitle(selectedCd.getTitolo());
-		//setTrackList(selectedCd.getBrani());
+		setTrackList(selectedCd.getBrani());
+		setDescription(selectedCd.getDescrizione());
 		setMusicianList(selectedCd.getPartecipanti());
+		setPrice(selectedCd.getPrezzo());
 		setAmount(selectedCd.getPezziMagazzino());
-		loadGender();
-		loadMusician();
+		setGender(selectedCd.getGenere());
+		setMusician(selectedCd.getTitolare());
 	}
 
 	public void saveUpdate()
@@ -184,6 +178,8 @@ public class modificaCdWnd extends JFrame {
 		caller.setEnabled(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
+	
+	
 
 
 	// *********************************************************************************************
@@ -215,14 +211,23 @@ public class modificaCdWnd extends JFrame {
 		txtDesc.setText(description);
 	}
 	
-	private void loadGender()
+	private void setGender(Genere gen)
 	{
-		
+		for(Genere g:gen.getAll())
+		{
+			cbGen.addItem(g.getNome());
+		}
+		cbGen.setSelectedItem(gen.getNome());
 	}
 	
-	private void loadMusician()
+	private void setMusician(Musicista mus)
 	{
-		
+		System.out.println(mus.getId());
+		for(Musicista m:mus.getAll())
+		{
+			cbMus.addItem(m.getNomeArte());
+		}
+		cbMus.setSelectedItem(mus.getNomeArte());
 	}
 	
 	private void setMusicianList(ArrayList<Musicista> musList)
