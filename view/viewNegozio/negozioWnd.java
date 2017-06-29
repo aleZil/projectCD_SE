@@ -25,6 +25,8 @@ public class negozioWnd extends JFrame {
 	
 	private JPanel panelContainer;
 	private CardLayout cardLayout;
+	
+	//Componenti pannello di registrazione
 	private JTextField txtUsername;
 	private JTextField txtCf;
 	private JTextField txtNome;
@@ -33,6 +35,8 @@ public class negozioWnd extends JFrame {
 	private JTextField txtIndirizzo;
 	private JTextField txtTelefono;
 	private JTextField txtCellulare;
+	
+	//Componenti pannello di login cliente
 	private JTextField txtUserLogin;
 	private JPasswordField txtPassLogin;
 	
@@ -234,5 +238,17 @@ public class negozioWnd extends JFrame {
 	public void loginCliente()
 	{
 		
+	}
+	
+	// Metodi get
+	
+	public String getTxtUsernameLogin()
+	{
+		return txtUserLogin.getText();
+	}
+	
+	public String getTxtPassLogin()
+	{
+		return txtPassLogin.getText();
 	}
 }
