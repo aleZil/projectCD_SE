@@ -198,10 +198,8 @@ public class Cd{
 	public void getById(int id) {
 
 		try {
-			String query = "SELECT C.id AS id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
+			String query = "SELECT id, titolo,  prezzo, data_inserimento, genere_id, descrizione, pezzi_venduti, pezzi_magazzino "
 					+ "FROM cd AS C "
-					+ "JOIN Genere AS G "
-					+ "ON C.genere_id = G.id "
 					+ "WHERE C.id = ?";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
@@ -320,8 +318,99 @@ public class Cd{
 	}
 	
 	
+	public ArrayList<Cd> getByFilter(String titolo,
+										String nomeGenere, 
+										String nomeTitolare, 
+										String nomePartecipante,
+										BigDecimal prezzoMin,
+										BigDecimal prezzoMax) {
+		
+		ArrayList<Cd> lista = new ArrayList<Cd>();
+		
+		try {
+			String query = "SELECT id FROM Cd AS C WHERE 1=1 "; // trucchetto per usare direttamente l'AND dopo
+			
+			if (!titolo.equals("")) {
+				query += " AND titolo ILIKE ? ";
+			}
+			
+			if (prezzoMin.compareTo(BigDecimal.ZERO) > 0) {
+				query += " AND prezzo >=  ? ";
+			}
+			
+			if (prezzoMax.compareTo(BigDecimal.ZERO) > 0) {
+				query += " AND prezzo <= ? ";
+			}
+			
+			if(!nomeGenere.equals("")) {
+				Genere genere = new Genere();
+				genere.getByNome(nomeGenere);
+				
+				query += " AND genere_id = "+ genere.getId();
+			}
+			
+			if(!nomeTitolare.equals("")) {
+				Musicista musicista = new Musicista();
+				musicista.getByNomeArte(nomeTitolare);
+				
+				query += " INTERSECT SELECT id "
+						+ "FROM partecipazione "
+						+ "WHERE is_titolare = TRUE "
+						+ "AND musicista_id = "+ musicista.getId();
+			}
+			
+			if(!nomePartecipante.equals("")) {
+				Musicista partecipante = new Musicista();
+				partecipante.getByNomeArte(nomeTitolare);
+				
+				query += " INTERSECT SELECT id "
+						+ "FROM partecipazione "
+						+ "WHERE is_titolare = FALSE "
+						+ "AND musicista_id = "+ partecipante.getId();
+			}
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			
+			int i = 1;
+			if (!titolo.equals("")) {
+				ps.setString(i++, titolo);
+			}
+			
+			if (prezzoMin.compareTo(BigDecimal.ZERO) > 0) {
+				ps.setBigDecimal(i++, prezzoMin);
+			}
+			
+			if (prezzoMax.compareTo(BigDecimal.ZERO) > 0) {
+				ps.setBigDecimal(i++, prezzoMax);
+			}
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				int id = rs.getInt("id");
+				Cd cd = new Cd();
+				cd.getById(id);
+				
+				lista.add(cd);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+
+		
+		
+		
+		return lista;
+		
+		
+	}
+	
+	
+	
 	/**
-	 * 
 	 * @return ArrayList<Cd> con tutte le informazioni relative al Cd, anche quelle in relazione ad altre tabelle
 	 */
 	public ArrayList<Cd> getAll() {
@@ -342,10 +431,8 @@ public class Cd{
 		ArrayList<Musicista> partecipanti = new ArrayList<Musicista>();
 		
 		try { 
-			String query = "SELECT C.id AS id, titolo,  prezzo, data_inserimento, genere_id, G.nome AS genere, descrizione, pezzi_venduti, pezzi_magazzino "
+			String query = "SELECT id, titolo,  prezzo, data_inserimento, genere_id, descrizione, pezzi_venduti, pezzi_magazzino "
 					+ "FROM cd AS C "
-					+ "JOIN Genere AS G "
-					+ "ON C.genere_id = G.id "
 					+ "ORDER BY titolo";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);

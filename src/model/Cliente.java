@@ -38,46 +38,14 @@ public class Cliente {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		setCodiceFiscale(codiceFiscale);
-		setUsername(username);
-		setPassword(password);
-		setNome(nome);
-		setCognome(cognome);
-		setIndirizzo(indirizzo);
-		setTelefono(telefono);
-		setCellulare(cellulare);	
-	}
-	
-	public boolean registra()
-	{
-		try {
-			String insertQuery="INSERT INTO Cliente "
-					+ "(username, codice_fiscale, nome, cognome, password, indirizzo, telefono, cellulare) "
-					+ "VALUES (?,?,?,?,MD5(?),?,?,?)";
-
-			PreparedStatement psIns = this.db.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-			
-			int i=1;
-			
-			psIns.setString(i++, getUsername());
-			psIns.setString(i++, getCodiceFiscale());
-			psIns.setString(i++, getNome());
-			psIns.setString(i++, getCognome());
-			psIns.setString(i++, getPassword());
-			psIns.setString(i++, getIndirizzo());
-			psIns.setString(i++, getTelefono());
-			psIns.setString(i++, getCellulare());
-			
-			if(psIns.executeUpdate()>0)
-				return true;
-			else
-				return false;
-		}
-		catch(SQLException e)
-		{
-			System.out.println(e.getMessage());
-			return false;
-		}
+		this.setCodiceFiscale(codiceFiscale);
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setNome(nome);
+		this.setCognome(cognome);
+		this.setIndirizzo(indirizzo);
+		this.setTelefono(telefono);
+		this.setCellulare(cellulare);	
 	}
 	
 	//Metodi set
@@ -126,42 +94,76 @@ public class Cliente {
 	
 	public String getUsername()
 	{
-		return username;
+		return this.username;
 	}
 	
 	public String getPassword()
 	{
-		return password;
+		return this.password;
 	}
 	
 	public String getNome()
 	{
-		return nome;
+		return this.nome;
 	}
 	
 	public String getCognome()
 	{
-		return cognome;
+		return this.cognome;
 	}
 	
 	public String getCodiceFiscale()
 	{
-		return codiceFiscale;
+		return this.codiceFiscale;
 	}
 	
 	public String getIndirizzo()
 	{
-		return indirizzo;
+		return this.indirizzo;
 	}
 	
 	public String getTelefono()
 	{
-		return telefono;
+		return this.telefono;
 	}
 
 	public String getCellulare()
 	{
-		return cellulare;
+		return this.cellulare;
+	}
+	
+	
+	
+	public boolean registra()
+	{
+		try {
+			String insertQuery="INSERT INTO Cliente "
+					+ "(username, codice_fiscale, nome, cognome, password, indirizzo, telefono, cellulare) "
+					+ "VALUES (?,?,?,?,MD5(?),?,?,?)";
+
+			PreparedStatement psIns = this.db.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+			
+			int i=1;
+			
+			psIns.setString(i++, this.getUsername());
+			psIns.setString(i++, this.getCodiceFiscale());
+			psIns.setString(i++, this.getNome());
+			psIns.setString(i++, this.getCognome());
+			psIns.setString(i++, this.getPassword());
+			psIns.setString(i++, this.getIndirizzo());
+			psIns.setString(i++, this.getTelefono());
+			psIns.setString(i++, this.getCellulare());
+			
+			if(psIns.executeUpdate()>0)
+				return true;
+			else
+				return false;
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+			return false;
+		}
 	}
 	
 }
