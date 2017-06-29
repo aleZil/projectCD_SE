@@ -27,7 +27,7 @@ public class ClienteController {
 		//Check sui dati
 		if(dataValidator.checkString(username) && dataValidator.checkString(password) && dataValidator.checkString(nome) && 
 		   dataValidator.checkString(cognome) && dataValidator.checkString(indirizzo) && 
-		   dataValidator.checkString(telefono))
+		   dataValidator.checkNumber(telefono))
 
 		{
 			cliente=new Cliente(username,password,nome,cognome,codiceFiscale,indirizzo,telefono,cellulare);

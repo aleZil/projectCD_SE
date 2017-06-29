@@ -1,5 +1,7 @@
 package viewNegozio;
 import java.awt.EventQueue;
+import java.text.ParseException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -12,9 +14,12 @@ import negozioListener.btnShowLogin;
 
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
+import sun.java2d.loops.MaskBlit;
+
 import javax.swing.border.BevelBorder;
 import java.awt.CardLayout;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -161,7 +166,7 @@ public class negozioWnd extends JFrame {
 		registrazionePanel.add(lblCf, "cell 0 1,alignx right,aligny center");
 		
 		txtCf = new JTextField();
-		txtCf.setColumns(16);
+		txtCf.setColumns(10);
 		registrazionePanel.add(txtCf, "cell 1 1,growx,aligny center");
 		
 		JLabel lblNome = new JLabel("Nome:");
@@ -221,6 +226,7 @@ public class negozioWnd extends JFrame {
 	{
 		this.setTitle("Registrazione nuovo utente");
 		cardLayout.show(panelContainer, "registrazione");
+		txtUsername.requestFocus();
 	}
 	
 	public void showHome()
@@ -233,6 +239,7 @@ public class negozioWnd extends JFrame {
 	{
 		this.setTitle("Login");
 		cardLayout.show(panelContainer, "login");
+		txtUserLogin.requestFocus();
 	}
 	
 	
@@ -243,6 +250,7 @@ public class negozioWnd extends JFrame {
 		if(clienteC.insert())
 		{
 			JOptionPane.showMessageDialog(this, "Registrazione effettuata correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
+			clearComponents();
 			showHome();
 		}
 		else
@@ -317,5 +325,19 @@ public class negozioWnd extends JFrame {
 	public String getTxtCellulareReg()
 	{
 		return txtCellulare.getText();
+	}
+	
+	private void clearComponents()
+	{
+		txtUsername.setText("");
+		txtPassword.setText("");
+		txtNome.setText("");
+		txtCognome.setText("");
+		txtCf.setText("");
+		txtIndirizzo.setText("");
+		txtTelefono.setText("");
+		txtCellulare.setText("");
+		txtUserLogin.setText("");
+		txtPassLogin.setText("");
 	}
 }
