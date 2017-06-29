@@ -81,6 +81,24 @@ public class Musicista {
 		this.setGenere(genere);
 	}
 	
+	//TODO 2
+	public Musicista(	String nomeArte,
+						Integer annoNascita,
+						Genere genere,
+						ArrayList<Strumento> strumenti) {
+		
+		try {
+			this.db = Db.getConnection();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		this.setNomeArte(nomeArte);
+		this.setAnnoNascita(annoNascita);
+		this.setGenere(genere);
+		this.setStrumenti(strumenti);
+	}
+	
 	
 	
 	// ------------------------------------------------ RECUPERO INFO BASE
@@ -334,11 +352,11 @@ public class Musicista {
 	}
 	
 	public Boolean insert() {
-//		ArrayList<Strumento> strumenti = this.getStrumenti();
+		
 		Genere genere = new Genere();
 		genere = this.getGenere();
+		ArrayList<Strumento> strumenti = this.getStrumenti();
 
-		
 		try {
 			String insertQuery="INSERT INTO Musicista "
 					+ "(nome_arte, genere_id, anno_nascita) "
@@ -351,10 +369,9 @@ public class Musicista {
 			psIns.setString(i++, this.getNomeArte());
 
 			//TODO
-			//psIns.setInt(i++, this.getGenere().getId());
 			psIns.setInt(i++, genere.getId());
 
-			psIns.setInt(i++ ,this.getAnnoNascita());
+			psIns.setInt(i++,this.getAnnoNascita());
 
 			psIns.executeUpdate();
 
@@ -367,12 +384,14 @@ public class Musicista {
 			} else {
 				return false;
 			}
-/*
-			insertQuery = "INSERT INTO utilizzo (musicista_id, strumenti_id) VALUES (?,?)";
+			
+			// ---------------------------------------------------- AGGIUNTA STRUMENTI
+
+			insertQuery = "INSERT INTO utilizzo (musicista_id, strumento_id) VALUES (?,?)";
 			psIns = this.db.prepareStatement(insertQuery);
 			
 			// aggiungo per ogni strumento una riga su utilizzo
-			for(int j = 0; j < strumenti.size(); j++)
+			for(int j=0; j < strumenti.size(); j++)
 			{
 				// recupero l'oggetto strumento dalla lista
 				Strumento s = strumenti.get(j);
@@ -382,7 +401,7 @@ public class Musicista {
 				psIns.setInt(i++, s.getId());
 				psIns.executeUpdate();
 			}
-	*/		
+		
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return false;
