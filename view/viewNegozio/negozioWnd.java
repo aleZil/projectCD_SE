@@ -31,6 +31,12 @@ import controller.ClienteController;
 import model.Autenticazione;
 
 import java.awt.Component;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
 public class negozioWnd extends JFrame {
 	
@@ -50,6 +56,9 @@ public class negozioWnd extends JFrame {
 	//Componenti pannello di login cliente
 	private JTextField txtUserLogin;
 	private JPasswordField txtPassLogin;
+	private JTextField txtFilter;
+	private JTextField txtMinP;
+	private JTextField textField;
 	
 	/**
 	 * Launch the application.
@@ -108,6 +117,50 @@ public class negozioWnd extends JFrame {
 		
 		JButton btnLogin = new JButton("Accedi");
 		btnLogin.addActionListener(new btnShowLogin(this));
+		
+		JPanel filterPanel = new JPanel();
+		filterPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Filtri disponibili", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		homePanel.add(filterPanel, "cell 0 0,growx,aligny top");
+		filterPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][][][][][][][]"));
+		
+		JRadioButton titoloF = new JRadioButton("Titolo");
+		filterPanel.add(titoloF, "cell 1 0,alignx center,aligny center");
+		
+		JRadioButton titolareF = new JRadioButton("Titolare");
+		filterPanel.add(titolareF, "cell 1 1,alignx center,aligny center");
+		
+		JRadioButton musicistaF = new JRadioButton("Musicista");
+		filterPanel.add(musicistaF, "cell 1 2,alignx center,aligny center");
+		
+		JRadioButton prezzoF = new JRadioButton("Prezzo");
+		filterPanel.add(prezzoF, "cell 1 3,alignx center,aligny center");
+		
+		JLabel lblMin = new JLabel("Min:");
+		filterPanel.add(lblMin, "flowx,cell 1 4,alignx right,aligny center");
+		
+		txtMinP = new JTextField();
+		filterPanel.add(txtMinP, "cell 1 4,grow");
+		txtMinP.setColumns(10);
+		
+		JLabel lblMax = new JLabel("Max:");
+		filterPanel.add(lblMax, "flowx,cell 1 5,alignx right,aligny center");
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		filterPanel.add(textField, "cell 1 5,grow");
+		
+		JRadioButton genereF = new JRadioButton("Genere");
+		filterPanel.add(genereF, "cell 1 6,alignx center,aligny center");
+		
+		JComboBox comboBox = new JComboBox();
+		filterPanel.add(comboBox, "cell 1 7,grow");
+		
+		JLabel lblFilter = new JLabel("Ricerca");
+		homePanel.add(lblFilter, "flowy,cell 1 0,alignx center,aligny top");
+		
+		txtFilter = new JTextField();
+		homePanel.add(txtFilter, "cell 1 0,alignx center,aligny top");
+		txtFilter.setColumns(10);
 		homePanel.add(btnLogin, "flowx,cell 2 0,alignx right,aligny top");
 		
 		JButton btnRegistrazione = new JButton("Registrati");
@@ -117,6 +170,15 @@ public class negozioWnd extends JFrame {
 		JButton btnAreaRiservata = new JButton("Area Riservata");
 		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
 		homePanel.add(btnAreaRiservata, "cell 2 0,alignx right,aligny top");
+		
+		JButton btnCerca = new JButton("Cerca");
+		homePanel.add(btnCerca, "cell 1 0,alignx center,aligny top");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		homePanel.add(scrollPane, "cell 1 0,grow");
+		
+		JList<String> list = new JList();
+		scrollPane.setViewportView(list);
 	}
 	
 	void createLoginPanel()
@@ -140,6 +202,7 @@ public class negozioWnd extends JFrame {
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new btnLoginCliente(this));
+		btnLogin.addKeyListener(new btnLoginCliente(this));
 		loginPanel.add(btnLogin, "flowx,cell 1 2,growx,aligny center");
 		
 		JButton btnAnnulla = new JButton("Annulla");
@@ -215,6 +278,7 @@ public class negozioWnd extends JFrame {
 		registrazionePanel.add(txtCellulare, "cell 1 7,growx,aligny center");
 		
 		btnRegistra.addActionListener(new btnAddRegistrazione(this));
+		btnRegistra.addKeyListener(new btnAddRegistrazione(this));
 		registrazionePanel.add(btnRegistra, "flowx,cell 1 8,growx");
 		
 		JButton btnAnnulla = new JButton("Annulla");
