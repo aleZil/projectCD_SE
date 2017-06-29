@@ -3,6 +3,8 @@ package viewAreaRiservata;
 import utility.*;
 import model.*;
 import controller.*;
+import exception.MissingDataException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -237,7 +239,7 @@ public class areaRiservataWnd extends JFrame {
 		this.setTitle("Inserisci un nuovo cd");
 		//Recupero lista generi e lista musicisti per le combobox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
-		ArrayList<Musicista> listaMusicisti = new Musicista().getAllBand();
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
 		kMus=new HashMap<String,Integer>();
 		kGen=new HashMap<String,Integer>();
 
@@ -295,10 +297,10 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnAddNewGen = new JButton("Aggiungi Genere");
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
 		option4Panel.add(btnAddNewGen, "cell 2 1,growx,aligny center");
-
-		JButton btnBack= new JButton("Annulla");
-		btnBack.addActionListener(new btnBackListener(this));
-		option4Panel.add(btnBack, "cell 2 2,growx,aligny center");
+		
+				JButton btnBack= new JButton("Annulla");
+				btnBack.addActionListener(new btnBackListener(this));
+				option4Panel.add(btnBack, "cell 3 1,growx,aligny center");
 		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
 	}
 
@@ -400,7 +402,7 @@ public class areaRiservataWnd extends JFrame {
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow]"));
+		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][50][grow][grow][grow][grow][grow][grow]"));
 
 		JLabel lblTitle = new JLabel("Titolo Cd:");
 		newCdPanel.add(lblTitle, "cell 0 0,alignx right,aligny center");
@@ -475,7 +477,7 @@ public class areaRiservataWnd extends JFrame {
 		cbGen = new JComboBox();
 		newCdPanel.add(cbGen, "cell 1 5,alignx center,aligny center");
 
-		JLabel lblMus = new JLabel("Capo band:");
+		JLabel lblMus = new JLabel("Musicista/band titolare:");
 		newCdPanel.add(lblMus, "cell 0 6,alignx right,aligny center");
 
 		cbMus = new JComboBox();
@@ -625,7 +627,12 @@ public class areaRiservataWnd extends JFrame {
 
 	public String getMusName()
 	{
-		return txtArtName.getText();
+		if(!dataValidator.checkString(txtArtName.getText()))
+		{
+			throw new MissingDataException("Inserire un nome musicista/band");
+		}else{
+			return txtArtName.getText();
+		}
 	}
 
 	public String getUsername()
@@ -668,7 +675,6 @@ public class areaRiservataWnd extends JFrame {
 		return txtDesc.getText();
 	}
 
-	//TODO 
 	public Integer getYearMus()
 	{
 		return Integer.parseInt(txtYearMus.getText());
@@ -780,7 +786,7 @@ public class areaRiservataWnd extends JFrame {
 		GenereController cGenere = new GenereController(this);
 		try {
 			if(cGenere.insert()) {
-				JOptionPane.showMessageDialog(this, "Genere Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Genere inserito correttamente","Info!",JOptionPane.INFORMATION_MESSAGE);
 				this.clearComponents();
 			}
 		} catch (Exception e) {
@@ -795,7 +801,7 @@ public class areaRiservataWnd extends JFrame {
 			
 			try {
 				if(cMusicista.insert()) {
-					JOptionPane.showMessageDialog(this, "Musicista Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Musicista inserito correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
 					this.clearComponents();
 				}
 			} catch (Exception e) {
@@ -809,7 +815,7 @@ public class areaRiservataWnd extends JFrame {
 		CdController cCd = new CdController(this);
 		try {
 			if(cCd.insert()) {
-				JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Cd inserito correttamente","Info!",JOptionPane.INFORMATION_MESSAGE);
 				this.clearComponents();
 			}
 		} catch (Exception e) {

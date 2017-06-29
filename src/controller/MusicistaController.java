@@ -1,7 +1,9 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 
 import exception.InsertFailedException;
@@ -34,13 +36,15 @@ public class MusicistaController {
 		ListModel<String> listaStrumenti = wnd.getInstrumentList();
 		ArrayList<Strumento> strumenti = new ArrayList<Strumento>(); 
 
-		//TODO
-		//int annoNascita = Integer.parseInt(annoNascitaMusicista);
-		/*
-		if(!dataValidator.checkInteger(annoNascitaMusicista)) {
-			throw new MissingDataException("Inserire l'anno di nascita!");
+		Calendar now = Calendar.getInstance(); 
+		//Calcolo l'anno corrente
+		int year = now.get(Calendar.YEAR);
+		
+		//Controllo validità annoNascitaMusicista
+		if(annoNascitaMusicista < 1600 || annoNascitaMusicista > year){
+			throw new InsertFailedException("L'anno inserito non è valido");
 		}
-		 */
+		
 		
 		for(int i=0; i < listaStrumenti.getSize(); i++){
 			Strumento s = new Strumento();
