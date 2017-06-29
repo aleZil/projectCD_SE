@@ -72,15 +72,19 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
 		setBounds(caller.getLocation().x,caller.getLocation().y, 650, 170);
 		getContentPane().setLayout(new MigLayout("", "[100.00][200.00,grow][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
+		
 		JLabel lblNomePartecipante = new JLabel("Seleziona musicista:");
 		getContentPane().add(lblNomePartecipante, "cell 0 0,alignx trailing,aligny center");
+		
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		list = new JList(listModel2);
 		listPanel.setViewportView(list);
+		
 		JButton btnRemoveColl = new JButton("Rimuovi musicista");
 		getContentPane().add(btnRemoveColl, "cell 3 2,alignx center,aligny center");
 		btnRemoveColl.addActionListener(new btnRemovePartecipantListener(this));	
+		
 		JButton btnAddColl = new JButton("Aggiungi musicista");
 		getContentPane().add(btnAddColl, "cell 1 2,alignx center,aligny center");
 		btnAddColl.addActionListener(new btnAddPartecipantListener(this));
@@ -96,6 +100,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		}
 
 		getContentPane().add(cbMusicisti, "cell 1 0,growx,aligny center");
+		
 		this.setVisible(true);
 	}
 	

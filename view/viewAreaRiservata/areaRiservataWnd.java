@@ -171,13 +171,15 @@ public class areaRiservataWnd extends JFrame {
 	public void showAddMusPanel()
 	{
 		this.setTitle("Aggiungi musicista");
-		clearComponents();	//pulisco appena viene premuto il bottone riferito all'azione (op3)
+		clearAddNewMus();	//pulisco appena viene premuto il bottone riferito all'azione (op3)
 		clPanel.show(panelContainer,"optionAddMus");
 	}
 
 	public void showOption()
 	{
 		this.setTitle("Pannello area riservata");
+		cbGen.removeAllItems();
+		cbMus.removeAllItems();		
 		clPanel.show(panelContainer, "options");
 	}
 	
@@ -234,8 +236,8 @@ public class areaRiservataWnd extends JFrame {
 	public void showInsertCd()
 	{
 		//Se l'utente aveva scritto prima, pulisco
-		clearComponents();
 		this.setTitle("Inserisci un nuovo cd");
+		
 		//Recupero lista generi e lista musicisti per le combobox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
@@ -261,7 +263,7 @@ public class areaRiservataWnd extends JFrame {
 			kMus.put(musicista.getNomeArte(), musicista.getId());
 			cbMus.addItem(musicista.getNomeArte());
 		}
-
+		clearComponents();
 		clPanel.show(panelContainer, "insert");
 	}
 
@@ -401,7 +403,7 @@ public class areaRiservataWnd extends JFrame {
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][50][grow][grow][grow][grow][grow][grow]"));
+		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][65][grow][grow][grow][grow][grow][grow]"));
 
 		JLabel lblTitle = new JLabel("Titolo Cd:");
 		newCdPanel.add(lblTitle, "cell 0 0,alignx right,aligny center");
@@ -511,7 +513,8 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		newCdPanel.add(btnBack, "cell 1 10,alignx right,growy");
-		option1Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, btnAddTrack, txtPrice, cbGen, cbMus, btnAggiungiCollaboratore, listPartecipantList, txtAmo, btnAddNewCd}));
+		getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, btnAddTrack, txtPrice, cbGen, cbMus, btnAggiungiCollaboratore, listPartecipantList, txtAmo, btnAddNewCd}));
+
 	}
 
 	private void createWarehousePanel()
@@ -757,13 +760,19 @@ public class areaRiservataWnd extends JFrame {
 		txtPrice.setText("");
 		txtDesc.setText("");
 		txtAmo.setText("");
-		txtArtName.setText("");
-		txtYearMus.setText("");
 		listModel.clear();
 		listModel2.clear();
+		cbGen.setSelectedIndex(1);
+		cbMus.setSelectedIndex(1);
+	}
+	
+	//TODO
+	public void clearAddNewMus(){
+		txtArtName.setText("");
+		txtYearMus.setText("");
 		listModel3.clear();
-		cbGen.removeAllItems();
-		cbMus.removeAllItems();
+		cbGeneri.setSelectedIndex(1);
+		rdbtnMusicista.setSelected(true);
 	}
 	
 	
@@ -796,7 +805,7 @@ public class areaRiservataWnd extends JFrame {
 			try {
 				if(cMusicista.insert()) {
 					JOptionPane.showMessageDialog(this, "Musicista inserito correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
-					this.clearComponents();
+					this.clearAddNewMus();
 				}
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
