@@ -514,7 +514,6 @@ public class Cd{
 				return false;
 			
 			// ---------------------------------------------------- ELIMINO INFORMAZIONI VECCHIE
-			System.out.println("1");
 			query = "DELETE FROM Brano WHERE cd_id = ?";
 			ps = this.db.prepareStatement(query);
 			ps.setInt(1, this.getId()); 
@@ -525,7 +524,6 @@ public class Cd{
 			ps.setInt(1, this.getId()); 
 			ps.executeUpdate();
 			
-			System.out.println("2");
 			// ---------------------------------------------------- AGGIUNTA BRANO
 			
 			query = "INSERT INTO Brano "
@@ -551,17 +549,18 @@ public class Cd{
 			}
 			
 			// ---------------------------------------------------- AGGIUNTA TITOLARE
-			query ="INSERT INTO Partecipazione "
+			ps.clearParameters();
+			
+			query = "INSERT INTO Partecipazione "
 					+ "(cd_id, musicista_id, is_titolare) "
-					+ "VALUES (?,?,?)";
+					+ "VALUES ( ?, ?, ? )";
 			
 			ps = this.db.prepareStatement(query);
-			
 			i = 1;
-			ps.setInt(i++, this.getId());
+			ps.setInt(i++, id);
 			ps.setInt(i++, titolare.getId());
 			ps.setBoolean(i++, true);
-			
+				
 			if( ps.executeUpdate() != 1 )
 				return false;
 
@@ -579,6 +578,7 @@ public class Cd{
 				if( ps.executeUpdate() != 1 )
 					return false;
 			}
+			
 			ps.close();
 			
 		} catch (SQLException e) {

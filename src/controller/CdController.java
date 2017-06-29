@@ -4,6 +4,7 @@ package controller;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 
@@ -34,21 +35,24 @@ public class CdController {
 
 	public Boolean insert() throws InsertFailedException {
 
-		if(this.arWnd.validValues())
+		// ---------------------------------------------------- info base
+		String titolo = arWnd.getCdTitle();
+		
+		String prezzoStr = arWnd.getCdPrice();
+		String pezziMagazzinoStr = arWnd.getAmount();
+		DefaultListModel<String> titoloBrani = arWnd.getTrackList();
+		
+		if(dataValidator.validValues(titolo, titoloBrani, prezzoStr, pezziMagazzinoStr))
 		{
-			// Recupero i dati dal form 
-
-			// ---------------------------------------------------- info base
-			String titolo = arWnd.getCdTitle();
-			BigDecimal prezzo = new BigDecimal(arWnd.getCdPrice());
+			BigDecimal prezzo = new BigDecimal(prezzoStr);
+			int pezziMagazzino = Integer.parseInt(pezziMagazzinoStr);
 			String descrizione = arWnd.getCdDesc();
-
-			int pezziMagazzino = Integer.parseInt(arWnd.getAmount());
+			
 			Genere genere  = new Genere();
 			genere.getById(arWnd.getGenderId());
-
+			
 			// ---------------------------------------------------- brani
-			ListModel<String> titoloBrani = arWnd.getTrackList();
+			//ListModel<String> titoloBrani = arWnd.getTrackList();
 			ArrayList<Brano> brani = new ArrayList<Brano>(); 
 
 			for(int i=0; i < titoloBrani.getSize(); i++){
@@ -84,23 +88,29 @@ public class CdController {
 	
 	public Boolean update() {
 
-		if(this.modWnd.validValues())
+		// ---------------------------------------------------- info base
+		String titolo = modWnd.getCdTitle();
+		
+		String prezzoStr = modWnd.getCdPrice();
+		String pezziMagazzinoStr = modWnd.getAmount();
+		DefaultListModel<String> titoloBrani = modWnd.getTrackList();
+		
+		if(dataValidator.validValues(titolo, titoloBrani, prezzoStr, pezziMagazzinoStr))
 		{
 			int id = modWnd.getCdId();
 			Cd cd = new Cd();
 			cd.getById(id);
 			
 			cd.setTitolo(modWnd.getCdTitle());
-			cd.setPrezzo(new BigDecimal(modWnd.getCdPrice()));
+			cd.setPrezzo(new BigDecimal(prezzoStr));
 			cd.setDescrizione(modWnd.getCdDesc());
-			cd.setPezziMagazzino(Integer.parseInt(modWnd.getAmount()));
+			cd.setPezziMagazzino(Integer.parseInt(pezziMagazzinoStr));
 			
 			Genere genere  = new Genere();
 			genere.getByNome(modWnd.getGender());
 			cd.setGenere(genere);
 			
 			// ---------------------------------------------------- brani
-			ListModel<String> titoloBrani = modWnd.getTrackList();
 			ArrayList<Brano> brani = new ArrayList<Brano>(); 
 
 			for(int i=0; i < titoloBrani.getSize(); i++){
@@ -129,7 +139,8 @@ public class CdController {
 			if(!cd.update()) {
 				throw new InsertFailedException("Cd non modificato.");
 			}
+			return false;
 		}
-		return true;
+		return false;
 	}
 }

@@ -69,7 +69,6 @@ public class Genere {
 	// ------------------------------------------------ INTERAZIONE DB
 	
 	public void getById(int id) {
-		System.out.println("GEnere model");
 		try {
 			String query = "SELECT * FROM genere WHERE id = ?";
 			
