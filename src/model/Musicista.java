@@ -323,12 +323,12 @@ public class Musicista {
 		return this.genericGet("All");
 	}
 	
-	public ArrayList<Musicista> getBand() {
+	public ArrayList<Musicista> getAllBand() {
 		
 		return this.genericGet("isband");
 	}
 	
-	public ArrayList<Musicista> getNotBand() {
+	public ArrayList<Musicista> getAllNotBand() {
 		
 		return this.genericGet("notband");
 	}
