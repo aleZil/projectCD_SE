@@ -304,7 +304,6 @@ public class areaRiservataWnd extends JFrame {
 		/*
 <<<<<<< HEAD:viewAreaRiservata/viewAreaRiservata/areaRiservataWnd.java
 		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
-		
 		JButton btnBack= new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		option4Panel.add(btnBack, "cell 3 1,growx,aligny center");
