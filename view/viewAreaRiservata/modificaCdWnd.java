@@ -71,12 +71,12 @@ public class modificaCdWnd extends JFrame {
 	private void createInsertPanel() throws ParseException
 	{
 		this.setTitle("Modifica cd esistente");
-		setBounds(0,0,800,550);
+		setBounds(caller.getLocation().x, caller.getLocation().y, 1000, 700);
 		JPanel insertPanel = new JPanel();
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-		newCdPanel.setLayout(new MigLayout("", "[grow][600px,grow,fill][]", "[][20px][][grow][20px][grow][20px][20px][48.00,grow][grow][20px][60px]"));
+		newCdPanel.setLayout(new MigLayout("", "[grow][600px,grow,fill][]", "[][20px][][grow][20px][50][20px][20px][48.00,grow][grow][20px][60px]"));
 
 		JLabel lblTitle = new JLabel("Titolo Cd:");
 		newCdPanel.add(lblTitle, "cell 0 1,alignx right,aligny center");
@@ -150,7 +150,7 @@ public class modificaCdWnd extends JFrame {
 		cbGen = new JComboBox();
 		newCdPanel.add(cbGen, "cell 1 6,alignx center,aligny center");
 
-		JLabel lblMus = new JLabel("Capo band:");
+		JLabel lblMus = new JLabel("Musicista/band titolare:");
 		newCdPanel.add(lblMus, "cell 0 7,alignx right,aligny center");
 
 		cbMus = new JComboBox();
@@ -211,7 +211,7 @@ public class modificaCdWnd extends JFrame {
 		CdController cCd = new CdController(this);
 		try {
 			if(cCd.update()) {
-				JOptionPane.showMessageDialog(this, "Cd Modificato!","Info!",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Cd modificato correttamente","Info!",JOptionPane.INFORMATION_MESSAGE);
 				//Fine update con chiusura della finestra
 				((areaRiservataWnd)caller).showWarehouse();
 				close();
@@ -219,7 +219,7 @@ public class modificaCdWnd extends JFrame {
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(this, "Cd non Modificato!","Info!",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Cd non modificato!","Info!",JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);

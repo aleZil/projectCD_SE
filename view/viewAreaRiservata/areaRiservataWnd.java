@@ -195,13 +195,12 @@ public class areaRiservataWnd extends JFrame {
 			int amountCd;
 
 			//Prendo la lista dei cd
-
 			ArrayList<Cd> cdList;
 			Cd cdTmp = new Cd();
 			cdList=cdTmp.getAll(); 
 			supListCd=new ArrayList<Cd>();
+			
 			// definizione della tabella
-
 			String[] colNames={"Titolo","Prezzo","Rimasti","Dettagli"};
 			tableModel model=new tableModel();
 			model.setColumnIdentifiers(colNames);
@@ -448,20 +447,15 @@ public class areaRiservataWnd extends JFrame {
 		txtDesc.addKeyListener(new KeyListener() {
 			
 			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void keyTyped(KeyEvent e) {				
 			}
 			
 			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void keyReleased(KeyEvent e) {				
 			}
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				if (e.getKeyCode() == KeyEvent.VK_TAB)
                 {
                     e.consume();
