@@ -59,7 +59,6 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	private JFrame caller;
 	private JList<String> list;
 	private DefaultListModel<String> listModel2;
-	
 	private JComboBox<String> cbMusicisti;
 	
 	
@@ -89,7 +88,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		//ComboBox
 		cbMusicisti = new JComboBox();
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
-		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAllNotBand();
 
 		for (int i=0; i<listaMusicisti.size(); i++) {
 			Musicista musicista = listaMusicisti.get(i);

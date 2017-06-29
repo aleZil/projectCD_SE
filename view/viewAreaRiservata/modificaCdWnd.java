@@ -213,9 +213,13 @@ public class modificaCdWnd extends JFrame {
 			if(cCd.update()) {
 				JOptionPane.showMessageDialog(this, "Cd Modificato!","Info!",JOptionPane.INFORMATION_MESSAGE);
 				//Fine update con chiusura della finestra
-				caller.setEnabled(true);
-				caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				((areaRiservataWnd)caller).showWarehouse();
+				close();
 				dispose();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "Cd non Modificato!","Info!",JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
@@ -226,7 +230,6 @@ public class modificaCdWnd extends JFrame {
 	{
 		caller.setEnabled(true);
 		caller.setAlwaysOnTop(true);
-		((areaRiservataWnd)caller).showWarehouse();
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
