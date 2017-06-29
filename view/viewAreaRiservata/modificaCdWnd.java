@@ -35,6 +35,9 @@ import utility.dataValidator;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import java.awt.Component;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class modificaCdWnd extends JFrame {
 
@@ -113,6 +116,32 @@ public class modificaCdWnd extends JFrame {
 		newCdPanel.add(scrollDesc, "cell 1 5,grow");
 
 		txtDesc = new JTextArea();
+		txtDesc.addKeyListener(new KeyListener() {
+			
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_TAB)
+                {
+                    e.consume();
+                    KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+                }
+				
+			}
+		});
 		scrollDesc.setViewportView(txtDesc);
 
 		JLabel lblGen = new JLabel("Genere:");
