@@ -19,6 +19,7 @@ public class Musicista {
 	private Integer annoNascita;
 	private Genere genere;
 	private ArrayList<Strumento> strumenti;
+	private Boolean isBand;		// =false ???
 	
 	public Musicista() {
 		
@@ -85,7 +86,8 @@ public class Musicista {
 	public Musicista(	String nomeArte,
 						Integer annoNascita,
 						Genere genere,
-						ArrayList<Strumento> strumenti) {
+						ArrayList<Strumento> strumenti,
+						Boolean isBand) {
 		
 		try {
 			this.db = Db.getConnection();
@@ -97,6 +99,7 @@ public class Musicista {
 		this.setAnnoNascita(annoNascita);
 		this.setGenere(genere);
 		this.setStrumenti(strumenti);
+		this.setIsBand(isBand);
 	}
 	
 	
@@ -123,6 +126,10 @@ public class Musicista {
 		return this.strumenti;
 	}
 	
+	public Boolean getIsBand() {
+		return this.isBand;
+	}
+	
 	// ------------------------------------------------ SETTAGGIO DATI BASE
 	
 	public void setId(Integer id) {
@@ -143,6 +150,10 @@ public class Musicista {
 	
 	public void setStrumenti(ArrayList<Strumento> strumenti) {
 		this.strumenti = strumenti;
+	}
+	
+	public void setIsBand(Boolean isBand){
+		this.isBand = isBand;
 	}
 	
 	// ------------------------------------------------ INTERAZIONE DB
@@ -359,20 +370,17 @@ public class Musicista {
 
 		try {
 			String insertQuery="INSERT INTO Musicista "
-					+ "(nome_arte, genere_id, anno_nascita) "
-					+ "VALUES (?,?,?)";
+					+ "(nome_arte, genere_id, anno_nascita, isBand) "
+					+ "VALUES (?,?,?,?)";
 
 			PreparedStatement psIns = this.db.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
 
 			int i = 1;
 
 			psIns.setString(i++, this.getNomeArte());
-
-			//TODO
 			psIns.setInt(i++, genere.getId());
-
 			psIns.setInt(i++,this.getAnnoNascita());
-
+			psIns.setBoolean(i++, this.getIsBand());
 			psIns.executeUpdate();
 
 			int id = 0;

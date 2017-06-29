@@ -59,6 +59,7 @@ import javax.swing.JList;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
+import javax.swing.JRadioButton;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -107,6 +108,7 @@ public class areaRiservataWnd extends JFrame {
 	private JComboBox<String> cbMusIns;
 	private JList<String> listInst;
 	private JComboBox<String> cbIns;
+	private JRadioButton rdbtnBand;
 
 
 	//Variabili usate per il fullscreen
@@ -143,8 +145,7 @@ public class areaRiservataWnd extends JFrame {
 		createOptionAddMusPanel();
 		//Creo pannello di aggiunta genere
 		createOptionAddGenPanel();
-		//Creo pannello aggiunta strumenti per musicista
-		createOptionAddMusIns();
+
 
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panelContainer);
@@ -268,14 +269,6 @@ public class areaRiservataWnd extends JFrame {
 		this.setVisible(false);
 	}
 
-	public void showAddMusIns()
-	{
-		this.setTitle("Modifica strumenti per musicista");
-		clPanel.show(panelContainer, "optionAddMusIns");
-	}
-
-
-
 	
 	// *********************************************************************************************
 	
@@ -316,7 +309,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		JPanel option3Panel = new JPanel();
 		panelContainer.add(option3Panel, "optionAddMus");
-		option3Panel.setLayout(new MigLayout("", "[][60.00][300][300][grow]", "[40][40][40][40][100][40][40]"));
+		option3Panel.setLayout(new MigLayout("", "[][60.00][300][300][grow]", "[40][][40][40][40][100][40][40]"));
 
 		JLabel lblArtName = new JLabel("Nome arte:");
 		option3Panel.add(lblArtName, "cell 1 0,alignx right,aligny center");
@@ -325,19 +318,22 @@ public class areaRiservataWnd extends JFrame {
 		option3Panel.add(txtArtName, "cell 2 0,growx,aligny center");
 		txtArtName.setColumns(10);
 		
+		JLabel lblSelezionaTipo = new JLabel("Seleziona tipo:");
+		option3Panel.add(lblSelezionaTipo, "cell 1 1,alignx right,aligny center");
+		
 		JLabel lblAnnoDiNascita = new JLabel("Anno di nascita:");
-		option3Panel.add(lblAnnoDiNascita, "cell 1 1,alignx trailing");
+		option3Panel.add(lblAnnoDiNascita, "cell 1 2,alignx trailing");
 		
 		txtYearMus = new JTextField();
 		txtYearMus.setColumns(10);
-		option3Panel.add(txtYearMus, "cell 2 1,growx,aligny center");
+		option3Panel.add(txtYearMus, "cell 2 2,growx,aligny center");
 
 		JLabel lblGen = new JLabel("Genere:");
-		option3Panel.add(lblGen, "cell 1 2,alignx right,aligny center");
+		option3Panel.add(lblGen, "cell 1 3,alignx right,aligny center");
 
 		//ComboBox dei Generi
 		cbGeneri = new JComboBox();
-		option3Panel.add(cbGeneri, "cell 2 2,growx,aligny center");
+		option3Panel.add(cbGeneri, "cell 2 3,growx,aligny center");
 		
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();					
@@ -353,29 +349,35 @@ public class areaRiservataWnd extends JFrame {
 		}
 		
 		JLabel lblStrumenti = new JLabel("Strumenti:");
-		option3Panel.add(lblStrumenti, "cell 1 3,alignx right,aligny center");
+		option3Panel.add(lblStrumenti, "cell 1 4,alignx right,aligny center");
 		
 		JButton btnAggiungirimuovi = new JButton("Aggiungi/Rimuovi");
-		option3Panel.add(btnAggiungirimuovi, "cell 2 3,growx,aligny center");
+		option3Panel.add(btnAggiungirimuovi, "cell 2 4,growx,aligny center");
 		btnAggiungirimuovi.addActionListener(new btnShowStrumentiListListener(this));
 						
 		JLabel lblListaStrumenti = new JLabel("Lista strumenti:");
-		option3Panel.add(lblListaStrumenti, "cell 1 4");
+		option3Panel.add(lblListaStrumenti, "cell 1 5");
 		
 		JScrollPane scrollInstrumentList = new JScrollPane();
-		option3Panel.add(scrollInstrumentList, "cell 2 4,grow");
+		option3Panel.add(scrollInstrumentList, "cell 2 5,grow");
 		listModel3=new DefaultListModel<String>();	
 		listInstrumentList = new JList(listModel3);
 		scrollInstrumentList.setViewportView(listInstrumentList);
 
 		JButton btnAddNewMus = new JButton("Aggiungi musicista");
-		option3Panel.add(btnAddNewMus, "cell 2 6,growx,aligny center");
+		option3Panel.add(btnAddNewMus, "cell 2 7,growx,aligny center");
 		btnAddNewMus.addActionListener(new btnAddNewMusListener(this));
 		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGeneri, btnAddNewMus}));
 
 		JButton btnBack = new JButton("Annulla");
-		option3Panel.add(btnBack, "cell 3 6,growx,aligny center");
+		option3Panel.add(btnBack, "cell 3 7,growx,aligny center");
 		btnBack.addActionListener(new btnBackListener(this));
+		
+		rdbtnBand = new JRadioButton("Band");
+		option3Panel.add(rdbtnBand, "flowx,cell 2 1,alignx left,aligny center");
+				
+		JRadioButton rdbtnMusicista = new JRadioButton("Musicista");
+		option3Panel.add(rdbtnMusicista, "cell 2 1,alignx right,aligny center");
 
 		this.setVisible(true);
 	}
@@ -602,50 +604,6 @@ public class areaRiservataWnd extends JFrame {
 
 	}
 
-	private void createOptionAddMusIns()
-	{
-		JPanel option5Panel = new JPanel();
-		panelContainer.add(option5Panel, "optionAddMusIns");
-		option5Panel.setLayout(new MigLayout("", "[grow]", "[][grow][][][][]"));
-
-		JPanel musPanel = new JPanel();
-		musPanel.setBorder(new TitledBorder(null, "Musicista", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		option5Panel.add(musPanel, "cell 0 0,growx,aligny center");
-		musPanel.setLayout(new MigLayout("", "[grow]", "[]"));
-
-		cbMusIns = new JComboBox();
-		musPanel.add(cbMusIns, "cell 0 0,alignx center,aligny center");
-
-		JPanel insMusPanel = new JPanel();
-		insMusPanel.setBorder(new TitledBorder(null, "Strumenti suonati", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		option5Panel.add(insMusPanel, "cell 0 1,grow");
-		insMusPanel.setLayout(new MigLayout("", "[grow]", "[grow]"));
-
-		JScrollPane scrollMusInsList = new JScrollPane();
-		insMusPanel.add(scrollMusInsList, "flowx,cell 0 0,alignx center,growy");
-
-		listInst = new JList();
-		scrollMusInsList.setViewportView(listInst);
-
-		JButton btnRemoveMusIns = new JButton("Rimuovi strumento");
-		option5Panel.add(btnRemoveMusIns, "cell 0 2,alignx center");
-
-		JPanel insPanel = new JPanel();
-		insPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Strumenti", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		option5Panel.add(insPanel, "cell 0 3,growx,aligny center");
-		insPanel.setLayout(new MigLayout("", "[grow]", "[]"));
-
-		cbIns = new JComboBox();
-		insPanel.add(cbIns, "flowx,cell 0 0,alignx center,aligny center");
-
-		JButton btnAddMusIns = new JButton("Aggiungi strumento");
-		option5Panel.add(btnAddMusIns, "flowx,cell 0 4,alignx center,aligny top");
-
-		JButton btnBack = new JButton("Indietro");
-		btnBack.addActionListener(new btnBackListener(this));
-		option5Panel.add(btnBack, "cell 0 5,alignx center,aligny center");
-
-	}
 
 	// *********************************************************************************************
 	
@@ -712,6 +670,15 @@ public class areaRiservataWnd extends JFrame {
 	public Integer getYearMus()
 	{
 		return Integer.parseInt(txtYearMus.getText());
+	}
+	
+	public Boolean getIsBand()
+	{
+		if(rdbtnBand.isSelected()){
+			return true;
+		}else{
+			return false;
+		}		
 	}
 	
 	public int getMusicianId()
@@ -788,6 +755,8 @@ public class areaRiservataWnd extends JFrame {
 		txtPrice.setText("");
 		txtDesc.setText("");
 		txtAmo.setText("");
+		txtArtName.setText("");
+		txtYearMus.setText("");
 		listModel.clear();
 		listModel2.clear();
 		listModel3.clear();
@@ -821,11 +790,11 @@ public class areaRiservataWnd extends JFrame {
 		public void addNewMus()
 		{
 			MusicistaController cMusicista = new MusicistaController(this);
+			
 			try {
 				if(cMusicista.insert()) {
 					JOptionPane.showMessageDialog(this, "Musicista Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
 					this.clearComponents();
-
 				}
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
