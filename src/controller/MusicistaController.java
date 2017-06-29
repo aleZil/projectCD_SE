@@ -27,7 +27,7 @@ public class MusicistaController {
 		
 		String nomeMusicista = wnd.getMusName();
 		Integer annoNascitaMusicista = wnd.getYearMus();
-		Boolean isBand = wnd.getIsBand();
+		Boolean isBand = wnd.getIsBand();		
 		Genere genere  = new Genere();
 		genere.getByNome(wnd.getGenFromMus());
 	

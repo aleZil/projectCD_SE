@@ -16,9 +16,15 @@ import javax.swing.border.BevelBorder;
 import java.awt.CardLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import controller.CdController;
+import controller.ClienteController;
+import model.Autenticazione;
+
 import java.awt.Component;
 
 public class negozioWnd extends JFrame {
@@ -142,7 +148,7 @@ public class negozioWnd extends JFrame {
 		JPanel registrazionePanel = new JPanel();
 		registrazionePanel.setBorder(new TitledBorder(null, "Informazioni utente", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		panelContainer.add(registrazionePanel, "registrazione");
-		registrazionePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow][grow][grow][grow][grow][grow][grow]\n"));
+		registrazionePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow][grow][grow][grow][grow][grow][grow]"));
 		
 		JLabel lblUsername = new JLabel("Username:");
 		registrazionePanel.add(lblUsername, "cell 0 0,alignx trailing,aligny center");
@@ -155,7 +161,7 @@ public class negozioWnd extends JFrame {
 		registrazionePanel.add(lblCf, "cell 0 1,alignx right,aligny center");
 		
 		txtCf = new JTextField();
-		txtCf.setColumns(10);
+		txtCf.setColumns(16);
 		registrazionePanel.add(txtCf, "cell 1 1,growx,aligny center");
 		
 		JLabel lblNome = new JLabel("Nome:");
@@ -176,7 +182,9 @@ public class negozioWnd extends JFrame {
 		registrazionePanel.add(lblPassword, "cell 0 4,alignx right,aligny center");
 		
 		txtPassword = new JPasswordField();
+		JButton btnRegistra = new JButton("Registrati");
 		registrazionePanel.add(txtPassword, "cell 1 4,growx,aligny center");
+		registrazionePanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUsername, txtCf, txtNome, txtCognome, txtPassword, txtIndirizzo, txtTelefono, txtCellulare, btnRegistra}));
 		
 		JLabel lblIndirizzo = new JLabel("Indirizzo:");
 		registrazionePanel.add(lblIndirizzo, "cell 0 5,alignx right,aligny center");
@@ -201,14 +209,12 @@ public class negozioWnd extends JFrame {
 		txtCellulare.setColumns(10);
 		registrazionePanel.add(txtCellulare, "cell 1 7,growx,aligny center");
 		
-		JButton btnRegistra = new JButton("Registrati");
 		btnRegistra.addActionListener(new btnAddRegistrazione(this));
 		registrazionePanel.add(btnRegistra, "flowx,cell 1 8,growx");
 		
 		JButton btnAnnulla = new JButton("Annulla");
 		btnAnnulla.addActionListener(new btnShowHome(this));
 		registrazionePanel.add(btnAnnulla, "cell 1 8,growx,aligny center");
-		registrazionePanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUsername, txtCf, txtNome, txtCognome, txtPassword, txtIndirizzo, txtTelefono, txtCellulare, btnRegistra}));
 	}
 
 	public void showRegistrazione()
@@ -232,23 +238,84 @@ public class negozioWnd extends JFrame {
 	
 	public void registraNuovoUtente()
 	{
+		ClienteController clienteC=new ClienteController(this);
+		
+		if(clienteC.insert())
+		{
+			JOptionPane.showMessageDialog(this, "Registrazione effettuata correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
+			showHome();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(this, "Registrazione non effettuata","Errore",JOptionPane.ERROR_MESSAGE);
+		}
 		
 	}
 	
 	public void loginCliente()
 	{
+		String user=getTxtUsernameLogin();
+		String pwd=getTxtPassLogin();
+		Autenticazione auth = new Autenticazione("cliente", user, pwd);
+		
+		if (auth.login()) {
+			JOptionPane.showMessageDialog(this, "Benvenuto "+user+"!","Info",JOptionPane.INFORMATION_MESSAGE);
+			showHome();
+		} else {
+			JOptionPane.showMessageDialog(this, "Username o password non corretti!");
+		}
 		
 	}
 	
 	// Metodi get
 	
-	public String getTxtUsernameLogin()
+	private String getTxtUsernameLogin()
 	{
 		return txtUserLogin.getText();
 	}
 	
-	public String getTxtPassLogin()
+	private String getTxtPassLogin()
 	{
 		return txtPassLogin.getText();
+	}
+	
+	public String getTxtUsernameReg()
+	{
+		return txtUsername.getText();
+	}
+	
+	public String getTxtPassReg()
+	{
+		return txtPassword.getText();
+	}
+	
+	public String getTxtNomeReg()
+	{
+		return txtNome.getText();
+	}
+	
+	public String getTxtCognomeReg()
+	{
+		return txtCognome.getText();
+	}
+	
+	public String getTxtCodiceReg()
+	{
+		return txtCf.getText();
+	}
+	
+	public String getTxtIndirizzoReg()
+	{
+		return txtIndirizzo.getText();
+	}
+	
+	public String getTxtTelefonoReg()
+	{
+		return txtTelefono.getText();
+	}
+	
+	public String getTxtCellulareReg()
+	{
+		return txtCellulare.getText();
 	}
 }
