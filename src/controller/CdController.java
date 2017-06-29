@@ -78,9 +78,7 @@ public class CdController {
 			model = new Cd(titolo, prezzo, descrizione, pezziMagazzino, brani, genere, titolare, partecipanti);
 
 			if(!model.insert()) {
-				//JOptionPane.showMessageDialog(this, "Cd Inserito!","Info!",JOptionPane.INFORMATION_MESSAGE);
 				throw new InsertFailedException("Cd non inserito.");
-				//JOptionPane.showMessageDialog(this, "Errore durante l'inserimento!","Errore!",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		return true;

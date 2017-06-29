@@ -29,35 +29,25 @@ public class MusicistaController {
 		Integer annoNascitaMusicista = wnd.getYearMus();
 		Genere genere  = new Genere();
 		genere.getByNome(wnd.getGenFromMus());
-		
-
-		
-	//	genere.getById(wnd.getGenderId());
-		/*//TODO
+	
 		ListModel<String> listaStrumenti = wnd.getInstrumentList();
 		ArrayList<Strumento> strumenti = new ArrayList<Strumento>(); 
 
-		for(int i=0; i < listaStrumenti.getSize(); i++){
-			strumenti.add(new Brano(listaStrumenti.getElementAt(i), i));
-		}
-		 */
-		
-		if(!dataValidator.checkString(nomeMusicista)) {
-			throw new MissingDataException("Inserire nome del musicista!");
-		}
+		//int annoNascita = Integer.parseInt(annoNascitaMusicista);
+
 		/*
-		if(!dataValidator.checkString(genere)) {
-			throw new MissingDataException("Inserire il genere!");
-		}
-		*/
-		/*
-		//TODO sistema tutti i controlli
 		if(!dataValidator.checkInteger(annoNascitaMusicista)) {
 			throw new MissingDataException("Inserire l'anno di nascita!");
 		}
-		*/
+*/
+		
+		for(int i=0; i < listaStrumenti.getSize(); i++){
+			Strumento s = new Strumento();
+			s.getByNome(listaStrumenti.getElementAt(i));
+			strumenti.add(s);
+		}
 	
-		model = new Musicista(nomeMusicista, annoNascitaMusicista, genere);
+		model = new Musicista(nomeMusicista, annoNascitaMusicista, genere, strumenti);
 
 		if(model.insert()) {
 			return true;
