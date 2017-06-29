@@ -27,19 +27,20 @@ public class MusicistaController {
 		
 		String nomeMusicista = wnd.getMusName();
 		Integer annoNascitaMusicista = wnd.getYearMus();
+		Boolean isBand = wnd.getIsBand();
 		Genere genere  = new Genere();
 		genere.getByNome(wnd.getGenFromMus());
 	
 		ListModel<String> listaStrumenti = wnd.getInstrumentList();
 		ArrayList<Strumento> strumenti = new ArrayList<Strumento>(); 
 
+		//TODO
 		//int annoNascita = Integer.parseInt(annoNascitaMusicista);
-
 		/*
 		if(!dataValidator.checkInteger(annoNascitaMusicista)) {
 			throw new MissingDataException("Inserire l'anno di nascita!");
 		}
-*/
+		 */
 		
 		for(int i=0; i < listaStrumenti.getSize(); i++){
 			Strumento s = new Strumento();
@@ -47,7 +48,7 @@ public class MusicistaController {
 			strumenti.add(s);
 		}
 	
-		model = new Musicista(nomeMusicista, annoNascitaMusicista, genere, strumenti);
+		model = new Musicista(nomeMusicista, annoNascitaMusicista, genere, strumenti, isBand);
 
 		if(model.insert()) {
 			return true;
