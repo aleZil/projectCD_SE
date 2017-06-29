@@ -38,7 +38,11 @@ public class CdController {
 		// ---------------------------------------------------- info base
 		String titolo = arWnd.getCdTitle();
 		
+		//Nel caso l'utente inserisca il prezzo con la virgola, la convertiamo in un punto (altrimenti errore)
 		String prezzoStr = arWnd.getCdPrice();
+		prezzoStr = prezzoStr.replace(',', '.');
+		
+		
 		String pezziMagazzinoStr = arWnd.getAmount();
 		DefaultListModel<String> titoloBrani = arWnd.getTrackList();
 		
