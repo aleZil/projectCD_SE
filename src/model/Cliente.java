@@ -53,7 +53,7 @@ public class Cliente {
 		try {
 			String insertQuery="INSERT INTO Cliente "
 					+ "(username, codice_fiscale, nome, cognome, password, indirizzo, telefono, cellulare) "
-					+ "VALUES (?,?,?,?,?,?,?,?)";
+					+ "VALUES (?,?,?,?,MD5(?),?,?,?)";
 
 			PreparedStatement psIns = this.db.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
 			

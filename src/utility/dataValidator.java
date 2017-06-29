@@ -1,17 +1,24 @@
 package utility;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.regex.*;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 public class dataValidator {
 
 	
+	public static boolean checkNumber(String num)
+	{
+		Pattern p = Pattern.compile("\\+[0-9]{12}");
+		
+		Matcher m=p.matcher(num);
+		
+		return m.matches();
+	}
 	
 	public static boolean checkString(String st)
 	{
@@ -30,7 +37,7 @@ public class dataValidator {
 		try {
 			dateFormat.parse(date.trim());
 		}
-		catch (ParseException pe) 
+		catch (ParseException e) 
 		{
 			return false;
 		}
