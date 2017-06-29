@@ -24,6 +24,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import javax.swing.AbstractAction;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
@@ -109,6 +110,7 @@ public class areaRiservataWnd extends JFrame {
 	private JList<String> listInst;
 	private JComboBox<String> cbIns;
 	private JRadioButton rdbtnBand;
+	private JRadioButton rdbtnMusicista;
 
 
 	//Variabili usate per il fullscreen
@@ -373,11 +375,16 @@ public class areaRiservataWnd extends JFrame {
 		option3Panel.add(btnBack, "cell 3 7,growx,aligny center");
 		btnBack.addActionListener(new btnBackListener(this));
 		
+		rdbtnMusicista = new JRadioButton("Musicista");
+		option3Panel.add(rdbtnMusicista, "cell 2 1,alignx left,aligny center");
+		rdbtnMusicista.setSelected(true);
+		
 		rdbtnBand = new JRadioButton("Band");
-		option3Panel.add(rdbtnBand, "flowx,cell 2 1,alignx left,aligny center");
+		option3Panel.add(rdbtnBand, "flowx,cell 2 1,alignx right,aligny center");
 				
-		JRadioButton rdbtnMusicista = new JRadioButton("Musicista");
-		option3Panel.add(rdbtnMusicista, "cell 2 1,alignx right,aligny center");
+		ButtonGroup groupRadioButtons = new ButtonGroup();
+		groupRadioButtons.add(rdbtnMusicista);
+		groupRadioButtons.add(rdbtnBand);
 
 		this.setVisible(true);
 	}
@@ -595,12 +602,8 @@ public class areaRiservataWnd extends JFrame {
 		btnO4.addActionListener(new o4Listener(this));
 		buttonPanel.add(btnO4, "cell 1 3,alignx center,aligny center");
 
-		JButton btnO5 = new JButton("Modifica strumenti per musicista");
-		btnO5.addActionListener(new o5Listener(this));
-		buttonPanel.add(btnO5, "cell 1 4,alignx center,aligny center");
-
 		panelContainer.add(optionPanel, "options");
-		optionPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnO1, btnO2, btnO3, btnO4, btnO5}));
+		optionPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnO1, btnO2, btnO3, btnO4}));
 
 	}
 
