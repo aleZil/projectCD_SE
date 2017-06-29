@@ -236,7 +236,7 @@ public class areaRiservataWnd extends JFrame {
 		this.setTitle("Inserisci un nuovo cd");
 		//Recupero lista generi e lista musicisti per le combobox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
-		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAllBand();
 		kMus=new HashMap<String,Integer>();
 		kGen=new HashMap<String,Integer>();
 
@@ -294,14 +294,6 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnAddNewGen = new JButton("Aggiungi Genere");
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
 		option4Panel.add(btnAddNewGen, "cell 2 1,growx,aligny center");
-		/*
-<<<<<<< HEAD:viewAreaRiservata/viewAreaRiservata/areaRiservataWnd.java
-		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
-		JButton btnBack= new JButton("Annulla");
-		btnBack.addActionListener(new btnBackListener(this));
-		option4Panel.add(btnBack, "cell 3 1,growx,aligny center");
-=======
-*/
 
 		JButton btnBack= new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
@@ -519,11 +511,6 @@ public class areaRiservataWnd extends JFrame {
 		newCdPanel.add(btnBack, "cell 1 10,alignx right,growy");
 		option1Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, btnAddTrack, txtPrice, cbGen, cbMus, btnAggiungiCollaboratore, listPartecipantList, txtAmo, btnAddNewCd}));
 	}
-	
-	
-	
-	
-	
 
 	private void createWarehousePanel()
 	{
