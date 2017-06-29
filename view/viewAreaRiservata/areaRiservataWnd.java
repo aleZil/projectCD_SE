@@ -38,7 +38,6 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import areaRiservataListener.btnAddNewGenListener;
 import areaRiservataListener.btnAddNewMusListener;
 import areaRiservataListener.o4Listener;
-import areaRiservataListener.o5Listener;
 import areaRiservataListener.returnNegozioListener;
 import areaRiservataListener.btnBackListener;
 import areaRiservataListener.o3Listener;
