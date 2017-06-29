@@ -229,7 +229,6 @@ public class Musicista {
 	public ArrayList<Musicista> getPartecipantiByIdCd(Integer cdId) {
 		
 		ArrayList<Musicista> lista = new ArrayList<Musicista>();
-		//Musicista tmp = null;
 		Integer id;
 		String nomeArte;
 		Integer annoNascita;
@@ -270,16 +269,28 @@ public class Musicista {
 		return lista;
 	}
 	
-	
-	public ArrayList<Musicista> getAll() {
+	public ArrayList<Musicista> genericGet(String filter) {
 		
 		ArrayList<Musicista> lista = new ArrayList<Musicista>();
+		String queryFilter = "";
+		
+		switch(filter) {
+			case "isband":
+				queryFilter = "WHERE isband = TRUE ";
+				break;
+			case "notband":
+				queryFilter = "WHERE isband = FALSE ";
+				break;	
+			default:
+				break;
+		}
 		
 		try {
 			String query = "SELECT M.id AS id, M.nome_arte AS nome_arte, M.anno_nascita AS anno_nascita, G.id AS genere_id, G.nome AS genere "
 					+ "FROM musicista AS M "
 					+ "JOIN Genere AS G "
 					+ "ON M.genere_id = G.id "
+					+ queryFilter 
 					+ "ORDER BY nome_arte";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
@@ -307,6 +318,20 @@ public class Musicista {
 	}
 	
 	
+	public ArrayList<Musicista> getAll() {
+		
+		return this.genericGet("All");
+	}
+	
+	public ArrayList<Musicista> getBand() {
+		
+		return this.genericGet("isband");
+	}
+	
+	public ArrayList<Musicista> getNotBand() {
+		
+		return this.genericGet("notband");
+	}
 	
 	public Boolean insert() {
 //		ArrayList<Strumento> strumenti = this.getStrumenti();
