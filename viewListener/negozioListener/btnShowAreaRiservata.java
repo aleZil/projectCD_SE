@@ -5,12 +5,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import viewNegozio.carrelloWnd;
+import viewAreaRiservata.areaRiservataWnd;
 
-public class main_wnd_btn_carrello implements ActionListener {
+public class btnShowAreaRiservata implements ActionListener {
 
 	JFrame main_wnd;
-	public main_wnd_btn_carrello(JFrame caller_wnd)
+	
+	public btnShowAreaRiservata(JFrame caller_wnd)
 	{
 		main_wnd=caller_wnd;
 	}
@@ -23,7 +24,7 @@ public class main_wnd_btn_carrello implements ActionListener {
 		//Visualizzo la finestra di configurazione
 		try
 		{
-			carrelloWnd wnd=new carrelloWnd(main_wnd);
+			areaRiservataWnd wnd = new areaRiservataWnd(main_wnd);
 		}
 		catch (Exception exception)
 		{
