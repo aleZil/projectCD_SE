@@ -38,7 +38,7 @@ public class Cd{
 		}
 	}
 	
-	// costruttore usato dall'utente per la creazione di un cd di cui non conosce id e data inserimento
+	// costruttore usato dall'utente per la creazione di un cd di cui non si conosce id e data inserimento
 	public Cd(
 				String titolo,
 				BigDecimal prezzo,
@@ -189,7 +189,6 @@ public class Cd{
 	
 	
 	// ------------------------------------------------ INTERAZIONE DB
-	
 	
 	/**
 	 * @param codice del cd del quale si vogliono settare le informazioni

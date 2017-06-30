@@ -19,7 +19,7 @@ public class Musicista {
 	private Integer annoNascita;
 	private Genere genere;
 	private ArrayList<Strumento> strumenti;
-	private Boolean isBand;		// =false ???
+	private Boolean isBand;		
 	
 	public Musicista() {
 		
