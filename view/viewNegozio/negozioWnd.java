@@ -11,6 +11,7 @@ import negozioListener.btnAddRegistrazione;
 import negozioListener.btnEffettuaRicerca;
 import negozioListener.btnLoginCliente;
 import negozioListener.btnShowAreaRiservata;
+import negozioListener.btnShowDettagliCd;
 import negozioListener.btnShowRegistrazione;
 import negozioListener.btnShowHome;
 import negozioListener.btnShowLogin;
@@ -77,7 +78,7 @@ public class negozioWnd extends JFrame {
 	//Lista cd
 	private JList<String> cdList;
 	private DefaultListModel<String> cdListModel;
-	private ArrayList<Integer> cdId;
+	private ArrayList<Integer> idCdList;
 	
 	/**
 	 * Launch the application.
@@ -131,6 +132,7 @@ public class negozioWnd extends JFrame {
 	
 	void createHomePanel()
 	{
+		idCdList=new ArrayList<Integer>();
 		JPanel homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
 		homePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow]"));
@@ -206,10 +208,10 @@ public class negozioWnd extends JFrame {
 		
 		cdListModel=new DefaultListModel<String>();
 		cdList = new JList<String>(cdListModel);
-		cdId=new ArrayList<Integer>();
 		scrollPaneList.setViewportView(cdList);
 		
 		JButton btnViewDetail = new JButton("Vedi dettagli prodotto");
+		btnViewDetail.addActionListener(new btnShowDettagliCd(this));
 		homePanel.add(btnViewDetail, "cell 1 2,growx,aligny top");
 	}
 	
@@ -330,8 +332,6 @@ public class negozioWnd extends JFrame {
 		this.setTitle("Home");
 		cardLayout.show(panelContainer, "home");
 		cdListModel.clear();
-		cdId.clear();
-		
 		Cd cds=new Cd();
 		Genere gen=new Genere();
 		Musicista mus=new Musicista();
@@ -347,8 +347,6 @@ public class negozioWnd extends JFrame {
 		this.setTitle("Login");
 		cardLayout.show(panelContainer, "login");
 		txtUserLogin.requestFocus();
-		
-		
 	}
 	
 	public void search()
@@ -361,8 +359,6 @@ public class negozioWnd extends JFrame {
 		String partecipante=getPartecipante();
 		Cd cd=new Cd();
 		cdListModel.clear();
-		cdId.clear();
-		
 		ArrayList<Cd> risultato=cd.getByFilter(titolo, genere, titolare, partecipante, minP, maxP);
 		loadListCd(risultato);
 		
@@ -403,8 +399,8 @@ public class negozioWnd extends JFrame {
 	{
 		for(Cd c:listaCd)
 		{
-			cdId.add(c.getId());
 			cdListModel.addElement(c.getTitolo());
+			idCdList.add(c.getId());
 		}
 	}
 	
@@ -439,6 +435,14 @@ public class negozioWnd extends JFrame {
 	
 	// Metodi get
 	
+	public int getSelectedCd()
+	{
+		if(cdList.getSelectedIndex()!=-1)
+			return idCdList.get(cdList.getSelectedIndex());
+		else
+			return -1;
+	}
+	
 	private String getTitolo()
 	{
 		return txtTitolo.getText();
@@ -472,6 +476,7 @@ public class negozioWnd extends JFrame {
 			return new BigDecimal("-1.0");
 		}
 	}
+	
 	
 	private String getTitolare()
 	{
