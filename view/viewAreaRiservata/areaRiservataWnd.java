@@ -237,6 +237,7 @@ public class areaRiservataWnd extends JFrame {
 	{
 		//Se l'utente aveva scritto prima, pulisco
 		this.setTitle("Inserisci un nuovo cd");
+		txtTitle.requestFocus();
 		
 		//Recupero lista generi e lista musicisti per le combobox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
@@ -513,7 +514,6 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		newCdPanel.add(btnBack, "cell 1 10,alignx right,growy");
-		getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, btnAddTrack, txtPrice, cbGen, cbMus, btnAggiungiCollaboratore, listPartecipantList, txtAmo, btnAddNewCd}));
 
 	}
 

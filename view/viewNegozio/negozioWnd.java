@@ -1,17 +1,20 @@
 package viewNegozio;
 import java.awt.EventQueue;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import negozioListener.btnAddRegistrazione;
+import negozioListener.btnEffettuaRicerca;
 import negozioListener.btnLoginCliente;
 import negozioListener.btnShowAreaRiservata;
 import negozioListener.btnShowRegistrazione;
 import negozioListener.btnShowHome;
 import negozioListener.btnShowLogin;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
 import sun.java2d.loops.MaskBlit;
@@ -29,6 +32,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import controller.CdController;
 import controller.ClienteController;
 import model.Autenticazione;
+import model.Cd;
 
 import java.awt.Component;
 import javax.swing.border.LineBorder;
@@ -56,9 +60,15 @@ public class negozioWnd extends JFrame {
 	//Componenti pannello di login cliente
 	private JTextField txtUserLogin;
 	private JPasswordField txtPassLogin;
-	private JTextField txtFilter;
 	private JTextField txtMinP;
 	private JTextField textField;
+	private JTextField txtTitolo;
+	
+	
+	//Lista cd
+	private JList<String> cdList;
+	private DefaultListModel<String> cdListModel;
+	private ArrayList<Integer> cdId;
 	
 	/**
 	 * Launch the application.
@@ -69,6 +79,7 @@ public class negozioWnd extends JFrame {
 			public void run() {
 				try {
 					negozioWnd negozio = new negozioWnd();
+					negozio.showHome();
 					negozio.setVisible(true);
 					//frame.setExtendedState(Frame.MAXIMIZED_BOTH);		//fullscreen
 					/*
@@ -113,72 +124,84 @@ public class negozioWnd extends JFrame {
 	{
 		JPanel homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
-		homePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow]"));
+		homePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow]"));
 		
 		JButton btnLogin = new JButton("Accedi");
 		btnLogin.addActionListener(new btnShowLogin(this));
 		
+		JLabel lblcdList = new JLabel("Titoli disponibili");
+		homePanel.add(lblcdList, "cell 1 0,alignx center,aligny center");
+		
 		JPanel filterPanel = new JPanel();
 		filterPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Filtri disponibili", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		homePanel.add(filterPanel, "cell 0 0,growx,aligny top");
-		filterPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][][][][][][][]"));
+		homePanel.add(filterPanel, "cell 0 1,growx,aligny center");
+		filterPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][][]"));
 		
-		JRadioButton titoloF = new JRadioButton("Titolo");
-		filterPanel.add(titoloF, "cell 1 0,alignx center,aligny center");
+		JLabel lblTitolo = new JLabel("Titolo");
+		filterPanel.add(lblTitolo, "cell 0 0 2 1,alignx center,aligny bottom");
 		
-		JRadioButton titolareF = new JRadioButton("Titolare");
-		filterPanel.add(titolareF, "cell 1 1,alignx center,aligny center");
+		txtTitolo = new JTextField();
+		filterPanel.add(txtTitolo, "cell 0 1 2 1,grow");
+		txtTitolo.setColumns(10);
 		
-		JRadioButton musicistaF = new JRadioButton("Musicista");
-		filterPanel.add(musicistaF, "cell 1 2,alignx center,aligny center");
+		JLabel lblGenere = new JLabel("Genere");
+		filterPanel.add(lblGenere, "cell 0 2 2 1,alignx center,aligny bottom");
 		
-		JRadioButton prezzoF = new JRadioButton("Prezzo");
-		filterPanel.add(prezzoF, "cell 1 3,alignx center,aligny center");
+		JComboBox cbGenere = new JComboBox();
+		filterPanel.add(cbGenere, "cell 0 3 2 1,grow");
+		
+		JLabel lblTitolare = new JLabel("Titolare");
+		filterPanel.add(lblTitolare, "cell 0 4 2 1,alignx center,aligny bottom");
+		
+		JComboBox cbTitolare = new JComboBox();
+		filterPanel.add(cbTitolare, "cell 0 5 2 1,grow");
+		
+		JLabel lblPrezzo = new JLabel("Prezzo");
+		filterPanel.add(lblPrezzo, "cell 0 6 2 1,alignx center,aligny bottom");
 		
 		JLabel lblMin = new JLabel("Min:");
-		filterPanel.add(lblMin, "flowx,cell 1 4,alignx right,aligny center");
+		filterPanel.add(lblMin, "flowx,cell 0 7,alignx left,aligny center");
 		
 		txtMinP = new JTextField();
-		filterPanel.add(txtMinP, "cell 1 4,grow");
+		filterPanel.add(txtMinP, "cell 1 7,grow");
 		txtMinP.setColumns(10);
 		
 		JLabel lblMax = new JLabel("Max:");
-		filterPanel.add(lblMax, "flowx,cell 1 5,alignx right,aligny center");
+		filterPanel.add(lblMax, "flowx,cell 0 8,alignx left,aligny center");
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		filterPanel.add(textField, "cell 1 5,grow");
+		filterPanel.add(textField, "cell 1 8,grow");
 		
-		JRadioButton genereF = new JRadioButton("Genere");
-		filterPanel.add(genereF, "cell 1 6,alignx center,aligny center");
+		JLabel lblPartecipanti = new JLabel("Partecipanti");
+		filterPanel.add(lblPartecipanti, "cell 0 9 2 1,alignx center,aligny bottom");
 		
-		JComboBox comboBox = new JComboBox();
-		filterPanel.add(comboBox, "cell 1 7,grow");
+		JComboBox cbPartecipanti = new JComboBox();
+		filterPanel.add(cbPartecipanti, "cell 0 10 2 1,grow");
 		
-		JLabel lblFilter = new JLabel("Ricerca");
-		homePanel.add(lblFilter, "flowy,cell 1 0,alignx center,aligny top");
-		
-		txtFilter = new JTextField();
-		homePanel.add(txtFilter, "cell 1 0,alignx center,aligny top");
-		txtFilter.setColumns(10);
-		homePanel.add(btnLogin, "flowx,cell 2 0,alignx right,aligny top");
+		JButton btnCerca = new JButton("Cerca");
+		btnCerca.addActionListener(new btnEffettuaRicerca(this));
+		filterPanel.add(btnCerca, "cell 0 11 2 1,alignx center,aligny center");
+		homePanel.add(btnLogin, "flowx,cell 2 1,alignx right,aligny top");
 		
 		JButton btnRegistrazione = new JButton("Registrati");
 		btnRegistrazione.addActionListener(new btnShowRegistrazione(this));
-		homePanel.add(btnRegistrazione, "cell 2 0,alignx right,aligny top");
+		homePanel.add(btnRegistrazione, "cell 2 1,alignx right,aligny top");
 		
 		JButton btnAreaRiservata = new JButton("Area Riservata");
 		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
-		homePanel.add(btnAreaRiservata, "cell 2 0,alignx right,aligny top");
+		homePanel.add(btnAreaRiservata, "cell 2 1,alignx right,aligny top");
 		
-		JButton btnCerca = new JButton("Cerca");
-		homePanel.add(btnCerca, "cell 1 0,alignx center,aligny top");
+		JScrollPane scrollPaneList = new JScrollPane();
+		homePanel.add(scrollPaneList, "cell 1 1,grow");
 		
-		JScrollPane scrollPane = new JScrollPane();
-		homePanel.add(scrollPane, "cell 1 0,grow");
+		cdListModel=new DefaultListModel<String>();
+		cdList = new JList<String>(cdListModel);
+		cdId=new ArrayList<Integer>();
+		scrollPaneList.setViewportView(cdList);
 		
-		JList<String> list = new JList();
-		scrollPane.setViewportView(list);
+		JButton btnViewDetail = new JButton("Vedi dettagli prodotto");
+		homePanel.add(btnViewDetail, "cell 1 2,growx,aligny top");
 	}
 	
 	void createLoginPanel()
@@ -297,6 +320,16 @@ public class negozioWnd extends JFrame {
 	{
 		this.setTitle("Home");
 		cardLayout.show(panelContainer, "home");
+		cdListModel.clear();
+		cdId.clear();
+		
+		Cd cds=new Cd();
+		
+		for(Cd c:cds.getAll())
+		{
+			cdId.add(c.getId());
+			cdListModel.addElement(c.getTitolo());
+		}
 	}
 	
 	public void showLogin()
@@ -304,8 +337,14 @@ public class negozioWnd extends JFrame {
 		this.setTitle("Login");
 		cardLayout.show(panelContainer, "login");
 		txtUserLogin.requestFocus();
+		
+		
 	}
 	
+	public void search()
+	{
+		
+	}
 	
 	public void registraNuovoUtente()
 	{
