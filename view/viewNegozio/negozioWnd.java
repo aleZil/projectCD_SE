@@ -49,6 +49,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JSpinner;
 
 public class negozioWnd extends JFrame {
 	
@@ -250,6 +251,13 @@ public class negozioWnd extends JFrame {
 		btnAnnulla.addActionListener(new btnShowHome(this));
 		loginPanel.add(btnAnnulla, "cell 1 2,growx,aligny center");
 		loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUserLogin, txtPassLogin, btnLogin}));
+		
+		JPanel carrello = new JPanel();
+		panelContainer.add(carrello, "name_4153185312413");
+		carrello.setLayout(new MigLayout("", "[3px]", "[3px]"));
+		
+		JScrollPane elderScrollPanel = new JScrollPane();
+		carrello.add(elderScrollPanel, "cell 0 0,alignx left,aligny top");
 	}
 
 	void createRegistrazionePanel()
