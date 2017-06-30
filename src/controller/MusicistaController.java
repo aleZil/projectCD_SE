@@ -25,39 +25,51 @@ public class MusicistaController {
 		this.wnd = wnd;
 	}
 
-	public Boolean insert() throws MissingDataException, InsertFailedException {
+	public Boolean insert() throws MissingDataException {
 		
 		String nomeMusicista = wnd.getMusName();
-		Integer annoNascitaMusicista = wnd.getYearMus();
-		Boolean isBand = wnd.getIsBand();		
+		if(!dataValidator.checkString(nomeMusicista) || nomeMusicista.equals("") ) {
+			throw new InsertFailedException("Inserire un nome valido.");
+		}
+				
+		String annoNascitaMusicistaString = wnd.getYearMus();
+		if(annoNascitaMusicistaString.equals("") || !dataValidator.checkInteger(annoNascitaMusicistaString) ){
+			throw new InsertFailedException("Inserire un anno valido.");
+		}
+		
+		Integer annoNascitaMusicistaInteger = Integer.parseInt(annoNascitaMusicistaString);
+
+		Boolean isBand = wnd.getIsBand();	
+		
 		Genere genere  = new Genere();
 		genere.getByNome(wnd.getGenFromMus());
 	
 		ListModel<String> listaStrumenti = wnd.getInstrumentList();
 		ArrayList<Strumento> strumenti = new ArrayList<Strumento>(); 
-
-		Calendar now = Calendar.getInstance(); 
-		//Calcolo l'anno corrente
-		int year = now.get(Calendar.YEAR);
-		
-		//Controllo validità annoNascitaMusicista
-		if(annoNascitaMusicista < 1600 || annoNascitaMusicista > year){
-			throw new InsertFailedException("L'anno inserito non è valido");
-		}
-		
 		
 		for(int i=0; i < listaStrumenti.getSize(); i++){
 			Strumento s = new Strumento();
 			s.getByNome(listaStrumenti.getElementAt(i));
 			strumenti.add(s);
 		}
-	
-		model = new Musicista(nomeMusicista, annoNascitaMusicista, genere, strumenti, isBand);
 
-		if(model.insert()) {
-			return true;
-		} else {
-			throw new InsertFailedException("Musicista non inserito. Controlla se esiste già.");
+		// ------------------------------------------------ CONTROLLO DATI
+		
+		//Calcolo l'anno corrente
+		Calendar now = Calendar.getInstance(); 
+		int year = now.get(Calendar.YEAR);
+
+		if(annoNascitaMusicistaInteger > 1600 && annoNascitaMusicistaInteger <= year){
+			
+			model = new Musicista(nomeMusicista, annoNascitaMusicistaInteger, genere, strumenti, isBand);
+			
+			if(model.insert()) {
+				return true;
+			} else {
+				throw new InsertFailedException("Inserimento fallito.");
+			}
+		}else{
+			throw new MissingDataException("Inserire un anno valido");
 		}
 	}
 }
