@@ -12,13 +12,11 @@ public class btnAddNewGenListener implements ActionListener{
 	JFrame caller;
 	
 	public btnAddNewGenListener(JFrame caller) {
-		// TODO Auto-generated constructor stub
 		this.caller=caller;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		((areaRiservataWnd) caller).addNewGen();
 	}
 }

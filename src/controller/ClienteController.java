@@ -1,5 +1,7 @@
 package controller;
 
+import exception.InsertFailedException;
+import exception.MissingDataException;
 import model.Cliente;
 import utility.dataValidator;
 import viewNegozio.negozioWnd;
@@ -13,7 +15,7 @@ public class ClienteController {
 		this.negozio=negozio;
 	}
 	
-	public boolean insert()
+	public boolean insert() throws MissingDataException
 	{
 		String username=negozio.getTxtUsernameReg();
 		String password=negozio.getTxtPassReg();
@@ -27,12 +29,17 @@ public class ClienteController {
 		//Check sui dati
 		if(dataValidator.checkString(username) && dataValidator.checkString(password) && dataValidator.checkString(nome) && 
 		   dataValidator.checkString(cognome) && dataValidator.checkString(indirizzo) && 
-		   dataValidator.checkNumber(telefono))
-
-		{
+		   dataValidator.checkNumber(telefono)) {
+			
 			cliente=new Cliente(username,password,nome,cognome,codiceFiscale,indirizzo,telefono,cellulare);
-			return cliente.registra();
+
+			if(cliente.registra()) {
+				return true;
+			} else {
+				throw new InsertFailedException("Inserimento fallito.");
+			}
+		}else{
+			throw new MissingDataException("Attenzione: dati mancanti");
 		}
-		return false;
 	}
 }

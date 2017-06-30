@@ -371,18 +371,15 @@ public class negozioWnd extends JFrame {
 	public void registraNuovoUtente()
 	{
 		ClienteController clienteC=new ClienteController(this);
-		
-		if(clienteC.insert())
-		{
-			JOptionPane.showMessageDialog(this, "Registrazione effettuata correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
-			clearComponents();
-			showHome();
+		try {
+			if(clienteC.insert()) {
+				JOptionPane.showMessageDialog(this, "Registrazione effettuata correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
+				clearComponents();
+				showHome();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
-		else
-		{
-			JOptionPane.showMessageDialog(this, "Registrazione non effettuata","Errore",JOptionPane.ERROR_MESSAGE);
-		}
-		
 	}
 	
 	public void loginCliente()

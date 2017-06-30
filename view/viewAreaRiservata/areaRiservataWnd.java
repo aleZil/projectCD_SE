@@ -3,6 +3,7 @@ package viewAreaRiservata;
 import utility.*;
 import model.*;
 import controller.*;
+import exception.InsertFailedException;
 import exception.MissingDataException;
 
 import javax.swing.JFrame;
@@ -177,6 +178,7 @@ public class areaRiservataWnd extends JFrame {
 
 	public void showOption()
 	{
+		txtGen.setText("");
 		this.setTitle("Pannello area riservata");
 		cbGen.removeAllItems();
 		cbMus.removeAllItems();		
@@ -300,9 +302,9 @@ public class areaRiservataWnd extends JFrame {
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
 		option4Panel.add(btnAddNewGen, "cell 2 1,growx,aligny center");
 		
-				JButton btnBack= new JButton("Annulla");
-				btnBack.addActionListener(new btnBackListener(this));
-				option4Panel.add(btnBack, "cell 3 1,growx,aligny center");
+		JButton btnBack= new JButton("Annulla");
+		btnBack.addActionListener(new btnBackListener(this));
+		option4Panel.add(btnBack, "cell 3 1,growx,aligny center");
 		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
 	}
 
@@ -353,7 +355,7 @@ public class areaRiservataWnd extends JFrame {
 			cbGeneri.addItem(genere.getNome());
 		}
 		
-		JLabel lblStrumenti = new JLabel("Strumenti:");
+		JLabel lblStrumenti = new JLabel("Strumenti suonati:");
 		option3Panel.add(lblStrumenti, "cell 1 4,alignx right,aligny center");
 		
 		JButton btnAggiungirimuovi = new JButton("Aggiungi/Rimuovi");
@@ -674,6 +676,10 @@ public class areaRiservataWnd extends JFrame {
 
 	public Integer getYearMus()
 	{
+		//Controllo se l'utente ha inserito un anno vuoto oppure una stringa invece di un intero
+		if(txtYearMus.getText().equals("") || !dataValidator.checkInteger(txtYearMus.getText())){
+			throw new InsertFailedException("L'anno inserito non è valido");
+		}
 		return Integer.parseInt(txtYearMus.getText());
 	}
 	
@@ -762,8 +768,8 @@ public class areaRiservataWnd extends JFrame {
 		txtAmo.setText("");
 		listModel.clear();
 		listModel2.clear();
-		cbGen.setSelectedIndex(1);
-		cbMus.setSelectedIndex(1);
+		cbGen.setSelectedIndex(0);
+		cbMus.setSelectedIndex(0);
 	}
 	
 	//TODO
@@ -787,10 +793,11 @@ public class areaRiservataWnd extends JFrame {
 	public void addNewGen()
 	{
 		GenereController cGenere = new GenereController(this);
+		
 		try {
 			if(cGenere.insert()) {
 				JOptionPane.showMessageDialog(this, "Genere inserito correttamente","Info!",JOptionPane.INFORMATION_MESSAGE);
-				this.clearComponents();
+				txtGen.setText("");	//resetto il JLabel del genere
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);

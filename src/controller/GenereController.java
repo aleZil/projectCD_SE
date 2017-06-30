@@ -17,9 +17,10 @@ public class GenereController {
 	}
 
 	public Boolean insert() throws MissingDataException, InsertFailedException {
-		
+
 		String nomeGenere = wnd.getGenName();
-		if(!dataValidator.checkString(nomeGenere))
+		
+		if(!dataValidator.checkString(nomeGenere) || nomeGenere.equals(""))
 		{
 			throw new MissingDataException("Inserire nome genere!");
 		}

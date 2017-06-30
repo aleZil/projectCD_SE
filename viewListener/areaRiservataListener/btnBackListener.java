@@ -16,8 +16,7 @@ public class btnBackListener implements ActionListener{
 		this.caller=caller;
 	}
 	
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		((areaRiservataWnd) caller).showOption();
 	}
 
