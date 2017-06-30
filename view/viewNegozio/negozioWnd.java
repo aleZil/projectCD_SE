@@ -1,5 +1,6 @@
 package viewNegozio;
 import java.awt.EventQueue;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
 import sun.java2d.loops.MaskBlit;
+import utility.dataValidator;
 
 import javax.swing.border.BevelBorder;
 import java.awt.CardLayout;
@@ -31,8 +33,11 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import controller.CdController;
 import controller.ClienteController;
+import controller.GenereController;
 import model.Autenticazione;
 import model.Cd;
+import model.Genere;
+import model.Musicista;
 
 import java.awt.Component;
 import javax.swing.border.LineBorder;
@@ -60,10 +65,14 @@ public class negozioWnd extends JFrame {
 	//Componenti pannello di login cliente
 	private JTextField txtUserLogin;
 	private JPasswordField txtPassLogin;
-	private JTextField txtMinP;
-	private JTextField textField;
-	private JTextField txtTitolo;
 	
+	//Componenti pannello di ricerca
+	private JTextField txtMinP;
+	private JTextField txtMaxP;
+	private JTextField txtTitolo;
+	JComboBox<String> cbGenere;
+	JComboBox<String> cbTitolare;
+	JComboBox<String> cbPartecipanti;
 	
 	//Lista cd
 	private JList<String> cdList;
@@ -147,13 +156,13 @@ public class negozioWnd extends JFrame {
 		JLabel lblGenere = new JLabel("Genere");
 		filterPanel.add(lblGenere, "cell 0 2 2 1,alignx center,aligny bottom");
 		
-		JComboBox cbGenere = new JComboBox();
+		cbGenere = new JComboBox();
 		filterPanel.add(cbGenere, "cell 0 3 2 1,grow");
 		
 		JLabel lblTitolare = new JLabel("Titolare");
 		filterPanel.add(lblTitolare, "cell 0 4 2 1,alignx center,aligny bottom");
 		
-		JComboBox cbTitolare = new JComboBox();
+		cbTitolare = new JComboBox();
 		filterPanel.add(cbTitolare, "cell 0 5 2 1,grow");
 		
 		JLabel lblPrezzo = new JLabel("Prezzo");
@@ -169,14 +178,14 @@ public class negozioWnd extends JFrame {
 		JLabel lblMax = new JLabel("Max:");
 		filterPanel.add(lblMax, "flowx,cell 0 8,alignx left,aligny center");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		filterPanel.add(textField, "cell 1 8,grow");
+		txtMaxP = new JTextField();
+		txtMaxP.setColumns(10);
+		filterPanel.add(txtMaxP, "cell 1 8,grow");
 		
 		JLabel lblPartecipanti = new JLabel("Partecipanti");
 		filterPanel.add(lblPartecipanti, "cell 0 9 2 1,alignx center,aligny bottom");
 		
-		JComboBox cbPartecipanti = new JComboBox();
+		cbPartecipanti = new JComboBox();
 		filterPanel.add(cbPartecipanti, "cell 0 10 2 1,grow");
 		
 		JButton btnCerca = new JButton("Cerca");
@@ -324,12 +333,13 @@ public class negozioWnd extends JFrame {
 		cdId.clear();
 		
 		Cd cds=new Cd();
+		Genere gen=new Genere();
+		Musicista mus=new Musicista();
 		
-		for(Cd c:cds.getAll())
-		{
-			cdId.add(c.getId());
-			cdListModel.addElement(c.getTitolo());
-		}
+		loadListCd(cds.getAll());
+		loadGeneri(gen.getAll());
+		loadTitolari(mus.getAllBand());
+		loadPartecipanti(mus.getAllNotBand());
 	}
 	
 	public void showLogin()
@@ -343,6 +353,18 @@ public class negozioWnd extends JFrame {
 	
 	public void search()
 	{
+		String titolo=getTitolo();
+		String genere=getGenere();
+		BigDecimal minP=getMinPrezzo();
+		BigDecimal maxP=getMaxPrezzo();
+		String titolare=getTitolare();
+		String partecipante=getPartecipante();
+		Cd cd=new Cd();
+		cdListModel.clear();
+		cdId.clear();
+		
+		ArrayList<Cd> risultato=cd.getByFilter(titolo, genere, titolare, partecipante, minP, maxP);
+		loadListCd(risultato);
 		
 	}
 	
@@ -378,7 +400,91 @@ public class negozioWnd extends JFrame {
 		
 	}
 	
+	//Utility
+	
+	private void loadListCd(ArrayList<Cd> listaCd)
+	{
+		for(Cd c:listaCd)
+		{
+			cdId.add(c.getId());
+			cdListModel.addElement(c.getTitolo());
+		}
+	}
+	
+	private void loadGeneri(ArrayList<Genere> listaGeneri)
+	{
+		cbGenere.addItem("");
+		for(Genere g:listaGeneri)
+		{
+			cbGenere.addItem(g.getNome());
+		}
+	}
+	
+	private void loadTitolari(ArrayList<Musicista> listaTitolari)
+	{
+		
+		cbTitolare.addItem("");
+		for(Musicista t:listaTitolari)
+		{
+			cbTitolare.addItem(t.getNomeArte());
+		}
+	}
+	
+	private void loadPartecipanti(ArrayList<Musicista> listaMusicisti)
+	{
+		
+		cbPartecipanti.addItem("");
+		for(Musicista m:listaMusicisti)
+		{
+			cbPartecipanti.addItem(m.getNomeArte());
+		}
+	}
+	
 	// Metodi get
+	
+	private String getTitolo()
+	{
+		return txtTitolo.getText();
+	}
+	
+	private String getGenere()
+	{
+		return (String) cbGenere.getSelectedItem();
+	}
+	
+	private BigDecimal getMinPrezzo()
+	{
+		if(dataValidator.checkCdPrice(txtMinP.getText()))
+		{
+			return new BigDecimal(txtMinP.getText());
+		}
+		else
+		{
+			return new BigDecimal("-1.0");
+		}
+	}
+	
+	private BigDecimal getMaxPrezzo()
+	{
+		if(dataValidator.checkCdPrice(txtMaxP.getText()))
+		{
+			return new BigDecimal(txtMaxP.getText());
+		}
+		else
+		{
+			return new BigDecimal("-1.0");
+		}
+	}
+	
+	private String getTitolare()
+	{
+		return (String)cbTitolare.getSelectedItem();
+	}
+	
+	private String getPartecipante()
+	{
+		return (String)cbPartecipanti.getSelectedItem();
+	}
 	
 	private String getTxtUsernameLogin()
 	{
@@ -443,4 +549,6 @@ public class negozioWnd extends JFrame {
 		txtUserLogin.setText("");
 		txtPassLogin.setText("");
 	}
+
+	
 }
