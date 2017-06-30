@@ -35,7 +35,7 @@ public class CdController {
 
 	public Boolean insert() throws InsertFailedException {
 
-		// ---------------------------------------------------- info base
+		// ---------------------------------------------------- INFO BASE
 		String titolo = arWnd.getCdTitle();
 		
 		//Nel caso l'utente inserisca il prezzo con la virgola, la convertiamo in un punto (altrimenti errore)
@@ -55,7 +55,7 @@ public class CdController {
 			Genere genere  = new Genere();
 			genere.getById(arWnd.getGenderId());
 			
-			// ---------------------------------------------------- brani
+			// ---------------------------------------------------- BRANI
 			//ListModel<String> titoloBrani = arWnd.getTrackList();
 			ArrayList<Brano> brani = new ArrayList<Brano>(); 
 
@@ -63,11 +63,11 @@ public class CdController {
 				brani.add(new Brano(titoloBrani.getElementAt(i), i));
 			}
 
-			// ---------------------------------------------------- musicista titolare
+			// ---------------------------------------------------- BAND/MUSICISTA TITOLARE
 			Musicista titolare = new Musicista();
 			titolare.getById(arWnd.getMusicianId());
 
-			// ---------------------------------------------------- partecipanti
+			// ---------------------------------------------------- PARTECIPANTI
 			ListModel<String> listaNomiPartecipanti = arWnd.getPartecipantList();
 			ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
 
@@ -90,7 +90,7 @@ public class CdController {
 	
 	public Boolean update() {
 
-		// ---------------------------------------------------- info base
+		// ---------------------------------------------------- INFO BASE
 		String titolo = modWnd.getCdTitle();
 		
 		String prezzoStr = modWnd.getCdPrice();
@@ -112,18 +112,18 @@ public class CdController {
 			genere.getByNome(modWnd.getGender());
 			cd.setGenere(genere);
 			
-			// ---------------------------------------------------- brani
+			// ---------------------------------------------------- BRANI
 			ArrayList<Brano> brani = new ArrayList<Brano>(); 
 
 			for(int i=0; i < titoloBrani.getSize(); i++){
 				brani.add(new Brano(titoloBrani.getElementAt(i), i));
 			}
 			
-			// ---------------------------------------------------- musicista titolare
+			// ---------------------------------------------------- MUSICISTA TITOLARE
 			Musicista titolare = new Musicista();
 			titolare.getByNomeArte(modWnd.getMusician());
 
-			// ---------------------------------------------------- partecipanti
+			// ---------------------------------------------------- PARTECIPANTI
 			ListModel<String> listaNomiPartecipanti = modWnd.getPartecipantList();
 			ArrayList<Musicista> partecipanti = new ArrayList<Musicista>(); 
 

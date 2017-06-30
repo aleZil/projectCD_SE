@@ -168,10 +168,23 @@ public class areaRiservataWnd extends JFrame {
 	// *********************************************************************************************
 
 	
-	
+	//TODO
 	public void showAddMusPanel()
 	{
 		this.setTitle("Aggiungi band/musicista");
+		//txtTitle.requestFocus();
+				
+		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
+		ArrayList<Genere> listaGeneri = new Genere().getAll();	
+		
+		//Rimuovo gli elementi che eventualmente ci sono
+		cbGeneri.removeAllItems();
+		
+		for (int i=0; i<listaGeneri.size(); i++) {						
+			Genere genere = listaGeneri.get(i);
+			cbGeneri.addItem(genere.getNome());
+		}
+						
 		//pulisco appena viene premuto il bottone riferito all'azione (op3)
 		clearAddNewMus();	
 		clPanel.show(panelContainer,"optionAddMus");
@@ -179,10 +192,10 @@ public class areaRiservataWnd extends JFrame {
 
 	public void showOption()
 	{
-		txtGen.setText("");
+		txtGen.setText("");	//per l'inserimento del nuovo genere
 		this.setTitle("Pannello area riservata");
 		cbGen.removeAllItems();
-		cbMus.removeAllItems();		
+		cbMus.removeAllItems();	
 		clPanel.show(panelContainer, "options");
 	}
 	
@@ -236,6 +249,7 @@ public class areaRiservataWnd extends JFrame {
 		clPanel.show(panelContainer, "optionAddGen");
 	}
 
+	//TODO
 	public void showInsertCd()
 	{
 		//Se l'utente aveva scritto prima, pulisco
@@ -249,24 +263,21 @@ public class areaRiservataWnd extends JFrame {
 		kGen=new HashMap<String,Integer>();
 
 		//Rimuovo gli elementi che eventualmente ci sono
-		cbMus.removeAll();
-		cbGen.removeAll();
+		cbMus.removeAllItems();
+		cbGen.removeAllItems();
 
 		for (int i = 0; i < listaGeneri.size(); i++) {
-
 			Genere genere = listaGeneri.get(i);
-
 			kGen.put(genere.getNome(), genere.getId());
 			cbGen.addItem(genere.getNome());
 		}
 
 		for (int i = 0; i < listaMusicisti.size(); i++) {
-
 			Musicista musicista = listaMusicisti.get(i);
-
 			kMus.put(musicista.getNomeArte(), musicista.getId());
 			cbMus.addItem(musicista.getNomeArte());
 		}
+		
 		clearComponents();
 		clPanel.show(panelContainer, "insert");
 	}
@@ -312,7 +323,7 @@ public class areaRiservataWnd extends JFrame {
 	
 	
 	
-	
+	//TODO
 	private void createOptionAddMusPanel()
 	{
 		JPanel option3Panel = new JPanel();
@@ -342,20 +353,20 @@ public class areaRiservataWnd extends JFrame {
 		//ComboBox dei Generi
 		cbGeneri = new JComboBox();
 		option3Panel.add(cbGeneri, "cell 2 3,growx,aligny center");
+/*	
+		//Rimuovo gli elementi che eventualmente ci sono
 		
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
-		ArrayList<Genere> listaGeneri = new Genere().getAll();					
-		//Se l'utente aveva scritto prima,pulisco
+		ArrayList<Genere> listaGeneri = new Genere().getAll();		
 		
-		//kGen=new HashMap<String,Integer>();					
-		//Rimuovo gli elementi che eventualmente ci sono
-		cbGeneri.removeAll();					
+		//cbGeneri.removeAll();
+		cbGeneri.removeAllItems();
+
 		for (int i=0; i<listaGeneri.size(); i++) {						
 			Genere genere = listaGeneri.get(i);
-			//kGen.put(genere.getNome(), genere.getId());
 			cbGeneri.addItem(genere.getNome());
 		}
-		
+		*/		
 		JLabel lblStrumenti = new JLabel("Strumenti suonati:");
 		option3Panel.add(lblStrumenti, "cell 1 4,alignx right,aligny center");
 		
@@ -517,9 +528,10 @@ public class areaRiservataWnd extends JFrame {
 		JButton btnBack = new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		newCdPanel.add(btnBack, "cell 1 10,alignx right,growy");
-
 	}
 
+	
+	
 	private void createWarehousePanel()
 	{
 		JPanel option2Panel = new JPanel();
@@ -765,7 +777,6 @@ public class areaRiservataWnd extends JFrame {
 		cbMus.setSelectedIndex(0);
 	}
 	
-	//TODO
 	public void clearAddNewMus(){
 		txtArtName.setText("");
 		txtYearMus.setText("");
@@ -781,7 +792,7 @@ public class areaRiservataWnd extends JFrame {
 	
 	// *********************************************************************************************
 	
-
+//TODO
 	//Aggiunge nuovo genere
 	public void addNewGen()
 	{
