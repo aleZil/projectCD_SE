@@ -349,11 +349,13 @@ public class Cd{
 				query += " AND genere_id = "+ genere.getId();
 			}
 			
+			query+=" ORDER BY(titolo)";
+			
 			if(!nomeTitolare.equals("")) {
 				Musicista musicista = new Musicista();
 				musicista.getByNomeArte(nomeTitolare);
 				
-				query += " INTERSECT SELECT id "
+				query += " INTERSECT SELECT cd_id "
 						+ "FROM partecipazione "
 						+ "WHERE is_titolare = TRUE "
 						+ "AND musicista_id = "+ musicista.getId();
@@ -361,9 +363,9 @@ public class Cd{
 			
 			if(!nomePartecipante.equals("")) {
 				Musicista partecipante = new Musicista();
-				partecipante.getByNomeArte(nomeTitolare);
+				partecipante.getByNomeArte(nomePartecipante);
 				
-				query += " INTERSECT SELECT id "
+				query += " INTERSECT SELECT cd_id "
 						+ "FROM partecipazione "
 						+ "WHERE is_titolare = FALSE "
 						+ "AND musicista_id = "+ partecipante.getId();
@@ -373,7 +375,7 @@ public class Cd{
 			
 			int i = 1;
 			if (!titolo.equals("")) {
-				ps.setString(i++, titolo);
+				ps.setString(i++, "%"+titolo+"%");
 			}
 			
 			if (prezzoMin.compareTo(BigDecimal.ZERO) > 0) {
