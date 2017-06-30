@@ -48,7 +48,8 @@ public class dataValidator {
 	{
 		try
 		{
-			BigDecimal foo=new BigDecimal(cdPrice);
+			BigDecimal foo = new BigDecimal(cdPrice);
+
 			if(foo.signum()==-1)
 				return false;
 		}

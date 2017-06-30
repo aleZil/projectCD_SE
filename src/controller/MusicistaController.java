@@ -52,8 +52,6 @@ public class MusicistaController {
 			s.getByNome(listaStrumenti.getElementAt(i));
 			strumenti.add(s);
 		}
-
-		// ------------------------------------------------ CONTROLLO DATI
 		
 		//Calcolo l'anno corrente
 		Calendar now = Calendar.getInstance(); 
@@ -69,7 +67,7 @@ public class MusicistaController {
 				throw new InsertFailedException("Inserimento fallito.");
 			}
 		}else{
-			throw new MissingDataException("Inserire un anno valido");
+			throw new MissingDataException("Inserire un anno valido, monello! Non siamo ancora nel ", annoNascitaMusicistaString);
 		}
 	}
 }
