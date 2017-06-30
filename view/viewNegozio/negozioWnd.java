@@ -11,6 +11,7 @@ import negozioListener.btnAddRegistrazione;
 import negozioListener.btnEffettuaRicerca;
 import negozioListener.btnLoginCliente;
 import negozioListener.btnShowAreaRiservata;
+import negozioListener.btnShowCarrello;
 import negozioListener.btnShowDettagliCd;
 import negozioListener.btnShowRegistrazione;
 import negozioListener.btnShowHome;
@@ -37,6 +38,7 @@ import controller.ClienteController;
 import controller.GenereController;
 import model.Autenticazione;
 import model.Cd;
+import model.Cliente;
 import model.Genere;
 import model.Musicista;
 
@@ -52,6 +54,11 @@ public class negozioWnd extends JFrame {
 	
 	private JPanel panelContainer;
 	private CardLayout cardLayout;
+	
+	//Componenti negozio
+	JButton btnLogin;
+	JButton btnRegistrazione;
+	JPanel homePanel;
 	
 	//Componenti pannello di registrazione
 	private JTextField txtUsername;
@@ -119,7 +126,7 @@ public class negozioWnd extends JFrame {
 		cardLayout=new CardLayout(0, 0);
 		panelContainer.setLayout(cardLayout);
 		
-		this.setTitle("Home");
+		this.setTitle("Homepage");
 		
 		createHomePanel();
 		
@@ -133,11 +140,11 @@ public class negozioWnd extends JFrame {
 	void createHomePanel()
 	{
 		idCdList=new ArrayList<Integer>();
-		JPanel homePanel = new JPanel();
+		homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
 		homePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow]"));
 		
-		JButton btnLogin = new JButton("Accedi");
+		btnLogin = new JButton("Accedi");
 		btnLogin.addActionListener(new btnShowLogin(this));
 		
 		JLabel lblcdList = new JLabel("Titoli disponibili");
@@ -195,7 +202,7 @@ public class negozioWnd extends JFrame {
 		filterPanel.add(btnCerca, "cell 0 11 2 1,alignx center,aligny center");
 		homePanel.add(btnLogin, "flowx,cell 2 1,alignx right,aligny top");
 		
-		JButton btnRegistrazione = new JButton("Registrati");
+		btnRegistrazione = new JButton("Registrati");
 		btnRegistrazione.addActionListener(new btnShowRegistrazione(this));
 		homePanel.add(btnRegistrazione, "cell 2 1,alignx right,aligny top");
 		
@@ -329,17 +336,37 @@ public class negozioWnd extends JFrame {
 	
 	public void showHome()
 	{
-		this.setTitle("Home");
-		cardLayout.show(panelContainer, "home");
+		this.setTitle("Homepage");
 		cdListModel.clear();
 		Cd cds=new Cd();
 		Genere gen=new Genere();
 		Musicista mus=new Musicista();
-		
 		loadListCd(cds.getAll());
 		loadGeneri(gen.getAll());
 		loadTitolari(mus.getAllBand());
 		loadPartecipanti(mus.getAllNotBand());
+		cardLayout.show(panelContainer, "home");
+	}
+	
+	public void showHome(String username)
+	{
+		btnLogin.setEnabled(false);
+		btnRegistrazione.setEnabled(false);
+		btnLogin.setVisible(false);
+		btnRegistrazione.setVisible(false);
+		
+		//Creo bottone del carrello
+		JButton btnCarrello=new JButton("Carrello");
+		homePanel.add(btnCarrello, "cell 2 1,alignx trailing,aligny top");
+		btnCarrello.setVisible(true);
+		btnCarrello.setEnabled(true);
+		btnCarrello.addActionListener(new btnShowCarrello(this));
+		cardLayout.show(panelContainer, "home");
+	}
+	
+	public void showCarrello()
+	{
+		
 	}
 	
 	public void showLogin()
@@ -386,7 +413,7 @@ public class negozioWnd extends JFrame {
 		
 		if (auth.login()) {
 			JOptionPane.showMessageDialog(this, "Benvenuto "+user+"!","Info",JOptionPane.INFORMATION_MESSAGE);
-			showHome();
+			showHome(user);
 		} else {
 			JOptionPane.showMessageDialog(this, "Username o password non corretti!");
 		}
@@ -476,7 +503,6 @@ public class negozioWnd extends JFrame {
 			return new BigDecimal("-1.0");
 		}
 	}
-	
 	
 	private String getTitolare()
 	{
