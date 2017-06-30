@@ -171,8 +171,9 @@ public class areaRiservataWnd extends JFrame {
 	
 	public void showAddMusPanel()
 	{
-		this.setTitle("Aggiungi musicista");
-		clearAddNewMus();	//pulisco appena viene premuto il bottone riferito all'azione (op3)
+		this.setTitle("Aggiungi band/musicista");
+		//pulisco appena viene premuto il bottone riferito all'azione (op3)
+		clearAddNewMus();	
 		clPanel.show(panelContainer,"optionAddMus");
 	}
 
@@ -583,7 +584,7 @@ public class areaRiservataWnd extends JFrame {
 
 		JButton btnO1 = new JButton("Inserisci un nuovo Cd/Dvd");
 		JButton btnO2 = new JButton("Visualizza magazzino");
-		JButton btnO3 = new JButton("Aggiungi musicista");
+		JButton btnO3 = new JButton("Aggiungi band/musicista");
 		JButton btnO4 = new JButton("Aggiungi genere");
 
 		btnO1.addActionListener(new o1Listener(this));
@@ -625,13 +626,14 @@ public class areaRiservataWnd extends JFrame {
 	}
 
 	public String getMusName()
+	{	
+		return txtArtName.getText();
+	}
+	
+	public String getYearMus()
 	{
-		if(!dataValidator.checkString(txtArtName.getText()))
-		{
-			throw new MissingDataException("Inserire un nome musicista/band");
-		}else{
-			return txtArtName.getText();
-		}
+	
+		return txtYearMus.getText();
 	}
 
 	public String getUsername()
@@ -672,15 +674,6 @@ public class areaRiservataWnd extends JFrame {
 	public String getCdDesc()
 	{
 		return txtDesc.getText();
-	}
-
-	public Integer getYearMus()
-	{
-		//Controllo se l'utente ha inserito un anno vuoto oppure una stringa invece di un intero
-		if(txtYearMus.getText().equals("") || !dataValidator.checkInteger(txtYearMus.getText())){
-			throw new InsertFailedException("L'anno inserito non è valido");
-		}
-		return Integer.parseInt(txtYearMus.getText());
 	}
 	
 	public Boolean getIsBand()
@@ -777,7 +770,7 @@ public class areaRiservataWnd extends JFrame {
 		txtArtName.setText("");
 		txtYearMus.setText("");
 		listModel3.clear();
-		cbGeneri.setSelectedIndex(1);
+		cbGeneri.setSelectedIndex(0);
 		rdbtnMusicista.setSelected(true);
 	}
 	
