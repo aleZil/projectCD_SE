@@ -35,20 +35,41 @@ public class CdController {
 
 	public Boolean insert() throws InsertFailedException {
 
-		// ---------------------------------------------------- INFO BASE
+		// ---------------------------------------------------- CONTROLLO TITOLO
 		String titolo = arWnd.getCdTitle();
+		if(!dataValidator.checkString(titolo) || titolo.equals("") ) {
+			throw new InsertFailedException("Inserire un titolo valido.");
+		}
 		
+		// ---------------------------------------------------- CONTROLLO PREZZO
+
 		//Nel caso l'utente inserisca il prezzo con la virgola, la convertiamo in un punto (altrimenti errore)
 		String prezzoStr = arWnd.getCdPrice();
 		prezzoStr = prezzoStr.replace(',', '.');
 		
+		if(prezzoStr.equals("") || !dataValidator.checkCdPrice(prezzoStr) ){
+			throw new InsertFailedException("Inserire un prezzo valido.");
+		}
 		
+		BigDecimal prezzo = new BigDecimal(prezzoStr);
+
+		if(prezzo.compareTo(BigDecimal.ZERO) == 0){
+			throw new InsertFailedException("Inserire un prezzo valido.");
+		}
+		
+		// ---------------------------------------------------- CONTROLLO QUANTITA'
+
 		String pezziMagazzinoStr = arWnd.getAmount();
-		DefaultListModel<String> titoloBrani = arWnd.getTrackList();
+		if(pezziMagazzinoStr.equals("") || !dataValidator.checkInteger(pezziMagazzinoStr) ){
+			throw new InsertFailedException("Inserire una quantità valida.");
+		}
 		
+
+		
+		DefaultListModel<String> titoloBrani = arWnd.getTrackList();
+
 		if(dataValidator.validValues(titolo, titoloBrani, prezzoStr, pezziMagazzinoStr))
 		{
-			BigDecimal prezzo = new BigDecimal(prezzoStr);
 			int pezziMagazzino = Integer.parseInt(pezziMagazzinoStr);
 			String descrizione = arWnd.getCdDesc();
 			
@@ -74,7 +95,6 @@ public class CdController {
 			for(int i=0; i < listaNomiPartecipanti.getSize(); i++){
 				Musicista p = new Musicista();
 				p.getByNomeArte(listaNomiPartecipanti.getElementAt(i));
-
 				partecipanti.add(p);
 			}
 
@@ -83,10 +103,17 @@ public class CdController {
 
 			if(!model.insert()) {
 				throw new InsertFailedException("Cd non inserito.");
+			}else{
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
+	
+	
+	
+	
+	
 	
 	public Boolean update() {
 

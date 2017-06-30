@@ -168,7 +168,6 @@ public class areaRiservataWnd extends JFrame {
 	// *********************************************************************************************
 
 	
-	//TODO
 	public void showAddMusPanel()
 	{
 		this.setTitle("Aggiungi band/musicista");
@@ -219,7 +218,7 @@ public class areaRiservataWnd extends JFrame {
 			supListCd=new ArrayList<Cd>();
 			
 			// definizione della tabella
-			String[] colNames={"Titolo","Prezzo","Rimasti","Dettagli"};
+			String[] colNames={"Titolo","Prezzo","Pezzi rimasti","Dettagli"};
 			tableModel model=new tableModel();
 			model.setColumnIdentifiers(colNames);
 			for (int i= 0; i < cdList.size(); i++) 
@@ -249,7 +248,6 @@ public class areaRiservataWnd extends JFrame {
 		clPanel.show(panelContainer, "optionAddGen");
 	}
 
-	//TODO
 	public void showInsertCd()
 	{
 		//Se l'utente aveva scritto prima, pulisco
@@ -323,7 +321,6 @@ public class areaRiservataWnd extends JFrame {
 	
 	
 	
-	//TODO
 	private void createOptionAddMusPanel()
 	{
 		JPanel option3Panel = new JPanel();
@@ -792,7 +789,6 @@ public class areaRiservataWnd extends JFrame {
 	
 	// *********************************************************************************************
 	
-//TODO
 	//Aggiunge nuovo genere
 	public void addNewGen()
 	{
@@ -817,6 +813,8 @@ public class areaRiservataWnd extends JFrame {
 				if(cMusicista.insert()) {
 					JOptionPane.showMessageDialog(this, "Musicista inserito correttamente","Info",JOptionPane.INFORMATION_MESSAGE);
 					this.clearAddNewMus();
+				}else{
+					JOptionPane.showMessageDialog(this, "Errore durante inserimento","Errore!",JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
@@ -831,6 +829,8 @@ public class areaRiservataWnd extends JFrame {
 			if(cCd.insert()) {
 				JOptionPane.showMessageDialog(this, "Cd inserito correttamente","Info!",JOptionPane.INFORMATION_MESSAGE);
 				this.clearComponents();
+			}else{
+				JOptionPane.showMessageDialog(this, "Errore durante inserimento (lista brani vuota)","Errore!",JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"Errore!",JOptionPane.ERROR_MESSAGE);
