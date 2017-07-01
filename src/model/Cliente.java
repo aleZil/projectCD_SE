@@ -48,49 +48,6 @@ public class Cliente {
 		this.setCellulare(cellulare);	
 	}
 	
-	//Metodi set
-	
-	public void setUsername(String username)
-	{
-		this.username=username;
-	}
-	
-	private void setPassword(String password)
-	{
-		this.password=password;
-	}
-	
-	public void setCodiceFiscale(String codiceFiscale)
-	{
-		this.codiceFiscale=codiceFiscale;
-	}
-	
-	public void setNome(String nome)
-	{
-		this.nome=nome;
-	}
-	
-	public void setCognome(String cognome)
-	{
-		this.cognome=cognome;
-	}
-
-	public void setIndirizzo(String indirizzo)
-	{
-		this.indirizzo=indirizzo;
-	}
-	
-	public void setTelefono(String telefono)
-	{
-		this.telefono=telefono;
-	}
-	
-	public void setCellulare(String cellulare)
-	{
-		this.cellulare=cellulare;
-	}
-
-	//Metodi get
 	
 	public String getUsername()
 	{
@@ -133,7 +90,48 @@ public class Cliente {
 	}
 	
 	
+	//Metodi set
 	
+	public void setUsername(String username)
+	{
+		this.username=username;
+	}
+	
+	private void setPassword(String password)
+	{
+		this.password=password;
+	}
+	
+	public void setCodiceFiscale(String codiceFiscale)
+	{
+		this.codiceFiscale=codiceFiscale;
+	}
+	
+	public void setNome(String nome)
+	{
+		this.nome=nome;
+	}
+	
+	public void setCognome(String cognome)
+	{
+		this.cognome=cognome;
+	}
+
+	public void setIndirizzo(String indirizzo)
+	{
+		this.indirizzo=indirizzo;
+	}
+	
+	public void setTelefono(String telefono)
+	{
+		this.telefono=telefono;
+	}
+	
+	public void setCellulare(String cellulare)
+	{
+		this.cellulare=cellulare;
+	}
+
 	public boolean registra()
 	{
 		try {

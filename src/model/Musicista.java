@@ -298,7 +298,7 @@ public class Musicista {
 		return lista;
 	}
 	
-	public ArrayList<Musicista> genericGet(String filter) {
+	private ArrayList<Musicista> genericGet(String filter) {
 		
 		ArrayList<Musicista> lista = new ArrayList<Musicista>();
 		String queryFilter = "";

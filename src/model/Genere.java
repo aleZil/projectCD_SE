@@ -61,7 +61,6 @@ public class Genere {
 		this.id = id;
 	}
 	
-	//TODO ho cambiato da private a public
 	public void setNome(String nome) {
 		this.nome = nome;
 	}

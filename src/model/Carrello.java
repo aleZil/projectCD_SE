@@ -87,16 +87,29 @@ public class Carrello {
 				return false;
 			}
 			
-			for (i = 0; i < this.righeCarrello.size(); i++) {
+			// -----------------------------------------------------
+			
+			// 			INSERIMENTO righe del carrello e MODIFICA magazzino
+			
+			// -----------------------------------------------------
+			
+			insertQuery = "INSERT INTO rigaOrdine "
+					+ "(ordine_id, cd_id, qta, prezzo) "
+					+ "VALUES "
+					+ "(?, ?, ?, ?) ";
+			psIns = this.db.prepareStatement(insertQuery);
+			
+			String query = "UPDATE cd SET quantita_magazzino = quantita_magazzino - ? WHERE id = ?";
+			PreparedStatement ps = this.db.prepareStatement(query);
+			
+			
+			for (int j = 0; j < this.righeCarrello.size(); j++) {
 				
-				insertQuery = "INSERT INTO rigaOrdine "
-						+ "(ordine_id, cd_id, qta, prezzo) "
-						+ "VALUES "
-						+ "(?, ?, ?, ?) ";
+				psIns.clearParameters();
+				ps.clearParameters();
 				
-				psIns = this.db.prepareStatement(insertQuery);
-				
-				RigaCarrello riga = this.righeCarrello.get(i);
+				// aggiunta riga carrello
+				RigaCarrello riga = this.righeCarrello.get(j);
 				
 				i = 1;
 				psIns.setInt(i++, ordine_id);
@@ -105,7 +118,15 @@ public class Carrello {
 				psIns.setBigDecimal(i++, riga.getPrezzo());
 				
 				psIns.executeUpdate();
+				
+				// modifica quantita_magazzino
+				i = 1;
+				ps.setInt(i++, riga.getQta());
+				ps.setInt(i++, riga.getCd().getId());
 			}
+			
+			psIns.close();
+			ps.close();
 			
 			return true;
 			

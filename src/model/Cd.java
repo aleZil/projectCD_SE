@@ -400,15 +400,8 @@ public class Cd{
 			System.out.println(e.getMessage());
 		}
 		
-
-		
-		
-		
 		return lista;
-		
-		
 	}
-	
 	
 	
 	/**
