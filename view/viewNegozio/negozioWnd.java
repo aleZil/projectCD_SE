@@ -50,6 +50,7 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
 
 public class negozioWnd extends JFrame {
 	
@@ -87,6 +88,7 @@ public class negozioWnd extends JFrame {
 	private JList<String> cdList;
 	private DefaultListModel<String> cdListModel;
 	private ArrayList<Integer> idCdList;
+	private JTable table;
 	
 	/**
 	 * Launch the application.
@@ -254,10 +256,24 @@ public class negozioWnd extends JFrame {
 		
 		JPanel carrello = new JPanel();
 		panelContainer.add(carrello, "name_4153185312413");
-		carrello.setLayout(new MigLayout("", "[3px]", "[3px]"));
+		carrello.setLayout(new MigLayout("", "[grow]", "[grow]"));
 		
-		JScrollPane elderScrollPanel = new JScrollPane();
-		carrello.add(elderScrollPanel, "cell 0 0,alignx left,aligny top");
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Carrello", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		carrello.add(panel, "cell 0 0,grow");
+		panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill][]"));
+		
+		JScrollPane elderScroll = new JScrollPane();
+		panel.add(elderScroll, "cell 0 0,grow");
+		
+		table = new JTable();
+		elderScroll.setViewportView(table);
+		
+		JButton btnCompra = new JButton("Acquista");
+		panel.add(btnCompra, "flowx,cell 0 1,grow");
+		
+		JButton btnNegozio = new JButton("Torna a negozio");
+		panel.add(btnNegozio, "cell 0 1,growy");
 	}
 
 	void createRegistrazionePanel()
@@ -585,6 +601,4 @@ public class negozioWnd extends JFrame {
 		txtUserLogin.setText("");
 		txtPassLogin.setText("");
 	}
-
-	
 }
