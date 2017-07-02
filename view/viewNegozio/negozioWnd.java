@@ -83,6 +83,7 @@ public class negozioWnd extends JFrame {
 	//Componenti pannello di login cliente
 	private JTextField txtUserLogin;
 	private JPasswordField txtPassLogin;
+	private boolean isLogged=false;
 
 	//Componenti pannello di ricerca
 	private JTextField txtMinP;
@@ -423,8 +424,7 @@ public class negozioWnd extends JFrame {
 			model.addRow(row);
 			i++;
 		}
-		Object[] row={"sadsadas",1,"+","-"};
-		model.addRow(row);
+
 		carrelloTb.setModel(model);
 		carrelloTb.getColumn("Aggiungi").setCellRenderer(new ButtonRenderer());
 		carrelloTb.getColumn("Aggiungi").setCellEditor(new ButtonEditor(new JCheckBox(),this));
@@ -454,6 +454,11 @@ public class negozioWnd extends JFrame {
 		loadListCd(risultato);
 
 	}
+	
+	public boolean controlloCarrello(Integer cdId)
+	{
+		return !idCdCarrello.contains(cdId);
+	}
 
 	public void registraNuovoUtente()
 	{
@@ -477,6 +482,7 @@ public class negozioWnd extends JFrame {
 
 		if (auth.login()) {
 			JOptionPane.showMessageDialog(this, "Benvenuto "+user+"!","Info",JOptionPane.INFORMATION_MESSAGE);
+			isLogged=true;
 			showHome(user);
 		} else {
 			JOptionPane.showMessageDialog(this, "Username o password non corretti!");
@@ -504,6 +510,7 @@ public class negozioWnd extends JFrame {
 	{
 		int q=Integer.parseInt(carrelloTb.getValueAt(row, 1).toString());
 		carrelloTb.setValueAt(++q, row, 1);
+		quantCd.set(row, quantCd.get(row)+1);
 	}
 	
 	public void decrementaTitolo(int row)
@@ -518,6 +525,7 @@ public class negozioWnd extends JFrame {
 		else
 		{
 			carrelloTb.setValueAt(q, row, 1);
+			quantCd.set(row, quantCd.get(row)-1);
 		}
 	}
 	
@@ -664,6 +672,11 @@ public class negozioWnd extends JFrame {
 		return txtCellulare.getText();
 	}
 
+	public boolean isLogged()
+	{
+		return isLogged;
+	}
+	
 	private void clearComponents()
 	{
 		txtUsername.setText("");

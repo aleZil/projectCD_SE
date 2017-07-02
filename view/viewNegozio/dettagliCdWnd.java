@@ -6,6 +6,8 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import aggiungiStrumentoListener.btnAddInstrumentListener;
+import dettagliCdListener.btnAggiungiCarrelloListener;
 import model.Cd;
 import model.Musicista;
 
@@ -32,14 +34,17 @@ import javax.swing.border.BevelBorder;
 public class dettagliCdWnd extends JFrame {
 
 	//Componenti di rilievo
+	Cd cd;
 	JLabel titolo;
 	JLabel genere;
 	JLabel titolare;
 	JLabel rimasti;
 	JLabel prezzo;
+	negozioWnd caller;
 	JList<String> listPartecipanti;
 
-	public dettagliCdWnd(Integer idCd) {
+	public dettagliCdWnd(Integer idCd,negozioWnd caller) {
+		this.caller=caller;
 		setResizable(false);
 		getContentPane().setLayout(new MigLayout("", "[grow]", "[grow]"));
 		setTitle("Dettagli prodotto");
@@ -98,13 +103,14 @@ public class dettagliCdWnd extends JFrame {
 		dettagliPanel.add(prezzo, "cell 1 5");
 
 		JButton btnAggiungiCarrello = new JButton("Aggiungi al carrello");
+		btnAggiungiCarrello.addActionListener(new btnAggiungiCarrelloListener(caller,this));
 		dettagliPanel.add(btnAggiungiCarrello, "cell 0 6 3 1,grow");
 
 	}
 
 	private void loadDettagli(Integer idCd)
 	{
-		Cd cd=new Cd();
+		cd=new Cd();
 		cd.getById(idCd);
 		titolo.setText(cd.getTitolo());
 		genere.setText(cd.getGenere().getNome());
@@ -118,5 +124,10 @@ public class dettagliCdWnd extends JFrame {
 		{
 			lmPartecipanti.addElement(m.getNomeArte());
 		}
+	}
+	
+	public Cd getCd()
+	{
+		return cd;
 	}
 }

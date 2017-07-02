@@ -20,7 +20,7 @@ public class btnShowDettagliCd implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if(caller.getSelectedCd()!=-1)
-			new dettagliCdWnd(caller.getSelectedCd());
+			new dettagliCdWnd(caller.getSelectedCd(),caller);
 		else
 			JOptionPane.showMessageDialog(caller, "Seleziona un cd","Info",JOptionPane.WARNING_MESSAGE);
 	}
