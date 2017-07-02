@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import viewAreaRiservata.modificaCdWnd;
+import viewNegozio.negozioWnd;
   
 public class ButtonEditor extends DefaultCellEditor {
   protected JButton button;
@@ -49,10 +50,24 @@ public class ButtonEditor extends DefaultCellEditor {
 		
     	try
     	{
-    		caller.setEnabled(false);
-    		caller.setFocusable(false);
-    		caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    		modificaCdWnd modificaCd=new modificaCdWnd(caller,row);
+    		if(caller instanceof negozioWnd)
+    		{
+    			if (label.equals("+"))
+    			{
+    				((negozioWnd) caller).incrementaTitolo(row);
+    			}
+    			else if(label.equals("-"))
+    			{
+    				((negozioWnd) caller).decrementaTitolo(row);
+    			}
+    		}
+    		else
+    		{
+        		caller.setEnabled(false);
+        		caller.setFocusable(false);
+        		caller.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    			modificaCdWnd modificaCd=new modificaCdWnd(caller,row);
+    		}
     	}
     	catch (Exception e)
     	{

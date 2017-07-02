@@ -219,7 +219,7 @@ public class areaRiservataWnd extends JFrame {
 			
 			// definizione della tabella
 			String[] colNames={"Titolo","Prezzo","Pezzi rimasti","Dettagli"};
-			tableModel model=new tableModel();
+			TableModelMagazzino model=new TableModelMagazzino();
 			model.setColumnIdentifiers(colNames);
 			for (int i= 0; i < cdList.size(); i++) 
 			{
@@ -545,7 +545,6 @@ public class areaRiservataWnd extends JFrame {
 		tbCd.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		headerPanel.setViewportView(tbCd);
 		tbCd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-
 		JButton btnBack = new JButton("Torna a lista opzioni");
 		btnBack.addActionListener(new btnBackListener(this));
 		warehPanel.add(btnBack, "cell 0 1,alignx center,aligny center");

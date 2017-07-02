@@ -2,9 +2,9 @@ package utility;
 
 import javax.swing.table.DefaultTableModel;
 
-public class tableModel extends DefaultTableModel{
+public class TableModelCarrello extends DefaultTableModel{
 	
     public boolean isCellEditable(int row, int column) {
-        return column == 3 ? true : false;
+        return column == 2 || column == 3 ? true : false;
     }
 }
