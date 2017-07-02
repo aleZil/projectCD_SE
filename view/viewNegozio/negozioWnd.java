@@ -97,7 +97,10 @@ public class negozioWnd extends JFrame {
 	private JList<String> cdList;
 	private DefaultListModel<String> cdListModel;
 	private ArrayList<Integer> idCdList;
+	
+	//Carrello
 	private JTable carrelloTb;
+	private TableModelCarrello carrelloModel;
 	private ArrayList<String> titoliCarrello;
 	private ArrayList<Integer> idCdCarrello;
 	private ArrayList<Integer> quantCd;
@@ -412,20 +415,24 @@ public class negozioWnd extends JFrame {
 
 	public void showCarrello()
 	{
+		BigDecimal totale=new BigDecimal(0.0);
 		this.setTitle("Carrello");
-		String[] colNames={"Titolo","Quantità","Aggiungi","Togli"};
-		TableModelCarrello model=new TableModelCarrello();
-		model.setColumnIdentifiers(colNames);
+		String[] colNames={"Titolo","Quantità","Prezzo","Aggiungi","Togli"};
+		carrelloModel=new TableModelCarrello();
+		carrelloModel.setColumnIdentifiers(colNames);
 		Cd c=new Cd();
 		int i=0;
 		for(String titolo:titoliCarrello)
 		{
-			Object[] row={titolo,quantCd.get(i),"+","-"};
-			model.addRow(row);
+			c.getById(idCdCarrello.get(i));
+			Integer quantità=quantCd.get(i);
+			BigDecimal prezzo=c.getPrezzo();
+			Object[] row={titolo,quantità,prezzo,"+","-"};
+			carrelloModel.addRow(row);
 			i++;
 		}
-
-		carrelloTb.setModel(model);
+		
+		carrelloTb.setModel(carrelloModel);
 		carrelloTb.getColumn("Aggiungi").setCellRenderer(new ButtonRenderer());
 		carrelloTb.getColumn("Aggiungi").setCellEditor(new ButtonEditor(new JCheckBox(),this));
 		carrelloTb.getColumn("Togli").setCellRenderer(new ButtonRenderer());
@@ -452,7 +459,6 @@ public class negozioWnd extends JFrame {
 		cdListModel.clear();
 		ArrayList<Cd> risultato=cd.getByFilter(titolo, genere, titolare, partecipante, minP, maxP);
 		loadListCd(risultato);
-
 	}
 	
 	public boolean controlloCarrello(Integer cdId)
@@ -515,14 +521,21 @@ public class negozioWnd extends JFrame {
 	
 	public void decrementaTitolo(int row)
 	{
-		int q=Integer.parseInt(carrelloTb.getValueAt(row, 1).toString());
-		if(--q==0)
+		int q=Integer.parseInt(carrelloTb.getValueAt(row, 1).toString())-1;
+		if(q==0)
 		{
-			((DefaultTableModel)carrelloTb.getModel()).removeRow(row);
-			titoliCarrello.remove(row);
+			carrelloTb.setValueAt(q, row, 1);
 			idCdCarrello.remove(row);
+			titoliCarrello.remove(row);
+			quantCd.remove(row);
+			carrelloTb.remove(row);
 		}
-		else
+		
+		if(q<0)
+		{
+			return;
+		}
+		else 
 		{
 			carrelloTb.setValueAt(q, row, 1);
 			quantCd.set(row, quantCd.get(row)-1);
@@ -531,6 +544,9 @@ public class negozioWnd extends JFrame {
 	
 	private void loadListCd(ArrayList<Cd> listaCd)
 	{
+		cdListModel.clear();
+		idCdList.clear();
+		
 		for(Cd c:listaCd)
 		{
 			cdListModel.addElement(c.getTitolo());
