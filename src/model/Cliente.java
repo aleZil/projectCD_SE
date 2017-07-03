@@ -92,45 +92,68 @@ public class Cliente {
 	
 	//Metodi set
 	
-	public void setUsername(String username)
-	{
+	public void setUsername(String username) {
 		this.username=username;
 	}
 	
-	private void setPassword(String password)
-	{
+	private void setPassword(String password) {
 		this.password=password;
 	}
 	
-	public void setCodiceFiscale(String codiceFiscale)
-	{
+	public void setCodiceFiscale(String codiceFiscale) {
 		this.codiceFiscale=codiceFiscale;
 	}
 	
-	public void setNome(String nome)
-	{
+	public void setNome(String nome) {
 		this.nome=nome;
 	}
 	
-	public void setCognome(String cognome)
-	{
+	public void setCognome(String cognome) {
 		this.cognome=cognome;
 	}
 
-	public void setIndirizzo(String indirizzo)
-	{
+	public void setIndirizzo(String indirizzo) {
 		this.indirizzo=indirizzo;
 	}
 	
-	public void setTelefono(String telefono)
-	{
+	public void setTelefono(String telefono) {
 		this.telefono=telefono;
 	}
 	
-	public void setCellulare(String cellulare)
-	{
+	public void setCellulare(String cellulare) {
 		this.cellulare=cellulare;
 	}
+	
+	
+	public void getByUsername(String username) {
+		try {
+			String query = "SELECT * "
+					+ "FROM cliente "
+					+ "WHERE username = ?";
+			
+			PreparedStatement ps = this.db.prepareStatement(query);
+			ps.setString(1, username);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next() ) {
+				
+				this.setUsername(rs.getString("username"));
+				this.setPassword(rs.getString("password"));
+				this.setCodiceFiscale(rs.getString("codice_fiscale"));
+				this.setNome(rs.getString("nome"));
+				this.setCognome(rs.getString("cognome"));
+				this.setIndirizzo(rs.getString("indirizzo"));
+				this.setTelefono(rs.getString("telefono"));
+				this.setCellulare(rs.getString("cellulare"));
+			}
+			ps.close();
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 
 	public boolean registra()
 	{

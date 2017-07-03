@@ -26,16 +26,16 @@ public class Carrello {
 		this.setCliente(cliente);
 	}
 	
-	public ArrayList<RigaCarrello> getCarrello() {
+	public ArrayList<RigaCarrello> getRighe() {
 		return this.righeCarrello;
-	}
-	
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
 	
 	public Cliente getCliente() {
 		return this.cliente;
+	}
+	
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 	
 	public void addRow(RigaCarrello row) {
@@ -44,10 +44,10 @@ public class Carrello {
 	
 	public void updateQta(int nRiga, int newQta) {
 		
-		RigaCarrello riga = this.righeCarrello.get(nRiga);
+		RigaCarrello riga = this.getRighe().get(nRiga);
 		riga.setQta(newQta);
 		
-		this.righeCarrello.set(nRiga, riga);
+		this.getRighe().set(nRiga, riga);
 	}
 	
 	public boolean creaOrdine(String modalitaAcquisto, String modalitaConsegna, String ip) {
@@ -55,9 +55,9 @@ public class Carrello {
 		String clienteUsername = this.getCliente().getUsername();
 		BigDecimal prezzoTotale = new BigDecimal(0);
 		
-		for (int i = 0; i < this.righeCarrello.size(); i++) {
+		for (int i = 0; i < this.getRighe().size(); i++) {
 			
-			RigaCarrello riga = this.righeCarrello.get(i);
+			RigaCarrello riga = this.getRighe().get(i);
 			prezzoTotale.add(riga.getPrezzo());
 		}
 		
@@ -129,7 +129,6 @@ public class Carrello {
 			ps.close();
 			
 			return true;
-			
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

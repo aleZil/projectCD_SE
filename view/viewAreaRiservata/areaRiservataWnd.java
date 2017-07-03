@@ -556,15 +556,15 @@ public class areaRiservataWnd extends JFrame {
 		JPanel loginPanel=new JPanel();
 		loginPanel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
 		
-				JLabel lblUser = new JLabel("Username");
-				loginPanel.add(lblUser, "cell 0 2,alignx center,aligny center");
+		JLabel lblUser = new JLabel("Username");
+		loginPanel.add(lblUser, "cell 0 2,alignx center,aligny center");
 
 		txtUser = new JTextField("zil");
 		loginPanel.add(txtUser, "cell 0 3,alignx center,aligny center");
 		txtUser.setColumns(10);
 		
-				JLabel lblPass = new JLabel("Password");
-				loginPanel.add(lblPass, "cell 0 4,alignx center,aligny center");
+		JLabel lblPass = new JLabel("Password");
+		loginPanel.add(lblPass, "cell 0 4,alignx center,aligny center");
 
 		txtPass = new JPasswordField("nonlatrovi");
 		txtPass.setColumns(10);
