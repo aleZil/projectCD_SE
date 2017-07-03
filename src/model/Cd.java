@@ -347,9 +347,7 @@ public class Cd{
 				
 				query += " AND genere_id = "+ genere.getId();
 			}
-			
-			// query+=" ORDER BY(titolo)";
-			
+						
 			if(!nomeTitolare.equals("")) {
 				Musicista musicista = new Musicista();
 				musicista.getByNomeArte(nomeTitolare);

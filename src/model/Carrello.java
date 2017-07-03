@@ -73,7 +73,7 @@ public class Carrello {
 		try {
 			
 			String insertQuery = "INSERT INTO ordine "
-					+ "(cliente, prezzo_complessivo, modalita_acquisto, modalita_consegna, ip) "
+					+ "(cliente, prezzo_complessivo, modalita_acquisto, modalita_consegna, ip, prezzo_complessivo) "
 					+ "VALUES "
 					+ "(?, ?, ?, ?, ?) ";
 			
@@ -85,6 +85,7 @@ public class Carrello {
 			psIns.setString(i++, modalitaAcquisto);
 			psIns.setString(i++, modalitaConsegna);
 			psIns.setString(i++, ip);
+			psIns.setBigDecimal(i++, prezzoTotale);
 			psIns.executeUpdate();
 
 			int ordine_id = 0;
