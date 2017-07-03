@@ -42,13 +42,22 @@ public class Carrello {
 		this.righeCarrello.add(row);
 	}
 	
-	public void updateQta(int nRiga, int newQta) {
-		
-		RigaCarrello riga = this.getRighe().get(nRiga);
-		riga.setQta(newQta);
-		
-		this.getRighe().set(nRiga, riga);
+	public void incrementaQta(int nRiga) {
+		int qta = this.getRighe().get(nRiga).getQta();
+		qta++;
+		righeCarrello.get(nRiga).setQta(qta);
 	}
+	
+	public void decrementaQta(int nRiga) {
+		int qta = this.getRighe().get(nRiga).getQta();
+		qta--;
+		if(qta>=0)
+		{
+			righeCarrello.get(nRiga).setQta(qta);
+		}
+	}
+	
+	
 	
 	public boolean creaOrdine(String modalitaAcquisto, String modalitaConsegna, String ip) {
 		

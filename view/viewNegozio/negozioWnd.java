@@ -102,10 +102,7 @@ public class negozioWnd extends JFrame {
 	//Carrello
 	private JTable carrelloTb;
 	private TableModelCarrello carrelloModel;
-	private ArrayList<String> titoliCarrello;
 	private ArrayList<Integer> idCdCarrello;
-	private ArrayList<Integer> quantCd;
-
 
 	// Carrello Model
 	private Carrello carrello;
@@ -293,11 +290,8 @@ public class negozioWnd extends JFrame {
 		JPanel carrelloPanel = new JPanel();
 		panelContainer.add(carrelloPanel, "carrello");
 		carrelloPanel.setLayout(new MigLayout("", "[grow]", "[grow]"));
-
-		titoliCarrello=new ArrayList<String>();
+		
 		idCdCarrello=new ArrayList<Integer>();
-		quantCd=new ArrayList<Integer>();
-
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Carrello", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		carrelloPanel.add(panel, "cell 0 0,grow");
@@ -491,9 +485,6 @@ public class negozioWnd extends JFrame {
 		String[] colNames={"Titolo","Quantità","Prezzo","Aggiungi","Togli"};
 		carrelloModel=new TableModelCarrello();
 		carrelloModel.setColumnIdentifiers(colNames);
-
-
-
 		for(int i = 0; i < carrello.getRighe().size(); i++) {
 
 			RigaCarrello rowCart = carrello.getRighe().get(i);
@@ -665,12 +656,8 @@ public class negozioWnd extends JFrame {
 			Cd cd = new Cd();
 			cd.getById(id);
 			RigaCarrello row = new RigaCarrello(cd, 1);
-
 			carrello.addRow(row);
-
-			titoliCarrello.add(titolo);
 			idCdCarrello.add(id);
-			quantCd.add(1);
 		}
 		else
 		{
@@ -682,7 +669,7 @@ public class negozioWnd extends JFrame {
 	{
 		int q=Integer.parseInt(carrelloTb.getValueAt(row, 1).toString());
 		carrelloTb.setValueAt(++q, row, 1);
-		quantCd.set(row, quantCd.get(row)+1);
+		carrello.incrementaQta(row);
 	}
 
 	public void decrementaTitolo(int row)
@@ -692,8 +679,6 @@ public class negozioWnd extends JFrame {
 		{
 			carrelloTb.setValueAt(q, row, 1);
 			idCdCarrello.remove(row);
-			titoliCarrello.remove(row);
-			quantCd.remove(row);
 			carrelloTb.remove(row);
 		}
 
@@ -704,7 +689,7 @@ public class negozioWnd extends JFrame {
 		else 
 		{
 			carrelloTb.setValueAt(q, row, 1);
-			quantCd.set(row, quantCd.get(row)-1);
+			carrello.decrementaQta(row);
 		}
 	}
 
