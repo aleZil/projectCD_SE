@@ -3,11 +3,10 @@ import java.awt.EventQueue;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import negozioListener.btnAddRegistrazione;
+import negozioListener.btnEffettuaOrdine;
 import negozioListener.btnEffettuaRicerca;
 import negozioListener.btnLoginCliente;
 import negozioListener.btnShowAreaRiservata;
@@ -16,14 +15,13 @@ import negozioListener.btnShowDettagliCd;
 import negozioListener.btnShowRegistrazione;
 import negozioListener.btnShowHome;
 import negozioListener.btnShowLogin;
-
+import negozioListener.btnShowPagamento;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-
 import net.miginfocom.swing.MigLayout;
 import sun.java2d.loops.MaskBlit;
-
 import javax.swing.border.BevelBorder;
 import java.awt.CardLayout;
 import javax.swing.border.TitledBorder;
@@ -38,7 +36,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JPasswordField;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
-
 import controller.CdController;
 import controller.ClienteController;
 import controller.GenereController;
@@ -50,7 +47,6 @@ import model.Cliente;
 import model.Genere;
 import model.Musicista;
 import model.RigaCarrello;
-
 import java.awt.Component;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -61,6 +57,9 @@ import javax.swing.JList;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import utility.*;
+import java.awt.GridLayout;
+import java.net.*;
+import java.io.*;
 
 public class negozioWnd extends JFrame {
 
@@ -99,18 +98,24 @@ public class negozioWnd extends JFrame {
 	private JList<String> cdList;
 	private DefaultListModel<String> cdListModel;
 	private ArrayList<Integer> idCdList;
-	
+
 	//Carrello
 	private JTable carrelloTb;
 	private TableModelCarrello carrelloModel;
 	private ArrayList<String> titoliCarrello;
 	private ArrayList<Integer> idCdCarrello;
 	private ArrayList<Integer> quantCd;
-	
-	
+
+
 	// Carrello Model
 	private Carrello carrello;
-	
+
+	//Pagamento
+	JRadioButton rbBonifico;
+	JRadioButton rbCarta;
+	JRadioButton rbPayPal;
+	JRadioButton rbCorriere;
+	JRadioButton rbPosta;
 
 	/**
 	 * Launch the application.
@@ -151,22 +156,24 @@ public class negozioWnd extends JFrame {
 		cardLayout=new CardLayout(0, 0);
 		panelContainer.setLayout(cardLayout);
 		this.setTitle("Homepage");
-		
+
 		createHomePanel();
 
 		createRegistrazionePanel();
 
 		createLoginPanel();
-		
+
 		createCarrelloPanel();
+
+		createPagamentoPanel();
 	}
 
 	void createHomePanel()
 	{
 		// Carrello model
 		//carrello = new Carrello();
-		
-		
+
+
 		idCdList=new ArrayList<Integer>();
 		homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
@@ -281,38 +288,37 @@ public class negozioWnd extends JFrame {
 
 	}
 
-	
 	void createCarrelloPanel()
 	{
-		JPanel carrello = new JPanel();
-		panelContainer.add(carrello, "carrello");
-		carrello.setLayout(new MigLayout("", "[grow]", "[grow]"));
-		
+		JPanel carrelloPanel = new JPanel();
+		panelContainer.add(carrelloPanel, "carrello");
+		carrelloPanel.setLayout(new MigLayout("", "[grow]", "[grow]"));
+
 		titoliCarrello=new ArrayList<String>();
 		idCdCarrello=new ArrayList<Integer>();
 		quantCd=new ArrayList<Integer>();
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Carrello", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		carrello.add(panel, "cell 0 0,grow");
+		carrelloPanel.add(panel, "cell 0 0,grow");
 		panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill][]"));
-		
+
 		JScrollPane elderScroll = new JScrollPane();
 		panel.add(elderScroll, "cell 0 0,grow");
-		
+
 		carrelloTb = new JTable();
 		elderScroll.setViewportView(carrelloTb);
-		
-		JButton btnCompra = new JButton("Acquista");
+
+		JButton btnCompra = new JButton("Vai a pagamento");
+		btnCompra.addActionListener(new btnShowPagamento(this));
 		panel.add(btnCompra, "flowx,cell 0 1,grow");
-		
+
 		JButton btnNegozio = new JButton("Torna a negozio");
 		btnNegozio.addActionListener(new btnShowHome(this));
 		panel.add(btnNegozio, "cell 0 1,growy");
 
 	}
-	
-	
+
 	void createRegistrazionePanel()
 	{
 		JPanel registrazionePanel = new JPanel();
@@ -388,6 +394,55 @@ public class negozioWnd extends JFrame {
 		registrazionePanel.add(btnAnnulla, "cell 1 8,growx,aligny center");
 	}
 
+	void createPagamentoPanel()
+	{
+		JPanel pagamentoPanel = new JPanel();
+		panelContainer.add(pagamentoPanel, "pagamento");
+		pagamentoPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][]"));
+
+		JPanel pagamentoP = new JPanel();
+		pagamentoP.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Metodo di pagamento", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		pagamentoPanel.add(pagamentoP, "flowx,cell 1 0,grow");
+		pagamentoP.setLayout(new MigLayout("", "[grow]", "[grow][grow][grow]"));
+
+		ButtonGroup pagamentoGroup=new ButtonGroup();
+		rbBonifico = new JRadioButton("Bonifico");
+		pagamentoP.add(rbBonifico, "cell 0 0,alignx center");
+
+		rbCarta = new JRadioButton("Carta di credito");
+		pagamentoP.add(rbCarta, "cell 0 1,alignx center");
+
+		rbPayPal = new JRadioButton("Pay Pal");
+		pagamentoP.add(rbPayPal, "cell 0 2,alignx center");
+
+		pagamentoGroup.add(rbBonifico);
+		pagamentoGroup.add(rbCarta);
+		pagamentoGroup.add(rbPayPal);
+
+
+		ButtonGroup consegnaGroup=new ButtonGroup();
+		JPanel consegnaPanel = new JPanel();
+		consegnaPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Metodo Consegna", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		pagamentoPanel.add(consegnaPanel, "flowx,cell 1 1,grow");
+		consegnaPanel.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
+
+		rbCorriere = new JRadioButton("Corriere");
+		consegnaPanel.add(rbCorriere, "cell 0 0,alignx center,growy");
+
+		rbPosta = new JRadioButton("Posta");
+		consegnaPanel.add(rbPosta, "cell 0 1,alignx center,growy");
+
+		JButton btnConfermaOrdine = new JButton("Esegui pagamento");
+		btnConfermaOrdine.addActionListener(new btnEffettuaOrdine(this));
+		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 2,growx");
+		consegnaGroup.add(rbCorriere);
+		consegnaGroup.add(rbPosta);
+
+		JButton btnBack = new JButton("Indietro");
+		pagamentoPanel.add(btnBack, "cell 1 2,grow");
+		btnBack.addActionListener(new btnShowHome(this));
+	}
+
 	public void showRegistrazione()
 	{
 		this.setTitle("Registrazione nuovo utente");
@@ -416,7 +471,7 @@ public class negozioWnd extends JFrame {
 		Cliente cliente = new Cliente();
 		cliente.getByUsername(username);
 		carrello = new Carrello(cliente);
-		
+
 		btnLogin.setEnabled(false);
 		btnRegistrazione.setEnabled(false);
 		btnLogin.setVisible(false);
@@ -440,7 +495,7 @@ public class negozioWnd extends JFrame {
 		carrelloModel.setColumnIdentifiers(colNames);
 		
 		for(int i = 0; i < carrello.getRighe().size(); i++) {
-			
+
 			RigaCarrello rowCart = carrello.getRighe().get(i);
 			Cd cd = rowCart.getCd();
 			BigDecimal prezzo = rowCart.getPrezzo();
@@ -450,6 +505,8 @@ public class negozioWnd extends JFrame {
 			carrelloModel.addRow(row);	
 		}
 		
+
+
 		carrelloTb.setModel(carrelloModel);
 		carrelloTb.getColumn("Aggiungi").setCellRenderer(new ButtonRenderer());
 		carrelloTb.getColumn("Aggiungi").setCellEditor(new ButtonEditor(new JCheckBox(),this));
@@ -465,6 +522,71 @@ public class negozioWnd extends JFrame {
 		txtUserLogin.requestFocus();
 	}
 
+	public void showPagamento()
+	{
+		if(carrello.getRighe().size()>0)
+		{
+			this.setTitle("Modalità ordine");
+			cardLayout.show(panelContainer, "pagamento");
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(this,"Carrello vuoto","Attenzione!",JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	public void effettuaPagamento()
+	{
+		String pagamento;
+		String consegna;
+		if(rbBonifico.isSelected())
+		{
+			pagamento="BONIFICO";
+		}
+		else if(rbCarta.isSelected())
+		{
+			pagamento="CARTA_CREDITO";
+		}
+		else if(rbPayPal.isSelected())
+		{
+			pagamento="PAYPAL";
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(this, "Selezionare metodo di pagamento!","Info",JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
+		if(rbCorriere.isSelected())
+		{
+			consegna="CORRIERE";
+		}
+		else if(rbPosta.isSelected())
+		{
+			consegna="POSTA";
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(this, "Selezionare metodo di consegna!","Info",JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
+		try
+		{
+			URL whatismyip = new URL("http://checkip.amazonaws.com");
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+			whatismyip.openStream()));
+			String ip = in.readLine();
+			carrello.creaOrdine(pagamento, consegna, ip);
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(this,e.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+		}
+		JOptionPane.showMessageDialog(this, "Ordine effettuato!","Info",JOptionPane.INFORMATION_MESSAGE);
+		showHome();
+	}
+
 	public void search()
 	{
 		String titolo=getTitolo();
@@ -478,7 +600,7 @@ public class negozioWnd extends JFrame {
 		ArrayList<Cd> risultato = cd.getByFilter(titolo, genere, titolare, partecipante, minP, maxP);
 		loadListCd(risultato);
 	}
-	
+
 	public boolean controlloCarrello(Integer cdId)
 	{
 		return !idCdCarrello.contains(cdId);
@@ -509,7 +631,7 @@ public class negozioWnd extends JFrame {
 			isLogged=true;
 			showHome(user);
 		} else {
-			JOptionPane.showMessageDialog(this, "Username o password non corretti!");
+			JOptionPane.showMessageDialog(this, "Username o password non corretti!","Errore",JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
@@ -523,9 +645,9 @@ public class negozioWnd extends JFrame {
 			Cd cd = new Cd();
 			cd.getById(id);
 			RigaCarrello row = new RigaCarrello(cd, 1);
-			
+
 			carrello.addRow(row);
-			
+
 			titoliCarrello.add(titolo);
 			idCdCarrello.add(id);
 			quantCd.add(1);
@@ -535,14 +657,14 @@ public class negozioWnd extends JFrame {
 			JOptionPane.showMessageDialog(this, "Cd già nel carrello","Info",JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
-	
+
 	public void incrementaTitolo(int row)
 	{
 		int q=Integer.parseInt(carrelloTb.getValueAt(row, 1).toString());
 		carrelloTb.setValueAt(++q, row, 1);
 		quantCd.set(row, quantCd.get(row)+1);
 	}
-	
+
 	public void decrementaTitolo(int row)
 	{
 		int q=Integer.parseInt(carrelloTb.getValueAt(row, 1).toString())-1;
@@ -554,7 +676,7 @@ public class negozioWnd extends JFrame {
 			quantCd.remove(row);
 			carrelloTb.remove(row);
 		}
-		
+
 		if(q<0)
 		{
 			return;
@@ -565,12 +687,12 @@ public class negozioWnd extends JFrame {
 			quantCd.set(row, quantCd.get(row)-1);
 		}
 	}
-	
+
 	private void loadListCd(ArrayList<Cd> listaCd)
 	{
 		cdListModel.clear();
 		idCdList.clear();
-		
+
 		for(Cd c:listaCd)
 		{
 			cdListModel.addElement(c.getTitolo());
@@ -716,7 +838,7 @@ public class negozioWnd extends JFrame {
 	{
 		return isLogged;
 	}
-	
+
 	private void clearComponents()
 	{
 		//TODO scommentare questi commenti del clearComponents
