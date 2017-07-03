@@ -170,7 +170,7 @@ public class negozioWnd extends JFrame {
 		idCdList=new ArrayList<Integer>();
 		homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
-		homePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow]"));
+		homePanel.setLayout(new MigLayout("", "[300][350][]", "[][grow][grow][grow]"));
 
 		btnLogin = new JButton("Accedi");
 		btnLogin.addActionListener(new btnShowLogin(this));
@@ -254,29 +254,29 @@ public class negozioWnd extends JFrame {
 	{
 		JPanel loginPanel = new JPanel();
 		panelContainer.add(loginPanel, "login");
-		loginPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow]"));
+		loginPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[200][50][50][50]"));
 
 		JLabel lblUserLogin = new JLabel("Username:");
-		loginPanel.add(lblUserLogin, "cell 0 0,alignx trailing,aligny center");
+		loginPanel.add(lblUserLogin, "cell 0 1,alignx trailing,aligny center");
 
 		txtUserLogin = new JTextField("aleZil");
-		loginPanel.add(txtUserLogin, "cell 1 0,growx,aligny center");
+		loginPanel.add(txtUserLogin, "cell 1 1,growx,aligny center");
 		txtUserLogin.setColumns(10);
 
 		JLabel lblPassLogin = new JLabel("Password:");
-		loginPanel.add(lblPassLogin, "cell 0 1,alignx right,aligny center");
+		loginPanel.add(lblPassLogin, "cell 0 2,alignx right,aligny center");
 
 		txtPassLogin = new JPasswordField("pwdzil");
-		loginPanel.add(txtPassLogin, "cell 1 1,growx");
+		loginPanel.add(txtPassLogin, "cell 1 2,growx");
 
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new btnLoginCliente(this));
 		btnLogin.addKeyListener(new btnLoginCliente(this));
-		loginPanel.add(btnLogin, "flowx,cell 1 2,growx,aligny center");
+		loginPanel.add(btnLogin, "flowx,cell 1 3,growx,aligny center");
 
 		JButton btnAnnulla = new JButton("Annulla");
 		btnAnnulla.addActionListener(new btnShowHome(this));
-		loginPanel.add(btnAnnulla, "cell 1 2,growx,aligny center");
+		loginPanel.add(btnAnnulla, "cell 1 3,growx,aligny center");
 		loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUserLogin, txtPassLogin, btnLogin}));
 
 	}
@@ -311,6 +311,7 @@ public class negozioWnd extends JFrame {
 		panel.add(btnNegozio, "cell 0 1,growy");
 
 	}
+	
 	
 	void createRegistrazionePanel()
 	{
@@ -364,8 +365,8 @@ public class negozioWnd extends JFrame {
 
 		JLabel lblTelefono = new JLabel("Telefono:");
 		registrazionePanel.add(lblTelefono, "cell 0 6,alignx right,aligny center");
-
-		txtTelefono = new JTextField();
+		
+		txtTelefono = new JTextField("+39");
 		txtTelefono.setText("+39");
 		txtTelefono.setColumns(10);
 		registrazionePanel.add(txtTelefono, "cell 1 6,growx,aligny center");
@@ -373,7 +374,7 @@ public class negozioWnd extends JFrame {
 		JLabel lblCellulare = new JLabel("Cellulare:");
 		registrazionePanel.add(lblCellulare, "cell 0 7,alignx right,aligny center");
 
-		txtCellulare = new JTextField();
+		txtCellulare = new JTextField("+39");
 		txtCellulare.setText("+39");
 		txtCellulare.setColumns(10);
 		registrazionePanel.add(txtCellulare, "cell 1 7,growx,aligny center");
@@ -420,6 +421,7 @@ public class negozioWnd extends JFrame {
 		btnRegistrazione.setEnabled(false);
 		btnLogin.setVisible(false);
 		btnRegistrazione.setVisible(false);
+		
 		//Creo bottone del carrello
 		JButton btnCarrello=new JButton("Carrello");
 		homePanel.add(btnCarrello, "cell 2 1,alignx trailing,aligny top");
@@ -432,44 +434,21 @@ public class negozioWnd extends JFrame {
 	public void showCarrello()
 	{
 		this.setTitle("Carrello");
-		String[] colNames={"Titolo","Quantità","Prezzo","Aggiungi","Togli"};
-		carrelloModel=new TableModelCarrello();
+		String[] colNames={"Titolo","Prezzo","Quantità","Aggiungi","Togli"};
+		
+		carrelloModel=new TableModelCarrello();		//crea la tabella
 		carrelloModel.setColumnIdentifiers(colNames);
-		
-		
 		
 		for(int i = 0; i < carrello.getRighe().size(); i++) {
 			
 			RigaCarrello rowCart = carrello.getRighe().get(i);
 			Cd cd = rowCart.getCd();
-			int qta = rowCart.getQta();
 			BigDecimal prezzo = rowCart.getPrezzo();
-			
-			Object[] row={cd.getTitolo(), qta, prezzo,"+","-"};
-			carrelloModel.addRow(row);
-			
+			int qta = rowCart.getQta();
+
+			Object[] row={cd.getTitolo(), prezzo, qta, "+", "-"};
+			carrelloModel.addRow(row);	
 		}
-		
-		
-		
-		/*
-		BigDecimal totale=new BigDecimal(0.0);
-		this.setTitle("Carrello");
-		String[] colNames={"Titolo","Quantità","Prezzo","Aggiungi","Togli"};
-		carrelloModel=new TableModelCarrello();
-		carrelloModel.setColumnIdentifiers(colNames);
-		Cd c=new Cd();
-		int i=0;
-		for(String titolo:titoliCarrello)
-		{
-			c.getById(idCdCarrello.get(i));
-			Integer quantità=quantCd.get(i);
-			BigDecimal prezzo=c.getPrezzo();
-			Object[] row={titolo,quantità,prezzo,"+","-"};
-			carrelloModel.addRow(row);
-			i++;
-		}
-		*/
 		
 		carrelloTb.setModel(carrelloModel);
 		carrelloTb.getColumn("Aggiungi").setCellRenderer(new ButtonRenderer());
@@ -494,9 +473,9 @@ public class negozioWnd extends JFrame {
 		BigDecimal maxP=getMaxPrezzo();
 		String titolare=getTitolare();
 		String partecipante=getPartecipante();
-		Cd cd=new Cd();
+		Cd cd = new Cd();
 		cdListModel.clear();
-		ArrayList<Cd> risultato=cd.getByFilter(titolo, genere, titolare, partecipante, minP, maxP);
+		ArrayList<Cd> risultato = cd.getByFilter(titolo, genere, titolare, partecipante, minP, maxP);
 		loadListCd(risultato);
 	}
 	
@@ -740,6 +719,7 @@ public class negozioWnd extends JFrame {
 	
 	private void clearComponents()
 	{
+		//TODO scommentare questi commenti del clearComponents
 		//txtUsername.setText("");
 		//txtPassword.setText("");
 		txtNome.setText("");
@@ -748,7 +728,7 @@ public class negozioWnd extends JFrame {
 		txtIndirizzo.setText("");
 		txtTelefono.setText("");
 		txtCellulare.setText("");
-		txtUserLogin.setText("");
-		txtPassLogin.setText("");
+		//txtUserLogin.setText("");
+		//txtPassLogin.setText("");
 	}
 }
