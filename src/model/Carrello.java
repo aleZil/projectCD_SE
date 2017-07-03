@@ -42,23 +42,45 @@ public class Carrello {
 		this.righeCarrello.add(row);
 	}
 	
-	public void updateQta(int nRiga, int newQta) {
-		
-		RigaCarrello riga = this.getRighe().get(nRiga);
-		riga.setQta(newQta);
-		
-		this.getRighe().set(nRiga, riga);
+	public void incrementaQta(int nRiga) {
+		int qta = this.getRighe().get(nRiga).getQta();
+		qta++;
+		righeCarrello.get(nRiga).setQta(qta);
+	}
+	
+	public void decrementaQta(int nRiga) {
+		int qta = this.getRighe().get(nRiga).getQta();
+		qta--;
+		if(qta>=0)
+		{
+			righeCarrello.get(nRiga).setQta(qta);
+		}
+	}
+	
+	public void rimuoviRiga(int nRiga)
+	{
+		righeCarrello.remove(nRiga);
+	}
+	
+	public void svuotaCarrello()
+	{
+		righeCarrello.clear();
 	}
 	
 	public boolean creaOrdine(String modalitaAcquisto, String modalitaConsegna, String ip) {
 		
 		String clienteUsername = this.getCliente().getUsername();
 		BigDecimal prezzoTotale = new BigDecimal(0);
+		BigDecimal cdPrezzo=new BigDecimal(0);
 		
 		for (int i = 0; i < this.getRighe().size(); i++) {
 			
 			RigaCarrello riga = this.getRighe().get(i);
-			prezzoTotale = prezzoTotale.add(riga.getPrezzo());
+
+			cdPrezzo=riga.getPrezzo();
+			cdPrezzo=cdPrezzo.multiply(new BigDecimal(riga.getQta()));
+			prezzoTotale = prezzoTotale.add(cdPrezzo);
+
 		}
 		
 		System.out.println(prezzoTotale);
@@ -101,9 +123,8 @@ public class Carrello {
 					+ "(?, ?, ?, ?) ";
 			psIns = this.db.prepareStatement(insertQuery);
 			
-			String query = "UPDATE cd SET quantita_magazzino = quantita_magazzino - ? WHERE id = ?";
+			String query = "UPDATE cd SET pezzi_magazzino = pezzi_magazzino - ? WHERE id = ?";
 			PreparedStatement ps = this.db.prepareStatement(query);
-			
 			
 			for (int j = 0; j < this.righeCarrello.size(); j++) {
 				
@@ -125,6 +146,7 @@ public class Carrello {
 				i = 1;
 				ps.setInt(i++, riga.getQta());
 				ps.setInt(i++, riga.getCd().getId());
+				ps.executeUpdate();
 			}
 			
 			psIns.close();

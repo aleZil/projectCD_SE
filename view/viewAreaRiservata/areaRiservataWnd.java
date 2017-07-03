@@ -171,7 +171,7 @@ public class areaRiservataWnd extends JFrame {
 	public void showAddMusPanel()
 	{
 		this.setTitle("Aggiungi band/musicista");
-		//txtTitle.requestFocus();
+		txtArtName.requestFocus();
 				
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();	
@@ -307,6 +307,7 @@ public class areaRiservataWnd extends JFrame {
 		txtGen = new JTextField();
 		option4Panel.add(txtGen, "flowx,cell 2 0,alignx center,aligny center");
 		txtGen.setColumns(10);
+		txtGen.requestFocus();	//non funziona
 
 		JButton btnAddNewGen = new JButton("Aggiungi Genere");
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
@@ -319,8 +320,7 @@ public class areaRiservataWnd extends JFrame {
 	}
 
 	
-	
-	
+
 	private void createOptionAddMusPanel()
 	{
 		JPanel option3Panel = new JPanel();
@@ -350,20 +350,7 @@ public class areaRiservataWnd extends JFrame {
 		//ComboBox dei Generi
 		cbGeneri = new JComboBox();
 		option3Panel.add(cbGeneri, "cell 2 3,growx,aligny center");
-/*	
-		//Rimuovo gli elementi che eventualmente ci sono
 		
-		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
-		ArrayList<Genere> listaGeneri = new Genere().getAll();		
-		
-		//cbGeneri.removeAll();
-		cbGeneri.removeAllItems();
-
-		for (int i=0; i<listaGeneri.size(); i++) {						
-			Genere genere = listaGeneri.get(i);
-			cbGeneri.addItem(genere.getNome());
-		}
-		*/		
 		JLabel lblStrumenti = new JLabel("Strumenti suonati:");
 		option3Panel.add(lblStrumenti, "cell 1 4,alignx right,aligny center");
 		
