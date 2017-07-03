@@ -57,7 +57,15 @@ public class Carrello {
 		}
 	}
 	
+	public void rimuoviRiga(int nRiga)
+	{
+		righeCarrello.remove(nRiga);
+	}
 	
+	public void svuotaCarrello()
+	{
+		righeCarrello.clear();
+	}
 	
 	public boolean creaOrdine(String modalitaAcquisto, String modalitaConsegna, String ip) {
 		
@@ -111,9 +119,8 @@ public class Carrello {
 					+ "(?, ?, ?, ?) ";
 			psIns = this.db.prepareStatement(insertQuery);
 			
-			String query = "UPDATE cd SET quantita_magazzino = quantita_magazzino - ? WHERE id = ?";
+			String query = "UPDATE cd SET pezzi_magazzino = pezzi_magazzino - ? WHERE id = ?";
 			PreparedStatement ps = this.db.prepareStatement(query);
-			
 			
 			for (int j = 0; j < this.righeCarrello.size(); j++) {
 				
@@ -133,8 +140,9 @@ public class Carrello {
 				
 				// modifica quantita_magazzino
 				i = 1;
-				ps.setInt(1, riga.getQta());
-				ps.setInt(2, riga.getCd().getId());
+				ps.setInt(i++, riga.getQta());
+				ps.setInt(i++, riga.getCd().getId());
+				ps.executeUpdate();
 			}
 			
 			psIns.close();

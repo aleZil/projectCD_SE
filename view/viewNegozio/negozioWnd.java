@@ -461,6 +461,7 @@ public class negozioWnd extends JFrame {
 
 	public void showHome(String username)
 	{
+		this.setTitle("Homepage");
 		// Carrello Model
 		Cliente cliente = new Cliente();
 		cliente.getByUsername(username);
@@ -498,8 +499,6 @@ public class negozioWnd extends JFrame {
 			Object[] row={cd.getTitolo(), prezzo, qta, "+", "-"};
 			carrelloModel.addRow(row);	
 		}
-		
-
 
 		carrelloTb.setModel(carrelloModel);
 		carrelloTb.getColumn("Aggiungi").setCellRenderer(new ButtonRenderer());
@@ -571,13 +570,23 @@ public class negozioWnd extends JFrame {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 			whatismyip.openStream()));
 			String ip = in.readLine();
-			carrello.creaOrdine(pagamento, consegna, ip);
+			if(carrello.creaOrdine(pagamento, consegna, ip))
+			{
+				JOptionPane.showMessageDialog(this, "Ordine effettuato!","Info",JOptionPane.INFORMATION_MESSAGE);
+				carrelloTb.removeAll();
+				carrello.svuotaCarrello();
+				idCdCarrello.clear();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this,"Si è verificato un errore","Errore",JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(this,e.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
 		}
-		JOptionPane.showMessageDialog(this, "Ordine effettuato!","Info",JOptionPane.INFORMATION_MESSAGE);
+
 		showHome();
 	}
 
@@ -657,12 +666,13 @@ public class negozioWnd extends JFrame {
 
 	public void decrementaTitolo(int row)
 	{
-		int q=Integer.parseInt(carrelloTb.getValueAt(row, 1).toString())-1;
+		int q=Integer.parseInt(carrelloTb.getValueAt(row, 2).toString())-1;
 		if(q==0)
 		{
-			carrelloTb.setValueAt(q, row, 1);
+			carrelloTb.setValueAt(q, row, 2);
 			idCdCarrello.remove(row);
 			carrelloTb.remove(row);
+			carrello.rimuoviRiga(row);
 		}
 
 		if(q<0)
@@ -671,7 +681,7 @@ public class negozioWnd extends JFrame {
 		}
 		else 
 		{
-			carrelloTb.setValueAt(q, row, 1);
+			carrelloTb.setValueAt(q, row, 2);
 			carrello.decrementaQta(row);
 		}
 	}
