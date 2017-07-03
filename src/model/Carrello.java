@@ -63,17 +63,20 @@ public class Carrello {
 		
 		String clienteUsername = this.getCliente().getUsername();
 		BigDecimal prezzoTotale = new BigDecimal(0);
+		BigDecimal cdPrezzo=new BigDecimal(0);
 		
 		for (int i = 0; i < this.getRighe().size(); i++) {
 			
 			RigaCarrello riga = this.getRighe().get(i);
-			prezzoTotale.add(riga.getPrezzo());
+			cdPrezzo=riga.getPrezzo();
+			cdPrezzo=cdPrezzo.multiply(new BigDecimal(riga.getQta()));
+			prezzoTotale = prezzoTotale.add(cdPrezzo);
 		}
 		
 		try {
 			
 			String insertQuery = "INSERT INTO ordine "
-					+ "(cliente, prezzo_complessivo, modalita_acquisto, modalita_consegna, ip, prezzo_complessivo) "
+					+ "(cliente, prezzo_complessivo, modalita_acquisto, modalita_consegna, ip) "
 					+ "VALUES "
 					+ "(?, ?, ?, ?, ?) ";
 			
@@ -85,7 +88,6 @@ public class Carrello {
 			psIns.setString(i++, modalitaAcquisto);
 			psIns.setString(i++, modalitaConsegna);
 			psIns.setString(i++, ip);
-			psIns.setBigDecimal(i++, prezzoTotale);
 			psIns.executeUpdate();
 
 			int ordine_id = 0;
@@ -131,8 +133,8 @@ public class Carrello {
 				
 				// modifica quantita_magazzino
 				i = 1;
-				ps.setInt(i++, riga.getQta());
-				ps.setInt(i++, riga.getCd().getId());
+				ps.setInt(1, riga.getQta());
+				ps.setInt(2, riga.getCd().getId());
 			}
 			
 			psIns.close();

@@ -650,8 +650,8 @@ public class negozioWnd extends JFrame {
 
 	public void incrementaTitolo(int row)
 	{
-		int q=Integer.parseInt(carrelloTb.getValueAt(row, 1).toString());
-		carrelloTb.setValueAt(++q, row, 1);
+		int q=Integer.parseInt(carrelloTb.getValueAt(row, 2).toString());
+		carrelloTb.setValueAt(++q, row, 2);
 		carrello.incrementaQta(row);
 	}
 
