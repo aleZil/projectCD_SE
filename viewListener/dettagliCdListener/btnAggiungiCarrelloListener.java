@@ -28,7 +28,7 @@ public class btnAggiungiCarrelloListener implements ActionListener {
 			{
 				JOptionPane.showMessageDialog(negozio, "Prodotto aggiunto al carrello","Info",JOptionPane.INFORMATION_MESSAGE);
 				caller.dispose();
-				negozio.aggiungiAlCarrello(cd.getTitolo(), cd.getId());
+				negozio.aggiungiAlCarrello(cd.getId());
 			}
 			else
 			{
