@@ -43,12 +43,14 @@ public class Carrello {
 	}
 	
 	public void incrementaQta(int nRiga) {
+		
 		int qta = this.getRighe().get(nRiga).getQta();
 		qta++;
 		righeCarrello.get(nRiga).setQta(qta);
 	}
 	
 	public void decrementaQta(int nRiga) {
+		
 		int qta = this.getRighe().get(nRiga).getQta();
 		qta--;
 		if(qta>=0)
@@ -57,13 +59,11 @@ public class Carrello {
 		}
 	}
 	
-	public void rimuoviRiga(int nRiga)
-	{
+	public void rimuoviRiga(int nRiga) {
 		righeCarrello.remove(nRiga);
 	}
 	
-	public void svuotaCarrello()
-	{
+	public void svuotaCarrello() {
 		righeCarrello.clear();
 	}
 	
@@ -76,14 +76,15 @@ public class Carrello {
 		for (int i = 0; i < this.getRighe().size(); i++) {
 			
 			RigaCarrello riga = this.getRighe().get(i);
+			
+			if (riga.getCd().getPezziMagazzino() < riga.getQta()) {
+				return false;
+			}
 
 			cdPrezzo=riga.getPrezzo();
 			cdPrezzo=cdPrezzo.multiply(new BigDecimal(riga.getQta()));
 			prezzoTotale = prezzoTotale.add(cdPrezzo);
-
 		}
-		
-		System.out.println(prezzoTotale);
 		
 		try {
 			
