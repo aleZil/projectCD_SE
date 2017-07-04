@@ -487,7 +487,7 @@ public class negozioWnd extends JFrame {
 	public void showCarrello()
 	{
 		this.setTitle("Carrello");
-		String[] colNames={"Titolo","Prezzo","Quantità","Aggiungi","Togli"};
+		String[] colNames={"Titolo","Prezzo","Quantità","Aggiungi","Rimuovi"};
 		
 		carrelloModel=new TableModelCarrello();		//crea la tabella
 		carrelloModel.setColumnIdentifiers(colNames);
@@ -506,8 +506,8 @@ public class negozioWnd extends JFrame {
 		carrelloTb.setModel(carrelloModel);
 		carrelloTb.getColumn("Aggiungi").setCellRenderer(new ButtonRenderer());
 		carrelloTb.getColumn("Aggiungi").setCellEditor(new ButtonEditor(new JCheckBox(),this));
-		carrelloTb.getColumn("Togli").setCellRenderer(new ButtonRenderer());
-		carrelloTb.getColumn("Togli").setCellEditor(new ButtonEditor(new JCheckBox(),this));
+		carrelloTb.getColumn("Rimuovi").setCellRenderer(new ButtonRenderer());
+		carrelloTb.getColumn("Rimuovi").setCellEditor(new ButtonEditor(new JCheckBox(),this));
 		cardLayout.show(panelContainer, "carrello");
 	}
 
