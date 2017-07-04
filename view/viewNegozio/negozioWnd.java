@@ -567,8 +567,7 @@ public class negozioWnd extends JFrame {
 		try
 		{
 			URL whatismyip = new URL("http://checkip.amazonaws.com");
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-			whatismyip.openStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
 			String ip = in.readLine();
 			if(carrello.creaOrdine(pagamento, consegna, ip))
 			{
@@ -576,9 +575,7 @@ public class negozioWnd extends JFrame {
 				carrelloTb.removeAll();
 				carrello.svuotaCarrello();
 				idCdCarrello.clear();
-			}
-			else
-			{
+			} else {
 				JOptionPane.showMessageDialog(this,"Si è verificato un errore","Errore",JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -664,6 +661,7 @@ public class negozioWnd extends JFrame {
 		carrello.incrementaQta(row);
 	}
 
+	// TODO serve ancora?
 	public void decrementaTitolo(int row)
 	{
 		int q=Integer.parseInt(carrelloTb.getValueAt(row, 2).toString())-1;

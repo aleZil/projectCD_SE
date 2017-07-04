@@ -2,7 +2,7 @@ package controller;
 
 import model.Carrello;
 
-public class CarelloController {
+public class CarrelloController {
 	
 	// private wnd;
 	private Carrello carrello;
