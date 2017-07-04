@@ -6,29 +6,30 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import viewAreaRiservata.areaRiservataWnd;
+import viewNegozio.negozioWnd;
 
 public class btnShowAreaRiservata implements ActionListener {
 
-	JFrame main_wnd;
+	negozioWnd caller;
 	
-	public btnShowAreaRiservata(JFrame caller_wnd)
+	public btnShowAreaRiservata(negozioWnd caller)
 	{
-		main_wnd=caller_wnd;
+		this.caller=caller;
 	}
 
 
 	public void actionPerformed(ActionEvent e)
 	{	
 		//Disabilito la main_wnd
-		main_wnd.setVisible(false);
+		caller.setVisible(false);
 		//Visualizzo la finestra di configurazione
 		try
 		{
-			areaRiservataWnd wnd = new areaRiservataWnd(main_wnd);
+			areaRiservataWnd wnd = new areaRiservataWnd(caller);
 		}
 		catch (Exception exception)
 		{
-			JOptionPane.showMessageDialog(null, exception.getMessage());
+			JOptionPane.showMessageDialog(caller, exception.getMessage());
 		}
 
 	}

@@ -29,13 +29,13 @@ public class btnAddNewCdListener implements ActionListener,KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		caller.AddNewCd();
+		caller.addNewCd();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		caller.AddNewCd();
+		caller.addNewCd();
 	}
 	
 	@Override

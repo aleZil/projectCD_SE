@@ -10,7 +10,7 @@ import viewAreaRiservata.areaRiservataWnd;
 
 public class o1Listener implements ActionListener{
 	
-	JFrame caller;
+	areaRiservataWnd caller;
 	public o1Listener(areaRiservataWnd caller)
 	{
 		this.caller=caller;
@@ -18,7 +18,7 @@ public class o1Listener implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		((areaRiservataWnd) caller).showInsertCd();
+		caller.showInsertCd();
 	}
 
 }

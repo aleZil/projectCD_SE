@@ -9,7 +9,7 @@ import viewAreaRiservata.areaRiservataWnd;
 
 public class o2Listener implements ActionListener{
 	
-	JFrame caller;
+	areaRiservataWnd caller;
 	public o2Listener(areaRiservataWnd caller)
 	{
 		this.caller=caller;
@@ -17,7 +17,7 @@ public class o2Listener implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		((areaRiservataWnd) caller).showWarehouse();
+		caller.showWarehouse();
 	}
 
 }
