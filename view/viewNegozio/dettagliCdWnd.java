@@ -61,7 +61,7 @@ public class dettagliCdWnd extends JFrame {
 		getContentPane().add(dettagliPanel, "cell 0 0,grow");
 		dettagliPanel.setLayout(new MigLayout("", "[][grow][grow,fill]", "[grow,fill][grow,fill][grow,fill][grow,fill][grow][grow][grow]"));
 
-		ImageIcon image = new ImageIcon("/home/prebi/Scrivania/Unvr/Compilatori/$_35.JPG");
+		//ImageIcon image = new ImageIcon("/home/prebi/Scrivania/Unvr/Compilatori/$_35.JPG");
 
 		JLabel lblTitolo = new JLabel("Titolo:");
 		dettagliPanel.add(lblTitolo, "cell 0 0,alignx right,aligny center");

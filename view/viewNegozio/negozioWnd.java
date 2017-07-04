@@ -36,6 +36,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JPasswordField;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import controller.CarrelloController;
 import controller.CdController;
 import controller.ClienteController;
 import controller.GenereController;
@@ -105,6 +107,7 @@ public class negozioWnd extends JFrame {
 	private ArrayList<Integer> idCdCarrello;
 
 	// Carrello Model
+	private CarrelloController cCarrello;
 	private Carrello carrello;
 
 	//Pagamento
@@ -167,9 +170,6 @@ public class negozioWnd extends JFrame {
 
 	void createHomePanel()
 	{
-		// Carrello model
-		//carrello = new Carrello();
-
 
 		idCdList=new ArrayList<Integer>();
 		homePanel = new JPanel();
@@ -452,9 +452,11 @@ public class negozioWnd extends JFrame {
 		this.setTitle("Homepage");
 		cdListModel.clear();
 		clearComponents();
+		
 		Cd cds=new Cd();
 		Genere gen=new Genere();
 		Musicista mus=new Musicista();
+		
 		loadListCd(cds.getAll());
 		loadGeneri(gen.getAll());
 		loadTitolari(mus.getAllBand());
@@ -469,6 +471,7 @@ public class negozioWnd extends JFrame {
 		Cliente cliente = new Cliente();
 		cliente.getByUsername(username);
 		carrello = new Carrello(cliente);
+		cCarrello = new CarrelloController(carrello);
 
 		btnLogin.setEnabled(false);
 		btnRegistrazione.setEnabled(false);
@@ -491,16 +494,18 @@ public class negozioWnd extends JFrame {
 		
 		carrelloModel=new TableModelCarrello();		//crea la tabella
 		carrelloModel.setColumnIdentifiers(colNames);
+		
+		Carrello cart = cCarrello.getCarrello();
+		
+		for(int i = 0; i < cart.getRighe().size(); i++) {
 
-		for(int i = 0; i < carrello.getRighe().size(); i++) {
-
-			RigaCarrello rowCart = carrello.getRighe().get(i);
+			RigaCarrello rowCart = cart.getRighe().get(i);
 			Cd cd = rowCart.getCd();
 			BigDecimal prezzo = rowCart.getPrezzo();
 			int qta = rowCart.getQta();
 
 			Object[] row={cd.getTitolo(), prezzo, qta, "+", "-"};
-			carrelloModel.addRow(row);	
+			carrelloModel.addRow(row);
 		}
 
 		carrelloTb.setModel(carrelloModel);
@@ -570,18 +575,15 @@ public class negozioWnd extends JFrame {
 		try
 		{
 			URL whatismyip = new URL("http://checkip.amazonaws.com");
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-			whatismyip.openStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
 			String ip = in.readLine();
-			if(carrello.creaOrdine(pagamento, consegna, ip))
+			if(cCarrello.creaOrdine(pagamento, consegna, ip))
 			{
 				JOptionPane.showMessageDialog(this, "Ordine effettuato!","Info",JOptionPane.INFORMATION_MESSAGE);
 				carrelloTb.removeAll();
 				carrello.svuotaCarrello();
 				idCdCarrello.clear();
-			}
-			else
-			{
+			} else {
 				JOptionPane.showMessageDialog(this,"Si è verificato un errore","Errore",JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -644,14 +646,11 @@ public class negozioWnd extends JFrame {
 
 	//Utility
 
-	public void aggiungiAlCarrello(String titolo, Integer id)
+	public void aggiungiAlCarrello(Integer id)
 	{
 		if(!idCdCarrello.contains(id))
 		{
-			Cd cd = new Cd();
-			cd.getById(id);
-			RigaCarrello row = new RigaCarrello(cd, 1);
-			carrello.addRow(row);
+			cCarrello.addRigaCarrello(id);
 			idCdCarrello.add(id);
 		}
 		else
@@ -664,9 +663,10 @@ public class negozioWnd extends JFrame {
 	{
 		int q=Integer.parseInt(carrelloTb.getValueAt(row, 2).toString());
 		carrelloTb.setValueAt(++q, row, 2);
-		carrello.incrementaQta(row);
+		cCarrello.incrementaQta(row);
 	}
 
+	
 	public void decrementaTitolo(int row)
 	{
 		int q=Integer.parseInt(carrelloTb.getValueAt(row, 2).toString())-1;
@@ -675,17 +675,13 @@ public class negozioWnd extends JFrame {
 			carrelloTb.setValueAt(q, row, 2);
 			idCdCarrello.remove(row);
 			carrelloTb.remove(row);
-			carrello.rimuoviRiga(row);
+			cCarrello.rimuoviRiga(row);
 		}
-
-		if(q<0)
-		{
-			return;
-		}
-		else 
+		
+		if (q > 0) 
 		{
 			carrelloTb.setValueAt(q, row, 2);
-			carrello.decrementaQta(row);
+			cCarrello.decrementaQta(row);
 		}
 	}
 
