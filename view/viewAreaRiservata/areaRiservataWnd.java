@@ -170,7 +170,7 @@ public class areaRiservataWnd extends JFrame {
 	
 	public void showAddMusPanel()
 	{
-		this.setTitle("Aggiungi band/musicista");
+		this.setTitle("Aggiungi musicista/band");
 		txtArtName.requestFocus();
 				
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
@@ -577,7 +577,7 @@ public class areaRiservataWnd extends JFrame {
 		buttonPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Opzioni", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		buttonPanel.setToolTipText("");
 
-		JButton btnO1 = new JButton("Inserisci un nuovo Cd/Dvd");
+		JButton btnO1 = new JButton("Inserisci nuovo Cd/Dvd");
 		JButton btnO2 = new JButton("Visualizza magazzino");
 		JButton btnO3 = new JButton("Aggiungi band/musicista");
 		JButton btnO4 = new JButton("Aggiungi genere");
