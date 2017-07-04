@@ -176,7 +176,7 @@ public class negozioWnd extends JFrame {
 		panelContainer.add(homePanel, "home");
 		homePanel.setLayout(new MigLayout("", "[300][350][]", "[][60][grow][grow]"));
 
-		btnLogin = new JButton("Accedi");
+		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new btnShowLogin(this));
 		
 		JLabel lblFiltriDisponibili = new JLabel("Filtri disponibili");
@@ -306,7 +306,7 @@ public class negozioWnd extends JFrame {
 		carrelloTb = new JTable();
 		elderScroll.setViewportView(carrelloTb);
 
-		JButton btnCompra = new JButton("Vai a pagamento");
+		JButton btnCompra = new JButton("Acquista");
 		btnCompra.addActionListener(new btnShowPagamento(this));
 		panel.add(btnCompra, "flowx,cell 0 1,grow");
 
@@ -429,7 +429,7 @@ public class negozioWnd extends JFrame {
 		rbPosta = new JRadioButton("Posta");
 		consegnaPanel.add(rbPosta, "cell 0 1,alignx center,growy");
 
-		JButton btnConfermaOrdine = new JButton("Esegui pagamento");
+		JButton btnConfermaOrdine = new JButton("Conferma ordine");
 		btnConfermaOrdine.addActionListener(new btnEffettuaOrdine(this));
 		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 2,growx");
 		consegnaGroup.add(rbCorriere);
