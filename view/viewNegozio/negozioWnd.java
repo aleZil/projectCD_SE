@@ -174,17 +174,20 @@ public class negozioWnd extends JFrame {
 		idCdList=new ArrayList<Integer>();
 		homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
-		homePanel.setLayout(new MigLayout("", "[300][350][]", "[][grow][grow][grow]"));
+		homePanel.setLayout(new MigLayout("", "[300][350][]", "[][60][grow][grow]"));
 
-		btnLogin = new JButton("Accedi");
+		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new btnShowLogin(this));
+		
+		JLabel lblFiltriDisponibili = new JLabel("Filtri disponibili");
+		homePanel.add(lblFiltriDisponibili, "cell 0 1,alignx center,aligny bottom");
 
 		JLabel lblcdList = new JLabel("Titoli disponibili");
-		homePanel.add(lblcdList, "cell 1 0,alignx center,aligny center");
+		homePanel.add(lblcdList, "cell 1 1,alignx center,aligny bottom");
 
 		JPanel filterPanel = new JPanel();
-		filterPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Filtri disponibili", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		homePanel.add(filterPanel, "cell 0 1,growx,aligny center");
+		filterPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		homePanel.add(filterPanel, "cell 0 2,grow");
 		filterPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][][]"));
 
 		JLabel lblTitolo = new JLabel("Titolo");
@@ -232,18 +235,18 @@ public class negozioWnd extends JFrame {
 		JButton btnCerca = new JButton("Cerca");
 		btnCerca.addActionListener(new btnEffettuaRicerca(this));
 		filterPanel.add(btnCerca, "cell 0 11 2 1,alignx center,aligny center");
-		homePanel.add(btnLogin, "flowx,cell 2 1,alignx right,aligny top");
+		homePanel.add(btnLogin, "flowx,cell 2 0,alignx right,aligny top");
 
 		btnRegistrazione = new JButton("Registrati");
 		btnRegistrazione.addActionListener(new btnShowRegistrazione(this));
-		homePanel.add(btnRegistrazione, "cell 2 1,alignx right,aligny top");
+		homePanel.add(btnRegistrazione, "cell 2 0,alignx right,aligny top");
 
 		JButton btnAreaRiservata = new JButton("Area Riservata");
 		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
-		homePanel.add(btnAreaRiservata, "cell 2 1,alignx right,aligny top");
+		homePanel.add(btnAreaRiservata, "cell 2 0,alignx right,aligny top");
 
 		JScrollPane scrollPaneList = new JScrollPane();
-		homePanel.add(scrollPaneList, "cell 1 1,grow");
+		homePanel.add(scrollPaneList, "cell 1 2,grow");
 
 		cdListModel=new DefaultListModel<String>();
 		cdList = new JList<String>(cdListModel);
@@ -251,7 +254,7 @@ public class negozioWnd extends JFrame {
 
 		JButton btnViewDetail = new JButton("Vedi dettagli prodotto");
 		btnViewDetail.addActionListener(new btnShowDettagliCd(this));
-		homePanel.add(btnViewDetail, "cell 1 2,growx,aligny top");
+		homePanel.add(btnViewDetail, "cell 1 3,growx,aligny top");
 	}
 
 	void createLoginPanel()
@@ -303,7 +306,7 @@ public class negozioWnd extends JFrame {
 		carrelloTb = new JTable();
 		elderScroll.setViewportView(carrelloTb);
 
-		JButton btnCompra = new JButton("Vai a pagamento");
+		JButton btnCompra = new JButton("Acquista");
 		btnCompra.addActionListener(new btnShowPagamento(this));
 		panel.add(btnCompra, "flowx,cell 0 1,grow");
 
@@ -426,7 +429,7 @@ public class negozioWnd extends JFrame {
 		rbPosta = new JRadioButton("Posta");
 		consegnaPanel.add(rbPosta, "cell 0 1,alignx center,growy");
 
-		JButton btnConfermaOrdine = new JButton("Esegui pagamento");
+		JButton btnConfermaOrdine = new JButton("Conferma ordine");
 		btnConfermaOrdine.addActionListener(new btnEffettuaOrdine(this));
 		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 2,growx");
 		consegnaGroup.add(rbCorriere);
