@@ -413,11 +413,11 @@ public class negozioWnd extends JFrame {
 	{
 		JPanel pagamentoPanel = new JPanel();
 		panelContainer.add(pagamentoPanel, "pagamento");
-		pagamentoPanel.setLayout(new MigLayout("", "[grow][300][grow]", "[20][150][150][]"));
+		pagamentoPanel.setLayout(new MigLayout("", "[100][grow][100]", "[grow][grow][][]"));
 
 		JPanel pagamentoP = new JPanel();
 		pagamentoP.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Metodo di pagamento", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		pagamentoPanel.add(pagamentoP, "flowx,cell 1 1,grow");
+		pagamentoPanel.add(pagamentoP, "flowx,cell 1 0,grow");
 		pagamentoP.setLayout(new MigLayout("", "[grow]", "[grow][grow][grow]"));
 
 		ButtonGroup pagamentoGroup=new ButtonGroup();
@@ -438,7 +438,7 @@ public class negozioWnd extends JFrame {
 		ButtonGroup consegnaGroup=new ButtonGroup();
 		JPanel consegnaPanel = new JPanel();
 		consegnaPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Metodo Consegna", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		pagamentoPanel.add(consegnaPanel, "flowx,cell 1 2,grow");
+		pagamentoPanel.add(consegnaPanel, "flowx,cell 1 1,grow");
 		consegnaPanel.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
 
 		rbCorriere = new JRadioButton("Corriere");
@@ -448,13 +448,15 @@ public class negozioWnd extends JFrame {
 		consegnaPanel.add(rbPosta, "cell 0 1,alignx left,growy");
 
 		JButton btnConfermaOrdine = new JButton("Conferma ordine");
+		btnConfermaOrdine.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnConfermaOrdine.addActionListener(new btnEffettuaOrdine(this));
-		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 3,growx");
+		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 2,growx");
 		consegnaGroup.add(rbCorriere);
 		consegnaGroup.add(rbPosta);
-
-		JButton btnBack = new JButton("Indietro");
-		pagamentoPanel.add(btnBack, "cell 1 3,grow");
+		
+				JButton btnBack = new JButton("Indietro");
+				btnBack.setFont(new Font("Dialog", Font.BOLD, 14));
+				pagamentoPanel.add(btnBack, "cell 1 3,grow");
 		btnBack.addActionListener(new btnShowHome(this));
 	}
 
