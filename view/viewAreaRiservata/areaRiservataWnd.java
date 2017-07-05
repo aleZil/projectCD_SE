@@ -367,7 +367,7 @@ public class areaRiservataWnd extends JFrame {
 		listInstrumentList = new JList(listModel3);
 		scrollInstrumentList.setViewportView(listInstrumentList);
 
-		JButton btnAddNewMus = new JButton("Aggiungi musicista");
+		JButton btnAddNewMus = new JButton("Aggiungi musicista/band");
 		option3Panel.add(btnAddNewMus, "cell 2 7,growx,aligny center");
 		btnAddNewMus.addActionListener(new btnAddNewMusListener(this));
 		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGeneri, btnAddNewMus}));
@@ -538,6 +538,7 @@ public class areaRiservataWnd extends JFrame {
 		warehPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnBack}));
 	}
 
+	
 	private void createLoginPanel()
 	{
 		JPanel loginPanel=new JPanel();
