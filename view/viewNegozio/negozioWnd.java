@@ -178,7 +178,7 @@ public class negozioWnd extends JFrame {
 
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new btnShowLogin(this));
-		
+
 		JLabel lblFiltriDisponibili = new JLabel("Filtri disponibili");
 		homePanel.add(lblFiltriDisponibili, "cell 0 1,alignx center,aligny bottom");
 
@@ -293,7 +293,7 @@ public class negozioWnd extends JFrame {
 		JPanel carrelloPanel = new JPanel();
 		panelContainer.add(carrelloPanel, "carrello");
 		carrelloPanel.setLayout(new MigLayout("", "[grow]", "[grow]"));
-		
+
 		idCdCarrello=new ArrayList<Integer>();
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Carrello", TitledBorder.CENTER, TitledBorder.TOP, null, null));
@@ -321,7 +321,7 @@ public class negozioWnd extends JFrame {
 		JPanel registrazionePanel = new JPanel();
 		registrazionePanel.setBorder(new TitledBorder(null, "Informazioni utente", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		panelContainer.add(registrazionePanel, "registrazione");
-		registrazionePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow][grow][grow][grow][grow][grow][grow]"));
+		registrazionePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[50][50][50][50][50][50][50][50][80]"));
 
 		JLabel lblUsername = new JLabel("Username:");
 		registrazionePanel.add(lblUsername, "cell 0 0,alignx trailing,aligny center");
@@ -368,7 +368,7 @@ public class negozioWnd extends JFrame {
 
 		JLabel lblTelefono = new JLabel("Telefono:");
 		registrazionePanel.add(lblTelefono, "cell 0 6,alignx right,aligny center");
-		
+
 		txtTelefono = new JTextField("+39");
 		txtTelefono.setText("+39");
 		txtTelefono.setColumns(10);
@@ -395,22 +395,22 @@ public class negozioWnd extends JFrame {
 	{
 		JPanel pagamentoPanel = new JPanel();
 		panelContainer.add(pagamentoPanel, "pagamento");
-		pagamentoPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][]"));
+		pagamentoPanel.setLayout(new MigLayout("", "[grow][300][grow]", "[20][150][150][]"));
 
 		JPanel pagamentoP = new JPanel();
 		pagamentoP.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Metodo di pagamento", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		pagamentoPanel.add(pagamentoP, "flowx,cell 1 0,grow");
+		pagamentoPanel.add(pagamentoP, "flowx,cell 1 1,grow");
 		pagamentoP.setLayout(new MigLayout("", "[grow]", "[grow][grow][grow]"));
 
 		ButtonGroup pagamentoGroup=new ButtonGroup();
 		rbBonifico = new JRadioButton("Bonifico");
-		pagamentoP.add(rbBonifico, "cell 0 0,alignx center");
+		pagamentoP.add(rbBonifico, "cell 0 0,alignx left");
 
 		rbCarta = new JRadioButton("Carta di credito");
-		pagamentoP.add(rbCarta, "cell 0 1,alignx center");
+		pagamentoP.add(rbCarta, "cell 0 1,alignx left");
 
 		rbPayPal = new JRadioButton("Pay Pal");
-		pagamentoP.add(rbPayPal, "cell 0 2,alignx center");
+		pagamentoP.add(rbPayPal, "cell 0 2,alignx left");
 
 		pagamentoGroup.add(rbBonifico);
 		pagamentoGroup.add(rbCarta);
@@ -420,23 +420,23 @@ public class negozioWnd extends JFrame {
 		ButtonGroup consegnaGroup=new ButtonGroup();
 		JPanel consegnaPanel = new JPanel();
 		consegnaPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Metodo Consegna", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		pagamentoPanel.add(consegnaPanel, "flowx,cell 1 1,grow");
+		pagamentoPanel.add(consegnaPanel, "flowx,cell 1 2,grow");
 		consegnaPanel.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
 
 		rbCorriere = new JRadioButton("Corriere");
-		consegnaPanel.add(rbCorriere, "cell 0 0,alignx center,growy");
+		consegnaPanel.add(rbCorriere, "cell 0 0,alignx left,growy");
 
 		rbPosta = new JRadioButton("Posta");
-		consegnaPanel.add(rbPosta, "cell 0 1,alignx center,growy");
+		consegnaPanel.add(rbPosta, "cell 0 1,alignx left,growy");
 
 		JButton btnConfermaOrdine = new JButton("Conferma ordine");
 		btnConfermaOrdine.addActionListener(new btnEffettuaOrdine(this));
-		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 2,growx");
+		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 3,growx");
 		consegnaGroup.add(rbCorriere);
 		consegnaGroup.add(rbPosta);
 
 		JButton btnBack = new JButton("Indietro");
-		pagamentoPanel.add(btnBack, "cell 1 2,grow");
+		pagamentoPanel.add(btnBack, "cell 1 3,grow");
 		btnBack.addActionListener(new btnShowHome(this));
 	}
 
@@ -452,11 +452,11 @@ public class negozioWnd extends JFrame {
 		this.setTitle("Homepage");
 		cdListModel.clear();
 		clearComponents();
-		
+
 		Cd cds=new Cd();
 		Genere gen=new Genere();
 		Musicista mus=new Musicista();
-		
+
 		loadListCd(cds.getAll());
 		loadGeneri(gen.getAll());
 		loadTitolari(mus.getAllBand());
@@ -477,7 +477,7 @@ public class negozioWnd extends JFrame {
 		btnRegistrazione.setEnabled(false);
 		btnLogin.setVisible(false);
 		btnRegistrazione.setVisible(false);
-		
+
 		//Creo bottone del carrello
 		JButton btnCarrello=new JButton("Carrello");
 		homePanel.add(btnCarrello, "cell 2 1,alignx trailing,aligny top");
@@ -491,12 +491,12 @@ public class negozioWnd extends JFrame {
 	{
 		this.setTitle("Carrello");
 		String[] colNames={"Titolo","Prezzo","Quantità","Aggiungi","Rimuovi"};
-		
+
 		carrelloModel=new TableModelCarrello();		//crea la tabella
 		carrelloModel.setColumnIdentifiers(colNames);
-		
+
 		Carrello cart = cCarrello.getCarrello();
-		
+
 		for(int i = 0; i < cart.getRighe().size(); i++) {
 
 			RigaCarrello rowCart = cart.getRighe().get(i);
@@ -666,7 +666,7 @@ public class negozioWnd extends JFrame {
 		cCarrello.incrementaQta(row);
 	}
 
-	
+
 	public void decrementaTitolo(int row)
 	{
 		int q=Integer.parseInt(carrelloTb.getValueAt(row, 2).toString())-1;
@@ -677,7 +677,7 @@ public class negozioWnd extends JFrame {
 			carrelloTb.remove(row);
 			cCarrello.rimuoviRiga(row);
 		}
-		
+
 		if (q > 0) 
 		{
 			carrelloTb.setValueAt(q, row, 2);

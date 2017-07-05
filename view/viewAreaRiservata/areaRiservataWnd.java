@@ -234,7 +234,7 @@ public class areaRiservataWnd extends JFrame {
 
 		//Recupero lista generi e lista musicisti per le combobox
 		ArrayList<Genere> listaGeneri = new Genere().getAll();
-		ArrayList<Musicista> listaMusicisti = new Musicista().getAll();
+		ArrayList<Musicista> listaMusicisti = new Musicista().getAllBand();
 		kMus=new HashMap<String,Integer>();
 		kGen=new HashMap<String,Integer>();
 
