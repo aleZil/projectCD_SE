@@ -1,7 +1,6 @@
 package viewNegozio;
 import java.awt.EventQueue;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,27 +20,16 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import net.miginfocom.swing.MigLayout;
-import sun.java2d.loops.MaskBlit;
 import javax.swing.border.BevelBorder;
 import java.awt.CardLayout;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.JPasswordField;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
-
 import controller.CarrelloController;
-import controller.CdController;
 import controller.ClienteController;
-import controller.GenereController;
-import jdk.nashorn.internal.runtime.regexp.joni.ast.QuantifierNode;
 import model.Autenticazione;
 import model.Carrello;
 import model.Cd;
@@ -56,12 +44,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import utility.*;
-import java.awt.GridLayout;
 import java.net.*;
 import java.io.*;
+import java.awt.Font;
 
 public class negozioWnd extends JFrame {
 
@@ -149,7 +136,8 @@ public class negozioWnd extends JFrame {
 
 	public negozioWnd() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(getLocation().x,getLocation().y, 1000, 700);	//misura uguale a tutte le Wnd principali
+		setBounds(getLocation().x,getLocation().y, 670, 586);	//Misura uguale a tutte le Wnd principali
+		setLocationRelativeTo(null);
 		panelContainer = new JPanel();
 		panelContainer.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		setContentPane(panelContainer);
@@ -174,76 +162,93 @@ public class negozioWnd extends JFrame {
 		idCdList=new ArrayList<Integer>();
 		homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
-		homePanel.setLayout(new MigLayout("", "[300][350][]", "[][60][grow][grow]"));
+		homePanel.setLayout(new MigLayout("", "[300][350]", "[][60][grow,fill][]"));
 
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new btnShowLogin(this));
 
-		JLabel lblFiltriDisponibili = new JLabel("Filtri disponibili");
+		btnRegistrazione = new JButton("Registrati");
+		btnRegistrazione.addActionListener(new btnShowRegistrazione(this));
+
+		JButton btnAreaRiservata = new JButton("Area Riservata");
+		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
+		homePanel.add(btnAreaRiservata, "flowx,cell 1 0,alignx center,aligny top");
+		homePanel.add(btnRegistrazione, "cell 1 0,alignx right,aligny top");
+		homePanel.add(btnLogin, "cell 1 0,alignx right,aligny top");
+
+		JLabel lblFiltriDisponibili = new JLabel("Cerca Cd");
+		lblFiltriDisponibili.setFont(new Font("Dialog", Font.BOLD, 18));
 		homePanel.add(lblFiltriDisponibili, "cell 0 1,alignx center,aligny bottom");
 
 		JLabel lblcdList = new JLabel("Titoli disponibili");
+		lblcdList.setFont(new Font("Dialog", Font.BOLD, 20));
 		homePanel.add(lblcdList, "cell 1 1,alignx center,aligny bottom");
 
 		JPanel filterPanel = new JPanel();
 		filterPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		homePanel.add(filterPanel, "cell 0 2,grow");
-		filterPanel.setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][][][][]"));
+		homePanel.add(filterPanel, "cell 0 2 1 2,grow");
+		filterPanel.setLayout(new MigLayout("", "[][grow]", "[grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow]"));
 
 		JLabel lblTitolo = new JLabel("Titolo");
-		filterPanel.add(lblTitolo, "cell 0 0 2 1,alignx center,aligny bottom");
+		lblTitolo.setFont(new Font("Dialog", Font.BOLD, 15));
+		filterPanel.add(lblTitolo, "cell 0 0 2 1,alignx center,aligny center");
 
 		txtTitolo = new JTextField();
+		txtTitolo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		filterPanel.add(txtTitolo, "cell 0 1 2 1,grow");
 		txtTitolo.setColumns(10);
 
 		JLabel lblGenere = new JLabel("Genere");
-		filterPanel.add(lblGenere, "cell 0 2 2 1,alignx center,aligny bottom");
+		lblGenere.setFont(new Font("Dialog", Font.BOLD, 15));
+		filterPanel.add(lblGenere, "cell 0 2 2 1,alignx center,aligny center");
 
 		cbGenere = new JComboBox();
+		cbGenere.setFont(new Font("Dialog", Font.BOLD, 14));
 		filterPanel.add(cbGenere, "cell 0 3 2 1,grow");
 
 		JLabel lblTitolare = new JLabel("Titolare");
-		filterPanel.add(lblTitolare, "cell 0 4 2 1,alignx center,aligny bottom");
+		lblTitolare.setFont(new Font("Dialog", Font.BOLD, 15));
+		filterPanel.add(lblTitolare, "cell 0 4 2 1,alignx center,aligny center");
 
 		cbTitolare = new JComboBox();
+		cbTitolare.setFont(new Font("Dialog", Font.BOLD, 14));
 		filterPanel.add(cbTitolare, "cell 0 5 2 1,grow");
 
 		JLabel lblPrezzo = new JLabel("Prezzo");
-		filterPanel.add(lblPrezzo, "cell 0 6 2 1,alignx center,aligny bottom");
+		lblPrezzo.setFont(new Font("Dialog", Font.BOLD, 15));
+		filterPanel.add(lblPrezzo, "cell 0 6 2 1,alignx center,aligny center");
 
 		JLabel lblMin = new JLabel("Min:");
+		lblMin.setFont(new Font("Dialog", Font.BOLD, 15));
 		filterPanel.add(lblMin, "flowx,cell 0 7,alignx left,aligny center");
 
 		txtMinP = new JTextField();
+		txtMinP.setFont(new Font("Dialog", Font.PLAIN, 14));
 		filterPanel.add(txtMinP, "cell 1 7,grow");
 		txtMinP.setColumns(10);
 
 		JLabel lblMax = new JLabel("Max:");
+		lblMax.setFont(new Font("Dialog", Font.BOLD, 15));
 		filterPanel.add(lblMax, "flowx,cell 0 8,alignx left,aligny center");
 
 		txtMaxP = new JTextField();
+		txtMaxP.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtMaxP.setColumns(10);
 		filterPanel.add(txtMaxP, "cell 1 8,grow");
 
 		JLabel lblPartecipanti = new JLabel("Partecipanti");
-		filterPanel.add(lblPartecipanti, "cell 0 9 2 1,alignx center,aligny bottom");
+		lblPartecipanti.setFont(new Font("Dialog", Font.BOLD, 15));
+		filterPanel.add(lblPartecipanti, "cell 0 9 2 1,alignx center,aligny center");
 
 		cbPartecipanti = new JComboBox();
+		cbPartecipanti.setFont(new Font("Dialog", Font.BOLD, 14));
 		filterPanel.add(cbPartecipanti, "cell 0 10 2 1,grow");
 
 		JButton btnCerca = new JButton("Cerca");
+		btnCerca.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnCerca.addActionListener(new btnEffettuaRicerca(this));
-		filterPanel.add(btnCerca, "cell 0 11 2 1,alignx center,aligny center");
-		homePanel.add(btnLogin, "flowx,cell 2 0,alignx right,aligny top");
-
-		btnRegistrazione = new JButton("Registrati");
-		btnRegistrazione.addActionListener(new btnShowRegistrazione(this));
-		homePanel.add(btnRegistrazione, "cell 2 0,alignx right,aligny top");
-
-		JButton btnAreaRiservata = new JButton("Area Riservata");
-		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
-		homePanel.add(btnAreaRiservata, "cell 2 0,alignx right,aligny top");
+		filterPanel.add(btnCerca, "cell 0 11 2 1,grow");
+		filterPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitolo, cbGenere, cbTitolare, txtMinP, txtMaxP, cbPartecipanti, btnCerca}));
 
 		JScrollPane scrollPaneList = new JScrollPane();
 		homePanel.add(scrollPaneList, "cell 1 2,grow");
@@ -253,39 +258,42 @@ public class negozioWnd extends JFrame {
 		scrollPaneList.setViewportView(cdList);
 
 		JButton btnViewDetail = new JButton("Vedi dettagli prodotto");
+		btnViewDetail.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnViewDetail.addActionListener(new btnShowDettagliCd(this));
-		homePanel.add(btnViewDetail, "cell 1 3,growx,aligny top");
+		homePanel.add(btnViewDetail, "cell 1 3,growx,aligny bottom");
 	}
 
 	void createLoginPanel()
 	{
 		JPanel loginPanel = new JPanel();
 		panelContainer.add(loginPanel, "login");
-		loginPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[200][50][50][50]"));
-
-		JLabel lblUserLogin = new JLabel("Username:");
-		loginPanel.add(lblUserLogin, "cell 0 1,alignx trailing,aligny center");
-
-		txtUserLogin = new JTextField("aleZil");
-		loginPanel.add(txtUserLogin, "cell 1 1,growx,aligny center");
-		txtUserLogin.setColumns(10);
-
-		JLabel lblPassLogin = new JLabel("Password:");
-		loginPanel.add(lblPassLogin, "cell 0 2,alignx right,aligny center");
-
-		txtPassLogin = new JPasswordField("pwdzil");
-		loginPanel.add(txtPassLogin, "cell 1 2,growx");
-
-		JButton btnLogin = new JButton("Login");
-		btnLogin.addActionListener(new btnLoginCliente(this));
-		btnLogin.addKeyListener(new btnLoginCliente(this));
-		loginPanel.add(btnLogin, "flowx,cell 1 3,growx,aligny center");
+		loginPanel.setLayout(new MigLayout("", "[100][grow][100]", "[grow][][grow][][grow][][]"));
+		
+				JLabel lblUserLogin = new JLabel("Username");
+				lblUserLogin.setFont(new Font("Dialog", Font.BOLD, 15));
+				loginPanel.add(lblUserLogin, "cell 1 0,alignx center,aligny center");
+				
+						txtUserLogin = new JTextField();
+						loginPanel.add(txtUserLogin, "cell 1 1,growx,aligny center");
+						txtUserLogin.setColumns(10);
+		
+				JLabel lblPassLogin = new JLabel("Password");
+				lblPassLogin.setFont(new Font("Dialog", Font.BOLD, 15));
+				loginPanel.add(lblPassLogin, "cell 1 2,alignx center,aligny center");
 
 		JButton btnAnnulla = new JButton("Annulla");
 		btnAnnulla.addActionListener(new btnShowHome(this));
-		loginPanel.add(btnAnnulla, "cell 1 3,growx,aligny center");
-		loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUserLogin, txtPassLogin, btnLogin}));
-
+		
+				JButton btnLogin_1 = new JButton("Login");
+				btnLogin_1.setFont(new Font("Dialog", Font.BOLD, 18));
+				btnLogin_1.addActionListener(new btnLoginCliente(this));
+				btnLogin_1.addKeyListener(new btnLoginCliente(this));
+				loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUserLogin, txtPassLogin, btnLogin_1}));
+				
+						txtPassLogin = new JPasswordField();
+						loginPanel.add(txtPassLogin, "flowy,cell 1 3,growx,aligny center");
+				loginPanel.add(btnLogin_1, "cell 1 5,growx,aligny bottom");
+		loginPanel.add(btnAnnulla, "cell 1 6,growx,aligny top");
 	}
 
 	void createCarrelloPanel()
@@ -307,12 +315,13 @@ public class negozioWnd extends JFrame {
 		elderScroll.setViewportView(carrelloTb);
 
 		JButton btnCompra = new JButton("Acquista");
+		btnCompra.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnCompra.addActionListener(new btnShowPagamento(this));
 		panel.add(btnCompra, "flowx,cell 0 1,grow");
 
 		JButton btnNegozio = new JButton("Torna a negozio");
 		btnNegozio.addActionListener(new btnShowHome(this));
-		panel.add(btnNegozio, "cell 0 1,growy");
+		panel.add(btnNegozio, "cell 0 1,alignx right,growy");
 
 	}
 
@@ -321,74 +330,83 @@ public class negozioWnd extends JFrame {
 		JPanel registrazionePanel = new JPanel();
 		registrazionePanel.setBorder(new TitledBorder(null, "Informazioni utente", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		panelContainer.add(registrazionePanel, "registrazione");
-		registrazionePanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[50][50][50][50][50][50][50][50][80]"));
-
-		JLabel lblUsername = new JLabel("Username:");
-		registrazionePanel.add(lblUsername, "cell 0 0,alignx trailing,aligny center");
+		registrazionePanel.setLayout(new MigLayout("", "[100][grow][100]", "[][50][][50][][50][][50][][50][][50][][50][][50][][]"));
+		
+				JLabel lblUsername = new JLabel("Username");
+				lblUsername.setFont(new Font("Dialog", Font.BOLD, 15));
+				registrazionePanel.add(lblUsername, "cell 1 0,alignx center,aligny center");
 
 		txtUsername = new JTextField();
-		registrazionePanel.add(txtUsername, "cell 1 0,growx,aligny center");
+		registrazionePanel.add(txtUsername, "cell 1 1,growx,aligny center");
 		txtUsername.setColumns(10);
-
-		JLabel lblCf = new JLabel("Codice Fiscale:");
-		registrazionePanel.add(lblCf, "cell 0 1,alignx right,aligny center");
+		
+				JLabel lblCf = new JLabel("Codice Fiscale");
+				lblCf.setFont(new Font("Dialog", Font.BOLD, 15));
+				registrazionePanel.add(lblCf, "cell 1 2,alignx center,aligny center");
 
 		txtCf = new JTextField();
 		txtCf.setColumns(10);
-		registrazionePanel.add(txtCf, "cell 1 1,growx,aligny center");
-
-		JLabel lblNome = new JLabel("Nome:");
-		registrazionePanel.add(lblNome, "cell 0 2,alignx right,aligny center");
+		registrazionePanel.add(txtCf, "cell 1 3,growx,aligny center");
+		
+				JLabel lblNome = new JLabel("Nome");
+				lblNome.setFont(new Font("Dialog", Font.BOLD, 15));
+				registrazionePanel.add(lblNome, "cell 1 4,alignx center,aligny center");
 
 		txtNome = new JTextField();
 		txtNome.setColumns(10);
-		registrazionePanel.add(txtNome, "cell 1 2,growx,aligny center");
-
-		JLabel lblCognome = new JLabel("Cognome:");
-		registrazionePanel.add(lblCognome, "cell 0 3,alignx right,growy");
+		registrazionePanel.add(txtNome, "cell 1 5,growx,aligny center");
+		
+				JLabel lblCognome = new JLabel("Cognome");
+				lblCognome.setFont(new Font("Dialog", Font.BOLD, 15));
+				registrazionePanel.add(lblCognome, "cell 1 6,alignx center,growy");
 
 		txtCognome = new JTextField();
 		txtCognome.setColumns(10);
-		registrazionePanel.add(txtCognome, "cell 1 3,growx,aligny center");
-
-		JLabel lblPassword = new JLabel("Password:");
-		registrazionePanel.add(lblPassword, "cell 0 4,alignx right,aligny center");
+		registrazionePanel.add(txtCognome, "cell 1 7,growx,aligny center");
+		
+				JLabel lblPassword = new JLabel("Password");
+				lblPassword.setFont(new Font("Dialog", Font.BOLD, 15));
+				registrazionePanel.add(lblPassword, "cell 1 8,alignx center,aligny center");
 
 		txtPassword = new JPasswordField();
-		JButton btnRegistra = new JButton("Registrati");
-		registrazionePanel.add(txtPassword, "cell 1 4,growx,aligny center");
-		registrazionePanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUsername, txtCf, txtNome, txtCognome, txtPassword, txtIndirizzo, txtTelefono, txtCellulare, btnRegistra}));
-
-		JLabel lblIndirizzo = new JLabel("Indirizzo:");
-		registrazionePanel.add(lblIndirizzo, "cell 0 5,alignx right,aligny center");
+		registrazionePanel.add(txtPassword, "cell 1 9,growx,aligny center");
+		
+				JLabel lblIndirizzo = new JLabel("Indirizzo");
+				lblIndirizzo.setFont(new Font("Dialog", Font.BOLD, 15));
+				registrazionePanel.add(lblIndirizzo, "cell 1 10,alignx center,aligny center");
 
 		txtIndirizzo = new JTextField();
 		txtIndirizzo.setColumns(10);
-		registrazionePanel.add(txtIndirizzo, "cell 1 5,growx,aligny center");
-
-		JLabel lblTelefono = new JLabel("Telefono:");
-		registrazionePanel.add(lblTelefono, "cell 0 6,alignx right,aligny center");
+		registrazionePanel.add(txtIndirizzo, "cell 1 11,growx,aligny center");
+		
+				JLabel lblTelefono = new JLabel("Telefono");
+				lblTelefono.setFont(new Font("Dialog", Font.BOLD, 15));
+				registrazionePanel.add(lblTelefono, "cell 1 12,alignx center,aligny center");
 
 		txtTelefono = new JTextField("+39");
 		txtTelefono.setText("+39");
 		txtTelefono.setColumns(10);
-		registrazionePanel.add(txtTelefono, "cell 1 6,growx,aligny center");
-
-		JLabel lblCellulare = new JLabel("Cellulare:");
-		registrazionePanel.add(lblCellulare, "cell 0 7,alignx right,aligny center");
+		registrazionePanel.add(txtTelefono, "cell 1 13,growx,aligny center");
+		
+				JLabel lblCellulare = new JLabel("Cellulare");
+				lblCellulare.setFont(new Font("Dialog", Font.BOLD, 15));
+				registrazionePanel.add(lblCellulare, "cell 1 14,alignx center,aligny center");
 
 		txtCellulare = new JTextField("+39");
 		txtCellulare.setText("+39");
 		txtCellulare.setColumns(10);
-		registrazionePanel.add(txtCellulare, "cell 1 7,growx,aligny center");
-
-		btnRegistra.addActionListener(new btnAddRegistrazione(this));
-		btnRegistra.addKeyListener(new btnAddRegistrazione(this));
-		registrazionePanel.add(btnRegistra, "flowx,cell 1 8,growx");
+		registrazionePanel.add(txtCellulare, "cell 1 15,growx,aligny center");
 
 		JButton btnAnnulla = new JButton("Annulla");
 		btnAnnulla.addActionListener(new btnShowHome(this));
-		registrazionePanel.add(btnAnnulla, "cell 1 8,growx,aligny center");
+		JButton btnRegistra = new JButton("Registrati");
+		btnRegistra.setFont(new Font("Dialog", Font.BOLD, 18));
+		registrazionePanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUsername, txtCf, txtNome, txtCognome, txtPassword, txtIndirizzo, txtTelefono, txtCellulare, btnRegistra}));
+		
+				btnRegistra.addActionListener(new btnAddRegistrazione(this));
+				btnRegistra.addKeyListener(new btnAddRegistrazione(this));
+				registrazionePanel.add(btnRegistra, "cell 1 16,growx");
+		registrazionePanel.add(btnAnnulla, "cell 1 17,growx,aligny top");
 	}
 
 	void createPagamentoPanel()
@@ -480,7 +498,7 @@ public class negozioWnd extends JFrame {
 
 		//Creo bottone del carrello
 		JButton btnCarrello=new JButton("Carrello");
-		homePanel.add(btnCarrello, "cell 2 1,alignx trailing,aligny top");
+		homePanel.add(btnCarrello, "flowx,cell 0 0,alignx right,aligny top");
 		btnCarrello.setVisible(true);
 		btnCarrello.setEnabled(true);
 		btnCarrello.addActionListener(new btnShowCarrello(this));
@@ -836,16 +854,15 @@ public class negozioWnd extends JFrame {
 
 	private void clearComponents()
 	{
-		//TODO scommentare questi commenti del clearComponents
-		//txtUsername.setText("");
-		//txtPassword.setText("");
+		txtUsername.setText("");
+		txtPassword.setText("");
 		txtNome.setText("");
 		txtCognome.setText("");
 		txtCf.setText("");
 		txtIndirizzo.setText("");
 		txtTelefono.setText("");
 		txtCellulare.setText("");
-		//txtUserLogin.setText("");
-		//txtPassLogin.setText("");
+		txtUserLogin.setText("");
+		txtPassLogin.setText("");
 	}
 }

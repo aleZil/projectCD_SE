@@ -44,7 +44,11 @@ public class dettagliCdWnd extends JFrame {
 	JList<String> listPartecipanti;
 
 	public dettagliCdWnd(Integer idCd,negozioWnd caller) {
+		int offsetx=275;
+		int offsety=150;
+		
 		this.caller=caller;
+		this.setLocation(caller.getLocation().x+offsetx,caller.getLocation().y+offsety);
 		setResizable(false);
 		getContentPane().setLayout(new MigLayout("", "[grow]", "[grow]"));
 		setTitle("Dettagli prodotto");
@@ -60,9 +64,6 @@ public class dettagliCdWnd extends JFrame {
 		dettagliPanel.setBorder(new TitledBorder(null, "Dettagli", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		getContentPane().add(dettagliPanel, "cell 0 0,grow");
 		dettagliPanel.setLayout(new MigLayout("", "[][grow][grow,fill]", "[grow,fill][grow,fill][grow,fill][grow,fill][grow][grow][grow]"));
-
-		//ImageIcon image = new ImageIcon("/home/prebi/Scrivania/Unvr/Compilatori/$_35.JPG");
-
 		JLabel lblTitolo = new JLabel("Titolo:");
 		dettagliPanel.add(lblTitolo, "cell 0 0,alignx right,aligny center");
 
@@ -107,6 +108,7 @@ public class dettagliCdWnd extends JFrame {
 		dettagliPanel.add(btnAggiungiCarrello, "cell 0 6 3 1,grow");
 
 	}
+
 
 	private void loadDettagli(Integer idCd)
 	{

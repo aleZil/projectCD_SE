@@ -37,6 +37,7 @@ public class returnNegozioListener extends WindowAdapter implements ActionListen
 		if(caller.isEnabled())
 		{
 			negozio.setVisible(true);
+			negozio.setLocation(caller.getLocation().x,caller.getLocation().y);
 			// Chiudo area_riservata_wnd
 			super.windowClosing(e);
 		}

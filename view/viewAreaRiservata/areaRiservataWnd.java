@@ -107,6 +107,54 @@ public class areaRiservataWnd extends JFrame {
 	//Utility
 	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
+	private JButton btnLogin;
+	private JButton btnO1;
+	private JButton btnO2;
+	private JButton btnO3;
+	private JButton btnO4;
+	private JPanel loginPanel;
+	private JPanel option1Panel;
+	private JLabel lblUser;
+	private JPanel newCdPanel;
+	private JLabel lblTitle;
+	private JLabel lblPass;
+	private JPanel buttonPanel;
+	private JPanel optionPanel;
+	private JLabel lblAddTrackList;
+	private JButton btnAddTrack;
+	private JLabel lblTrackList;
+	private JScrollPane scrollTrackList;
+	private JLabel lblPrice;
+	private JLabel lblDesc;
+	private JScrollPane scrollDesc;
+	private JLabel lblGen_1;
+	private JLabel lblMus;
+	private JLabel lblCollaboratore;
+	private JButton btnAggiungiCollaboratore;
+	private JLabel lblListaMusicisti;
+	private JScrollPane scrollPartecipantList;
+	private JLabel lblAmo;
+	private JButton btnAddNewCd;
+	private JButton btnBack_1;
+	private JPanel option2Panel;
+	private JPanel warehPanel;
+	private JScrollPane headerPanel;
+	private JButton btnBack_2;
+	private JPanel option3Panel;
+	private JLabel lblArtName;
+	private JLabel lblSelezionaTipo;
+	private JLabel lblAnnoDiNascita;
+	private JLabel lblGen_2;
+	private JLabel lblStrumenti;
+	private JButton btnAggiungirimuovi;
+	private JLabel lblListaStrumenti;
+	private JScrollPane scrollInstrumentList;
+	private JButton btnAddNewMus;
+	private JButton btnBack_3;
+	private JPanel option4Panel;
+	private JLabel lblGen;
+	private JButton btnAddNewGen;
+	private JButton btnBack;
 
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		setResizable(false);
@@ -139,6 +187,7 @@ public class areaRiservataWnd extends JFrame {
 		//Aggiungo il container che contiene tutti i panel
 		getContentPane().add(panelContainer);
 		clPanel.show(panelContainer, "login");
+		getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, txtUser, txtPass, btnLogin, btnO1, btnO2, btnO3, btnO4, panelContainer, loginPanel, option1Panel, lblUser, newCdPanel, lblTitle, lblPass, buttonPanel, optionPanel, lblAddTrackList, btnAddTrack, lblTrackList, scrollTrackList, listTrackList, lblPrice, txtPrice, lblDesc, scrollDesc, txtDesc, lblGen_1, cbGen, lblMus, cbMus, lblCollaboratore, btnAggiungiCollaboratore, lblListaMusicisti, scrollPartecipantList, listPartecipantList, lblAmo, txtAmo, btnAddNewCd, btnBack_1, option2Panel, warehPanel, headerPanel, tbCd, btnBack_2, option3Panel, lblArtName, txtArtName, lblSelezionaTipo, lblAnnoDiNascita, txtYearMus, lblGen_2, cbGeneri, lblStrumenti, btnAggiungirimuovi, lblListaStrumenti, scrollInstrumentList, listInstrumentList, btnAddNewMus, btnBack_3, rdbtnMusicista, rdbtnBand, option4Panel, lblGen, txtGen, btnAddNewGen, btnBack}));
 
 	}
 
@@ -275,11 +324,11 @@ public class areaRiservataWnd extends JFrame {
 
 	private void createOptionAddGenPanel()
 	{
-		JPanel option4Panel = new JPanel();
+		option4Panel = new JPanel();
 		panelContainer.add(option4Panel, "optionAddGen");
 		option4Panel.setLayout(new MigLayout("", "[][60.00][100.00][135][]", "[50.00][50.00][50.00][50.00]"));
 
-		JLabel lblGen = new JLabel("Nome nuovo genere:");
+		lblGen = new JLabel("Nome nuovo genere:");
 		option4Panel.add(lblGen, "cell 1 0,alignx right,aligny center");
 
 		txtGen = new JTextField();
@@ -287,11 +336,11 @@ public class areaRiservataWnd extends JFrame {
 		txtGen.setColumns(10);
 		txtGen.requestFocus();	//non funziona
 
-		JButton btnAddNewGen = new JButton("Aggiungi Genere");
+		btnAddNewGen = new JButton("Aggiungi Genere");
 		btnAddNewGen.addActionListener(new btnAddNewGenListener(this));
 		option4Panel.add(btnAddNewGen, "cell 2 1,growx,aligny center");
 
-		JButton btnBack= new JButton("Annulla");
+		btnBack= new JButton("Annulla");
 		btnBack.addActionListener(new btnBackListener(this));
 		option4Panel.add(btnBack, "cell 3 1,growx,aligny center");
 		option4Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtGen, btnAddNewGen}));
@@ -301,58 +350,57 @@ public class areaRiservataWnd extends JFrame {
 
 	private void createOptionAddMusPanel()
 	{
-		JPanel option3Panel = new JPanel();
+		option3Panel = new JPanel();
 		panelContainer.add(option3Panel, "optionAddMus");
 		option3Panel.setLayout(new MigLayout("", "[][60.00][300][300][grow]", "[40][][40][40][40][100][40][40]"));
 
-		JLabel lblArtName = new JLabel("Nome arte:");
+		lblArtName = new JLabel("Nome arte:");
 		option3Panel.add(lblArtName, "cell 1 0,alignx right,aligny center");
 
 		txtArtName = new JTextField();
 		option3Panel.add(txtArtName, "cell 2 0,growx,aligny center");
 		txtArtName.setColumns(10);
 
-		JLabel lblSelezionaTipo = new JLabel("Seleziona tipo:");
+		lblSelezionaTipo = new JLabel("Seleziona tipo:");
 		option3Panel.add(lblSelezionaTipo, "cell 1 1,alignx right,aligny center");
 
-		JLabel lblAnnoDiNascita = new JLabel("Anno di nascita:");
+		lblAnnoDiNascita = new JLabel("Anno di nascita:");
 		option3Panel.add(lblAnnoDiNascita, "cell 1 2,alignx trailing");
 
 		txtYearMus = new JTextField();
 		txtYearMus.setColumns(10);
 		option3Panel.add(txtYearMus, "cell 2 2,growx,aligny center");
 
-		JLabel lblGen = new JLabel("Genere:");
-		option3Panel.add(lblGen, "cell 1 3,alignx right,aligny center");
+		lblGen_2 = new JLabel("Genere:");
+		option3Panel.add(lblGen_2, "cell 1 3,alignx right,aligny center");
 
 		//ComboBox dei Generi
 		cbGeneri = new JComboBox();
 		option3Panel.add(cbGeneri, "cell 2 3,growx,aligny center");
 
-		JLabel lblStrumenti = new JLabel("Strumenti suonati:");
+		lblStrumenti = new JLabel("Strumenti suonati:");
 		option3Panel.add(lblStrumenti, "cell 1 4,alignx right,aligny center");
 
-		JButton btnAggiungirimuovi = new JButton("Aggiungi/Rimuovi");
+		btnAggiungirimuovi = new JButton("Aggiungi/Rimuovi");
 		option3Panel.add(btnAggiungirimuovi, "cell 2 4,growx,aligny center");
 		btnAggiungirimuovi.addActionListener(new btnShowStrumentiListListener(this));
 
-		JLabel lblListaStrumenti = new JLabel("Lista strumenti:");
+		lblListaStrumenti = new JLabel("Lista strumenti:");
 		option3Panel.add(lblListaStrumenti, "cell 1 5");
 
-		JScrollPane scrollInstrumentList = new JScrollPane();
+		scrollInstrumentList = new JScrollPane();
 		option3Panel.add(scrollInstrumentList, "cell 2 5,grow");
 		listMStrumenti=new DefaultListModel<String>();	
 		listInstrumentList = new JList(listMStrumenti);
 		scrollInstrumentList.setViewportView(listInstrumentList);
 
-		JButton btnAddNewMus = new JButton("Aggiungi musicista/band");
+		btnAddNewMus = new JButton("Aggiungi musicista/band");
 		option3Panel.add(btnAddNewMus, "cell 2 7,growx,aligny center");
 		btnAddNewMus.addActionListener(new btnAddNewMusListener(this));
-		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGeneri, btnAddNewMus}));
 
-		JButton btnBack = new JButton("Annulla");
-		option3Panel.add(btnBack, "cell 3 7,growx,aligny center");
-		btnBack.addActionListener(new btnBackListener(this));
+		btnBack_3 = new JButton("Annulla");
+		option3Panel.add(btnBack_3, "cell 3 7,growx,aligny center");
+		btnBack_3.addActionListener(new btnBackListener(this));
 
 		rdbtnMusicista = new JRadioButton("Musicista");
 		option3Panel.add(rdbtnMusicista, "cell 2 1,alignx left,aligny center");
@@ -364,55 +412,56 @@ public class areaRiservataWnd extends JFrame {
 		ButtonGroup groupRadioButtons = new ButtonGroup();
 		groupRadioButtons.add(rdbtnMusicista);
 		groupRadioButtons.add(rdbtnBand);
+		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGeneri, btnAddNewMus}));
 
 		this.setVisible(true);
 	}
 
 	private void createInsertPanel() throws ParseException
 	{
-		JPanel option1Panel = new JPanel();
+		option1Panel = new JPanel();
 		panelContainer.add(option1Panel, "insert");
 
-		JPanel newCdPanel = new JPanel();
+		newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][65][grow][grow][grow][grow][grow][grow]"));
 
-		JLabel lblTitle = new JLabel("Titolo Cd:");
+		lblTitle = new JLabel("Titolo Cd:");
 		newCdPanel.add(lblTitle, "cell 0 0,alignx right,aligny center");
 
 		txtTitle = new JTextField();
 		txtTitle.setColumns(10);
 		newCdPanel.add(txtTitle, "cell 1 0,alignx center,growy");
 
-		JLabel lblAddTrackList = new JLabel("Gestione brani:");
+		lblAddTrackList = new JLabel("Gestione brani:");
 		newCdPanel.add(lblAddTrackList, "cell 0 1,alignx right,aligny center");
 
-		JButton btnAddTrack = new JButton("Aggiungi/Rimuovi");
+		btnAddTrack = new JButton("Aggiungi/Rimuovi");
 		newCdPanel.add(btnAddTrack, "cell 1 1,grow");
 		btnAddTrack.addActionListener(new btnShowTrackListListener(this));	//apro nuovo frame
 
-		JLabel lblTrackList = new JLabel("Lista brani:");
+		lblTrackList = new JLabel("Lista brani:");
 		newCdPanel.add(lblTrackList, "cell 0 2,alignx right,aligny center");
 
 		//Pannello di visualizzazione brani
-		JScrollPane scrollTrackList = new JScrollPane();
+		scrollTrackList = new JScrollPane();
 		newCdPanel.add(scrollTrackList, "cell 1 2,grow");
 		listMTrack=new DefaultListModel<String>();
 		listTrackList = new JList(listMTrack);
 		scrollTrackList.setViewportView(listTrackList);
 
-		JLabel lblPrice = new JLabel("Prezzo:");
+		lblPrice = new JLabel("Prezzo:");
 		newCdPanel.add(lblPrice, "cell 0 3,alignx right,aligny center");
 
 		txtPrice = new JTextField();
 		newCdPanel.add(txtPrice, "cell 1 3,alignx center,aligny center");
 		txtPrice.setColumns(10);
 
-		JLabel lblDesc = new JLabel("Descrizione:");
+		lblDesc = new JLabel("Descrizione:");
 		newCdPanel.add(lblDesc, "cell 0 4,alignx right,aligny center");
 
-		JScrollPane scrollDesc = new JScrollPane();
+		scrollDesc = new JScrollPane();
 		newCdPanel.add(scrollDesc, "cell 1 4,grow");
 
 		txtDesc = new JTextPane();
@@ -440,42 +489,42 @@ public class areaRiservataWnd extends JFrame {
 			}
 		});
 
-		JLabel lblGen = new JLabel("Genere:");
-		newCdPanel.add(lblGen, "cell 0 5,alignx right,aligny center");
+		lblGen_1 = new JLabel("Genere:");
+		newCdPanel.add(lblGen_1, "cell 0 5,alignx right,aligny center");
 
 		cbGen = new JComboBox();
 		newCdPanel.add(cbGen, "cell 1 5,alignx center,aligny center");
 
-		JLabel lblMus = new JLabel("Musicista/band titolare:");
+		lblMus = new JLabel("Musicista/band titolare:");
 		newCdPanel.add(lblMus, "cell 0 6,alignx right,aligny center");
 
 		cbMus = new JComboBox();
 		newCdPanel.add(cbMus, "flowx,cell 1 6,growx,aligny center");
 
-		JLabel lblCollaboratore = new JLabel("Gestione musicisti:");
+		lblCollaboratore = new JLabel("Gestione musicisti:");
 		newCdPanel.add(lblCollaboratore, "cell 0 7,alignx right,aligny center");
 
-		JButton btnAggiungiCollaboratore = new JButton("Aggiungi/Rimuovi");
+		btnAggiungiCollaboratore = new JButton("Aggiungi/Rimuovi");
 		newCdPanel.add(btnAggiungiCollaboratore, "cell 1 7");
 		btnAggiungiCollaboratore.addActionListener(new btnShowCollaboratorListListener(this)); 	//apro nuovo frame
 
-		JLabel lblListaMusicisti = new JLabel("Lista musicisti:");
+		lblListaMusicisti = new JLabel("Lista musicisti:");
 		newCdPanel.add(lblListaMusicisti, "cell 0 8,alignx right,aligny center");
 
 		//pannello visualizzazione musicisti partecipanti
-		JScrollPane scrollPartecipantList = new JScrollPane();
+		scrollPartecipantList = new JScrollPane();
 		newCdPanel.add(scrollPartecipantList, "cell 1 8,grow");
 		listMPartecipanti=new DefaultListModel<String>();	
 		listPartecipantList = new JList(listMPartecipanti);
 		scrollPartecipantList.setViewportView(listPartecipantList);
 
-		JLabel lblAmo = new JLabel("Quantità:");
+		lblAmo = new JLabel("Quantità:");
 		newCdPanel.add(lblAmo, "cell 0 9,alignx right,aligny center");
 
 		txtAmo = new JTextField();
 		newCdPanel.add(txtAmo, "cell 1 9,alignx center,aligny center");
 
-		JButton btnAddNewCd = new JButton("Inserisci prodotto");
+		btnAddNewCd = new JButton("Inserisci prodotto");
 		btnAddNewCd.addActionListener(new btnAddNewCdListener(this));
 		btnAddNewCd.addKeyListener(new btnAddNewCdListener(this));
 		newCdPanel.add(btnAddNewCd, "flowx,cell 1 10,alignx left,growy");
@@ -483,54 +532,55 @@ public class areaRiservataWnd extends JFrame {
 		option1Panel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 		option1Panel.add(newCdPanel, "cell 0 0,grow");
 
-		JButton btnBack = new JButton("Annulla");
-		btnBack.addActionListener(new btnBackListener(this));
-		newCdPanel.add(btnBack, "cell 1 10,alignx right,growy");
+		btnBack_1 = new JButton("Annulla");
+		btnBack_1.addActionListener(new btnBackListener(this));
+		newCdPanel.add(btnBack_1, "cell 1 10,alignx right,growy");
+		option1Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitle, btnAddTrack, txtPrice, txtDesc, cbGen, cbMus, btnAggiungiCollaboratore, txtAmo, btnAddNewCd}));
 	}
 
 	private void createWarehousePanel()
 	{
-		JPanel option2Panel = new JPanel();
+		option2Panel = new JPanel();
 		panelContainer.add(option2Panel, "warehouse");
 		option2Panel.setLayout(new MigLayout("", "[grow]", "[grow,fill]"));
 
-		JPanel warehPanel = new JPanel();
+		warehPanel = new JPanel();
 		warehPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Tabella prodotti", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		option2Panel.add(warehPanel, "cell 0 0,grow");
 		warehPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill][]"));
-		JScrollPane headerPanel = new JScrollPane();
+		headerPanel = new JScrollPane();
 		warehPanel.add(headerPanel, "cell 0 0,grow");
 		tbCd = new JTable();
 		tbCd.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		headerPanel.setViewportView(tbCd);
 		tbCd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		JButton btnBack = new JButton("Torna a lista opzioni");
-		btnBack.addActionListener(new btnBackListener(this));
-		warehPanel.add(btnBack, "cell 0 1,alignx center,aligny center");
-		warehPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnBack}));
+		btnBack_2 = new JButton("Torna a lista opzioni");
+		btnBack_2.addActionListener(new btnBackListener(this));
+		warehPanel.add(btnBack_2, "cell 0 1,alignx center,aligny center");
+		warehPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnBack_2}));
 	}
 
 	
 	private void createLoginPanel()
 	{
-		JPanel loginPanel=new JPanel();
+		loginPanel=new JPanel();
 		loginPanel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
 
-		JLabel lblUser = new JLabel("Username");
+		lblUser = new JLabel("Username");
 		loginPanel.add(lblUser, "cell 0 2,alignx center,aligny center");
 
 		txtUser = new JTextField("zil");
 		loginPanel.add(txtUser, "cell 0 3,alignx center,aligny center");
 		txtUser.setColumns(10);
 
-		JLabel lblPass = new JLabel("Password");
+		lblPass = new JLabel("Password");
 		loginPanel.add(lblPass, "cell 0 4,alignx center,aligny center");
 
 		txtPass = new JPasswordField("nonlatrovi");
 		txtPass.setColumns(10);
 		loginPanel.add(txtPass, "cell 0 5,alignx center,growy");
 
-		JButton btnLogin = new JButton("Login");
+		btnLogin = new JButton("Login");
 		loginPanel.add(btnLogin, "flowx,cell 0 6,alignx center,aligny center");
 
 		panelContainer.add(loginPanel, "login");
@@ -545,15 +595,15 @@ public class areaRiservataWnd extends JFrame {
 
 	private void createOptionPanel()
 	{
-		JPanel optionPanel=new JPanel();
-		JPanel buttonPanel = new JPanel();
+		optionPanel=new JPanel();
+		buttonPanel = new JPanel();
 		buttonPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Opzioni", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		buttonPanel.setToolTipText("");
 
-		JButton btnO1 = new JButton("Inserisci nuovo Cd/Dvd");
-		JButton btnO2 = new JButton("Visualizza magazzino");
-		JButton btnO3 = new JButton("Aggiungi band/musicista");
-		JButton btnO4 = new JButton("Aggiungi genere");
+		btnO1 = new JButton("Inserisci nuovo Cd/Dvd");
+		btnO2 = new JButton("Visualizza magazzino");
+		btnO3 = new JButton("Aggiungi band/musicista");
+		btnO4 = new JButton("Aggiungi genere");
 
 		btnO1.addActionListener(new o1Listener(this));
 		btnO2.addActionListener(new o2Listener(this));
