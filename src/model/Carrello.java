@@ -135,11 +135,16 @@ public class Carrello {
 				// aggiunta riga carrello
 				RigaCarrello riga = this.righeCarrello.get(j);
 				
+				
+				if(riga.getQta()==0)
+					continue;
+				
 				i = 1;
 				psIns.setInt(i++, ordine_id);
 				psIns.setInt(i++, riga.getCd().getId());
 				psIns.setInt(i++, riga.getQta());
 				psIns.setBigDecimal(i++, riga.getPrezzo());
+				
 				
 				psIns.executeUpdate();
 				
