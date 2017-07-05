@@ -21,11 +21,11 @@ import java.util.ArrayList;
 
 public class btnLoginListener implements ActionListener,KeyListener {
 	
-	JFrame caller;
+	areaRiservataWnd caller;
 	
-	public btnLoginListener(JFrame caller)
+	public btnLoginListener(areaRiservataWnd caller)
 	{
-		this.caller=(areaRiservataWnd) caller;
+		this.caller=caller;
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -35,12 +35,12 @@ public class btnLoginListener implements ActionListener,KeyListener {
 
 	private void Login()
 	{
-		String user=((areaRiservataWnd) caller).getUsername();
-		String pwd=((areaRiservataWnd) caller).getPassword();
+		String user=caller.getUsername();
+		String pwd=caller.getPassword();
 		Autenticazione auth = new Autenticazione("personale", user, pwd);
 		
 		if (auth.login()) {
-			((areaRiservataWnd) caller).showOption();
+			caller.showOption();
 			//Controllo quantità
 			checkAmount();
 		} else {
