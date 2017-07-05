@@ -120,7 +120,7 @@ public class Genere {
 			String query = "SELECT * FROM genere ORDER BY nome";
 			
 			PreparedStatement ps = this.db.prepareStatement(query);
-			ResultSet rs = rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			
 			while (rs.next() ) {
 				

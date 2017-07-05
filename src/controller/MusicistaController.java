@@ -67,7 +67,7 @@ public class MusicistaController {
 				throw new InsertFailedException("Inserimento fallito.");
 			}
 		}else{
-			throw new MissingDataException("Inserire un anno valido, monello! Non siamo ancora nel ", annoNascitaMusicistaString);
+			throw new MissingDataException("Inserire un anno valido! Non siamo ancora nel ", annoNascitaMusicistaString);
 		}
 	}
 }
