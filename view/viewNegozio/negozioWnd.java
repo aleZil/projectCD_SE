@@ -434,15 +434,15 @@ public class negozioWnd extends JFrame {
 
 		ButtonGroup pagamentoGroup=new ButtonGroup();
 		rbBonifico = new JRadioButton("Bonifico");
-		rbBonifico.setFont(new Font("Dialog", Font.BOLD, 15));
+		rbBonifico.setFont(new Font("Dialog", Font.BOLD, 14));
 		pagamentoP.add(rbBonifico, "cell 0 0,alignx left");
 
 		rbCarta = new JRadioButton("Carta di credito");
-		rbCarta.setFont(new Font("Dialog", Font.BOLD, 15));
+		rbCarta.setFont(new Font("Dialog", Font.BOLD, 14));
 		pagamentoP.add(rbCarta, "cell 0 1,alignx left");
 
 		rbPayPal = new JRadioButton("Pay Pal");
-		rbPayPal.setFont(new Font("Dialog", Font.BOLD, 15));
+		rbPayPal.setFont(new Font("Dialog", Font.BOLD, 14));
 		pagamentoP.add(rbPayPal, "cell 0 2,alignx left");
 
 		pagamentoGroup.add(rbBonifico);
@@ -457,17 +457,17 @@ public class negozioWnd extends JFrame {
 		consegnaPanel.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
 
 		rbCorriere = new JRadioButton("Corriere");
-		rbCorriere.setFont(new Font("Dialog", Font.BOLD, 15));
+		rbCorriere.setFont(new Font("Dialog", Font.BOLD, 14));
 		consegnaPanel.add(rbCorriere, "cell 0 0,alignx left,growy");
 
 		rbPosta = new JRadioButton("Posta");
-		rbPosta.setFont(new Font("Dialog", Font.BOLD, 15));
+		rbPosta.setFont(new Font("Dialog", Font.BOLD, 14));
 		consegnaPanel.add(rbPosta, "cell 0 1,alignx left,growy");
 
 		JButton btnConfermaOrdine = new JButton("Conferma ordine");
-		btnConfermaOrdine.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnConfermaOrdine.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnConfermaOrdine.addActionListener(new btnEffettuaOrdine(this));
-		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 2,growx");
+		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 2,grow");
 		consegnaGroup.add(rbCorriere);
 		consegnaGroup.add(rbPosta);
 		
