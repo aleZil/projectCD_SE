@@ -53,6 +53,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 import java.awt.Font;
+import javax.swing.AbstractListModel;
 
 
 public class aggiungiPartecipanteWnd extends JFrame{
@@ -61,8 +62,8 @@ public class aggiungiPartecipanteWnd extends JFrame{
 	private JList<String> list;
 	private DefaultListModel<String> listModel2;
 	private JComboBox<String> cbMusicisti;
-	
-	
+
+
 	public aggiungiPartecipanteWnd(JFrame caller) {
 		//Tengo il riferimento al main form
 		this.caller=caller;
@@ -73,28 +74,28 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
 		setBounds(caller.getLocation().x,caller.getLocation().y, 650, 170);
 		this.setLocation(caller.getLocation().x+200, caller.getLocation().y+200);
-		getContentPane().setLayout(new MigLayout("", "[100.00][200.00,grow][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
-		
+		getContentPane().setLayout(new MigLayout("", "[100.00][200.00][230.00][100.00]", "[grow,top][grow,top][grow,top][][top]"));
+
 		JLabel lblNomePartecipante = new JLabel("Seleziona musicista:");
 		lblNomePartecipante.setFont(new Font("Dialog", Font.BOLD, 14));
 		getContentPane().add(lblNomePartecipante, "cell 0 0,alignx trailing,aligny center");
-		
+
 		JScrollPane listPanel = new JScrollPane();
-		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
-		list = new JList(listModel2);
+		getContentPane().add(listPanel, "cell 2 0 2 4,grow");
+		
+		list = new JList(new AbstractListModel() {
+			String[] values = new String[] {};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		
 		list.setFont(new Font("Dialog", Font.BOLD, 14));
 		listPanel.setViewportView(list);
-		
-		JButton btnRemoveColl = new JButton("Rimuovi musicista");
-		btnRemoveColl.setFont(new Font("Dialog", Font.BOLD, 14));
-		getContentPane().add(btnRemoveColl, "cell 3 2,alignx center,aligny center");
-		btnRemoveColl.addActionListener(new btnRemovePartecipantListener(this));	
-		
-		JButton btnAddColl = new JButton("Aggiungi musicista");
-		btnAddColl.setFont(new Font("Dialog", Font.BOLD, 14));
-		getContentPane().add(btnAddColl, "cell 1 2,alignx center,aligny center");
-		btnAddColl.addActionListener(new btnAddPartecipantListener(this));
-		
+
 		//ComboBox
 		cbMusicisti = new JComboBox();
 		cbMusicisti.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -107,24 +108,34 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		}
 
 		getContentPane().add(cbMusicisti, "cell 1 0,growx,aligny center");
-		
+
+		JButton btnAddColl = new JButton("Aggiungi musicista");
+		btnAddColl.setFont(new Font("Dialog", Font.BOLD, 14));
+		getContentPane().add(btnAddColl, "cell 1 4,alignx center,aligny center");
+
+		JButton btnRemoveColl = new JButton("Rimuovi musicista");
+		btnRemoveColl.setFont(new Font("Dialog", Font.BOLD, 14));
+		getContentPane().add(btnRemoveColl, "cell 2 4,alignx center,aligny center");
+		btnRemoveColl.addActionListener(new btnRemovePartecipantListener(this));	
+		btnAddColl.addActionListener(new btnAddPartecipantListener(this));
+
 		this.setVisible(true);
 	}
-	
-	
-	
+
+
+
 
 	public void addPartecipant()
 	{
 		//value prende il valore che è attualmente selezionato nella ComboBox
 		String value = cbMusicisti.getSelectedItem().toString();
-		
+
 		if(dataValidator.checkString(value) && !listModel2.contains(value))
 		{ 
 			listModel2.addElement(value);
 		}
 	}
-	
+
 	public void removePartecipant()
 	{
 		if(list.getSelectedValue() != null)
@@ -132,19 +143,19 @@ public class aggiungiPartecipanteWnd extends JFrame{
 			listModel2.remove(list.getSelectedIndex());
 		}
 	}
-	
+
 
 	public void close()
 	{
 		caller.setEnabled(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ArrayList<String> partecipantList=new ArrayList();
-		
+
 		for(int i=0; i<listModel2.size(); i++)
 		{
 			partecipantList.add(listModel2.getElementAt(i));
 		}
-		
+
 		if(caller instanceof areaRiservataWnd)
 		{
 			((areaRiservataWnd) caller).setPartecipantList(partecipantList);
@@ -155,7 +166,7 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		}
 
 	}
-	
+
 	private void loadModel()
 	{		
 		if(caller instanceof areaRiservataWnd)
