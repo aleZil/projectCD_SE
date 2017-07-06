@@ -275,6 +275,7 @@ public class negozioWnd extends JFrame {
 				loginPanel.add(lblUserLogin, "cell 1 0,alignx center,aligny bottom");
 				
 						txtUserLogin = new JTextField();
+						txtUserLogin.setFont(new Font("Dialog", Font.PLAIN, 14));
 						loginPanel.add(txtUserLogin, "cell 1 1,growx,aligny center");
 						txtUserLogin.setColumns(10);
 		
@@ -292,6 +293,7 @@ public class negozioWnd extends JFrame {
 				loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUserLogin, txtPassLogin, btnLogin_1}));
 				
 						txtPassLogin = new JPasswordField();
+						txtPassLogin.setFont(new Font("Dialog", Font.PLAIN, 14));
 						loginPanel.add(txtPassLogin, "flowy,cell 1 3,growx,aligny center");
 				loginPanel.add(btnLogin_1, "cell 1 5,growx,aligny bottom");
 		loginPanel.add(btnAnnulla, "cell 1 6,growx,aligny top");

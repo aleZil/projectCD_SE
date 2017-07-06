@@ -48,6 +48,7 @@ import javax.swing.JTable;
 import javax.swing.JList;
 import javax.swing.JTextPane;
 import javax.swing.JRadioButton;
+import java.awt.Font;
 
 
 public class areaRiservataWnd extends JFrame {
@@ -564,26 +565,31 @@ public class areaRiservataWnd extends JFrame {
 	private void createLoginPanel()
 	{
 		loginPanel=new JPanel();
-		loginPanel.setLayout(new MigLayout("", "[grow]", "[20px][20px][20px][20px][20px][20px][100px][50px,grow]"));
+		loginPanel.setLayout(new MigLayout("", "[300px][grow][300px]", "[grow][][grow][][grow][]"));
 
 		lblUser = new JLabel("Username");
-		loginPanel.add(lblUser, "cell 0 2,alignx center,aligny center");
+		lblUser.setFont(new Font("Dialog", Font.BOLD, 15));
+		loginPanel.add(lblUser, "cell 1 0,alignx center,aligny bottom");
 
 		txtUser = new JTextField("zil");
-		loginPanel.add(txtUser, "cell 0 3,alignx center,aligny center");
+		txtUser.setFont(new Font("Dialog", Font.PLAIN, 14));
+		loginPanel.add(txtUser, "cell 1 1,growx,aligny center");
 		txtUser.setColumns(10);
 
 		lblPass = new JLabel("Password");
-		loginPanel.add(lblPass, "cell 0 4,alignx center,aligny center");
+		lblPass.setFont(new Font("Dialog", Font.BOLD, 15));
+		loginPanel.add(lblPass, "cell 1 2,alignx center,aligny bottom");
 
 		txtPass = new JPasswordField("nonlatrovi");
+		txtPass.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtPass.setColumns(10);
-		loginPanel.add(txtPass, "cell 0 5,alignx center,growy");
-
-		btnLogin = new JButton("Login");
-		loginPanel.add(btnLogin, "flowx,cell 0 6,alignx center,aligny center");
+		loginPanel.add(txtPass, "cell 1 3,grow");
 
 		panelContainer.add(loginPanel, "login");
+		
+				btnLogin = new JButton("Login");
+				btnLogin.setFont(new Font("Dialog", Font.BOLD, 18));
+				loginPanel.add(btnLogin, "flowx,cell 1 5,growx,aligny top");
 		loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUser, txtPass, btnLogin}));
 
 		//Aggiungo gli eventi
@@ -597,20 +603,24 @@ public class areaRiservataWnd extends JFrame {
 	{
 		optionPanel=new JPanel();
 		buttonPanel = new JPanel();
-		buttonPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Opzioni", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		buttonPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Opzioni", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		buttonPanel.setToolTipText("");
 
 		btnO1 = new JButton("Inserisci nuovo Cd/Dvd");
+		btnO1.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnO2 = new JButton("Visualizza magazzino");
+		btnO2.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnO3 = new JButton("Aggiungi band/musicista");
+		btnO3.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnO4 = new JButton("Aggiungi genere");
+		btnO4.setFont(new Font("Dialog", Font.BOLD, 18));
 
 		btnO1.addActionListener(new o1Listener(this));
 		btnO2.addActionListener(new o2Listener(this));
 		optionPanel.setLayout(new MigLayout("", "[grow,fill]", "[grow,fill]"));
 
 		optionPanel.add(buttonPanel, "cell 0 0,alignx left,aligny top");
-		buttonPanel.setLayout(new MigLayout("", "[grow][300.00,fill][grow]", "[pref!][][][][]"));
+		buttonPanel.setLayout(new MigLayout("", "[300px][grow,fill][300px]", "[grow][grow][grow][grow]"));
 		buttonPanel.add(btnO1, "cell 1 0,alignx center,aligny center");
 		buttonPanel.add(btnO2, "cell 1 1,alignx center,aligny center");
 
