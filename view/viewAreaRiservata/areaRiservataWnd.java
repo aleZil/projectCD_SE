@@ -167,7 +167,7 @@ public class areaRiservataWnd extends JFrame {
 
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
-		setBounds(negozio.getLocation().x,negozio.getLocation().y, 1000, 700);
+		setBounds(negozio.getLocation().x-200,negozio.getLocation().y-100, 1000, 700);
 		//setSize(tk.getScreenSize());
 		setUndecorated(false);
 		//Creo panel di login
@@ -623,10 +623,10 @@ public class areaRiservataWnd extends JFrame {
 		loginPanel.add(txtPass, "cell 1 3,grow");
 
 		panelContainer.add(loginPanel, "login");
-		
-				btnLogin = new JButton("Login");
-				btnLogin.setFont(new Font("Dialog", Font.BOLD, 18));
-				loginPanel.add(btnLogin, "flowx,cell 1 5,growx,aligny top");
+				
+						btnLogin = new JButton("Login");
+						btnLogin.setFont(new Font("Dialog", Font.BOLD, 18));
+						loginPanel.add(btnLogin, "flowx,cell 1 4,growx,aligny bottom");
 		loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUser, txtPass, btnLogin}));
 
 		//Aggiungo gli eventi

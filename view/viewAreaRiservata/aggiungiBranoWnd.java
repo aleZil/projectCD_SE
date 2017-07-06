@@ -42,6 +42,7 @@ import aggiungiBranoListener.closerAddTrackListener;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import java.awt.Font;
 
 
 public class aggiungiBranoWnd extends JFrame{
@@ -63,25 +64,31 @@ public class aggiungiBranoWnd extends JFrame{
 		loadModel();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
 		setBounds(caller.getLocation().x,caller.getLocation().y, 650, 170);
+		this.setLocation(caller.getLocation().x+200, caller.getLocation().y+200);
 		getContentPane().setLayout(new MigLayout("", "[100.00][200.00][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
 		
 		JLabel lblNomeBrano = new JLabel("Nome brano:");
-		getContentPane().add(lblNomeBrano, "cell 0 0,alignx center,aligny center");
+		lblNomeBrano.setFont(new Font("Dialog", Font.BOLD, 14));
+		getContentPane().add(lblNomeBrano, "cell 0 0,alignx trailing,aligny center");
 		
 		txtTrackName = new JTextField();
-		getContentPane().add(txtTrackName, "cell 1 0,alignx center,aligny center");
+		txtTrackName.setFont(new Font("Dialog", Font.PLAIN, 14));
+		getContentPane().add(txtTrackName, "cell 1 0,growx,aligny center");
 		txtTrackName.setColumns(10);
 		
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		
 		list = new JList(listModel);
+		list.setFont(new Font("Dialog", Font.PLAIN, 14));
 		listPanel.setViewportView(list);
 		
 		JButton btnRemoveTrack = new JButton("Rimuovi brano");
+		btnRemoveTrack.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnRemoveTrack.addActionListener(new btnRemoveTrackListener(this));
 		
 		JButton btnAddTrack = new JButton("Aggiungi brano");
+		btnAddTrack.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnAddTrack.addActionListener(new btnAddTrackListener(this));
 		getContentPane().add(btnAddTrack, "cell 1 2,alignx center,aligny center");
 		getContentPane().add(btnRemoveTrack, "cell 3 2,alignx center,aligny center");

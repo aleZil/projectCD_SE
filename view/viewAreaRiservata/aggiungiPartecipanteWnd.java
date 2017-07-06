@@ -52,6 +52,7 @@ import aggiungiPartecipanteListener.closerAddPartecipantListener;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
+import java.awt.Font;
 
 
 public class aggiungiPartecipanteWnd extends JFrame{
@@ -71,26 +72,32 @@ public class aggiungiPartecipanteWnd extends JFrame{
 		loadModel();		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
 		setBounds(caller.getLocation().x,caller.getLocation().y, 650, 170);
+		this.setLocation(caller.getLocation().x+200, caller.getLocation().y+200);
 		getContentPane().setLayout(new MigLayout("", "[100.00][200.00,grow][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
 		
 		JLabel lblNomePartecipante = new JLabel("Seleziona musicista:");
+		lblNomePartecipante.setFont(new Font("Dialog", Font.BOLD, 14));
 		getContentPane().add(lblNomePartecipante, "cell 0 0,alignx trailing,aligny center");
 		
 		JScrollPane listPanel = new JScrollPane();
 		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		list = new JList(listModel2);
+		list.setFont(new Font("Dialog", Font.BOLD, 14));
 		listPanel.setViewportView(list);
 		
 		JButton btnRemoveColl = new JButton("Rimuovi musicista");
+		btnRemoveColl.setFont(new Font("Dialog", Font.BOLD, 14));
 		getContentPane().add(btnRemoveColl, "cell 3 2,alignx center,aligny center");
 		btnRemoveColl.addActionListener(new btnRemovePartecipantListener(this));	
 		
 		JButton btnAddColl = new JButton("Aggiungi musicista");
+		btnAddColl.setFont(new Font("Dialog", Font.BOLD, 14));
 		getContentPane().add(btnAddColl, "cell 1 2,alignx center,aligny center");
 		btnAddColl.addActionListener(new btnAddPartecipantListener(this));
 		
 		//ComboBox
 		cbMusicisti = new JComboBox();
+		cbMusicisti.setFont(new Font("Dialog", Font.PLAIN, 14));
 		//da qui in poi per mostrare la lista di tutti i musicisti nella ComboBox
 		ArrayList<Musicista> listaMusicisti = new Musicista().getAllNotBand();
 
