@@ -269,33 +269,33 @@ public class negozioWnd extends JFrame {
 		JPanel loginPanel = new JPanel();
 		panelContainer.add(loginPanel, "login");
 		loginPanel.setLayout(new MigLayout("", "[100][grow][100]", "[grow][][grow][][grow][][]"));
-		
-				JLabel lblUserLogin = new JLabel("Username");
-				lblUserLogin.setFont(new Font("Dialog", Font.BOLD, 15));
-				loginPanel.add(lblUserLogin, "cell 1 0,alignx center,aligny bottom");
-				
-						txtUserLogin = new JTextField();
-						txtUserLogin.setFont(new Font("Dialog", Font.PLAIN, 14));
-						loginPanel.add(txtUserLogin, "cell 1 1,growx,aligny center");
-						txtUserLogin.setColumns(10);
-		
-				JLabel lblPassLogin = new JLabel("Password");
-				lblPassLogin.setFont(new Font("Dialog", Font.BOLD, 15));
-				loginPanel.add(lblPassLogin, "cell 1 2,alignx center,aligny bottom");
+
+		JLabel lblUserLogin = new JLabel("Username");
+		lblUserLogin.setFont(new Font("Dialog", Font.BOLD, 15));
+		loginPanel.add(lblUserLogin, "cell 1 0,alignx center,aligny bottom");
+
+		txtUserLogin = new JTextField();
+		txtUserLogin.setFont(new Font("Dialog", Font.PLAIN, 14));
+		loginPanel.add(txtUserLogin, "cell 1 1,growx,aligny center");
+		txtUserLogin.setColumns(10);
+
+		JLabel lblPassLogin = new JLabel("Password");
+		lblPassLogin.setFont(new Font("Dialog", Font.BOLD, 15));
+		loginPanel.add(lblPassLogin, "cell 1 2,alignx center,aligny bottom");
 
 		JButton btnAnnulla = new JButton("Annulla");
 		btnAnnulla.addActionListener(new btnShowHome(this));
-		
-				JButton btnLogin_1 = new JButton("Login");
-				btnLogin_1.setFont(new Font("Dialog", Font.BOLD, 18));
-				btnLogin_1.addActionListener(new btnLoginCliente(this));
-				btnLogin_1.addKeyListener(new btnLoginCliente(this));
-				loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUserLogin, txtPassLogin, btnLogin_1}));
-				
-						txtPassLogin = new JPasswordField();
-						txtPassLogin.setFont(new Font("Dialog", Font.PLAIN, 14));
-						loginPanel.add(txtPassLogin, "flowy,cell 1 3,growx,aligny center");
-				loginPanel.add(btnLogin_1, "cell 1 5,growx,aligny bottom");
+
+		JButton btnLogin_1 = new JButton("Login");
+		btnLogin_1.setFont(new Font("Dialog", Font.BOLD, 18));
+		btnLogin_1.addActionListener(new btnLoginCliente(this));
+		btnLogin_1.addKeyListener(new btnLoginCliente(this));
+		loginPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUserLogin, txtPassLogin, btnLogin_1}));
+
+		txtPassLogin = new JPasswordField();
+		txtPassLogin.setFont(new Font("Dialog", Font.PLAIN, 14));
+		loginPanel.add(txtPassLogin, "flowy,cell 1 3,growx,aligny center");
+		loginPanel.add(btnLogin_1, "cell 1 5,growx,aligny bottom");
 		loginPanel.add(btnAnnulla, "cell 1 6,growx,aligny top");
 	}
 
@@ -335,75 +335,75 @@ public class negozioWnd extends JFrame {
 		registrazionePanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Informazioni utente", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		panelContainer.add(registrazionePanel, "registrazione");
 		registrazionePanel.setLayout(new MigLayout("", "[100][grow][100]", "[][50][][50][][50][][50][][50][][50][][50][][50][][]"));
-		
-				JLabel lblUsername = new JLabel("Username");
-				lblUsername.setFont(new Font("Dialog", Font.BOLD, 14));
-				registrazionePanel.add(lblUsername, "cell 1 0,alignx center,aligny bottom");
+
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setFont(new Font("Dialog", Font.BOLD, 14));
+		registrazionePanel.add(lblUsername, "cell 1 0,alignx center,aligny bottom");
 
 		txtUsername = new JTextField();
 		txtUsername.setFont(new Font("Dialog", Font.PLAIN, 14));
 		registrazionePanel.add(txtUsername, "cell 1 1,growx,aligny center");
 		txtUsername.setColumns(10);
-		
-				JLabel lblCf = new JLabel("Codice Fiscale");
-				lblCf.setFont(new Font("Dialog", Font.BOLD, 14));
-				registrazionePanel.add(lblCf, "cell 1 2,alignx center,aligny bottom");
+
+		JLabel lblCf = new JLabel("Codice Fiscale");
+		lblCf.setFont(new Font("Dialog", Font.BOLD, 14));
+		registrazionePanel.add(lblCf, "cell 1 2,alignx center,aligny bottom");
 
 		txtCf = new JTextField();
 		txtCf.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtCf.setColumns(10);
 		registrazionePanel.add(txtCf, "cell 1 3,growx,aligny center");
-		
-				JLabel lblNome = new JLabel("Nome");
-				lblNome.setFont(new Font("Dialog", Font.BOLD, 14));
-				registrazionePanel.add(lblNome, "cell 1 4,alignx center,aligny bottom");
+
+		JLabel lblNome = new JLabel("Nome");
+		lblNome.setFont(new Font("Dialog", Font.BOLD, 14));
+		registrazionePanel.add(lblNome, "cell 1 4,alignx center,aligny bottom");
 
 		txtNome = new JTextField();
 		txtNome.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtNome.setColumns(10);
 		registrazionePanel.add(txtNome, "cell 1 5,growx,aligny center");
-		
-				JLabel lblCognome = new JLabel("Cognome");
-				lblCognome.setFont(new Font("Dialog", Font.BOLD, 14));
-				registrazionePanel.add(lblCognome, "cell 1 6,alignx center,aligny bottom");
+
+		JLabel lblCognome = new JLabel("Cognome");
+		lblCognome.setFont(new Font("Dialog", Font.BOLD, 14));
+		registrazionePanel.add(lblCognome, "cell 1 6,alignx center,aligny bottom");
 
 		txtCognome = new JTextField();
 		txtCognome.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtCognome.setColumns(10);
 		registrazionePanel.add(txtCognome, "cell 1 7,growx,aligny center");
-		
-				JLabel lblPassword = new JLabel("Password");
-				lblPassword.setFont(new Font("Dialog", Font.BOLD, 14));
-				registrazionePanel.add(lblPassword, "cell 1 8,alignx center,aligny bottom");
+
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Dialog", Font.BOLD, 14));
+		registrazionePanel.add(lblPassword, "cell 1 8,alignx center,aligny bottom");
 
 		txtPassword = new JPasswordField();
 		txtPassword.setFont(new Font("Dialog", Font.PLAIN, 14));
 		registrazionePanel.add(txtPassword, "cell 1 9,growx,aligny center");
-		
-				JLabel lblIndirizzo = new JLabel("Indirizzo");
-				lblIndirizzo.setFont(new Font("Dialog", Font.BOLD, 14));
-				registrazionePanel.add(lblIndirizzo, "cell 1 10,alignx center,aligny bottom");
+
+		JLabel lblIndirizzo = new JLabel("Indirizzo");
+		lblIndirizzo.setFont(new Font("Dialog", Font.BOLD, 14));
+		registrazionePanel.add(lblIndirizzo, "cell 1 10,alignx center,aligny bottom");
 
 		txtIndirizzo = new JTextField();
 		txtIndirizzo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtIndirizzo.setColumns(10);
 		registrazionePanel.add(txtIndirizzo, "cell 1 11,growx,aligny center");
-		
-				JLabel lblTelefono = new JLabel("Telefono");
-				lblTelefono.setFont(new Font("Dialog", Font.BOLD, 14));
-				registrazionePanel.add(lblTelefono, "cell 1 12,alignx center,aligny bottom");
 
-		txtTelefono = new JTextField("+39");
+		JLabel lblTelefono = new JLabel("Telefono");
+		lblTelefono.setFont(new Font("Dialog", Font.BOLD, 14));
+		registrazionePanel.add(lblTelefono, "cell 1 12,alignx center,aligny bottom");
+
+		txtTelefono = new JTextField("");
 		txtTelefono.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtTelefono.setText("+39");
 		txtTelefono.setColumns(10);
 		registrazionePanel.add(txtTelefono, "cell 1 13,growx,aligny center");
-		
-				JLabel lblCellulare = new JLabel("Cellulare");
-				lblCellulare.setFont(new Font("Dialog", Font.BOLD, 14));
-				registrazionePanel.add(lblCellulare, "cell 1 14,alignx center,aligny bottom");
 
-		txtCellulare = new JTextField("+39");
+		JLabel lblCellulare = new JLabel("Cellulare");
+		lblCellulare.setFont(new Font("Dialog", Font.BOLD, 14));
+		registrazionePanel.add(lblCellulare, "cell 1 14,alignx center,aligny bottom");
+
+		txtCellulare = new JTextField("");
 		txtCellulare.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtCellulare.setText("+39");
 		txtCellulare.setColumns(10);
@@ -414,10 +414,10 @@ public class negozioWnd extends JFrame {
 		JButton btnRegistra = new JButton("Registrati");
 		btnRegistra.setFont(new Font("Dialog", Font.BOLD, 16));
 		registrazionePanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtUsername, txtCf, txtNome, txtCognome, txtPassword, txtIndirizzo, txtTelefono, txtCellulare, btnRegistra}));
-		
-				btnRegistra.addActionListener(new btnAddRegistrazione(this));
-				btnRegistra.addKeyListener(new btnAddRegistrazione(this));
-				registrazionePanel.add(btnRegistra, "cell 1 16,grow");
+
+		btnRegistra.addActionListener(new btnAddRegistrazione(this));
+		btnRegistra.addKeyListener(new btnAddRegistrazione(this));
+		registrazionePanel.add(btnRegistra, "cell 1 16,grow");
 		registrazionePanel.add(btnAnnulla, "cell 1 17,grow");
 	}
 
@@ -470,10 +470,10 @@ public class negozioWnd extends JFrame {
 		pagamentoPanel.add(btnConfermaOrdine, "flowy,cell 1 2,grow");
 		consegnaGroup.add(rbCorriere);
 		consegnaGroup.add(rbPosta);
-		
-				JButton btnBack = new JButton("Indietro");
-				btnBack.setFont(new Font("Dialog", Font.BOLD, 14));
-				pagamentoPanel.add(btnBack, "cell 1 3,grow");
+
+		JButton btnBack = new JButton("Indietro");
+		btnBack.setFont(new Font("Dialog", Font.BOLD, 14));
+		pagamentoPanel.add(btnBack, "cell 1 3,grow");
 		btnBack.addActionListener(new btnShowHome(this));
 	}
 
@@ -879,8 +879,8 @@ public class negozioWnd extends JFrame {
 		txtCognome.setText("");
 		txtCf.setText("");
 		txtIndirizzo.setText("");
-		txtTelefono.setText("");
-		txtCellulare.setText("");
+		//txtTelefono.setText("");
+		//txtCellulare.setText("");
 		txtUserLogin.setText("");
 		txtPassLogin.setText("");
 	}
