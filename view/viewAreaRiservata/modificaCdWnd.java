@@ -38,6 +38,7 @@ import java.awt.Component;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Font;
 
 public class modificaCdWnd extends JFrame {
 
@@ -79,21 +80,26 @@ public class modificaCdWnd extends JFrame {
 
 		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][65][grow][grow][grow][grow][grow][grow]"));
 
-		JLabel lblTitle = new JLabel("Titolo Cd:");
+		JLabel lblTitle = new JLabel("Titolo Cd");
+		lblTitle.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblTitle, "cell 0 0,alignx right,aligny center");
 
 		txtTitle = new JTextField();
+		txtTitle.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtTitle.setColumns(10);
 		newCdPanel.add(txtTitle, "cell 1 0,grow");
 
-		JLabel lblAddTrackList = new JLabel("Gestione brani:");
+		JLabel lblAddTrackList = new JLabel("Gestione brani");
+		lblAddTrackList.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblAddTrackList, "cell 0 1,alignx right,aligny center");
 
 		JButton btnAddTrack = new JButton("Aggiungi/Rimuovi");
+		btnAddTrack.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(btnAddTrack, "cell 1 1,grow");
 		btnAddTrack.addActionListener(new btnShowTrackListListener(this));	//apro nuovo frame
 
-		JLabel lblTrackList = new JLabel("Lista brani:");
+		JLabel lblTrackList = new JLabel("Lista brani");
+		lblTrackList.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblTrackList, "cell 0 2,alignx right,aligny center");
 
 		//Pannello di visualizzazione brani
@@ -101,22 +107,27 @@ public class modificaCdWnd extends JFrame {
 		newCdPanel.add(scrollTrackList, "cell 1 2,grow");
 		listModel=new DefaultListModel<String>();
 		listTrackList = new JList(listModel);
+		listTrackList.setFont(new Font("Dialog", Font.PLAIN, 14));
 		scrollTrackList.setViewportView(listTrackList);
 
-		JLabel lblPrice = new JLabel("Prezzo:");
+		JLabel lblPrice = new JLabel("Prezzo");
+		lblPrice.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblPrice, "cell 0 3,alignx right,aligny center");
 
 		txtPrice = new JTextField();
+		txtPrice.setFont(new Font("Dialog", Font.PLAIN, 14));
 		newCdPanel.add(txtPrice, "cell 1 3,alignx center,aligny center");
 		txtPrice.setColumns(10);
 
-		JLabel lblDesc = new JLabel("Descrizione:");
+		JLabel lblDesc = new JLabel("Descrizione");
+		lblDesc.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblDesc, "cell 0 4,alignx right,aligny center");
 
 		JScrollPane scrollDesc = new JScrollPane();
 		newCdPanel.add(scrollDesc, "cell 1 4,grow");
 
 		txtDesc = new JTextArea();
+		txtDesc.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtDesc.addKeyListener(new KeyListener() {
 
 
@@ -145,26 +156,33 @@ public class modificaCdWnd extends JFrame {
 		});
 		scrollDesc.setViewportView(txtDesc);
 
-		JLabel lblGen = new JLabel("Genere:");
+		JLabel lblGen = new JLabel("Genere");
+		lblGen.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblGen, "cell 0 5,alignx right,aligny center");
 
 		cbGen = new JComboBox();
+		cbGen.setFont(new Font("Dialog", Font.PLAIN, 14));
 		newCdPanel.add(cbGen, "cell 1 5,alignx center,aligny center");
 
-		JLabel lblMus = new JLabel("Musicista/band titolare:");
+		JLabel lblMus = new JLabel("Musicista/band titolare");
+		lblMus.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblMus, "cell 0 6,alignx right,aligny center");
 
 		cbMus = new JComboBox();
+		cbMus.setFont(new Font("Dialog", Font.PLAIN, 14));
 		newCdPanel.add(cbMus, "cell 1 6,alignx center,aligny center");
 
-		JLabel lblCollaboratore = new JLabel("Gestione musicisti:");
+		JLabel lblCollaboratore = new JLabel("Gestione musicisti");
+		lblCollaboratore.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblCollaboratore, "cell 0 7,alignx right,aligny center");
 
 		JButton btnAggiungiCollaboratore = new JButton("Aggiungi/Rimuovi");
+		btnAggiungiCollaboratore.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(btnAggiungiCollaboratore, "cell 1 7");
 		btnAggiungiCollaboratore.addActionListener(new btnShowCollaboratorListListener(this)); 	//apro nuovo frame
 
-		JLabel lblListaMusicisti = new JLabel("Lista musicisti:");
+		JLabel lblListaMusicisti = new JLabel("Lista musicisti");
+		lblListaMusicisti.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblListaMusicisti, "cell 0 8,alignx right,aligny center");
 
 		//pannello visualizzazione musicisti partecipanti
@@ -173,17 +191,21 @@ public class modificaCdWnd extends JFrame {
 
 		listModel2=new DefaultListModel<String>();	
 		listPartecipantList = new JList(listModel2);
+		listPartecipantList.setFont(new Font("Dialog", Font.PLAIN, 14));
 		listPartecipantList.setModel(listModel2);
 		scrollPartecipantList.setViewportView(listPartecipantList);
 
-		JLabel lblAmo = new JLabel("Quantità:");
+		JLabel lblAmo = new JLabel("Quantità");
+		lblAmo.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(lblAmo, "cell 0 9,alignx right,aligny center");
 
 		txtAmo = new JTextField();
+		txtAmo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtAmo.setColumns(10);
 		newCdPanel.add(txtAmo, "cell 1 9,alignx center,aligny center");
 
 		JButton btnUpdateCd = new JButton("Modifica prodotto");
+		btnUpdateCd.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnUpdateCd.addActionListener(new btnUpdateCdListener(this));
 		newCdPanel.add(btnUpdateCd, "flowx,cell 1 10,alignx left,growy");
 		insertPanel.setLayout(new MigLayout("", "[grow]", "[grow]"));
