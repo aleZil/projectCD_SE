@@ -47,7 +47,7 @@ public class dettagliCdWnd extends JFrame {
 	public dettagliCdWnd(Integer idCd,negozioWnd caller) {
 		int offsetx=110;
 		int offsety=100;
-		
+
 		this.caller=caller;
 		this.setLocation(caller.getLocation().x+offsetx,caller.getLocation().y+offsety);
 		setResizable(false);
@@ -141,7 +141,7 @@ public class dettagliCdWnd extends JFrame {
 			lmPartecipanti.addElement(m.getNomeArte());
 		}
 	}
-	
+
 	public Cd getCd()
 	{
 		return cd;

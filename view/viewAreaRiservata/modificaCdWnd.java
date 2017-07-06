@@ -52,7 +52,7 @@ public class modificaCdWnd extends JFrame {
 	private JList<String> listPartecipantList;
 	private JTextArea txtDesc;
 	private JFrame caller;
-	
+
 	//id del cd da modificare
 	private Integer idCd;
 
@@ -75,7 +75,7 @@ public class modificaCdWnd extends JFrame {
 		JPanel insertPanel = new JPanel();
 		JPanel newCdPanel = new JPanel();
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-//		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][60][grow][grow][grow][grow][grow][grow]"));
+		//		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][60][grow][grow][grow][grow][grow][grow]"));
 
 		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][65][grow][grow][grow][grow][grow][grow]"));
 
@@ -118,29 +118,29 @@ public class modificaCdWnd extends JFrame {
 
 		txtDesc = new JTextArea();
 		txtDesc.addKeyListener(new KeyListener() {
-			
-			
+
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if (e.getKeyCode() == KeyEvent.VK_TAB)
-                {
-                    e.consume();
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
-                }
-				
+				{
+					e.consume();
+					KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+				}
+
 			}
 		});
 		scrollDesc.setViewportView(txtDesc);
@@ -233,13 +233,13 @@ public class modificaCdWnd extends JFrame {
 		caller.setAlwaysOnTop(true);
 		caller.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	
+
 	// *********************************************************************************************
-	
+
 	//								FUNZIONI DI SUPPORTO
-	
+
 	// *********************************************************************************************
-	
+
 
 
 
@@ -253,7 +253,7 @@ public class modificaCdWnd extends JFrame {
 	{
 		txtTitle.setText(title);
 	}
-	
+
 	private void loadTrackList(ArrayList<Brano> trackList)
 	{
 		listModel.clear();
@@ -262,7 +262,7 @@ public class modificaCdWnd extends JFrame {
 			listModel.addElement(b.getNome());
 		}
 	}
-	
+
 	public void setTrackList(ArrayList<String> trackList)
 	{
 		listModel.clear();
@@ -276,12 +276,12 @@ public class modificaCdWnd extends JFrame {
 	{
 		txtPrice.setText(price.toString());
 	}
-	
+
 	private void setDescription(String description)
 	{
 		txtDesc.setText(description);
 	}
-	
+
 	private void setGender(Genere gen)
 	{
 		for(Genere g:gen.getAll())
@@ -290,7 +290,7 @@ public class modificaCdWnd extends JFrame {
 		}
 		cbGen.setSelectedItem(gen.getNome());
 	}
-	
+
 	private void setMusician(Musicista mus)
 	{
 		for(Musicista m:mus.getAll())
@@ -299,7 +299,7 @@ public class modificaCdWnd extends JFrame {
 		}
 		cbMus.setSelectedItem(mus.getNomeArte());
 	}
-	
+
 	private void loadMusicianList(ArrayList<Musicista> musList)
 	{
 		listModel2.clear();
@@ -313,7 +313,7 @@ public class modificaCdWnd extends JFrame {
 	{
 		txtAmo.setText(amount.toString());
 	}
-	
+
 	public void setPartecipantList(ArrayList<String> partecipantList)	
 	{
 		listModel2.clear();
@@ -322,19 +322,19 @@ public class modificaCdWnd extends JFrame {
 			listModel2.addElement(partecipant);
 		}
 	}
-	
-	
+
+
 	// *********************************************************************************************
 
 	//								RECUPERO INFORMAZIONI DA FORM
-	
+
 	// *********************************************************************************************
 
 	public int getCdId()
 	{
 		return idCd;
 	}
-	
+
 	public String getCdTitle()
 	{
 		return txtTitle.getText();

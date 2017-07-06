@@ -77,21 +77,21 @@ public class aggiungiBranoWnd extends JFrame{
 		txtTrackName.setColumns(10);
 		
 		JScrollPane listPanel = new JScrollPane();
-		getContentPane().add(listPanel, "cell 2 0 1 3,grow");
+		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		
 		list = new JList(listModel);
 		list.setFont(new Font("Dialog", Font.PLAIN, 14));
 		listPanel.setViewportView(list);
 		
-		JButton btnAddTrack = new JButton("Aggiungi brano");
-		btnAddTrack.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnAddTrack.addActionListener(new btnAddTrackListener(this));
-		getContentPane().add(btnAddTrack, "cell 1 3,alignx center,aligny center");
-		
 		JButton btnRemoveTrack = new JButton("Rimuovi brano");
 		btnRemoveTrack.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnRemoveTrack.addActionListener(new btnRemoveTrackListener(this));
-		getContentPane().add(btnRemoveTrack, "cell 2 3,alignx center,aligny center");
+		
+		JButton btnAddTrack = new JButton("Aggiungi brano");
+		btnAddTrack.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnAddTrack.addActionListener(new btnAddTrackListener(this));
+		getContentPane().add(btnAddTrack, "cell 1 2,alignx center,aligny center");
+		getContentPane().add(btnRemoveTrack, "cell 3 2,alignx center,aligny center");
 		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTrackName, btnAddTrack}));
 		
 		this.setVisible(true);

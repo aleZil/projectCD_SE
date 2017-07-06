@@ -14,6 +14,7 @@ import utility.Db;
 public class Brano {
 	
 	private Connection db;
+	
 	private String nome;
 	private Integer ordine;
 	private Integer cd_id;

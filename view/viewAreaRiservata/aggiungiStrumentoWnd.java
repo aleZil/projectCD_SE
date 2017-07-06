@@ -75,7 +75,7 @@ public class aggiungiStrumentoWnd extends JFrame{
 		this.addWindowListener(new closerAddInstrumentListener(this));
 		loadModel();		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	//chiude il frame
-		setBounds(caller.getLocation().x,caller.getLocation().y, 750, 170);
+		setBounds(caller.getLocation().x,caller.getLocation().y, 700, 170);
 		this.setLocation(caller.getLocation().x+200, caller.getLocation().y+200);
 		getContentPane().setLayout(new MigLayout("", "[100.00][200.00,grow][230.00][100.00]", "[grow,top][grow,top][grow,top][grow,top]"));
 
@@ -84,10 +84,20 @@ public class aggiungiStrumentoWnd extends JFrame{
 		getContentPane().add(lblSelezionaStrumento, "cell 0 0,alignx trailing,aligny center");
 
 		JScrollPane listPanel = new JScrollPane();
-		getContentPane().add(listPanel, "cell 2 0 1 3,grow");
+		getContentPane().add(listPanel, "cell 2 0 1 4,grow");
 		list = new JList(listModel3);
 		list.setFont(new Font("Dialog", Font.BOLD, 14));
 		listPanel.setViewportView(list);
+
+		JButton btnAggiungiStrumento = new JButton("Aggiungi strumento");
+		btnAggiungiStrumento.setFont(new Font("Dialog", Font.BOLD, 14));
+		getContentPane().add(btnAggiungiStrumento, "cell 1 2,alignx center,aligny center");
+		btnAggiungiStrumento.addActionListener(new btnAddInstrumentListener(this));
+
+		JButton btnRimuoviStrumento = new JButton("Rimuovi strumento");
+		btnRimuoviStrumento.setFont(new Font("Dialog", Font.BOLD, 14));
+		getContentPane().add(btnRimuoviStrumento, "cell 3 2,alignx center,aligny center");
+		btnRimuoviStrumento.addActionListener(new btnRemoveInstrumentListener(this));
 
 		//ComboBox
 		cbStrumenti = new JComboBox();
@@ -112,16 +122,6 @@ public class aggiungiStrumentoWnd extends JFrame{
 		}
 
 		getContentPane().add(cbStrumenti, "cell 1 0,growx,aligny center");
-
-		JButton btnAggiungiStrumento = new JButton("Aggiungi strumento");
-		btnAggiungiStrumento.setFont(new Font("Dialog", Font.BOLD, 14));
-		getContentPane().add(btnAggiungiStrumento, "cell 1 3,alignx center,aligny center");
-
-		JButton btnRimuoviStrumento = new JButton("Rimuovi strumento");
-		btnRimuoviStrumento.setFont(new Font("Dialog", Font.BOLD, 14));
-		getContentPane().add(btnRimuoviStrumento, "cell 2 3,alignx center,aligny center");
-		btnRimuoviStrumento.addActionListener(new btnRemoveInstrumentListener(this));
-		btnAggiungiStrumento.addActionListener(new btnAddInstrumentListener(this));
 
 		this.setVisible(true);
 	}
