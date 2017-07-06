@@ -336,62 +336,70 @@ public class negozioWnd extends JFrame {
 		panelContainer.add(registrazionePanel, "registrazione");
 		registrazionePanel.setLayout(new MigLayout("", "[100][grow][100]", "[][50][][50][][50][][50][][50][][50][][50][][50][][]"));
 
+
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Dialog", Font.BOLD, 14));
-		registrazionePanel.add(lblUsername, "cell 1 0,alignx center,aligny bottom");
+		registrazionePanel.add(lblUsername, "cell 0 1,alignx trailing,aligny center");
 
 		txtUsername = new JTextField();
 		txtUsername.setFont(new Font("Dialog", Font.PLAIN, 14));
 		registrazionePanel.add(txtUsername, "cell 1 1,growx,aligny center");
 		txtUsername.setColumns(10);
 
+
 		JLabel lblCf = new JLabel("Codice Fiscale");
 		lblCf.setFont(new Font("Dialog", Font.BOLD, 14));
-		registrazionePanel.add(lblCf, "cell 1 2,alignx center,aligny bottom");
+		registrazionePanel.add(lblCf, "cell 0 3,alignx trailing,aligny center");
 
 		txtCf = new JTextField();
 		txtCf.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtCf.setColumns(10);
 		registrazionePanel.add(txtCf, "cell 1 3,growx,aligny center");
 
+
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setFont(new Font("Dialog", Font.BOLD, 14));
-		registrazionePanel.add(lblNome, "cell 1 4,alignx center,aligny bottom");
+		registrazionePanel.add(lblNome, "cell 0 5,alignx right,aligny center");
 
 		txtNome = new JTextField();
 		txtNome.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtNome.setColumns(10);
 		registrazionePanel.add(txtNome, "cell 1 5,growx,aligny center");
 
+
 		JLabel lblCognome = new JLabel("Cognome");
 		lblCognome.setFont(new Font("Dialog", Font.BOLD, 14));
-		registrazionePanel.add(lblCognome, "cell 1 6,alignx center,aligny bottom");
+		registrazionePanel.add(lblCognome, "cell 0 7,alignx right,aligny center");
 
 		txtCognome = new JTextField();
 		txtCognome.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtCognome.setColumns(10);
 		registrazionePanel.add(txtCognome, "cell 1 7,growx,aligny center");
 
+
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Dialog", Font.BOLD, 14));
-		registrazionePanel.add(lblPassword, "cell 1 8,alignx center,aligny bottom");
+		registrazionePanel.add(lblPassword, "cell 0 9,alignx right,aligny center");
 
 		txtPassword = new JPasswordField();
 		txtPassword.setFont(new Font("Dialog", Font.PLAIN, 14));
 		registrazionePanel.add(txtPassword, "cell 1 9,growx,aligny center");
 
+
 		JLabel lblIndirizzo = new JLabel("Indirizzo");
 		lblIndirizzo.setFont(new Font("Dialog", Font.BOLD, 14));
-		registrazionePanel.add(lblIndirizzo, "cell 1 10,alignx center,aligny bottom");
+		registrazionePanel.add(lblIndirizzo, "cell 0 11,alignx right,aligny center");
+
 
 		txtIndirizzo = new JTextField();
 		txtIndirizzo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtIndirizzo.setColumns(10);
 		registrazionePanel.add(txtIndirizzo, "cell 1 11,growx,aligny center");
 
+
 		JLabel lblTelefono = new JLabel("Telefono");
 		lblTelefono.setFont(new Font("Dialog", Font.BOLD, 14));
-		registrazionePanel.add(lblTelefono, "cell 1 12,alignx center,aligny bottom");
+		registrazionePanel.add(lblTelefono, "cell 0 13,alignx right,aligny center");
 
 		txtTelefono = new JTextField("");
 		txtTelefono.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -399,9 +407,10 @@ public class negozioWnd extends JFrame {
 		txtTelefono.setColumns(10);
 		registrazionePanel.add(txtTelefono, "cell 1 13,growx,aligny center");
 
+
 		JLabel lblCellulare = new JLabel("Cellulare");
 		lblCellulare.setFont(new Font("Dialog", Font.BOLD, 14));
-		registrazionePanel.add(lblCellulare, "cell 1 14,alignx center,aligny bottom");
+		registrazionePanel.add(lblCellulare, "cell 0 15,alignx right,aligny center");
 
 		txtCellulare = new JTextField("");
 		txtCellulare.setFont(new Font("Dialog", Font.PLAIN, 14));
