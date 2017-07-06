@@ -333,7 +333,7 @@ public class areaRiservataWnd extends JFrame {
 				option4Panel.add(lblGen, "cell 1 0,alignx center,aligny bottom");
 		
 				txtGen = new JTextField();
-				option4Panel.add(txtGen, "flowx,cell 1 1,growx,aligny center");
+				option4Panel.add(txtGen, "flowx,cell 1 1,growx,aligny top");
 				txtGen.setColumns(10);
 				txtGen.requestFocus();	//non funziona
 		
@@ -356,24 +356,24 @@ public class areaRiservataWnd extends JFrame {
 		option3Panel = new JPanel();
 		option3Panel.setBorder(new TitledBorder(null, "Info musicista/band", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		panelContainer.add(option3Panel, "optionAddMus");
-		option3Panel.setLayout(new MigLayout("", "[200][grow][200]", "[][][][][][][][][][][][grow][grow][]"));
+		option3Panel.setLayout(new MigLayout("", "[200][grow][200]", "[][][][][][][][][][][][grow][][grow][]"));
 		
 				lblArtName = new JLabel("Nome arte");
 				lblArtName.setFont(new Font("Dialog", Font.BOLD, 14));
-				option3Panel.add(lblArtName, "cell 1 0,alignx center,aligny bottom");
+				option3Panel.add(lblArtName, "cell 0 1,alignx right,aligny center");
 
 		txtArtName = new JTextField();
 		txtArtName.setFont(new Font("Dialog", Font.PLAIN, 14));
 		option3Panel.add(txtArtName, "cell 1 1,growx,aligny center");
 		txtArtName.setColumns(10);
-		
-				lblSelezionaTipo = new JLabel("Seleziona tipo");
-				lblSelezionaTipo.setFont(new Font("Dialog", Font.BOLD, 14));
-				option3Panel.add(lblSelezionaTipo, "cell 1 2,alignx center,aligny bottom");
+				
+						lblSelezionaTipo = new JLabel("Seleziona tipo");
+						lblSelezionaTipo.setFont(new Font("Dialog", Font.BOLD, 14));
+						option3Panel.add(lblSelezionaTipo, "cell 0 3,alignx right,aligny center");
 		
 				lblAnnoDiNascita = new JLabel("Anno di nascita");
 				lblAnnoDiNascita.setFont(new Font("Dialog", Font.BOLD, 14));
-				option3Panel.add(lblAnnoDiNascita, "cell 1 4,alignx center,aligny bottom");
+				option3Panel.add(lblAnnoDiNascita, "cell 0 5,alignx right,aligny center");
 
 		txtYearMus = new JTextField();
 		txtYearMus.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -382,7 +382,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblGen_2 = new JLabel("Genere");
 				lblGen_2.setFont(new Font("Dialog", Font.BOLD, 14));
-				option3Panel.add(lblGen_2, "cell 1 6,alignx center,aligny center");
+				option3Panel.add(lblGen_2, "cell 0 7,alignx right,aligny center");
 
 		//ComboBox dei Generi
 		cbGeneri = new JComboBox();
@@ -391,36 +391,36 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblStrumenti = new JLabel("Strumenti suonati");
 				lblStrumenti.setFont(new Font("Dialog", Font.BOLD, 14));
-				option3Panel.add(lblStrumenti, "cell 1 8,alignx center,aligny center");
+				option3Panel.add(lblStrumenti, "cell 0 9,alignx right,aligny center");
 
 		btnAggiungirimuovi = new JButton("Gestione strumenti");
 		btnAggiungirimuovi.setFont(new Font("Dialog", Font.BOLD, 14));
 		option3Panel.add(btnAggiungirimuovi, "cell 1 9,growx,aligny center");
 		btnAggiungirimuovi.addActionListener(new btnShowStrumentiListListener(this));
-		
-				lblListaStrumenti = new JLabel("Lista strumenti");
-				lblListaStrumenti.setFont(new Font("Dialog", Font.BOLD, 14));
-				option3Panel.add(lblListaStrumenti, "cell 1 10,alignx center");
 
 		scrollInstrumentList = new JScrollPane();
-		option3Panel.add(scrollInstrumentList, "cell 1 11 1 2,grow");
+		option3Panel.add(scrollInstrumentList, "cell 1 11 1 3,grow");
 		listMStrumenti=new DefaultListModel<String>();	
 		listInstrumentList = new JList(listMStrumenti);
 		scrollInstrumentList.setViewportView(listInstrumentList);
+		
+				lblListaStrumenti = new JLabel("Lista strumenti");
+				lblListaStrumenti.setFont(new Font("Dialog", Font.BOLD, 14));
+				option3Panel.add(lblListaStrumenti, "cell 0 12,alignx right,aligny center");
 
 		btnAddNewMus = new JButton("Aggiungi musicista/band");
 		btnAddNewMus.setFont(new Font("Dialog", Font.BOLD, 18));
-		option3Panel.add(btnAddNewMus, "flowx,cell 1 13,growx,aligny center");
+		option3Panel.add(btnAddNewMus, "flowx,cell 1 14,growx,aligny center");
 		btnAddNewMus.addActionListener(new btnAddNewMusListener(this));
 
 		rdbtnMusicista = new JRadioButton("Musicista");
 		rdbtnMusicista.setFont(new Font("Dialog", Font.PLAIN, 14));
-		option3Panel.add(rdbtnMusicista, "cell 1 3,alignx center,aligny center");
+		option3Panel.add(rdbtnMusicista, "cell 1 3,alignx left,aligny center");
 		rdbtnMusicista.setSelected(true);
 
 		rdbtnBand = new JRadioButton("Band");
 		rdbtnBand.setFont(new Font("Dialog", Font.PLAIN, 14));
-		option3Panel.add(rdbtnBand, "flowx,cell 1 3,alignx center,aligny center");
+		option3Panel.add(rdbtnBand, "flowx,cell 1 3,alignx left,aligny center");
 
 		ButtonGroup groupRadioButtons = new ButtonGroup();
 		groupRadioButtons.add(rdbtnMusicista);
@@ -428,7 +428,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				btnBack_3 = new JButton("Annulla");
 				btnBack_3.setFont(new Font("Dialog", Font.BOLD, 14));
-				option3Panel.add(btnBack_3, "cell 1 13,growx,aligny center");
+				option3Panel.add(btnBack_3, "cell 1 14,growx,aligny center");
 				btnBack_3.addActionListener(new btnBackListener(this));
 		option3Panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtArtName, cbGeneri, btnAddNewMus}));
 
@@ -447,7 +447,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblTitle = new JLabel("Titolo Cd");
 				lblTitle.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblTitle, "cell 1 0,alignx center,aligny bottom");
+				newCdPanel.add(lblTitle, "cell 0 1,alignx right,aligny center");
 
 		txtTitle = new JTextField();
 		txtTitle.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -461,7 +461,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblTrackList = new JLabel("Lista brani");
 				lblTrackList.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblTrackList, "cell 1 3,alignx center,aligny center");
+				newCdPanel.add(lblTrackList, "cell 0 4,alignx right,aligny center");
 
 		//Pannello di visualizzazione brani
 		scrollTrackList = new JScrollPane();
@@ -473,7 +473,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblPrice = new JLabel("Prezzo");
 				lblPrice.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblPrice, "cell 1 5,alignx center,aligny center");
+				newCdPanel.add(lblPrice, "cell 0 6,alignx right,aligny center");
 
 		txtPrice = new JTextField();
 		txtPrice.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -482,7 +482,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblDesc = new JLabel("Descrizione");
 				lblDesc.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblDesc, "cell 1 7,alignx center,aligny center");
+				newCdPanel.add(lblDesc, "cell 0 8,alignx right,aligny center");
 
 		scrollDesc = new JScrollPane();
 		newCdPanel.add(scrollDesc, "cell 1 8,grow");
@@ -515,7 +515,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblGen_1 = new JLabel("Genere");
 				lblGen_1.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblGen_1, "cell 1 9,alignx center,aligny center");
+				newCdPanel.add(lblGen_1, "cell 0 10,alignx right,aligny center");
 
 		cbGen = new JComboBox();
 		cbGen.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -523,7 +523,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblMus = new JLabel("Musicista/band titolare");
 				lblMus.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblMus, "cell 1 11,alignx center,aligny center");
+				newCdPanel.add(lblMus, "cell 0 12,alignx right,aligny center");
 
 		cbMus = new JComboBox();
 		cbMus.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -531,7 +531,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblCollaboratore = new JLabel("Gestione musicisti");
 				lblCollaboratore.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblCollaboratore, "cell 1 13,alignx center,aligny center");
+				newCdPanel.add(lblCollaboratore, "cell 0 14,alignx right,aligny center");
 
 		btnAggiungiCollaboratore = new JButton("Aggiungi/Rimuovi");
 		btnAggiungiCollaboratore.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -540,7 +540,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblListaMusicisti = new JLabel("Lista musicisti");
 				lblListaMusicisti.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblListaMusicisti, "cell 1 15,alignx center,aligny center");
+				newCdPanel.add(lblListaMusicisti, "cell 0 16,alignx right,aligny center");
 
 		//pannello visualizzazione musicisti partecipanti
 		scrollPartecipantList = new JScrollPane();
@@ -552,7 +552,7 @@ public class areaRiservataWnd extends JFrame {
 		
 				lblAmo = new JLabel("Quantità");
 				lblAmo.setFont(new Font("Dialog", Font.BOLD, 14));
-				newCdPanel.add(lblAmo, "cell 1 17,alignx center,aligny center");
+				newCdPanel.add(lblAmo, "cell 0 18,alignx right,aligny center");
 
 		txtAmo = new JTextField();
 		txtAmo.setFont(new Font("Dialog", Font.PLAIN, 14));
