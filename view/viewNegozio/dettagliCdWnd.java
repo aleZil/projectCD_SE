@@ -30,6 +30,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
 
 public class dettagliCdWnd extends JFrame {
 
@@ -44,8 +45,8 @@ public class dettagliCdWnd extends JFrame {
 	JList<String> listPartecipanti;
 
 	public dettagliCdWnd(Integer idCd,negozioWnd caller) {
-		int offsetx=275;
-		int offsety=150;
+		int offsetx=110;
+		int offsety=100;
 		
 		this.caller=caller;
 		this.setLocation(caller.getLocation().x+offsetx,caller.getLocation().y+offsety);
@@ -61,49 +62,62 @@ public class dettagliCdWnd extends JFrame {
 	private void createDettagliPanel()
 	{
 		JPanel dettagliPanel = new JPanel();
-		dettagliPanel.setBorder(new TitledBorder(null, "Dettagli", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		dettagliPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		getContentPane().add(dettagliPanel, "cell 0 0,grow");
 		dettagliPanel.setLayout(new MigLayout("", "[][grow][grow,fill]", "[grow,fill][grow,fill][grow,fill][grow,fill][grow][grow][grow]"));
 		JLabel lblTitolo = new JLabel("Titolo:");
+		lblTitolo.setFont(new Font("Dialog", Font.BOLD, 14));
 		dettagliPanel.add(lblTitolo, "cell 0 0,alignx right,aligny center");
 
 		titolo = new JLabel("");
+		titolo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		dettagliPanel.add(titolo, "cell 1 0,alignx left,aligny center");
 
 		JLabel lblGenere = new JLabel("Genere:");
+		lblGenere.setFont(new Font("Dialog", Font.BOLD, 14));
 		dettagliPanel.add(lblGenere, "cell 0 1,alignx right,aligny center");
 
 		genere = new JLabel("");
+		genere.setFont(new Font("Dialog", Font.PLAIN, 14));
 		dettagliPanel.add(genere, "cell 1 1,alignx left,aligny center");
 
 		JLabel lblTitolare = new JLabel("Titolare:");
+		lblTitolare.setFont(new Font("Dialog", Font.BOLD, 14));
 		dettagliPanel.add(lblTitolare, "cell 0 2,alignx right,aligny center");
 
 		titolare = new JLabel("");
+		titolare.setFont(new Font("Dialog", Font.PLAIN, 14));
 		dettagliPanel.add(titolare, "cell 1 2,alignx left,aligny center");
 
 		JLabel lblRimanenti = new JLabel("Rimasti:");
+		lblRimanenti.setFont(new Font("Dialog", Font.BOLD, 14));
 		dettagliPanel.add(lblRimanenti, "cell 0 3,alignx right,aligny center");
 
 		rimasti = new JLabel("");
-		dettagliPanel.add(rimasti, "cell 1 3");
+		rimasti.setFont(new Font("Dialog", Font.PLAIN, 14));
+		dettagliPanel.add(rimasti, "cell 1 3,alignx left,aligny center");
 
 		JLabel lblPartecipanti = new JLabel("Partecipanti:");
+		lblPartecipanti.setFont(new Font("Dialog", Font.BOLD, 14));
 		dettagliPanel.add(lblPartecipanti, "cell 0 4,alignx right,aligny center");
 
 		JScrollPane scrollList = new JScrollPane();
 		dettagliPanel.add(scrollList, "cell 1 4 2 1,grow");
 
 		listPartecipanti = new JList();
+		listPartecipanti.setFont(new Font("Dialog", Font.PLAIN, 14));
 		scrollList.setViewportView(listPartecipanti);
 
 		JLabel lblPrezzo = new JLabel("Prezzo:");
+		lblPrezzo.setFont(new Font("Dialog", Font.BOLD, 14));
 		dettagliPanel.add(lblPrezzo, "cell 0 5,alignx right,aligny center");
 
 		prezzo = new JLabel("");
-		dettagliPanel.add(prezzo, "cell 1 5");
+		prezzo.setFont(new Font("Dialog", Font.PLAIN, 14));
+		dettagliPanel.add(prezzo, "cell 1 5,alignx left,aligny center");
 
 		JButton btnAggiungiCarrello = new JButton("Aggiungi al carrello");
+		btnAggiungiCarrello.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnAggiungiCarrello.addActionListener(new btnAggiungiCarrelloListener(caller,this));
 		dettagliPanel.add(btnAggiungiCarrello, "cell 0 6 3 1,grow");
 
