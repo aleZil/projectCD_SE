@@ -101,10 +101,6 @@ public class areaRiservataWnd extends JFrame {
 
 	private JTextField txtYearMus;
 
-	//Variabili usate per il fullscreen
-	private int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height - 70;
-	private int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
-
 	//Utility
 	Map<String,Integer> kGen;
 	Map<String,Integer> kMus;
@@ -604,7 +600,7 @@ public class areaRiservataWnd extends JFrame {
 		lblUser.setFont(new Font("Dialog", Font.BOLD, 15));
 		loginPanel.add(lblUser, "cell 1 0,alignx center,aligny bottom");
 
-		txtUser = new JTextField("zil");
+		txtUser = new JTextField();
 		txtUser.setFont(new Font("Dialog", Font.PLAIN, 14));
 		loginPanel.add(txtUser, "cell 1 1,growx,aligny center");
 		txtUser.setColumns(10);
@@ -613,7 +609,7 @@ public class areaRiservataWnd extends JFrame {
 		lblPass.setFont(new Font("Dialog", Font.BOLD, 15));
 		loginPanel.add(lblPass, "cell 1 2,alignx center,aligny bottom");
 
-		txtPass = new JPasswordField("nonlatrovi");
+		txtPass = new JPasswordField("");
 		txtPass.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtPass.setColumns(10);
 		loginPanel.add(txtPass, "cell 1 3,grow");
