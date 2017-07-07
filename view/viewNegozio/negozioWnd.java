@@ -17,6 +17,7 @@ import negozioListener.btnShowLogin;
 import negozioListener.btnShowPagamento;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import net.miginfocom.swing.MigLayout;
@@ -49,6 +50,12 @@ import utility.*;
 import java.net.*;
 import java.io.*;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.awt.Toolkit;
+import java.awt.Dialog.ModalExclusionType;
 
 public class negozioWnd extends JFrame {
 
@@ -104,6 +111,7 @@ public class negozioWnd extends JFrame {
 	JRadioButton rbCorriere;
 	JRadioButton rbPosta;
 
+	private JLabel lblWelcome;
 	/**
 	 * Launch the application.
 	 */
@@ -115,24 +123,12 @@ public class negozioWnd extends JFrame {
 					negozioWnd negozio = new negozioWnd();
 					negozio.showHome();
 					negozio.setVisible(true);
-					//frame.setExtendedState(Frame.MAXIMIZED_BOTH);		//fullscreen
-					/*
-					//Altro modo per fare fullscreen:
-					int ScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-					int ScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
-					frame.setSize(ScreenWidth, ScreenHeight);
-					 */
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
-	/*
-	 * Create the frame.
-	 */
 
 	public negozioWnd() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -162,7 +158,7 @@ public class negozioWnd extends JFrame {
 		idCdList=new ArrayList<Integer>();
 		homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
-		homePanel.setLayout(new MigLayout("", "[300][350]", "[][60][grow,fill][]"));
+		homePanel.setLayout(new MigLayout("", "[300][350]", "[][][60][grow,fill][]"));
 
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new btnShowLogin(this));
@@ -172,21 +168,26 @@ public class negozioWnd extends JFrame {
 
 		JButton btnAreaRiservata = new JButton("Area Riservata");
 		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
+
 		homePanel.add(btnAreaRiservata, "flowx,cell 1 0,alignx center,aligny top");
 		homePanel.add(btnRegistrazione, "cell 1 0,alignx right,aligny top");
 		homePanel.add(btnLogin, "cell 1 0,alignx right,aligny top");
 
+		lblWelcome = new JLabel("");
+		lblWelcome.setFont(new Font("Dialog", Font.PLAIN, 14));
+		homePanel.add(lblWelcome, "cell 1 1,alignx center,aligny bottom");
+
 		JLabel lblFiltriDisponibili = new JLabel("Cerca Cd");
 		lblFiltriDisponibili.setFont(new Font("Dialog", Font.BOLD, 18));
-		homePanel.add(lblFiltriDisponibili, "cell 0 1,alignx center,aligny bottom");
+		homePanel.add(lblFiltriDisponibili, "cell 0 2,alignx center,aligny bottom");
 
 		JLabel lblcdList = new JLabel("Titoli disponibili");
 		lblcdList.setFont(new Font("Dialog", Font.BOLD, 18));
-		homePanel.add(lblcdList, "cell 1 1,alignx center,aligny bottom");
+		homePanel.add(lblcdList, "cell 1 2,alignx center,aligny bottom");
 
 		JPanel filterPanel = new JPanel();
 		filterPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		homePanel.add(filterPanel, "cell 0 2 1 2,grow");
+		homePanel.add(filterPanel, "cell 0 3 1 2,grow");
 		filterPanel.setLayout(new MigLayout("", "[][grow]", "[grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow]"));
 
 		JLabel lblTitolo = new JLabel("Titolo");
@@ -251,7 +252,7 @@ public class negozioWnd extends JFrame {
 		filterPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitolo, cbGenere, cbTitolare, txtMinP, txtMaxP, cbPartecipanti, btnCerca}));
 
 		JScrollPane scrollPaneList = new JScrollPane();
-		homePanel.add(scrollPaneList, "cell 1 2,grow");
+		homePanel.add(scrollPaneList, "cell 1 3,grow");
 
 		cdListModel=new DefaultListModel<String>();
 		cdList = new JList<String>(cdListModel);
@@ -261,7 +262,7 @@ public class negozioWnd extends JFrame {
 		JButton btnViewDetail = new JButton("Vedi dettagli prodotto");
 		btnViewDetail.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnViewDetail.addActionListener(new btnShowDettagliCd(this));
-		homePanel.add(btnViewDetail, "cell 1 3,growx,aligny bottom");
+		homePanel.add(btnViewDetail, "cell 1 4,growx,aligny bottom");
 	}
 
 	void createLoginPanel()
@@ -486,7 +487,7 @@ public class negozioWnd extends JFrame {
 
 	public void showHome()
 	{
-		this.setTitle("Homepage");
+		this.setTitle("Jukebox");
 		cdListModel.clear();
 		clearComponents();
 
@@ -503,8 +504,9 @@ public class negozioWnd extends JFrame {
 
 	public void showHome(String username)
 	{
-		this.setTitle("Homepage");
+		this.setTitle("Jukebox");
 		// Carrello Model
+		lblWelcome.setText("Benvenuto "+username+"!");
 		Cliente cliente = new Cliente();
 		cliente.getByUsername(username);
 		carrello = new Carrello(cliente);
@@ -879,8 +881,8 @@ public class negozioWnd extends JFrame {
 		txtCognome.setText("");
 		txtCf.setText("");
 		txtIndirizzo.setText("");
-		txtTelefono.setText("");
-		txtCellulare.setText("");
+		txtTelefono.setText("+39");
+		txtCellulare.setText("+39");
 		txtUserLogin.setText("");
 		txtPassLogin.setText("");
 	}

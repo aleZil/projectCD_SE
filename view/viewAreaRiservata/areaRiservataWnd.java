@@ -158,6 +158,7 @@ public class areaRiservataWnd extends JFrame {
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		setResizable(false);
 		//Tengo il riferimento al main form
+		this.setTitle("Login area riservata");
 		negozio=caller;
 		panelContainer.setLayout(clPanel);	//card_layout (contenitore di tutti i panel, ogni panel è un Mig layout)
 

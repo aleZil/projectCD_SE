@@ -78,7 +78,7 @@ public class modificaCdWnd extends JFrame {
 		newCdPanel.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Dettagli nuovo prodotto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		//		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][60][grow][grow][grow][grow][grow][grow]"));
 
-		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][65][grow][grow][grow][grow][grow][grow]"));
+		newCdPanel.setLayout(new MigLayout("", "[175][600px,grow,fill][]", "[grow][grow][grow][grow][150px][grow][grow][grow][grow][grow][grow]"));
 
 		JLabel lblTitle = new JLabel("Titolo Cd");
 		lblTitle.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -89,11 +89,7 @@ public class modificaCdWnd extends JFrame {
 		txtTitle.setColumns(10);
 		newCdPanel.add(txtTitle, "cell 1 0,grow");
 
-		JLabel lblAddTrackList = new JLabel("Gestione brani");
-		lblAddTrackList.setFont(new Font("Dialog", Font.BOLD, 14));
-		newCdPanel.add(lblAddTrackList, "cell 0 1,alignx right,aligny center");
-
-		JButton btnAddTrack = new JButton("Aggiungi/Rimuovi");
+		JButton btnAddTrack = new JButton("Gestione brani");
 		btnAddTrack.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(btnAddTrack, "cell 1 1,grow");
 		btnAddTrack.addActionListener(new btnShowTrackListListener(this));	//apro nuovo frame
@@ -172,11 +168,7 @@ public class modificaCdWnd extends JFrame {
 		cbMus.setFont(new Font("Dialog", Font.PLAIN, 14));
 		newCdPanel.add(cbMus, "cell 1 6,alignx center,aligny center");
 
-		JLabel lblCollaboratore = new JLabel("Gestione musicisti");
-		lblCollaboratore.setFont(new Font("Dialog", Font.BOLD, 14));
-		newCdPanel.add(lblCollaboratore, "cell 0 7,alignx right,aligny center");
-
-		JButton btnAggiungiCollaboratore = new JButton("Aggiungi/Rimuovi");
+		JButton btnAggiungiCollaboratore = new JButton("Gestione Musicisti");
 		btnAggiungiCollaboratore.setFont(new Font("Dialog", Font.BOLD, 14));
 		newCdPanel.add(btnAggiungiCollaboratore, "cell 1 7");
 		btnAggiungiCollaboratore.addActionListener(new btnShowCollaboratorListListener(this)); 	//apro nuovo frame
