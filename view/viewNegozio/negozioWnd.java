@@ -507,7 +507,7 @@ public class negozioWnd extends JFrame {
 
 	public void showHome()
 	{
-		this.setTitle("Jukebox");
+		this.setTitle("Home");
 		cdListModel.clear();
 		clearComponents();
 
@@ -524,7 +524,7 @@ public class negozioWnd extends JFrame {
 
 	public void showHome(String username)
 	{
-		this.setTitle("Jukebox");
+		this.setTitle("Home");
 		// Carrello Model
 		lblWelcome.setText("Benvenuto "+username+"!");
 		Cliente cliente = new Cliente();
