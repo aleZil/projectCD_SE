@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
@@ -71,6 +73,16 @@ public class modificaCdWnd extends JFrame {
 
 	private void createInsertPanel() throws ParseException
 	{
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		this.setTitle("Modifica cd esistente");
 		setBounds(caller.getLocation().x, caller.getLocation().y, 1000, 700);
 		JPanel insertPanel = new JPanel();

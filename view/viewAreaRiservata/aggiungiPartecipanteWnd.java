@@ -42,6 +42,8 @@ import java.awt.Rectangle;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
@@ -65,6 +67,16 @@ public class aggiungiPartecipanteWnd extends JFrame{
 
 	public aggiungiPartecipanteWnd(JFrame caller) {
 		//Tengo il riferimento al main form
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		this.caller=caller;
 		this.setTitle("Aggiungi musicisti partecipanti");
 		this.setAlwaysOnTop(true);

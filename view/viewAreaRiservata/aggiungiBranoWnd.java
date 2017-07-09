@@ -32,6 +32,8 @@ import java.awt.Rectangle;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
@@ -55,6 +57,16 @@ public class aggiungiBranoWnd extends JFrame{
 
 	public aggiungiBranoWnd(JFrame caller) {
 		setResizable(false);
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		//Tengo il riferimento al main form
 		this.caller=caller;
 		this.setTitle("Aggiungi brani");
