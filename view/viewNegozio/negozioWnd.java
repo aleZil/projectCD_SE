@@ -581,7 +581,13 @@ public class negozioWnd extends JFrame {
 
 	public void showPagamento()
 	{
-		if(carrello.getRighe().size()>0)
+		int totAmount=0;
+		for(int i=0;i<carrello.getRighe().size();i++)
+		{
+			totAmount+=Integer.parseInt(carrelloModel.getValueAt(i, 2).toString());
+		}
+		
+		if(carrello.getRighe().size()>0 && totAmount>0)
 		{
 			this.setTitle("Modalità ordine");
 			cardLayout.show(panelContainer, "pagamento");
