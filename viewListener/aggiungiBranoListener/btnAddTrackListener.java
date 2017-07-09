@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 import viewAreaRiservata.aggiungiBranoWnd;
 
-public class btnAddTrackListener implements ActionListener,KeyListener{
+public class btnAddTrackListener implements ActionListener{
 	
 	JFrame caller;
 	public btnAddTrackListener(JFrame caller) {
@@ -23,21 +23,5 @@ public class btnAddTrackListener implements ActionListener,KeyListener{
 		((aggiungiBranoWnd) caller).addTrack();
 	}
 	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		((aggiungiBranoWnd) caller).addTrack();
-	}
-	
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

@@ -136,14 +136,14 @@ public class negozioWnd extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
 		} catch (Exception e) {
-		    // If Nimbus is not available, you can set the GUI to another look and feel.
+			// If Nimbus is not available, you can set the GUI to another look and feel.
 		}
 
 		setBounds(getLocation().x,getLocation().y, 680, 650);	//Misura uguale a tutte le Wnd principali
@@ -182,24 +182,24 @@ public class negozioWnd extends JFrame {
 
 		JButton btnAreaRiservata = new JButton("Area Riservata");
 		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
-		
+
 		JLabel lblLogo = new JLabel(new ImageIcon("/home/prebi/workspace/Git/projectCD_SE/view/viewNegozio/icons/logo.png"));
 		lblLogo.setBounds(0,0,32,32);
 		lblLogo.setVisible(true);
-		
+
 		homePanel.add(lblLogo, "cell 0 0,alignx center,aligny center");
 
 		homePanel.add(btnAreaRiservata, "flowx,cell 1 0,alignx center,aligny center");
-		homePanel.add(btnRegistrazione, "cell 1 0,alignx right,aligny center");
-		homePanel.add(btnLogin, "cell 1 0,alignx right,aligny center");
-		
-				JLabel lblFiltriDisponibili = new JLabel("Cerca Cd");
-				lblFiltriDisponibili.setFont(new Font("Dialog", Font.BOLD, 18));
-				homePanel.add(lblFiltriDisponibili, "cell 0 1,alignx center,aligny bottom");
-		
-				JLabel lblcdList = new JLabel("Titoli disponibili");
-				lblcdList.setFont(new Font("Dialog", Font.BOLD, 18));
-				homePanel.add(lblcdList, "cell 1 1,alignx center,aligny bottom");
+		homePanel.add(btnRegistrazione, "cell 1 0,alignx center,aligny center");
+		homePanel.add(btnLogin, "cell 1 0,alignx center,aligny center");
+
+		JLabel lblFiltriDisponibili = new JLabel("Cerca Cd");
+		lblFiltriDisponibili.setFont(new Font("Dialog", Font.BOLD, 18));
+		homePanel.add(lblFiltriDisponibili, "cell 0 1,alignx center,aligny bottom");
+
+		JLabel lblcdList = new JLabel("Titoli disponibili");
+		lblcdList.setFont(new Font("Dialog", Font.BOLD, 18));
+		homePanel.add(lblcdList, "cell 1 1,alignx center,aligny bottom");
 
 		lblWelcome = new JLabel("");
 		lblWelcome.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -531,15 +531,12 @@ public class negozioWnd extends JFrame {
 		cliente.getByUsername(username);
 		carrello = new Carrello(cliente);
 		cCarrello = new CarrelloController(carrello);
-
-		btnLogin.setEnabled(false);
-		btnRegistrazione.setEnabled(false);
-		btnLogin.setVisible(false);
-		btnRegistrazione.setVisible(false);
-
+		
 		//Creo bottone del carrello
 		JButton btnCarrello=new JButton("Carrello");
-		homePanel.add(btnCarrello, "flowx,cell 0 0,alignx right,aligny top");
+		homePanel.remove(btnRegistrazione);
+		homePanel.remove(btnLogin);
+		homePanel.add(btnCarrello, "flowx,cell 1 0,alignx center,aligny center");
 		btnCarrello.setVisible(true);
 		btnCarrello.setEnabled(true);
 		btnCarrello.addActionListener(new btnShowCarrello(this));
