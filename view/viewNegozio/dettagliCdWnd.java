@@ -13,6 +13,8 @@ import model.Musicista;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JList;
 
 import java.awt.Color;
@@ -45,9 +47,18 @@ public class dettagliCdWnd extends JFrame {
 	JList<String> listPartecipanti;
 
 	public dettagliCdWnd(Integer idCd,negozioWnd caller) {
-		int offsetx=110;
+		int offsetx=200;
 		int offsety=100;
-
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		this.caller=caller;
 		this.setLocation(caller.getLocation().x+offsetx,caller.getLocation().y+offsety);
 		setResizable(false);

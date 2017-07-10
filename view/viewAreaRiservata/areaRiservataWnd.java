@@ -47,6 +47,8 @@ import java.awt.Toolkit;
 import javax.swing.JTable;
 import javax.swing.JList;
 import javax.swing.JTextPane;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JRadioButton;
 import java.awt.Font;
 
@@ -153,6 +155,16 @@ public class areaRiservataWnd extends JFrame {
 
 	public areaRiservataWnd(JFrame caller) throws ParseException {
 		setResizable(false);
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		//Tengo il riferimento al main form
 		this.setTitle("Login area riservata");
 		negozio=caller;
@@ -163,7 +175,7 @@ public class areaRiservataWnd extends JFrame {
 
 		//Dimensioni finestra	
 		//this.setSize(ScreenWidth, ScreenHeight);
-		setBounds(negozio.getLocation().x-200,negozio.getLocation().y-100, 1000, 700);
+		setBounds(negozio.getLocation().x-110,negozio.getLocation().y-50, 1000, 700);
 		//setSize(tk.getScreenSize());
 		setUndecorated(false);
 		//Creo panel di login

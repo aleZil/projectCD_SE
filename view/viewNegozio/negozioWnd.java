@@ -27,6 +27,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.JPasswordField;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import controller.CarrelloController;
@@ -56,6 +57,7 @@ import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.awt.Toolkit;
 import java.awt.Dialog.ModalExclusionType;
+import javax.swing.UIManager.*;
 
 public class negozioWnd extends JFrame {
 
@@ -131,8 +133,20 @@ public class negozioWnd extends JFrame {
 	}
 
 	public negozioWnd() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(getLocation().x,getLocation().y, 670, 586);	//Misura uguale a tutte le Wnd principali
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+
+		setBounds(getLocation().x,getLocation().y, 680, 650);	//Misura uguale a tutte le Wnd principali
 		setLocationRelativeTo(null);
 		panelContainer = new JPanel();
 		panelContainer.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
@@ -158,7 +172,7 @@ public class negozioWnd extends JFrame {
 		idCdList=new ArrayList<Integer>();
 		homePanel = new JPanel();
 		panelContainer.add(homePanel, "home");
-		homePanel.setLayout(new MigLayout("", "[300][350]", "[][][60][grow,fill][]"));
+		homePanel.setLayout(new MigLayout("", "[300][grow]", "[][][][60][grow,fill][]"));
 
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new btnShowLogin(this));
@@ -169,25 +183,31 @@ public class negozioWnd extends JFrame {
 		JButton btnAreaRiservata = new JButton("Area Riservata");
 		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
 
-		homePanel.add(btnAreaRiservata, "flowx,cell 1 0,alignx center,aligny top");
-		homePanel.add(btnRegistrazione, "cell 1 0,alignx right,aligny top");
-		homePanel.add(btnLogin, "cell 1 0,alignx right,aligny top");
+		JLabel lblLogo = new JLabel(new ImageIcon("/home/prebi/workspace/Git/projectCD_SE/view/viewNegozio/icons/logo.png"));
+		lblLogo.setBounds(0,0,32,32);
+		lblLogo.setVisible(true);
 
-		lblWelcome = new JLabel("");
-		lblWelcome.setFont(new Font("Dialog", Font.PLAIN, 14));
-		homePanel.add(lblWelcome, "cell 1 1,alignx center,aligny bottom");
+		homePanel.add(lblLogo, "cell 0 0,alignx center,aligny center");
+
+		homePanel.add(btnAreaRiservata, "flowx,cell 1 0,alignx center,aligny center");
+		homePanel.add(btnRegistrazione, "cell 1 0,alignx center,aligny center");
+		homePanel.add(btnLogin, "cell 1 0,alignx center,aligny center");
 
 		JLabel lblFiltriDisponibili = new JLabel("Cerca Cd");
 		lblFiltriDisponibili.setFont(new Font("Dialog", Font.BOLD, 18));
-		homePanel.add(lblFiltriDisponibili, "cell 0 2,alignx center,aligny bottom");
+		homePanel.add(lblFiltriDisponibili, "cell 0 1,alignx center,aligny bottom");
 
 		JLabel lblcdList = new JLabel("Titoli disponibili");
 		lblcdList.setFont(new Font("Dialog", Font.BOLD, 18));
-		homePanel.add(lblcdList, "cell 1 2,alignx center,aligny bottom");
+		homePanel.add(lblcdList, "cell 1 1,alignx center,aligny bottom");
+
+		lblWelcome = new JLabel("");
+		lblWelcome.setFont(new Font("Dialog", Font.PLAIN, 14));
+		homePanel.add(lblWelcome, "cell 1 2,alignx center,aligny bottom");
 
 		JPanel filterPanel = new JPanel();
 		filterPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		homePanel.add(filterPanel, "cell 0 3 1 2,grow");
+		homePanel.add(filterPanel, "cell 0 3 1 3,grow");
 		filterPanel.setLayout(new MigLayout("", "[][grow]", "[grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow]"));
 
 		JLabel lblTitolo = new JLabel("Titolo");
@@ -252,7 +272,7 @@ public class negozioWnd extends JFrame {
 		filterPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtTitolo, cbGenere, cbTitolare, txtMinP, txtMaxP, cbPartecipanti, btnCerca}));
 
 		JScrollPane scrollPaneList = new JScrollPane();
-		homePanel.add(scrollPaneList, "cell 1 3,grow");
+		homePanel.add(scrollPaneList, "cell 1 3 1 2,grow");
 
 		cdListModel=new DefaultListModel<String>();
 		cdList = new JList<String>(cdListModel);
@@ -262,7 +282,7 @@ public class negozioWnd extends JFrame {
 		JButton btnViewDetail = new JButton("Vedi dettagli prodotto");
 		btnViewDetail.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnViewDetail.addActionListener(new btnShowDettagliCd(this));
-		homePanel.add(btnViewDetail, "cell 1 4,growx,aligny bottom");
+		homePanel.add(btnViewDetail, "cell 1 5,growx,aligny bottom");
 	}
 
 	void createLoginPanel()
@@ -487,7 +507,7 @@ public class negozioWnd extends JFrame {
 
 	public void showHome()
 	{
-		this.setTitle("Jukebox");
+		this.setTitle("Home");
 		cdListModel.clear();
 		clearComponents();
 
@@ -504,22 +524,19 @@ public class negozioWnd extends JFrame {
 
 	public void showHome(String username)
 	{
-		this.setTitle("Jukebox");
+		this.setTitle("Home");
 		// Carrello Model
 		lblWelcome.setText("Benvenuto "+username+"!");
 		Cliente cliente = new Cliente();
 		cliente.getByUsername(username);
 		carrello = new Carrello(cliente);
 		cCarrello = new CarrelloController(carrello);
-
-		btnLogin.setEnabled(false);
-		btnRegistrazione.setEnabled(false);
-		btnLogin.setVisible(false);
-		btnRegistrazione.setVisible(false);
-
+		
 		//Creo bottone del carrello
 		JButton btnCarrello=new JButton("Carrello");
-		homePanel.add(btnCarrello, "flowx,cell 0 0,alignx right,aligny top");
+		homePanel.remove(btnRegistrazione);
+		homePanel.remove(btnLogin);
+		homePanel.add(btnCarrello, "flowx,cell 1 0,alignx center,aligny center");
 		btnCarrello.setVisible(true);
 		btnCarrello.setEnabled(true);
 		btnCarrello.addActionListener(new btnShowCarrello(this));
@@ -564,7 +581,13 @@ public class negozioWnd extends JFrame {
 
 	public void showPagamento()
 	{
-		if(carrello.getRighe().size()>0)
+		int totAmount=0;
+		for(int i=0;i<carrello.getRighe().size();i++)
+		{
+			totAmount+=Integer.parseInt(carrelloModel.getValueAt(i, 2).toString());
+		}
+		
+		if(carrello.getRighe().size()>0 && totAmount>0)
 		{
 			this.setTitle("Modalità ordine");
 			cardLayout.show(panelContainer, "pagamento");
