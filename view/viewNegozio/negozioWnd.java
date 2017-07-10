@@ -51,12 +51,6 @@ import utility.*;
 import java.net.*;
 import java.io.*;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.Toolkit;
-import java.awt.Dialog.ModalExclusionType;
 import javax.swing.UIManager.*;
 
 public class negozioWnd extends JFrame {

@@ -6,36 +6,17 @@ import utility.dataValidator;
 
 
 import javax.swing.JTextField;
-import javax.swing.ListModel;
-import areaRiservataListener.btnShowTrackListListener;
-import areaRiservataListener.returnNegozioListener;
-import areaRiservataListener.btnBackListener;
-import areaRiservataListener.btnAddNewCdListener;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
-import java.awt.CardLayout;
-import java.awt.Toolkit;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Component;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Rectangle;
 
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import aggiungiBranoListener.btnAddTrackListener;
 import aggiungiBranoListener.btnRemoveTrackListener;

@@ -636,8 +636,6 @@ public class areaRiservataWnd extends JFrame {
 		//Aggiungo gli eventi
 		btnLogin.addActionListener(new btnLoginListener(this));
 		btnLogin.addKeyListener(new btnLoginListener(this));
-		txtPass.addActionListener(new btnLoginListener(this));
-
 	}
 
 	private void createOptionPanel()
