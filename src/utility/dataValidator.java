@@ -50,11 +50,15 @@ public class dataValidator {
 		{
 			BigDecimal foo = new BigDecimal(cdPrice);
 
-			if(foo.signum()==-1)
+			if(foo.signum()==-1) {
+				System.out.println("neg");
 				return false;
+			}
+				
 		}
 		catch(Exception e)
 		{
+			System.out.println("str");
 			return false;
 		}
 		return true;
