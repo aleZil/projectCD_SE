@@ -78,7 +78,7 @@ public class areaRiservataWnd extends JFrame {
 	private DefaultListModel<String> listMTrack;		//lista dei brani
 
 	private JList<String> listPartecipantList;				
-	private DefaultListModel<String> listMPartecipanti; 	//lista dei musicisti partecipanti
+	private DefaultListModel<String> listMPartecipanti; //lista dei musicisti partecipanti
 
 	private JList<String> listInstrumentList;
 	private DefaultListModel<String> listMStrumenti;	//lista degli strumenti

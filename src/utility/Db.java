@@ -24,14 +24,12 @@ public class Db {
         } else {
         	
             try{
-            	
             	Class.forName("org.postgresql.Driver");
             	con = DriverManager.getConnection("jdbc:postgresql://db-cdproject.czz77hrlmvcn.eu-west-1.rds.amazonaws.com/" + dbName, userName, password);
                 
             } catch (Exception e) {
             	
             	e.printStackTrace();
-            	
             }
         }
         

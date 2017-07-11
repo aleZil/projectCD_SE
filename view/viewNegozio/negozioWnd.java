@@ -183,7 +183,7 @@ public class negozioWnd extends JFrame {
 		JButton btnAreaRiservata = new JButton("Area Riservata");
 		btnAreaRiservata.addActionListener(new btnShowAreaRiservata(this));
 
-		JLabel lblLogo = new JLabel(new ImageIcon("/home/prebi/workspace/Git/projectCD_SE/view/viewNegozio/icons/logo.png"));
+		JLabel lblLogo = new JLabel(new ImageIcon("/Users/Andy/Documents/Università_mac/Ing_software/projectCD_SE/view/viewNegozio/icons/logo.png"));
 		lblLogo.setBounds(0,0,32,32);
 		lblLogo.setVisible(true);
 
