@@ -13,6 +13,7 @@ import utility.Db;
 public class Carrello {
 
 	private Connection db;
+	
 	private Cliente cliente;
 	ArrayList<RigaCarrello> righeCarrello;
 	
